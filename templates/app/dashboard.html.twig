@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ total_products }}</h3>
+                    <p>Ürün</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-coffee"></i>
+                </div>
+                <a href="{{ path('product_index') }}" class="small-box-footer">
+                    Ürün Listesi <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>{{ orders|length }}</h3>
+
+                    <p>Sipariş</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                <a href="#" class="small-box-footer">Tüm Siparişler <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Son Siparişler</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="table-responsive">
+                <table class="table no-margin">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sipariş Kodu</th>
+                        <th>Oluşturulma T.</th>
+                        <th>Ad Soyad</th>
+                        <th>E-Posta</th>
+                        <th>Telefon</th>
+                        <th>Durum</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for lfo in last_five_orders %}
+
+
+                        {% if lfo.status == 'pending' %}
+                            {% set lfoStatus = 'warning' %}
+                        {% elseif lfo.status == 'processing' %}
+                            {% set lfoStatus = 'warning' %}
+                        {% elseif lfo.status == 'shipped' %}
+                            {% set lfoStatus = 'primary' %}
+                        {% elseif lfo.status == 'delivered' %}
+                            {% set lfoStatus = 'success' %}
+                        {% elseif lfo.status == 'cancelled' %}
+                            {% set lfoStatus = 'danger' %}
+                        {% endif %}
+
+
+                        <tr>
+                            <td>{{ lfo.id }}</td>
+                            <td>{{ lfo.code }}</td>
+                            <td>{{ lfo.orderDate|date('d-m-Y h:i:s') }}</td>
+                            <td>{{ lfo.name }} {{ lfo.surname }}</td>
+                            <td>{{ lfo.email }}</td>
+                            <td>{{ lfo.phone }}</td>
+                            <td><span class="label label-{{ lfoStatus }}">{{ lfo.status }}</span></td>
+                            <td>
+                                <a href="{{ path('show_order', {id:lfo.id}) }}" class="btn btn-xs btn-primary pull-left">Göster</a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <a href="{{ path('app_orders') }}" class="btn btn-sm btn-info btn-flat pull-left">Tüm Siparişler</a>
+        </div>
+        <!-- /.box-footer -->
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Koleksiyon Alt Grup Güncelle{% endblock %}
+
+{% block body %}
+
+
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Koleksiyon Alt Grup Güncelle</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ include('product_collection/_form.html.twig') }}
+                </div>
+                <div class="col-sm-6">
+                    {% if product_collection.picture != "" %}
+                        <img src="{{ asset('uploads/collections/')~product_collection.picture }}"
+                             height="167" width="640" class="img-responsive">
+                        <input type="hidden" name="file_name" value="{{ product_collection.picture }}" />
+
+                        <!-- sadece resim kaldır -->
+                        <br><br><a class="btn btn-danger"
+                                   href="{{ path('product_collection_edit',
+                                       {'id':product_collection.id, 'resim_kaldir':1}) }}">Resim Kaldır</a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button class="btn btn-success" style="margin-right: 10px;">{{ button_label|default('Güncelle') }}</button>
+            {{ form_end(form) }}
+
+
+            <a href="{{ path('product_collection_show', {'id': product_collection.id}) }}" class="btn btn-primary"
+               style="margin-right: 10px;">Geri Dön</a>
+        </div>
+        <!-- /.box-footer-->
+    </div>
+
+
+
+{% endblock %}

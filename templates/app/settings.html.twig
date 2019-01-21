@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Ayarlar</h3>
+        </div>
+
+        <div class="box-body">
+
+            <div class="row">
+
+                <div class="col-md-6 col-lg-6">
+
+                    <form role="form" method="post" action="{{ path('app_settings') }}">
+                        <div class="form-group">
+                            <label for="euro_usd">EURO/USD</label>
+                            <div class="input-group input-group-sm col-sm-6">
+                                <input type="number" step="0.01" class="form-control" required
+                                       id="euro_usd" name="euro_usd" value="{{ euro_usd }}" />
+                                <span class="input-group-btn">
+                      <button type="submit" class="btn btn-success btn-flat">Güncelle</button>
+                    </span>
+                            </div>
+                        </div>
+                    </form>
+
+                    <hr>
+
+                    <form role="form" method="post" action="{{ path('app_settings') }}">
+                        <div class="form-group">
+                            <label for="renk_yuzdesi">2 ve üzeri renk seçimlerinde uygulanacak artış yüzdesi (%):
+                            </label>
+                            <div class="input-group input-group-sm col-sm-6">
+                                <input type="number" min="1" max="100" class="form-control" required
+                                       id="renk_yuzdesi" name="renk_yuzdesi" value="{{ renk_yuzdesi }}" />
+                                <span class="input-group-btn">
+                      <button type="submit" class="btn btn-success btn-flat">Güncelle</button>
+                    </span>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+
+                <div class="col-md-6 col-lg-6">
+
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert"
+                                    aria-hidden="true">×</button>
+                            <h4><i class="icon fa fa-check"></i> Tebrikler!</h4>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+            </div>
+
+
+
+
+        </div>
+
+        <div class="box-footer clearfix">
+
+        </div>
+
+    </div>
+
+
+{% endblock %}

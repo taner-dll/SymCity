@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ürün Listesi{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('product') }}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Ürün Listesi</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div id="example1_wrapper"
+                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                                <table id="example1" class="table table-bordered table-striped
+                                table-hover table-condensed
+                                dataTable" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="sorting_desc">ID</th>
+                                        <th class="sorting">Koleksiyon</th>
+                                        <th class="sorting">Ürün Adı</th>
+                                        <th class="sorting">Ürün Kodu</th>
+                                        <th class="sorting">Ürün Tipi</th>
+                                        <th class="sorting">Ürün Fiyatı</th>
+                                        <th class="sorting">Resim</th>
+                                        <th class="sorting">Özellik</th>
+                                        <th class="sorting">Paketleme</th>
+                                        <th class="sorting">İşlemler</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for product in products %}
+                                        <tr role="row" class="odd">
+                                            <td>{{ product.id }}</td>
+                                            <td>
+                                                {% if product.property == 'collection' %}
+                                                    {{ product.collection.name }} -
+                                                    {{ product.collection.collectionGroup.name }}
+                                                {% else %}
+                                                    Custom
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ product.name }}</td>
+                                            <td>{{ product.code }}</td>
+                                            <td>{{ product.type }}</td>
+                                            <td>{{ product.price }}</td>
+                                            <td>{{ product.picture[:10] }}&hellip;</td>
+                                            <td>{{ product.properties[:20] }}</td>
+                                            <td>{{ product.packaging[:20] }}</td>
+                                            <td>
+                                                <a class="btn btn-xs btn-primary pull-left"
+                                                   href="{{ path('product_show',
+                                                       {'id': product.id}) }}">Göster</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <hr>
+                                {% for message in app.flashes('success') %}
+                                    <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h4><i class="icon fa fa-check"></i> Tebrikler!</h4>
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('product') }}
+{% endblock %}

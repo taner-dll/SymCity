@@ -1,0 +1,123 @@
+{% extends 'base-client.html.twig' %}
+
+{% block title %}Our Products{% endblock %}
+
+{% block breadcrumb %}
+    <section class="content-header">
+        <h1>
+            {{ pc_name }}
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('our_products') }}"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="{{ path('our_collections') }}">Our Collections</a></li>
+            <li class="active">
+                {{ pc_name }}
+            </li>
+        </ol>
+    </section>
+
+{% endblock %}
+
+{% block body %}
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <style>
+
+
+        .btn-huge {
+            padding:30px;
+            font-size: 24px;
+            font-family: 'Ubuntu', sans-serif;
+        }
+    </style>
+
+
+        <div class="box">
+            <div class="box-body">
+
+                <!--
+                <div class="row">
+                    <div class="col-lg-12">
+
+                            <img class="img-responsive" style="border: 1px solid gray;margin-left: auto; margin-right: auto;"
+                                    src="{{ asset('uploads/collections/'~image) }}" />
+
+                    </div>
+                </div>
+
+
+                <hr>
+
+                -->
+
+
+                <div class="btn-group">
+                    <a class="btn btn-default" href="{{ path('collection_list',{id:pc_id}) }}">All</a>
+                    {% for pc in prod_cols %}
+
+
+                        <a class="btn btn-default" href="{{ path('collection_list',{id:pc_id,colg:pc.id}) }}">{{ pc.name }}</a>
+
+                    {% endfor %}
+                </div>
+
+                <hr>
+
+
+                <div id="products" class="row view-group">
+
+
+
+                    {% for p in products %}
+                        <div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="thumbnail card">
+                                <div class="img-event">
+                                    <img
+                                            class="group list-group-image img-responsive" width="370" height="231"
+                                         src="{{ asset('uploads/products/'~p.picture) }}" alt="" />
+                                </div>
+                                <div class="caption card-body">
+                                    <h4 class="group card-title inner list-group-item-heading">
+                                        {{ p.collection.name }} - {{ p.name }}</h4>
+                                    <p class="group inner list-group-item-text">
+                                        {{ p.properties }}
+                                        </p>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-6">
+                                            <p class="lead">{{ p.price }}
+                                                {% if app.session.get('currency')=='usd'  %}
+                                                    $
+                                                {% else %}
+                                                    €
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                        <div class="col-xs-12 col-md-6">
+                                            <a class="btn bg-maroon btn-flat margin pull-right"
+                                               href="{{ path('client_product_show',{id:p.id}) }}">More »</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

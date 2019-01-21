@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Koleksiyon Grupları{% endblock %}
+
+{% block body %}
+
+
+
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Koleksiyon Grupları</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered table-condensed table-hover">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <th>İsim</th>
+                        <th>Alt Grup Sayısı</th>
+                        <th></th>
+                    </tr>
+                    {% for collection_group in collection_groups %}
+                        <tr>
+                            <td>{{ collection_group.id }}</td>
+                            <td>{{ collection_group.name }}</td>
+                            <td>{{ collection_group.prodcollection|length }}</td>
+                            <td>
+                                <a class="btn btn-xs btn-primary" href="{{ path('collection_group_show',
+                                    {'id': collection_group.id}) }}">Göster</a>
+
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <hr>
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Tebrikler!</h4>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="box-footer">
+
+                <a class="btn btn-success pull-left" href="{{ path('collection_group_new') }}">
+                    Yeni Koleksiyon Grubu Ekle</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

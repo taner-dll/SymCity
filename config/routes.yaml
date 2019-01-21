@@ -1,0 +1,7 @@
+app_logout:
+  path: /logout
+
+# redirecting the homepage
+homepage:
+  path:     /
+  controller: App\Controller\ClientController::ourCollections

@@ -1,0 +1,285 @@
+{% spaceless %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}Elifle | CMS{% endblock %}</title>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous">
+
+    </head>
+    <body>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header text-center">
+                PROFORMA INVOICE
+            </h3>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+            <p>
+                <b>Name:</b>
+                {{ name }}
+            </p>
+            <p>
+                <b>Surname:</b>
+                {{ surname }}
+            </p>
+
+            <p>
+                <b>Invoice Address:</b><br>
+                {{ invoice_address }}
+
+            <p>
+                <b>Delivery Address:</b><br>
+                {{ delivery_address }}
+            </p>
+            <p>
+                <b>Phone:</b>
+                {{ phone }}
+            </p>
+            <p>
+                <b>E-Mail:</b>
+                {{ email }}
+            </p>
+            <p>
+                <b>Attention to:</b><br>
+                {{ attention_to }}
+            </p>
+            <p>
+                <strong>BRAND: ELIFLE STICKER</strong>
+            </p>
+
+        </div>
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+            <img alt="colors" src="http://order.elifle.com/public/uploads/colors.jpg"
+                 width="200" height="214"
+                 class="img-responsive"/>
+
+        </div>
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+            <b>Date:</b>&nbsp;{{ date|date('d/m/Y') }}
+            <br>
+            <b>Invoice:</b>&nbsp;#000{{ siparis_id }}
+            <br>
+            <b>Order ID:</b><br>{{ siparis_kodu }}
+
+
+        </div>
+
+
+    </div>
+
+    <div class="row">
+
+        <style type="text/css">
+            .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th,
+            .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th,
+            .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+                border: 1px solid #000000;
+            }
+        </style>
+
+        <table class="table table-bordered" style="font-size: 12px">
+            <thead>
+            <tr>
+                <th>Picture</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Inner</th>
+                <th>Rim</th>
+                <th>Outer</th>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Sub Total</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+
+            {% set total = 0 %}
+            {% set cur = '' %}
+            {% set qty = 0 %}
+            {% set new_price = 0 %}
+
+            {% for od in order_detail %}
+
+                {% set cur = od.currency %}
+
+                {% set renk_say = 0 %}
+
+                {% if od.innerColor > 0 %}
+                    {% set renk_say = renk_say + 1 %}
+                {% endif %}
+                {% if od.rimColor > 0 %}
+                    {% set renk_say = renk_say + 1 %}
+                {% endif %}
+                {% if od.outerColor > 0 %}
+                    {% set renk_say = renk_say + 1 %}
+                {% endif %}
+
+
+                {% set birim_fiyat = od.product.price %}
+                {% set adet = od.quantity %}
+                {% set qty = qty + adet %}
+
+                <tr>
+                    <td>
+                        <img width="96" height="60"
+                             src="http://order.elifle.com/public/uploads/products/{{ od.product.picture }}"/>
+
+                    </td>
+                    <td>{{ od.product.code }}</td>
+                    <td>{{ od.product.name }}</td>
+
+                    <!--
+                    <td width="%5">{{ od.innerColor }}</td>
+                    <td width="%5">{{ od.rimColor }}</td>
+                    <td width="%5">{{ od.outerColor }}</td>
+                    -->
+
+                    {% if od.product.property == 'collection' and
+                        od.product.collection.name != 'RUBIENDA' %}
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    {% else %}
+                        <td>
+                            {% if od.innerColor == 0 %}
+                                white
+                            {% else %}
+                                {{ od.innerColor }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if od.rimColor == 0 %}
+                                white
+                            {% else %}
+                                {{ od.rimColor }}
+                            {% endif %}
+
+                        </td>
+                        <td>
+                            {% if od.outerColor == 0 %}
+                                white
+                            {% else %}
+                                {{ od.outerColor }}
+                            {% endif %}
+                        </td>
+
+                    {% endif %}
+
+
+                    <td>{{ od.description }}</td>
+                    <td>{{ od.quantity }}</td>
+
+
+                    <td>
+
+                        {% set yeni_fiyat = 0 %}
+
+                        {% if renk_say > 1 %}
+                            {% set yeni_fiyat = ((birim_fiyat * 10)/100)+birim_fiyat %}
+                        {% else %}
+                            {% set yeni_fiyat = birim_fiyat %}
+                        {% endif %}
+
+
+                        {% if od.currency == 'usd' %}
+                            {% set yeni_fiyat = yeni_fiyat * od.euroUsd %}
+                        {% endif %}
+
+                        {# UNIT PRICE #}
+                        {{ yeni_fiyat|number_format(2) }}
+
+
+
+                    </td>
+                    <td>
+
+                        {% set new_price = (yeni_fiyat*od.quantity) %}
+                        {% set total = total + new_price %}
+
+                        {% if od.currency == 'usd' %}
+                            {{ new_price|number_format(2) }} $
+                        {% else %}
+                            {{ new_price|number_format(2) }} €
+                        {% endif %}
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+
+            <tr>
+
+                <td>Total:</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ qty }}</td>
+                <td></td>
+                <td>
+                    {% if cur == 'usd' %}
+                        <b>{{ total|number_format(2) }} $</b>
+                    {% else %}
+                        <b>{{ total|number_format(2) }} €</b>
+                    {% endif %}
+
+
+                </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <p>
+                <b>The goods are Turkish Origin and we declare that above given information are true.</b>
+            </p>
+            <p>
+                <b>Shipment: 8-10 weeks after first payment</b><br>
+                <b>Payment:</b>&nbsp;&nbsp;50% CASH IN ADVANCE WITH PROFORMA CONFIRMATION;<br>
+                REMAINING 50% CASH IN ADVANCE BEFORE SHIPMENT<br>
+                <b>Delivery:</b>&nbsp;&nbsp;EX FACTORY DENIZLI<br>
+                <b>Bank Details:</b>&nbsp;&nbsp;DENIZBANK /Sarayköy Branch (4760)/14116855-353<br>
+                <b>EUR IBAN No:</b>&nbsp;&nbsp;TR390013400001411685500010<br>
+                <b>USD IBAN No:</b>&nbsp;&nbsp;TR550013400001411685500013<br>
+                <b>Swift Code:</b>&nbsp;&nbsp;DENITRISXXX
+
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+    </body>
+    </html>
+{% endspaceless %}
