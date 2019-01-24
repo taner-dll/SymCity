@@ -76,9 +76,11 @@ class SecurityController extends AbstractController
         #Üye kaydı yapmıyoruz.
 
 
+        /*
         $response = new \Symfony\Component\HttpFoundation\Response();
         return new JsonResponse("kayit yapilamaz", $response::HTTP_FORBIDDEN);
 
+        */
 
         $user = new User();
         $form = $this->createForm(UserType::class, $user);

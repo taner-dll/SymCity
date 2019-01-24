@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -54,9 +56,15 @@ class User implements UserInterface
      */
     private $roles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PTVComment", mappedBy="owner")
+     */
+    private $pTVComments;
+
     public function __construct()
     {
         $this->roles = array('ROLE_USER');
+        $this->pTVComments = new ArrayCollection();
     }
 
     // other properties and methods
@@ -125,6 +133,37 @@ class User implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PTVComment[]
+     */
+    public function getPTVComments(): Collection
+    {
+        return $this->pTVComments;
+    }
+
+    public function addPTVComment(PTVComment $pTVComment): self
+    {
+        if (!$this->pTVComments->contains($pTVComment)) {
+            $this->pTVComments[] = $pTVComment;
+            $pTVComment->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removePTVComment(PTVComment $pTVComment): self
+    {
+        if ($this->pTVComments->contains($pTVComment)) {
+            $this->pTVComments->removeElement($pTVComment);
+            // set the owning side to null (unless already changed)
+            if ($pTVComment->getOwner() === $this) {
+                $pTVComment->setOwner(null);
+            }
+        }
 
         return $this;
     }

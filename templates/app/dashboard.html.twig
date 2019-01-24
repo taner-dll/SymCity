@@ -37,67 +37,17 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <h3 class="box-title">Son Siparişler</h3>
+            <h3 class="box-title"></h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-            <div class="table-responsive">
-                <table class="table no-margin">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Sipariş Kodu</th>
-                        <th>Oluşturulma T.</th>
-                        <th>Ad Soyad</th>
-                        <th>E-Posta</th>
-                        <th>Telefon</th>
-                        <th>Durum</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for lfo in last_five_orders %}
-
-
-                        {% if lfo.status == 'pending' %}
-                            {% set lfoStatus = 'warning' %}
-                        {% elseif lfo.status == 'processing' %}
-                            {% set lfoStatus = 'warning' %}
-                        {% elseif lfo.status == 'shipped' %}
-                            {% set lfoStatus = 'primary' %}
-                        {% elseif lfo.status == 'delivered' %}
-                            {% set lfoStatus = 'success' %}
-                        {% elseif lfo.status == 'cancelled' %}
-                            {% set lfoStatus = 'danger' %}
-                        {% endif %}
-
-
-                        <tr>
-                            <td>{{ lfo.id }}</td>
-                            <td>{{ lfo.code }}</td>
-                            <td>{{ lfo.orderDate|date('d-m-Y h:i:s') }}</td>
-                            <td>{{ lfo.name }} {{ lfo.surname }}</td>
-                            <td>{{ lfo.email }}</td>
-                            <td>{{ lfo.phone }}</td>
-                            <td><span class="label label-{{ lfoStatus }}">{{ lfo.status }}</span></td>
-                            <td>
-                                <a href="{{ path('show_order', {id:lfo.id}) }}" class="btn btn-xs btn-primary pull-left">Göster</a>
-                            </td>
-                        </tr>
-
-                    {% endfor %}
-
-
-
-
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.table-responsive -->
+            {% for role in app.user.roles %}
+                {{ role }} <br>
+            {% endfor %}
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-            <a href="{{ path('app_orders') }}" class="btn btn-sm btn-info btn-flat pull-left">Tüm Siparişler</a>
+
         </div>
         <!-- /.box-footer -->
     </div>
