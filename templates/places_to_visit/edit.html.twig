@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit PlacesToVisit{% endblock %}
+
+{% block body %}
+    <h1>Edit PlacesToVisit</h1>
+
+    {{ include('places_to_visit/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('places_to_visit_index') }}">back to list</a>
+
+    {{ include('places_to_visit/_delete_form.html.twig') }}
+{% endblock %}

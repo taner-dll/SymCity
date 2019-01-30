@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PlacesToVisit{% endblock %}
+
+{% block body %}
+    <h1>PlacesToVisit</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ places_to_visit.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ places_to_visit.name }}</td>
+            </tr>
+            <tr>
+                <th>About</th>
+                <td>{{ places_to_visit.about }}</td>
+            </tr>
+            <tr>
+                <th>Maps</th>
+                <td>{{ places_to_visit.maps }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ places_to_visit.phone }}</td>
+            </tr>
+            <tr>
+                <th>Web</th>
+                <td>{{ places_to_visit.web }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ places_to_visit.email }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ places_to_visit.address }}</td>
+            </tr>
+            <tr>
+                <th>Featured_picture</th>
+                <td>{{ places_to_visit.featuredPicture }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('places_to_visit_index') }}">back to list</a>
+
+    <a href="{{ path('places_to_visit_edit', {'id': places_to_visit.id}) }}">edit</a>
+
+    {{ include('places_to_visit/_delete_form.html.twig') }}
+{% endblock %}
