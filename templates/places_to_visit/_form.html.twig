@@ -1,4 +1,38 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{% form_theme form 'form/fields.html.twig' %}
+<div class="box-body">
+    {{ form_start(form) }}
+    <div id="places_to_visit" class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.name, 'Yer Adı') }}
+            {{ form_widget(form.name) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.about, 'Hakkında') }}
+            {{ form_widget(form.about) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.maps, 'Harita') }}
+            {{ form_widget(form.maps) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.phone, 'Telefon') }}
+            {{ form_widget(form.phone) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.web, 'Web Site') }}
+            {{ form_widget(form.web) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.email, 'E-Posta') }}
+            {{ form_widget(form.email) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.address, 'Adres') }}
+            {{ form_widget(form.address) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.featured_picture, 'Öne Çıkan Resim') }}
+            {{ form_widget(form.featured_picture) }}
+        </div>
+    </div>
+</div>

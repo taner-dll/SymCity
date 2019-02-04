@@ -1,11 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New PlacesToVisit{% endblock %}
+{% block title %}Gezilecek Yerler - Yeni Ekle{% endblock %}
+
 
 {% block body %}
-    <h1>Create new PlacesToVisit</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Gezilecek Yerler - Yeni Ekle</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
 
-    {{ include('places_to_visit/_form.html.twig') }}
+                {{ include('places_to_visit/_form.html.twig') }}
 
-    <a href="{{ path('places_to_visit_index') }}">back to list</a>
+                <div class="box-footer">
+                    <button class="btn btn-success">{{ button_label|default('Kaydet') }}</button>
+                    <a class="btn btn-primary pull-right" href="{{ path('places_to_visit_index') }}">
+                        Liste</a>
+                </div>
+
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+    </div>
 {% endblock %}
