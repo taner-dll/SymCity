@@ -2,6 +2,10 @@
 
 {% block title %}Gezilecek Yerler - Yeni Ekle{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin_pages') }}
+{% endblock %}
 
 {% block body %}
     <div class="row">
@@ -26,4 +30,9 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    {{ encore_entry_script_tags('admin_pages') }}
 {% endblock %}
