@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/collection/group")
  */
 class CollectionGroupController extends AbstractController
-{
+{           
     /**
      * @Route("/", name="collection_group_index", methods={"GET"})
      * @param CollectionGroupRepository $collectionGroupRepository

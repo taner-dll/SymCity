@@ -9,7 +9,6 @@ use App\Entity\SiparisDetail;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
@@ -37,15 +36,13 @@ class AppController extends AbstractController
         $lastFiveOrders = $this->getDoctrine()->getRepository(Siparis::class)
             ->findBy(array(), array('id' => 'DESC'), 5);
 
-
         return $this->render('app/dashboard.html.twig', [
             'controller_name' => 'AppController',
             'total_products' => count($products),
             'orders' => $orders,
-            'last_five_orders' => $lastFiveOrders
+            'last_five_orders' => $lastFiveOrders,
         ]);
     }
-
 
     /**
      * @Route("/settings", name="app_settings")
@@ -55,15 +52,13 @@ class AppController extends AbstractController
     public function settings(Request $request)
     {
 
-
         $settings = $this->getDoctrine()->getRepository(Settings::class)->find(1);
-
 
         if ($request->request->get('euro_usd')):
             $em = $this->getDoctrine()->getManager();
             $settings->setEurUsd(floatval($request->request->get('euro_usd')));
             $this->addFlash('success', 'EURO/USD paritesi ' . $request->request->get('euro_usd') . '
-            olarak güncellendi.');
+		            olarak güncellendi.');
             $em->flush();
         endif;
 
@@ -71,17 +66,15 @@ class AppController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $settings->setRenkliArtisOrani(intval($request->request->get('renk_yuzdesi')));
             $this->addFlash('success', 'Artış yüzdesi %' . $request->request->get('renk_yuzdesi') . '
-            olarak güncellendi.');
+		            olarak güncellendi.');
             $em->flush();
         endif;
 
-
         return $this->render('app/settings.html.twig', [
             'euro_usd' => $settings->getEurUsd(),
-            'renk_yuzdesi' => $settings->getRenkliArtisOrani()
+            'renk_yuzdesi' => $settings->getRenkliArtisOrani(),
         ]);
     }
-
 
     /**
      * @Route("/orders", name="app_orders")
@@ -92,7 +85,7 @@ class AppController extends AbstractController
         $orders = $this->getDoctrine()->getRepository(Siparis::class)->findBy(array(), array('id' => 'DESC'));
 
         return $this->render('app/orders.html.twig', [
-            'orders' => $orders
+            'orders' => $orders,
         ]);
 
     }
@@ -118,20 +111,16 @@ class AppController extends AbstractController
         $order = $this->getDoctrine()->getRepository(Siparis::class)
             ->find($id);
 
-
         if ($request->query->get('proforma') == 'true') {
-
 
             // Configure Dompdf according to your needs
 
             $pdfOptions = new Options();
             $pdfOptions->set('defaultFont', 'Arial');
-            $pdfOptions->set('isRemoteEnabled', TRUE);
+            $pdfOptions->set('isRemoteEnabled', true);
 
             // Instantiate Dompdf with our options
             $dompdf = new Dompdf($pdfOptions);
-
-
 
             // Retrieve the HTML generated in our twig file
             $html = $this->renderView('pdf/proforma_euro.html.twig',
@@ -147,7 +136,7 @@ class AppController extends AbstractController
                     'siparis_id' => $order->getId(),
                     'siparis_kodu' => $order->getCode(),
                     'order_detail' => $order_detail,
-                    'order' => $order
+                    'order' => $order,
 
                 ));
 
@@ -159,7 +148,6 @@ class AppController extends AbstractController
 
             // Render the HTML as PDF
             $dompdf->render();
-
 
             /*
             #SAVE FILE
@@ -176,28 +164,23 @@ class AppController extends AbstractController
             file_put_contents($pdfFilepath, $output);
 
             #SAVE FILE END
-            */
-
+             */
 
             // Output the generated PDF to Browser (force download)
             $dompdf->stream(uniqid("proforma_", false) . ".pdf", [
-                "Attachment" => true
+                "Attachment" => true,
             ]);
 
-
         }
-
 
         if ($request->query->get('excel') == 'true') {
 
             $spreadsheet = new Spreadsheet();
 
-
             /**
              * Styles
              */
             $fontBold = ['font' => ['bold' => true]];
-
 
             /* @var $sheet \PhpOffice\PhpSpreadsheet\Writer\Xlsx\Worksheet */
 
@@ -248,7 +231,6 @@ class AppController extends AbstractController
             $spreadsheet->getActiveSheet()->setCellValue('A19', $order->getAdress());
             $spreadsheet->getActiveSheet()->getStyle('A19')->getAlignment()->setWrapText(true);
 
-
             $spreadsheet->getActiveSheet()->mergeCells('D3:G20');
             //resim ekle
             $drawing = new Drawing();
@@ -259,7 +241,6 @@ class AppController extends AbstractController
             $drawing->setWorksheet($spreadsheet->getActiveSheet());
             $drawing->setOffsetY(2);
             $drawing->setOffsetX(2);
-
 
             $spreadsheet->getActiveSheet()->mergeCells('I4:K4');
             $spreadsheet->getActiveSheet()->setCellValue('I3', 'Date:');
@@ -276,18 +257,17 @@ class AppController extends AbstractController
             $spreadsheet->getActiveSheet()->getStyle('I9')->applyFromArray($fontBold);
             $spreadsheet->getActiveSheet()->setCellValue('I10', $order->getCode());
 
-
             $thead = [
                 ["Picture", "Code", "Name", "Inner",
                     "Rim", "Outer", "Desc.",
-                    "QTY", "Unit", "Cur", "Sub T."]
+                    "QTY", "Unit", "Cur", "Sub T."],
             ];
             $spreadsheet->getActiveSheet()
                 ->fromArray(
-                    $thead,  // The data to set
-                    NULL,        // Array values with this value will not be set
-                    'A25'         // Top left coordinate of the worksheet range where
-                //    we want to set these values (default is A1)
+                    $thead, // The data to set
+                    null, // Array values with this value will not be set
+                    'A25' // Top left coordinate of the worksheet range where
+                    //    we want to set these values (default is A1)
                 );
 
             //thead bold
@@ -309,14 +289,12 @@ class AppController extends AbstractController
                 $picture = $od->getProduct()->getPicture();
                 $price = floatval($od->getProduct()->getPrice());
 
-
                 if ($od->getProduct()->getCollection()->getName() == 'RUBIENDA' ||
                     $od->getProduct()->getProperty() == 'custom') {
-                    if ($inner_color == 0):$inner_color = 'white';endif;
-                    if ($rim_color == 0):$rim_color = 'white';endif;
-                    if ($outer_color == 0):$outer_color = 'white';endif;
+                    if ($inner_color == 0): $inner_color = 'white';endif;
+                    if ($rim_color == 0): $rim_color = 'white';endif;
+                    if ($outer_color == 0): $outer_color = 'white';endif;
                 }
-
 
                 //dolara parite uygula: sistem fiyatları euro çünkü.
                 $birim = $od->getCurrency();
@@ -328,15 +306,12 @@ class AppController extends AbstractController
                 }
 
                 //1 renkten fazlaysa %10 zam uygula
-                $renk_adedi=0;
-                if (intval($inner_color) > 0):$renk_adedi++;endif;//renk seçiliyse/white değilse
-                if (intval($rim_color) > 0):$renk_adedi++;endif;//renk seçiliyse/white değilse
-                if (intval($outer_color) > 0):$renk_adedi++;endif;//renk seçiliyse/white değilse
+                $renk_adedi = 0;
+                if (intval($inner_color) > 0): $renk_adedi++;endif; //renk seçiliyse/white değilse
+                if (intval($rim_color) > 0): $renk_adedi++;endif; //renk seçiliyse/white değilse
+                if (intval($outer_color) > 0): $renk_adedi++;endif; //renk seçiliyse/white değilse
 
-                if($renk_adedi>1):$price = (($price*10)/100)+$price;endif;
-
-
-
+                if ($renk_adedi > 1): $price = (($price * 10) / 100) + $price;endif;
 
                 //resim ekle
                 $drawing = new Drawing();
@@ -352,7 +327,6 @@ class AppController extends AbstractController
                     $drawing->setOffsetY(2);
                     $drawing->setOffsetX(2);
 
-
                     //resim yükseklik ve genişlik ayarları.
                     $spreadsheet->getActiveSheet()->getRowDimension($cell_value)
                         ->setRowHeight($drawing->getHeight());
@@ -360,7 +334,6 @@ class AppController extends AbstractController
                     $spreadsheet->getActiveSheet()->getColumnDimension('A')
                         ->setWidth($drawing->getWidth() - ($drawing->getWidth() * .85));
                 }
-
 
                 /*
                 $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
@@ -372,7 +345,7 @@ class AppController extends AbstractController
                 $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
                 $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
                 $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
-                */
+                 */
 
                 //$spreadsheet->getActiveSheet()->setCellValue('A'.$cell_value, $picture);
                 $spreadsheet->getActiveSheet()->setCellValue('B' . $cell_value, $product_code);
@@ -406,7 +379,6 @@ class AppController extends AbstractController
                 $toplam_tutar = $toplam_tutar + ($quantity * $price);
                 $adet = $adet + $quantity;
 
-
                 //dongü içindeki satırlara ait border
                 $spreadsheet->getActiveSheet()
                     ->getStyle('A' . $cell_value . ':K' . $cell_value)
@@ -414,11 +386,9 @@ class AppController extends AbstractController
                     ->setBorderStyle(Border::BORDER_THIN)
                     ->setColor(new Color('000000'));
 
-
                 //her satırı ortala
                 $spreadsheet->getActiveSheet()->getStyle('A' . $cell_value . ':K' . $cell_value)
                     ->getAlignment()->setHorizontal('center');
-
 
                 $cell_value++;
 
@@ -442,80 +412,76 @@ class AppController extends AbstractController
             $spreadsheet->getActiveSheet()->getStyle('A' . $cell_value . ':K' . $cell_value)
                 ->getAlignment()->setHorizontal('center');
 
-
-
             //footer
-            $cell_value = $cell_value+2;
-            $spreadsheet->getActiveSheet()->mergeCells('A'.$cell_value.':K'.$cell_value);
-            $spreadsheet->getActiveSheet()->setCellValue('A'.$cell_value,
+            $cell_value = $cell_value + 2;
+            $spreadsheet->getActiveSheet()->mergeCells('A' . $cell_value . ':K' . $cell_value);
+            $spreadsheet->getActiveSheet()->setCellValue('A' . $cell_value,
                 'The goods are Turkish Origin and we declare that above given information are true.');
-            $spreadsheet->getActiveSheet()->getStyle('A'.$cell_value)->applyFromArray($fontBold);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $cell_value)->applyFromArray($fontBold);
 
-            $cell_value = $cell_value+2;
-            $spreadsheet->getActiveSheet()->mergeCells('A'.$cell_value.':B'.$cell_value);
-            $spreadsheet->getActiveSheet()->mergeCells('C'.$cell_value.':K'.$cell_value);
-            $spreadsheet->getActiveSheet()->setCellValue('A'.$cell_value,
+            $cell_value = $cell_value + 2;
+            $spreadsheet->getActiveSheet()->mergeCells('A' . $cell_value . ':B' . $cell_value);
+            $spreadsheet->getActiveSheet()->mergeCells('C' . $cell_value . ':K' . $cell_value);
+            $spreadsheet->getActiveSheet()->setCellValue('A' . $cell_value,
                 'Shipment: ');
-            $spreadsheet->getActiveSheet()->setCellValue('C'.$cell_value,
+            $spreadsheet->getActiveSheet()->setCellValue('C' . $cell_value,
                 ' 8-10 weeks after first payment');
-            $spreadsheet->getActiveSheet()->getStyle('A'.$cell_value)->applyFromArray($fontBold);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $cell_value)->applyFromArray($fontBold);
 
-            $cell_value = $cell_value+1;
-            $spreadsheet->getActiveSheet()->mergeCells('A'.$cell_value.':B'.$cell_value);
-            $spreadsheet->getActiveSheet()->mergeCells('C'.$cell_value.':K'.$cell_value);
-            $spreadsheet->getActiveSheet()->setCellValue('A'.$cell_value,
+            $cell_value = $cell_value + 1;
+            $spreadsheet->getActiveSheet()->mergeCells('A' . $cell_value . ':B' . $cell_value);
+            $spreadsheet->getActiveSheet()->mergeCells('C' . $cell_value . ':K' . $cell_value);
+            $spreadsheet->getActiveSheet()->setCellValue('A' . $cell_value,
                 'Payment: ');
-            $spreadsheet->getActiveSheet()->setCellValue('C'.$cell_value,
+            $spreadsheet->getActiveSheet()->setCellValue('C' . $cell_value,
                 '50% CASH IN ADVANCE WITH PROFORMA CONFIRMATION;
 REMAINING 50% CASH IN ADVANCE BEFORE SHIPMENT');
-            $spreadsheet->getActiveSheet()->getStyle('A'.$cell_value)->applyFromArray($fontBold);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $cell_value)->applyFromArray($fontBold);
 
-            $cell_value = $cell_value+1;
-            $spreadsheet->getActiveSheet()->mergeCells('A'.$cell_value.':B'.$cell_value);
-            $spreadsheet->getActiveSheet()->mergeCells('C'.$cell_value.':K'.$cell_value);
-            $spreadsheet->getActiveSheet()->setCellValue('A'.$cell_value,
+            $cell_value = $cell_value + 1;
+            $spreadsheet->getActiveSheet()->mergeCells('A' . $cell_value . ':B' . $cell_value);
+            $spreadsheet->getActiveSheet()->mergeCells('C' . $cell_value . ':K' . $cell_value);
+            $spreadsheet->getActiveSheet()->setCellValue('A' . $cell_value,
                 'Delivery: ');
-            $spreadsheet->getActiveSheet()->setCellValue('C'.$cell_value,
+            $spreadsheet->getActiveSheet()->setCellValue('C' . $cell_value,
                 'EX FACTORY DENIZLI');
-            $spreadsheet->getActiveSheet()->getStyle('A'.$cell_value)->applyFromArray($fontBold);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $cell_value)->applyFromArray($fontBold);
 
-            $cell_value = $cell_value+1;
-            $spreadsheet->getActiveSheet()->mergeCells('A'.$cell_value.':B'.$cell_value);
-            $spreadsheet->getActiveSheet()->mergeCells('C'.$cell_value.':K'.$cell_value);
-            $spreadsheet->getActiveSheet()->setCellValue('A'.$cell_value,
+            $cell_value = $cell_value + 1;
+            $spreadsheet->getActiveSheet()->mergeCells('A' . $cell_value . ':B' . $cell_value);
+            $spreadsheet->getActiveSheet()->mergeCells('C' . $cell_value . ':K' . $cell_value);
+            $spreadsheet->getActiveSheet()->setCellValue('A' . $cell_value,
                 'Bank Details: ');
-            $spreadsheet->getActiveSheet()->setCellValue('C'.$cell_value,
+            $spreadsheet->getActiveSheet()->setCellValue('C' . $cell_value,
                 'DENIZBANK /Sarayköy Branch (4760)/14116855-353');
-            $spreadsheet->getActiveSheet()->getStyle('A'.$cell_value)->applyFromArray($fontBold);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $cell_value)->applyFromArray($fontBold);
 
-            $cell_value = $cell_value+1;
-            $spreadsheet->getActiveSheet()->mergeCells('A'.$cell_value.':B'.$cell_value);
-            $spreadsheet->getActiveSheet()->mergeCells('C'.$cell_value.':K'.$cell_value);
-            $spreadsheet->getActiveSheet()->setCellValue('A'.$cell_value,
+            $cell_value = $cell_value + 1;
+            $spreadsheet->getActiveSheet()->mergeCells('A' . $cell_value . ':B' . $cell_value);
+            $spreadsheet->getActiveSheet()->mergeCells('C' . $cell_value . ':K' . $cell_value);
+            $spreadsheet->getActiveSheet()->setCellValue('A' . $cell_value,
                 'EUR IBAN No: ');
-            $spreadsheet->getActiveSheet()->setCellValue('C'.$cell_value,
+            $spreadsheet->getActiveSheet()->setCellValue('C' . $cell_value,
                 'TR390013400001411685500010');
-            $spreadsheet->getActiveSheet()->getStyle('A'.$cell_value)->applyFromArray($fontBold);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $cell_value)->applyFromArray($fontBold);
 
-            $cell_value = $cell_value+1;
-            $spreadsheet->getActiveSheet()->mergeCells('A'.$cell_value.':B'.$cell_value);
-            $spreadsheet->getActiveSheet()->mergeCells('C'.$cell_value.':K'.$cell_value);
-            $spreadsheet->getActiveSheet()->setCellValue('A'.$cell_value,
+            $cell_value = $cell_value + 1;
+            $spreadsheet->getActiveSheet()->mergeCells('A' . $cell_value . ':B' . $cell_value);
+            $spreadsheet->getActiveSheet()->mergeCells('C' . $cell_value . ':K' . $cell_value);
+            $spreadsheet->getActiveSheet()->setCellValue('A' . $cell_value,
                 'USD IBAN No: ');
-            $spreadsheet->getActiveSheet()->setCellValue('C'.$cell_value,
+            $spreadsheet->getActiveSheet()->setCellValue('C' . $cell_value,
                 'TR550013400001411685500013');
-            $spreadsheet->getActiveSheet()->getStyle('A'.$cell_value)->applyFromArray($fontBold);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $cell_value)->applyFromArray($fontBold);
 
-            $cell_value = $cell_value+1;
-            $spreadsheet->getActiveSheet()->mergeCells('A'.$cell_value.':B'.$cell_value);
-            $spreadsheet->getActiveSheet()->mergeCells('C'.$cell_value.':K'.$cell_value);
-            $spreadsheet->getActiveSheet()->setCellValue('A'.$cell_value,
+            $cell_value = $cell_value + 1;
+            $spreadsheet->getActiveSheet()->mergeCells('A' . $cell_value . ':B' . $cell_value);
+            $spreadsheet->getActiveSheet()->mergeCells('C' . $cell_value . ':K' . $cell_value);
+            $spreadsheet->getActiveSheet()->setCellValue('A' . $cell_value,
                 'SWIFT CODE: ');
-            $spreadsheet->getActiveSheet()->setCellValue('C'.$cell_value,
+            $spreadsheet->getActiveSheet()->setCellValue('C' . $cell_value,
                 'DENITRISXXX');
-            $spreadsheet->getActiveSheet()->getStyle('A'.$cell_value)->applyFromArray($fontBold);
-
-
+            $spreadsheet->getActiveSheet()->getStyle('A' . $cell_value)->applyFromArray($fontBold);
 
             // Create your Office 2007 Excel (XLSX Format)
             $writer = new Xlsx($spreadsheet);
@@ -532,15 +498,13 @@ REMAINING 50% CASH IN ADVANCE BEFORE SHIPMENT');
 
         }
 
-
         return $this->render('app/order_show.html.twig', [
             'order_detail' => $order_detail,
-            'order' => $order
+            'order' => $order,
 
         ]);
 
     }
-
 
     /**
      * @Route("/update-order-status", name="update_order_status")
@@ -553,7 +517,6 @@ REMAINING 50% CASH IN ADVANCE BEFORE SHIPMENT');
         $order_id = $request->request->get('order_id');
         $status = $request->request->get('status');
 
-
         $em = $this->getDoctrine()->getManager();
 
         $order = $this->getDoctrine()->getRepository(Siparis::class)
@@ -564,7 +527,6 @@ REMAINING 50% CASH IN ADVANCE BEFORE SHIPMENT');
         $em->clear();
 
         return $this->redirectToRoute('show_order', array('id' => $order_id));
-
 
     }
 
@@ -585,7 +547,6 @@ REMAINING 50% CASH IN ADVANCE BEFORE SHIPMENT');
         $order = $this->getDoctrine()->getRepository(Siparis::class)
             ->find($order_id);
 
-
         if ($order->getStatus() == 'cancelled') {
             $em->remove($order);
             $em->flush();
@@ -600,8 +561,6 @@ REMAINING 50% CASH IN ADVANCE BEFORE SHIPMENT');
 
         return $this->redirectToRoute('app_orders');
 
-
     }
-
 
 }

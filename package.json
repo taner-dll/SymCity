@@ -9,10 +9,11 @@
   },
   "dependencies": {
     "bootstrap": "3.3.7",
-    "croppie": "^2.6.3",
-    "datatables.net": "^1.10.19",
+    "cropper": "^4.0.0",
+    "cropperjs": "^1.4.3",
     "datatables.net-bs": "^1.10.19",
     "fastclick": "^1.0.6",
+    "jquery-cropper": "^1.0.0",
     "slimscroll": "^0.9.1",
     "trumbowyg": "^2.14.0"
   }
