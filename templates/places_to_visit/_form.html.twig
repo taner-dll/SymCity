@@ -38,8 +38,10 @@
         <div class="form-group">
             {{ form_label(form.featured_picture, 'Öne Çıkan Resim') }}
             {{ form_widget(form.featured_picture) }}
-
-
+            <input type="hidden" id="cropped_image" name="cropped_image" />
+        </div>
+        <div class="form-group">
+            <img id="preview" src="" class="img-responsive img-bordered" width="400" height="250" />
         </div>
 
 
@@ -52,28 +54,26 @@
                                     aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Resim Düzenle</h4>
                     </div>
-                    <div class="modal-body">
-                        <img alt="" src="" id="image_demo" width="800" height="400"/>
-                        <hr>
+                    <div class="modal-body" style="overflow: hidden">
+                        <img alt="" src="" id="selected_image" style="max-width: 800px; max-height: 500px;"/>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1"
-                                    title="Zoom In">
-            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title=""
-                  data-original-title="$().cropper(&quot;zoom&quot;, 0.1)">
-              <span class="fa fa-search-plus"></span>
-            </span>
+                            <button type="button" class="btn btn-default" data-method="zoom" data-option="0.1"
+                                    title="Zoom In" onclick="$('#selected_image').cropper('zoom', 0.1)">
+
+                                <span class="fa fa-search-plus"></span>
+
                             </button>
-                            <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1"
-                                    title="Zoom Out" onclick="$('#image_demo').cropper('zoom', -0.1)">
-            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title=""
-                  data-original-title="$().cropper(&quot;zoom&quot;, -0.1)">
-              <span class="fa fa-search-minus"></span>
-            </span>
+                            <button type="button" class="btn btn-default" data-method="zoom" data-option="-0.1"
+                                    title="Zoom Out" onclick="$('#selected_image').cropper('zoom', -0.1)">
+
+                                <span class="fa fa-search-minus"></span>
+
                             </button>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="crop_image" type="button" class="btn btn-default" data-dismiss="modal">Seç</button>
+                        <button id="crop_image"  onclick="$('#image_demo').cropper('crop')"
+                                type="button" class="btn btn-default" data-dismiss="modal">Seç</button>
                     </div>
                 </div>
             </div>

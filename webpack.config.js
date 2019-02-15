@@ -1,5 +1,5 @@
-var Encore = require('@symfony/webpack-encore');
-var webpack = require('webpack');
+let Encore = require('@symfony/webpack-encore');
+let webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 Encore
@@ -21,7 +21,7 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     //.addEntry('product', './assets/js/product.js')
-    .addEntry('admin_pages', './assets/js/admin_pages.js')
+    .addEntry('places_to_visit', './assets/js/places_to_visit.js')
 
 
     /*
