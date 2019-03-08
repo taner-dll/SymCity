@@ -44,7 +44,6 @@ class PlacesToVisitController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
             ### START CROPPER JS ###
             $ptv_dir = $this->getParameter('ptv_directory');
             $file = $request->request->get('cropped_image');
@@ -73,14 +72,11 @@ class PlacesToVisitController extends AbstractController
                 }
             }
 
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($placesToVisit);
             $entityManager->flush();
-
             return $this->redirectToRoute('places_to_visit_index');
         }
-
         return $this->render('places_to_visit/new.html.twig', [
             'places_to_visit' => $placesToVisit,
             'form' => $form->createView(),

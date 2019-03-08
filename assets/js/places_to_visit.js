@@ -52,14 +52,4 @@ $('#crop_image').on('click', function () {
 
     $('#preview').attr('src', imageData);
     $('#cropped_image').val(imageData);
-
 });
-
-
-
-
-
-
-
-
-

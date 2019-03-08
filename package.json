@@ -15,6 +15,7 @@
     "fastclick": "^1.0.6",
     "jquery-cropper": "^1.0.0",
     "slimscroll": "^0.9.1",
-    "trumbowyg": "^2.14.0"
+    "trumbowyg": "^2.14.0",
+    "yarn": "^1.13.0"
   }
 }
