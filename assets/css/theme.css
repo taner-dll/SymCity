@@ -23,6 +23,12 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+.swal2-popup {
+  font-size: 1.6rem !important;
+}
+
+
 /* Layout */
 .wrapper {
   height: 100%;

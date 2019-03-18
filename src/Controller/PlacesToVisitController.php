@@ -25,6 +25,8 @@ class PlacesToVisitController extends AbstractController
      */
     public function index(PlacesToVisitRepository $placesToVisitRepository): Response
     {
+
+
         return $this->render('places_to_visit/index.html.twig', [
             'places_to_visits' => $placesToVisitRepository->findAll(),
         ]);
@@ -48,33 +50,39 @@ class PlacesToVisitController extends AbstractController
             $ptv_dir = $this->getParameter('ptv_directory');
             $file = $request->request->get('cropped_image');
 
-            //base64 içerisinden dosya tipini bul
-            $pos = strpos($file, ';');
-            $type = explode(':', substr($file, 0, $pos))[1]; // image/png
-            $ext = explode('/', $type)[1]; // png, jpg...
+            if($file){
+                //base64 içerisinden dosya tipini bul
+                $pos = strpos($file, ';');
+                $type = explode(':', substr($file, 0, $pos))[1]; // image/png
+                $ext = explode('/', $type)[1]; // png, jpg...
 
-            $fileName = date('Ymd').uniqid("ptv", false).'.'.$ext;
+                $fileName = date('Ymd').uniqid("ptv", false).'.'.$ext;
 
-            // base64 coz.
-            $base64_string = str_replace('data:' . $type . ';base64,', '', $file);
-            $base64_string = str_replace(' ', '+', $base64_string);
+                // base64 coz.
+                $base64_string = str_replace('data:' . $type . ';base64,', '', $file);
+                $base64_string = str_replace(' ', '+', $base64_string);
 
-            $file = base64_decode($base64_string);
-            ### END CROPPER JS ###
+                $file = base64_decode($base64_string);
+                ### END CROPPER JS ###
 
 
-            $fs = new Filesystem();
-            if ($fs->exists($ptv_dir)) {
-                try {
-                    file_put_contents($ptv_dir . '/' . $fileName, $file);
-                } catch (FileException $e) {
-                    return new JsonResponse($file);
+                $fs = new Filesystem();
+                if ($fs->exists($ptv_dir)) {
+                    try {
+                        file_put_contents($ptv_dir . '/' . $fileName, $file);
+                    } catch (FileException $e) {
+                        return new JsonResponse($file);
+                    }
                 }
             }
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($placesToVisit);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Successfully Added');
+
             return $this->redirectToRoute('places_to_visit_index');
         }
         return $this->render('places_to_visit/new.html.twig', [
@@ -109,10 +117,13 @@ class PlacesToVisitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('places_to_visit_index', [
+            $this->addFlash('success', 'Successfully Updated');
+
+            return $this->redirectToRoute('places_to_visit_show', [
                 'id' => $placesToVisit->getId(),
             ]);
         }
+
 
         return $this->render('places_to_visit/edit.html.twig', [
             'places_to_visit' => $placesToVisit,
@@ -132,6 +143,8 @@ class PlacesToVisitController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($placesToVisit);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Successfully Deleted');
         }
 
         return $this->redirectToRoute('places_to_visit_index');

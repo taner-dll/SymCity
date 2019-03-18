@@ -1,5 +1,24 @@
-<form method="post" action="{{ path('places_to_visit_delete', {'id': places_to_visit.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('places_to_visit_delete', {'id': places_to_visit.id}) }}">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ places_to_visit.id) }}">
-    <button class="btn">Delete</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Silme Onayı</h4>
+                </div>
+                <div class="modal-body">
+                    <b>{{ places_to_visit.name }}</b> silinecek, onaylıyor musunuz?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-danger">Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>

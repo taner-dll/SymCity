@@ -1,0 +1,22 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/public/runtime.js",
+        "/public/app.js"
+      ],
+      "css": [
+        "/public/app.css"
+      ]
+    },
+    "places_to_visit": {
+      "js": [
+        "/public/runtime.js",
+        "/public/places_to_visit.js"
+      ],
+      "css": [
+        "/public/places_to_visit.css"
+      ]
+    }
+  }
+}

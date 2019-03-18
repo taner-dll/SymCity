@@ -24,7 +24,7 @@ security:
                 login_path: login
                 check_path: login
                 csrf_token_generator: security.csrf.token_manager
-                default_target_path: app_dashboard
+                default_target_path: homepage
 
             logout:
                 path:   app_logout
@@ -48,7 +48,4 @@ security:
     access_control:
         - { path: ^/security/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/security/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/client, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/app, roles: ROLE_USER }
-        - { path: ^/product, roles: ROLE_USER }
-        - { path: ^/collection/group, roles: ROLE_USER }
+        - { path: ^/, roles: ROLE_USER }

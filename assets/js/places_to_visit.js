@@ -8,6 +8,25 @@ $.trumbowyg.svgPath = icons;
 $('#places_to_visit_about').trumbowyg();
 
 
+//sweetalert2
+import Swal from 'sweetalert2';
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+
+if($('#success_message').val()){
+    Toast.fire({
+        title: $('#success_message').val(),
+        type: 'success',
+    })
+}
+//sweetalert2 end
+
+
 //cropper
 import 'cropper/dist/cropper.min';
 import 'jquery-cropper/dist/jquery-cropper.min';

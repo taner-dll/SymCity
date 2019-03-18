@@ -1,49 +1,107 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PlacesToVisit index{% endblock %}
+{% block title %}Gezilecek Yerler Listesi{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('places_to_visit') }}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            Gezilecek Yerler Listesi
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('places_to_visit_new') }}" class="btn btn-success btn-xs" style="color: white">
+                    <i class="fa fa-plus-circle"></i> Yeni Ekle</a></li>
+            <li><a href="{{ path('app_dashboard') }}"><i class="fa fa-dashboard"></i> Kontrol Paneli</a></li>
+            <li lass="active"><a href="{{ path('places_to_visit_index') }}">Gezilecek Yerler Listesi</a></li>
+
+        </ol>
+    </section>
+
+{% endblock %}
 
 {% block body %}
-    <h1>PlacesToVisit index</h1>
+    <div class="row">
+        <div class="col-md-12">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>About</th>
-                <th>Maps</th>
-                <th>Phone</th>
-                <th>Web</th>
-                <th>Email</th>
-                <th>Address</th>
-                <th>Featured_picture</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for places_to_visit in places_to_visits %}
-            <tr>
-                <td>{{ places_to_visit.id }}</td>
-                <td>{{ places_to_visit.name }}</td>
-                <td>{{ places_to_visit.about }}</td>
-                <td>{{ places_to_visit.maps }}</td>
-                <td>{{ places_to_visit.phone }}</td>
-                <td>{{ places_to_visit.web }}</td>
-                <td>{{ places_to_visit.email }}</td>
-                <td>{{ places_to_visit.address }}</td>
-                <td>{{ places_to_visit.featuredPicture }}</td>
-                <td>
-                    <a href="{{ path('places_to_visit_show', {'id': places_to_visit.id}) }}">show</a>
-                    <a href="{{ path('places_to_visit_edit', {'id': places_to_visit.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <div class="box">
+                <!--
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+                </div>
+                -->
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="example1_wrapper"
+                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                                <table id="example1" class="table table-bordered table-striped
+                                table-hover table-condensed
+                                dataTable" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="sorting_desc">Name</th>
+                                        <th>Yer Adı</th>
+                                        <th>Hakkında</th>
+                                        <th>Telefon</th>
+                                        <th>Web</th>
+                                        <th>Eposta</th>
+                                        <th>Adres</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for places_to_visit in places_to_visits %}
+                                        <tr>
+                                            <td>{{ places_to_visit.name }}</td>
+                                            <td>{{ places_to_visit.about[:30]|striptags }}</td>
+                                            <td>{{ places_to_visit.maps }}</td>
+                                            <td>{{ places_to_visit.phone }}</td>
+                                            <td>{{ places_to_visit.web }}</td>
+                                            <td>{{ places_to_visit.email }}</td>
+                                            <td>{{ places_to_visit.address }}</td>
+                                            <td>
+                                                <a class="btn btn-xs btn-primary pull-left"
+                                                   href="{{ path('places_to_visit_show', {'id': places_to_visit.id}) }}">Göster</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="10">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
 
-    <a href="{{ path('places_to_visit_new') }}">Create new</a>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+
+    </div>
+
+
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
+
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('places_to_visit') }}
 {% endblock %}
