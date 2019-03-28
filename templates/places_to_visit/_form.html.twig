@@ -39,8 +39,10 @@
             <input type="hidden" id="cropped_image" name="cropped_image" />
         </div>
         <div class="form-group">
-            <img id="preview" src="" class="img-responsive img-bordered" width="400" height="250" />
+            <img id="preview" src="{{ asset('uploads/ptv/')~places_to_visit.featuredPicture }}"
+                 class="img-responsive img-bordered" width="400" height="250" />
         </div>
+
 
 
         <!-- Modal -->

@@ -50,13 +50,13 @@ $input.change(function () {
 
             // Start cropper
             $image.cropper({
-                aspectRatio: 800 / 500,
+                aspectRatio: 800 / 600,
                 dragMode: 'move',
                 cropBoxMovable: false,
                 cropBoxResizable: false,
                 guides: false,
                 minContainerWidth: 825,
-                minContainerHeight: 500
+                minContainerHeight: 600
             });
         };
 });
@@ -65,7 +65,7 @@ $('#crop_image').on('click', function () {
 
     let imageData = $image.cropper('getCroppedCanvas',{
         width:800,
-        height:500,
+        height:600,
         fillColor: '#fff',
     }).toDataURL('image/jpeg');
 

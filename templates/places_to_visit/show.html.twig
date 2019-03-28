@@ -71,7 +71,14 @@
                         </tr>
                         <tr>
                             <th>Öne Çıkan Resim</th>
-                            <td>{{ places_to_visit.featuredPicture }}</td>
+                            <td>
+                                {% if places_to_visit.featuredPicture|length > 0 %}
+
+                            <img src="{{ asset('uploads/ptv/')~places_to_visit.featuredPicture }}" width="300"
+                            height="225"/>
+
+                                {% endif %}
+                            </td>
                         </tr>
                         </tbody>
                     </table>
