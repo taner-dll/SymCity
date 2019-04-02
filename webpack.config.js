@@ -22,6 +22,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
     //.addEntry('product', './assets/js/product.js')
     .addEntry('places_to_visit', './assets/js/places_to_visit.js')
+    .addEntry('municipality', './assets/js/municipality.js')
 
 
     /*

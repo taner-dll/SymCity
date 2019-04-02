@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Municipality index{% endblock %}
+
+{% block body %}
+    <h1>Municipality index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>About</th>
+                <th>Mayor</th>
+                <th>Featured_picture</th>
+                <th>Web</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Fax</th>
+                <th>Map</th>
+                <th>Extra_info</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for municipality in municipalities %}
+            <tr>
+                <td>{{ municipality.id }}</td>
+                <td>{{ municipality.name }}</td>
+                <td>{{ municipality.about }}</td>
+                <td>{{ municipality.mayor }}</td>
+                <td>{{ municipality.featuredPicture }}</td>
+                <td>{{ municipality.web }}</td>
+                <td>{{ municipality.email }}</td>
+                <td>{{ municipality.phone }}</td>
+                <td>{{ municipality.fax }}</td>
+                <td>{{ municipality.map }}</td>
+                <td>{{ municipality.extraInfo }}</td>
+                <td>
+                    <a href="{{ path('municipality_show', {'id': municipality.id}) }}">show</a>
+                    <a href="{{ path('municipality_edit', {'id': municipality.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('municipality_new') }}">Create new</a>
+{% endblock %}

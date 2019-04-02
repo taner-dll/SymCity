@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     ptv_directory:  '%kernel.project_dir%/public/uploads/ptv'
+    mun_directory:  '%kernel.project_dir%/public/uploads/municipality'
+    may_directory:  '%kernel.project_dir%/public/uploads/mayor'
     locale: 'en'
 
 services:

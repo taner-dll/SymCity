@@ -1,52 +1,93 @@
 {% form_theme form 'form/fields.html.twig' %}
+
 <div class="box-body">
     {{ form_start(form) }}
     <div class="col-md-6">
         <div class="form-group">
-            {{ form_label(form.name, 'Yer Adı') }}
+            {{ form_label(form.name, 'Belediye Adı') }}
             {{ form_widget(form.name) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.maps, 'Harita [Google Place ID]') }}
-            {{ form_widget(form.maps) }}
+            {{ form_label(form.web, 'Web') }}
+            {{ form_widget(form.web) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.about, 'Hakkında') }}
-            {{ form_widget(form.about) }}
+            {{ form_label(form.email, 'Eposta') }}
+            {{ form_widget(form.email) }}
         </div>
-    </div>
-
-    <div class="col-md-6">
         <div class="form-group">
             {{ form_label(form.phone, 'Telefon') }}
             {{ form_widget(form.phone) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.web, 'Web Site') }}
-            {{ form_widget(form.web) }}
+            {{ form_label(form.fax, 'Faks') }}
+            {{ form_widget(form.fax) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.email, 'E-Posta') }}
-            {{ form_widget(form.email) }}
+            {{ form_label(form.map, 'Map') }}
+            {{ form_widget(form.map) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.address, 'Adres') }}
-            {{ form_widget(form.address) }}
+            {{ form_label(form.facebook, 'Facebook') }}
+            {{ form_widget(form.facebook) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.featured_picture, 'Öne Çıkan Resim') }}
+            {{ form_label(form.twitter, 'Twitter') }}
+            {{ form_widget(form.twitter) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.instagram, 'Instagram') }}
+            {{ form_widget(form.instagram) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.whatsapp, 'Whatsapp') }}
+            {{ form_widget(form.whatsapp) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.extra_info, 'Ekstra Bilgi') }}
+            {{ form_widget(form.extra_info) }}
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+
+        {# BELEDIYE #}
+
+        <div class="form-group">
+            {{ form_widget(form.about, { 'attr': {'placeholder': 'Belediye hakkında...'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.featured_picture, 'Belediye Fotoğrafı') }}
             {{ form_widget(form.featured_picture) }}
-            <input type="hidden" id="cropped_image" name="cropped_image" />
         </div>
+
         <div class="form-group">
-            {% if app.request.get('_route') == 'places_to_visit_edit' %}
-            <img id="preview" src="{{ asset('uploads/ptv/')~places_to_visit.featuredPicture }}"
-                 class="img-responsive img-bordered" width="400" height="250"  alt=""/>
+            {% if app.request.get('_route') == 'municipality_edit' %}
+                <img id="preview" src="{{ asset('uploads/mun/')~municipality.mayorPhoto }}"
+                     class="img-responsive img-bordered" width="400" height="300"  alt=""/>
             {% else %}
                 <img id="preview" src=""
-                     class="img-responsive img-bordered" width="400" height="250" alt="" />
+                     class="img-responsive img-bordered" width="400" height="300" alt="" />
             {% endif %}
         </div>
+
+
+        {# /BELEDIYE #}
+
+
+        <div class="form-group">
+            {{ form_widget(form.mayor, { 'attr': {'placeholder': 'Başkanın biyografisi...'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.mayorPhoto, 'Başkan Fotoğrafı') }}
+            {{ form_widget(form.mayorPhoto) }}
+            <input type="hidden" id="mayor_image" name="mayor_image" />
+        </div>
+
+
 
 
 
@@ -84,6 +125,6 @@
             </div>
         </div>
 
-
     </div>
 </div>
+

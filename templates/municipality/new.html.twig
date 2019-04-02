@@ -1,22 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gezilecek Yerler - Yeni Ekle{% endblock %}
+{% block title %}Belediyeler - Yeni Ekle{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('places_to_visit') }}
+    {{ encore_entry_link_tags('municipality') }}
 {% endblock %}
 
 {% block breadcrumb %}
 
     <section class="content-header">
         <h1>
-            Gezilecek Yerler - Yeni Ekle
+            Belediyeler - Yeni Ekle
             <small></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}"><i class="fa fa-dashboard"></i> Kontrol Paneli</a></li>
-            <li class="active"><a href="{{ path('places_to_visit_new') }}">Gezilecek Yerler - Yeni Ekle</a></li>
+            <li class="active"><a href="{{ path('municipality_new') }}">Belediyeler - Yeni Ekle</a></li>
         </ol>
     </section>
 
@@ -33,10 +33,10 @@
                 <!-- /.box-header -->
                 <!-- form start -->
 
-                {{ include('places_to_visit/_form.html.twig') }}
+                {{ include('municipality/_form.html.twig') }}
 
                 <div class="box-footer">
-                    <a class="btn btn-primary" style="margin-right: 10px;" href="{{ path('places_to_visit_index') }}">
+                    <a class="btn btn-primary" style="margin-right: 10px;" href="{{ path('municipality_index') }}">
                         Liste</a>
                     <button class="btn btn-success">{{ button_label|default('Kaydet') }}</button>
 
@@ -51,6 +51,6 @@
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-    {{ encore_entry_script_tags('places_to_visit') }}
+    {{ parent() }}
+    {{ encore_entry_script_tags('municipality') }}
 {% endblock %}
