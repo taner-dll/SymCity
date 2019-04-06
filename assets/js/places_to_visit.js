@@ -26,7 +26,6 @@ if($('#success_message').val()){
 }
 //sweetalert2 end
 
-
 //cropper
 import 'cropper/dist/cropper.min';
 import 'jquery-cropper/dist/jquery-cropper.min';
@@ -55,7 +54,7 @@ $input.change(function () {
                 cropBoxMovable: false,
                 cropBoxResizable: false,
                 guides: false,
-                minContainerWidth: 825,
+                minContainerWidth: 800,
                 minContainerHeight: 600
             });
         };
