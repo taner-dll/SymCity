@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\PlacesToVisit;
 use App\Form\PlacesToVisitType;
 use App\Repository\PlacesToVisitRepository;
-
 use App\Traits\FileTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,8 +56,15 @@ class PlacesToVisitController extends AbstractController
             //cropped image
             if(!empty($file)) {
                 $em = $this->getDoctrine()->getManager();
+
+                //dosya adı oluştur ve db güncelle
+                $fileName = $this->base64generateFileName($file);
+                $placesToVisit->setFeaturedPicture($fileName);
+                $em->flush();
+
+                //dosya yükle
                 $dir = $this->getParameter('ptv_directory');
-                $this->base64upload($file, 'ptv', $dir, null, $entityManager, $placesToVisit);
+                $this->base64upload($file, $dir, $fileName);
             }
 
             return $this->redirectToRoute('places_to_visit_index');
@@ -89,9 +95,7 @@ class PlacesToVisitController extends AbstractController
      */
     public function edit(Request $request, PlacesToVisit $placesToVisit): Response
     {
-        /**
-         * eski resmi kaldırırken sorgu gerekti. product->getPicture() temp olarak gözüküyor?
-         */
+        //eski resmi kaldırırken sorgu gerekti. product->getPicture() temp olarak gözüküyor?
         $em = $this->getDoctrine()->getManager();
         $p = $em->getRepository(PlacesToVisit::class)->find($placesToVisit->getId());
         $fileOldName = $p->getFeaturedPicture();
@@ -108,15 +112,19 @@ class PlacesToVisitController extends AbstractController
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
 
-            //boş kaydetmemesi için
-            $placesToVisit->setFeaturedPicture($fileOldName);
-            $em->flush();
 
             //cropped image
             if(!empty($file)) {
-                $em = $this->getDoctrine()->getManager();
+
+                //dosya adı oluştur ve db güncelle
+                $fileName = $this->base64generateFileName($file);
+                $placesToVisit->setFeaturedPicture($fileName);
+                $em->flush();
+
+                //dosya yükle
                 $dir = $this->getParameter('ptv_directory');
-                $this->base64upload($file, 'ptv', $dir, $fileOldName, $em, $placesToVisit);
+                $this->base64update($file, $dir, $fileName, $fileOldName);
+
             }
 
             return $this->redirectToRoute('places_to_visit_show', [

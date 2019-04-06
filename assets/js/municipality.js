@@ -33,9 +33,15 @@ import 'cropper/dist/cropper.min';
 import 'jquery-cropper/dist/jquery-cropper.min';
 
 const $image = $("#selected_image");
-const $input = $('#municipality_featured_picture');
+const $input_mun = $('#municipality_featured_picture');
+const $input_may = $('#municipality_mayorPhoto');
 
-$input.change(function () {
+const current_preview = $("#current_preview");
+
+$input_mun.change(function () {
+
+    current_preview.val("mun_preview");
+
 
     $('#myModal').modal('show');
 
@@ -62,6 +68,36 @@ $input.change(function () {
         };
 });
 
+$input_may.change(function () {
+
+    current_preview.val("may_preview");
+
+    $('#myModal').modal('show');
+
+    let oFReader = new FileReader();
+    oFReader.readAsDataURL(this.files[0]);
+    oFReader.onload = function () {
+
+        // Destroy the old cropper instance
+        $image.cropper('destroy');
+
+        // Replace url
+        $image.attr('src', this.result);
+
+        // Start cropper
+        $image.cropper({
+            aspectRatio: 800 / 600,
+            dragMode: 'move',
+            cropBoxMovable: false,
+            cropBoxResizable: false,
+            guides: false,
+            minContainerWidth: 825,
+            minContainerHeight: 600
+        });
+    };
+});
+
+
 $('#crop_image').on('click', function () {
 
     let imageData = $image.cropper('getCroppedCanvas',{
@@ -70,6 +106,17 @@ $('#crop_image').on('click', function () {
         fillColor: '#fff',
     }).toDataURL('image/jpeg');
 
-    $('#preview').attr('src', imageData);
-    $('#cropped_image').val(imageData);
+    $('#'+current_preview.val()).attr('src', imageData);
+
+    if(current_preview.val()==="may_preview"){
+        $('#may_cropped_image').val(imageData);
+    }
+
+    if(current_preview.val()==="mun_preview"){
+        $('#mun_cropped_image').val(imageData);
+    }
+
+
+
+
 });

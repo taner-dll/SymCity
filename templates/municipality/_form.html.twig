@@ -52,7 +52,7 @@
 
     <div class="col-md-6">
 
-        {# BELEDIYEee #}
+        {# BELEDIYE #}
 
         <div class="form-group">
             {{ form_widget(form.about, { 'attr': {'placeholder': 'Belediye hakkında...'} }) }}
@@ -65,17 +65,21 @@
 
         <div class="form-group">
             {% if app.request.get('_route') == 'municipality_edit' %}
-                <img id="preview" src="{{ asset('uploads/mun/')~municipality.mayorPhoto }}"
-                     class="img-responsive img-bordered" width="400" height="300"  alt=""/>
+                <img id="mun_preview" src="{{ asset('uploads/mun/')~municipality.featuredPhoto }}"
+                     class="img-responsive img-bordered" width="300" height="225"  alt=""/>
             {% else %}
-                <img id="preview" src=""
-                     class="img-responsive img-bordered" width="400" height="300" alt="" />
+                <img id="mun_preview" src=""
+                     class="img-responsive img-bordered" width="300" height="225" alt="" />
             {% endif %}
         </div>
+
+        <input type="hidden" id="mun_cropped_image" name="mun_cropped_image" />
 
 
         {# /BELEDIYE #}
 
+
+        {# BASKAN #}
 
         <div class="form-group">
             {{ form_widget(form.mayor, { 'attr': {'placeholder': 'Başkanın biyografisi...'} }) }}
@@ -84,11 +88,25 @@
         <div class="form-group">
             {{ form_label(form.mayorPhoto, 'Başkan Fotoğrafı') }}
             {{ form_widget(form.mayorPhoto) }}
-            <input type="hidden" id="mayor_image" name="mayor_image" />
         </div>
 
+        <div class="form-group">
+            {% if app.request.get('_route') == 'municipality_edit' %}
+                <img id="may_preview" src="{{ asset('uploads/may/')~municipality.mayorPhoto }}"
+                     class="img-responsive img-bordered" width="300" height="225"  alt=""/>
+            {% else %}
+                <img id="may_preview" src=""
+                     class="img-responsive img-bordered" width="300" height="225" alt="" />
+            {% endif %}
+        </div>
+
+        <input type="hidden" id="may_cropped_image" name="may_cropped_image" />
+
+        {# /BASKAN #}
 
 
+
+        <input type="hidden" id="current_preview" value="" />
 
 
         <!-- Modal -->

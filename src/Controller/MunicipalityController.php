@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Municipality;
 use App\Form\MunicipalityType;
 use App\Repository\MunicipalityRepository;
+use App\Traits\FileTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MunicipalityController extends AbstractController
 {
+    use FileTrait;
     /**
      * @Route("/", name="municipality_index", methods={"GET"})
      * @param MunicipalityRepository $municipalityRepository
@@ -38,13 +40,28 @@ class MunicipalityController extends AbstractController
         $form = $this->createForm(MunicipalityType::class, $municipality);
         $form->handleRequest($request);
 
-        //print_r($request->request->all());exit;
-
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($municipality);
             $entityManager->flush();
+
+            //jquery-cropper (cropped image hidden input)
+            $mayCroppedImage = $request->request->get('may_cropped_image');
+            $munCroppedImage = $request->request->get('mun_cropped_image');
+
+            if(!empty($mayCroppedImage)) {
+                $em = $this->getDoctrine()->getManager();
+                $dir = $this->getParameter('may_directory');
+                $this->base64upload($mayCroppedImage, 'may', $dir, null);
+            }
+
+            if(!empty($munCroppedImage)) {
+                $em = $this->getDoctrine()->getManager();
+                $dir = $this->getParameter('mun_directory');
+                $this->base64upload($munCroppedImage, 'mun', $dir, null);
+            }
 
             return $this->redirectToRoute('municipality_index');
         }
