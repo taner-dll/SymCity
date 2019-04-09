@@ -236,4 +236,5 @@ class PlacesToVisit
 
         return $this;
     }
+
 }

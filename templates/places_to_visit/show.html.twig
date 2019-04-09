@@ -12,11 +12,11 @@
     <section class="content-header">
         <h1>
             Gezilecek Yerler
-            <small></small>
+            <small>{{ places_to_visit.name }}</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ path('app_dashboard') }}"><i class="fa fa-dashboard"></i> Kontrol Paneli</a></li>
-            <li><a href="{{ path('places_to_visit_index') }}">Gezilecek Yerler Listesi</a></li>
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li><a href="{{ path('places_to_visit_index') }}">Gezilecek Yerler</a></li>
             <li class="active"><a href="{{ path('places_to_visit_show', {id:places_to_visit.id}) }}">
                     {{ places_to_visit.name }}</a></li>
 

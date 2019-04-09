@@ -8,14 +8,12 @@
 
 namespace App\Traits;
 
-
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 trait FileTrait
 {
-
     /**
      *
      * @param $file

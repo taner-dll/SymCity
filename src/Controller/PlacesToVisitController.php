@@ -148,9 +148,9 @@ class PlacesToVisitController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $placesToVisit->getId(), $request->request->get('_token'))) {
 
+            //öne çıkan resmi sil
             $dir = $this->getParameter('ptv_directory');
             $this->removeFeaturedPicture($dir, $placesToVisit->getFeaturedPicture());
-
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($placesToVisit);

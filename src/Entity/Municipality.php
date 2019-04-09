@@ -228,37 +228,6 @@ class Municipality
         return $this;
     }
 
-    /**
-     * @return Collection|MunicipalityNews[]
-     */
-    public function getMunicipalityNews(): Collection
-    {
-        return $this->municipalityNews;
-    }
-
-    public function addMunicipalityNews(MunicipalityNews $municipalityNews): self
-    {
-        if (!$this->municipalityNews->contains($municipalityNews)) {
-            $this->municipalityNews[] = $municipalityNews;
-            $municipalityNews->setMunicipality($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMunicipalityNews(MunicipalityNews $municipalityNews): self
-    {
-        if ($this->municipalityNews->contains($municipalityNews)) {
-            $this->municipalityNews->removeElement($municipalityNews);
-            // set the owning side to null (unless already changed)
-            if ($municipalityNews->getMunicipality() === $this) {
-                $municipalityNews->setMunicipality(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getFacebook(): ?string
     {
         return $this->facebook;
@@ -318,4 +287,36 @@ class Municipality
 
         return $this;
     }
+
+    /**
+     * @return Collection|MunicipalityNews[]
+     */
+    public function getMunicipalityNews(): Collection
+    {
+        return $this->municipalityNews;
+    }
+
+    public function addMunicipalityNews(MunicipalityNews $municipalityNews): self
+    {
+        if (!$this->municipalityNews->contains($municipalityNews)) {
+            $this->municipalityNews[] = $municipalityNews;
+            $municipalityNews->setMunicipality($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMunicipalityNews(MunicipalityNews $municipalityNews): self
+    {
+        if ($this->municipalityNews->contains($municipalityNews)) {
+            $this->municipalityNews->removeElement($municipalityNews);
+            // set the owning side to null (unless already changed)
+            if ($municipalityNews->getMunicipality() === $this) {
+                $municipalityNews->setMunicipality(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

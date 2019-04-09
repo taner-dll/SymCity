@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gezilecek Yerler - Yeni Ekle{% endblock %}
+{% block title %}Gezilecek Yerler{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,12 +11,13 @@
 
     <section class="content-header">
         <h1>
-            Gezilecek Yerler - Yeni Ekle
-            <small></small>
+            Gezilecek Yerler
+            <small>Yeni Ekle</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ path('app_dashboard') }}"><i class="fa fa-dashboard"></i> Kontrol Paneli</a></li>
-            <li class="active"><a href="{{ path('places_to_visit_new') }}">Gezilecek Yerler - Yeni Ekle</a></li>
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li><a href="{{ path('places_to_visit_index') }}">Gezilecek Yerler</a></li>
+            <li class="active"><a href="{{ path('places_to_visit_new') }}">Yeni Ekle</a></li>
         </ol>
     </section>
 

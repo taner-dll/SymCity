@@ -40,8 +40,8 @@ const current_preview = $("#current_preview");
 
 $input_mun.change(function () {
 
+    //console.log('w');
     current_preview.val("mun_preview");
-
 
     $('#myModal').modal('show');
 
@@ -62,7 +62,7 @@ $input_mun.change(function () {
                 cropBoxMovable: false,
                 cropBoxResizable: false,
                 guides: false,
-                minContainerWidth: 825,
+                minContainerWidth: 800,
                 minContainerHeight: 600
             });
         };
@@ -91,7 +91,7 @@ $input_may.change(function () {
             cropBoxMovable: false,
             cropBoxResizable: false,
             guides: false,
-            minContainerWidth: 825,
+            minContainerWidth: 800,
             minContainerHeight: 600
         });
     };
@@ -106,17 +106,14 @@ $('#crop_image').on('click', function () {
         fillColor: '#fff',
     }).toDataURL('image/jpeg');
 
-    $('#'+current_preview.val()).attr('src', imageData);
-
     if(current_preview.val()==="may_preview"){
         $('#may_cropped_image').val(imageData);
+        $('#may_preview').attr('src', imageData);
     }
 
     if(current_preview.val()==="mun_preview"){
         $('#mun_cropped_image').val(imageData);
+        $('#mun_preview').attr('src', imageData);
     }
-
-
-
 
 });

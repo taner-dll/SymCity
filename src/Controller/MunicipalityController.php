@@ -43,24 +43,44 @@ class MunicipalityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            /*
+            echo '<pre>';
+            print_r($request->request->all());
+            echo '</pre>';
+            exit;
+            */
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($municipality);
             $entityManager->flush();
+            $this->addFlash('success', 'Successfully Added');
 
             //jquery-cropper (cropped image hidden input)
             $mayCroppedImage = $request->request->get('may_cropped_image');
             $munCroppedImage = $request->request->get('mun_cropped_image');
 
             if(!empty($mayCroppedImage)) {
-                $em = $this->getDoctrine()->getManager();
+
+                //dosya adı oluştur ve db güncelle
+                $fileName = $this->base64generateFileName($mayCroppedImage);
+                $municipality->setMayorPhoto($fileName);
+                $entityManager->flush();
+
+                //dosya yükle
                 $dir = $this->getParameter('may_directory');
-                $this->base64upload($mayCroppedImage, 'may', $dir, null);
+                $this->base64upload($mayCroppedImage, $dir, $fileName);
             }
 
             if(!empty($munCroppedImage)) {
-                $em = $this->getDoctrine()->getManager();
+
+                //dosya adı oluştur ve db güncelle
+                $fileName = $this->base64generateFileName($munCroppedImage);
+                $municipality->setFeaturedPicture($fileName);
+                $entityManager->flush();
+
+                //dosya yükle
                 $dir = $this->getParameter('mun_directory');
-                $this->base64upload($munCroppedImage, 'mun', $dir, null);
+                $this->base64upload($munCroppedImage, $dir, $fileName);
             }
 
             return $this->redirectToRoute('municipality_index');
@@ -92,11 +112,47 @@ class MunicipalityController extends AbstractController
      */
     public function edit(Request $request, Municipality $municipality): Response
     {
+
+        //eski resmi kaldırırken sorgu gerekti. product->getPicture() temp olarak gözüküyor?
+        $em = $this->getDoctrine()->getManager();
+        $p = $em->getRepository(Municipality::class)->find($municipality->getId());
+        $fileOldNameMun = $p->getFeaturedPicture();
+        $fileOldNameMay = $p->getMayorPhoto();
+
         $form = $this->createForm(MunicipalityType::class, $municipality);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Successfully Updated');
+
+            //jquery-cropper (cropped image hidden input)
+            $mayCroppedImage = $request->request->get('may_cropped_image');
+            $munCroppedImage = $request->request->get('mun_cropped_image');
+
+            if(!empty($mayCroppedImage)) {
+
+                //dosya adı oluştur ve db güncelle
+                $fileName = $this->base64generateFileName($mayCroppedImage);
+                $municipality->setMayorPhoto($fileName);
+                $em->flush();
+
+                //dosya yükle
+                $dir = $this->getParameter('may_directory');
+                $this->base64update($mayCroppedImage, $dir, $fileName, $fileOldNameMay);
+            }
+
+            if(!empty($munCroppedImage)) {
+
+                //dosya adı oluştur ve db güncelle
+                $fileName = $this->base64generateFileName($munCroppedImage);
+                $municipality->setFeaturedPicture($fileName);
+                $em->flush();
+
+                //dosya yükle
+                $dir = $this->getParameter('mun_directory');
+                $this->base64update($munCroppedImage, $dir, $fileName, $fileOldNameMun);
+            }
 
             return $this->redirectToRoute('municipality_index', [
                 'id' => $municipality->getId(),
@@ -118,9 +174,17 @@ class MunicipalityController extends AbstractController
     public function delete(Request $request, Municipality $municipality): Response
     {
         if ($this->isCsrfTokenValid('delete'.$municipality->getId(), $request->request->get('_token'))) {
+
+            //resimleri sil
+            $mun_dir = $this->getParameter('mun_directory');
+            $may_dir = $this->getParameter('may_directory');
+            $this->removeFeaturedPicture($mun_dir, $municipality->getFeaturedPicture());
+            $this->removeFeaturedPicture($may_dir, $municipality->getMayorPhoto());
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($municipality);
             $entityManager->flush();
+            $this->addFlash('success', 'Successfully Deleted');
         }
 
         return $this->redirectToRoute('municipality_index');
