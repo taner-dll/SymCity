@@ -96,7 +96,7 @@ trait FileTrait
      * @param $fileName
      * @return JsonResponse
      */
-    public function removeFeaturedPicture($dir, $fileName)
+    public function deleteFile($dir, $fileName)
     {
         $fs = new Filesystem();
         try{

@@ -150,7 +150,7 @@ class PlacesToVisitController extends AbstractController
 
             //öne çıkan resmi sil
             $dir = $this->getParameter('ptv_directory');
-            $this->removeFeaturedPicture($dir, $placesToVisit->getFeaturedPicture());
+            $this->deleteFile($dir, $placesToVisit->getFeaturedPicture());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($placesToVisit);

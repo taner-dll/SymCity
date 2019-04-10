@@ -178,8 +178,8 @@ class MunicipalityController extends AbstractController
             //resimleri sil
             $mun_dir = $this->getParameter('mun_directory');
             $may_dir = $this->getParameter('may_directory');
-            $this->removeFeaturedPicture($mun_dir, $municipality->getFeaturedPicture());
-            $this->removeFeaturedPicture($may_dir, $municipality->getMayorPhoto());
+            $this->deleteFile($mun_dir, $municipality->getFeaturedPicture());
+            $this->deleteFile($may_dir, $municipality->getMayorPhoto());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($municipality);
