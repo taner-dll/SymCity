@@ -1,43 +1,101 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Event index{% endblock %}
+{% block title %}Etkinlikler{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('event') }}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            Etkinlikler
+            <small>Liste</small>
+        </h1>
+
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li class="active"><a href="{{ path('event_index') }}">Etkinlikler</a></li>
+
+        </ol>
+    </section>
+
+{% endblock %}
 
 {% block body %}
-    <h1>Event index</h1>
+    <div class="row">
+        <div class="col-md-12">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for event in events %}
-            <tr>
-                <td>{{ event.id }}</td>
-                <td>{{ event.name }}</td>
-                <td>{{ event.description }}</td>
-                <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.image }}</td>
-                <td>
-                    <a href="{{ path('event_show', {'id': event.id}) }}">show</a>
-                    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <div class="box">
+                <!--
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+                </div>
+                -->
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="example1_wrapper"
+                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                                <table id="example1" class="table table-bordered table-striped
+                                table-hover table-condensed
+                                dataTable" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="sorting_desc">Etkinlik Adı</th>
+                                        <th>Açıklama</th>
+                                        <th>Başlangıç</th>
+                                        <th>Bitiş</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for event in events %}
+                                        <tr>
+                                            <td>{{ event.name }}</td>
+                                            <td>{{ event.description|raw }}</td>
+                                            <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
+                                            <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
 
-    <a href="{{ path('event_new') }}">Create new</a>
+                                            <td>
+                                                <a href="{{ path('event_show', {'id': event.id}) }}"
+                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="10">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+
+    </div>
+
+
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
+
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('event') }}
 {% endblock %}

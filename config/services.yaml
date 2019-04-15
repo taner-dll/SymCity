@@ -7,6 +7,7 @@ parameters:
     ptv_directory:  '%kernel.project_dir%/public/uploads/ptv'
     mun_directory:  '%kernel.project_dir%/public/uploads/municipality'
     may_directory:  '%kernel.project_dir%/public/uploads/mayor'
+    evt_directory:  '%kernel.project_dir%/public/uploads/event'
     locale: 'en'
 
 services:
