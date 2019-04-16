@@ -68,6 +68,14 @@
 
                                     <img src="{{ asset('uploads/event/')~event.image }}" width="300"
                                          height="225"/>
+                                    <a class="btn-default btn-xs"
+                                       href="{{ path('event_featured_photo_delete',
+                                           {event:event.id,
+                                               _token:csrf_token('delete-featured-photo'~event.id)}) }}"
+                                       target="_self"
+                                       onclick="return confirm('Are you sure you want to delete this item?');"
+                                       style="position: absolute;"><i class="fa fa-close"></i></a>
+
 
                                 {% endif %}
 

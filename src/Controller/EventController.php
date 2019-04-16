@@ -104,6 +104,7 @@ class EventController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $event->setImage($fileOldName);
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Successfully Updated');
 
@@ -125,7 +126,7 @@ class EventController extends AbstractController
 
             }
 
-            return $this->redirectToRoute('event_index', [
+            return $this->redirectToRoute('event_show', [
                 'id' => $event->getId(),
             ]);
         }
@@ -157,5 +158,37 @@ class EventController extends AbstractController
         }
 
         return $this->redirectToRoute('event_index');
+    }
+
+    /**
+     * @Route("/event/featured/photo/delete/{event}", name="event_featured_photo_delete", methods={"GET"})
+     * @param Request $request
+     * @param $event
+     * @return mixed
+     */
+    public function deleteFeatured(Request $request,$event)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('delete-featured-photo'.$event  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $photo = $em->getRepository(Event::class)->find($event);
+
+            $dir = $this->getParameter('evt_directory');
+            $this->deleteFile($dir,$photo->getImage());
+
+            $photo->setImage(null);
+            $em->flush();
+
+            $this->addFlash('success','Successfully Deleted');
+
+        }
+
+        return $this->redirectToRoute('event_show', ['id' => $event]);
+
     }
 }
