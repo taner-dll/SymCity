@@ -23,6 +23,7 @@
         "symfony/process": "*",
         "symfony/requirements-checker": "^1.1",
         "symfony/security-bundle": "*",
+        "symfony/security-csrf": "4.2.*",
         "symfony/serializer-pack": "*",
         "symfony/swiftmailer-bundle": "^3.2",
         "symfony/translation": "4.2.*",

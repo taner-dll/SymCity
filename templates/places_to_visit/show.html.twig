@@ -74,8 +74,15 @@
                             <td>
                                 {% if places_to_visit.featuredPicture|length > 0 %}
 
-                            <img src="{{ asset('uploads/ptv/')~places_to_visit.featuredPicture }}" width="300"
-                            height="225"/>
+                                    <img src="{{ asset('uploads/ptv/')~places_to_visit.featuredPicture }}" width="300"
+                                         height="225"/>
+                                    <a class="btn-default btn-xs"
+                                       href="{{ path('ptv_featured_photo_delete',
+                                           {ptv:places_to_visit.id,
+                                               _token:csrf_token('delete-featured-photo'~places_to_visit.id)}) }}"
+                                       target="_self"
+                                       onclick="return confirm('Are you sure you want to delete this item?');"
+                                       style="position: absolute;"><i class="fa fa-close"></i></a>
 
                                 {% endif %}
                             </td>
@@ -84,56 +91,99 @@
                     </table>
                 </div>
                 <div class="col-sm-6">
-                    <h3 class="box-title">Fotoğraf Galerisi</h3>
-                    <hr>
 
-                    <form action="{{ path('ptv_photo_new') }}" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <h3 class="box-title">Fotoğraf Galerisi</h3>
+                        <hr>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="file" name="ptv_gallery" id="ptv_gallery">
+                        <form action="{{ path('ptv_photo_new') }}" method="post" enctype="multipart/form-data">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="file" name="ptv_gallery" id="ptv_gallery">
+                                    <input type="hidden" id="cropped_image" name="cropped_image"/>
+                                    <input type="hidden" id="id" name="id" value="{{ places_to_visit.id }}"/>
+                                    {# the argument of csrf_token() is an arbitrary string used to generate the token #}
+                                    <input type="hidden" name="token" value="{{ csrf_token('new-gallery-photo') }}"/>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="submit" name="submit">
+                                        <i class="fa fa-upload"></i> Yükle
+                                    </button>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <input type="submit" value="Upload Image" name="submit">
+                            <div class="col-md-6">
+                                <img id="preview" src=""
+                                     class="img-responsive img-bordered" width="300" height="225" alt=""/>
                             </div>
-                        </div>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                                    aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">Resim Düzenle</h4>
-                                    </div>
-                                    <div class="modal-body" style="overflow: hidden">
-                                        <img alt="" src="" id="selected_image" style="max-width: 800px; max-height: 500px;"/>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default" data-method="zoom" data-option="0.1"
-                                                    title="Zoom In" onclick="$('#selected_image').cropper('zoom', 0.1)">
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                        aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Resim Düzenle</h4>
+                                        </div>
+                                        <div class="modal-body" style="overflow: hidden">
+                                            <img alt="" src="" id="selected_image"
+                                                 style="max-width: 800px; max-height: 500px;"/>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default" data-method="zoom"
+                                                        data-option="0.1"
+                                                        title="Zoom In"
+                                                        onclick="$('#selected_image').cropper('zoom', 0.1)">
 
-                                                <span class="fa fa-search-plus"></span>
+                                                    <span class="fa fa-search-plus"></span>
 
-                                            </button>
-                                            <button type="button" class="btn btn-default" data-method="zoom" data-option="-0.1"
-                                                    title="Zoom Out" onclick="$('#selected_image').cropper('zoom', -0.1)">
+                                                </button>
+                                                <button type="button" class="btn btn-default" data-method="zoom"
+                                                        data-option="-0.1"
+                                                        title="Zoom Out"
+                                                        onclick="$('#selected_image').cropper('zoom', -0.1)">
 
-                                                <span class="fa fa-search-minus"></span>
+                                                    <span class="fa fa-search-minus"></span>
 
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="crop_image" onclick="$('#image_demo').cropper('crop')"
+                                                    type="button" class="btn btn-default" data-dismiss="modal">Seç
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button id="crop_image"  onclick="$('#image_demo').cropper('crop')"
-                                                type="button" class="btn btn-default" data-dismiss="modal">Seç</button>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </form>
+                        </form>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        {% for g in places_to_visit.pTVPhotos %}
+
+
+                            <img style="margin-bottom: 20px;margin-left: 20px;"
+                                 src="{{ asset('uploads/ptv/gallery/')~g.filename }}" width="200"
+                                 height="150" alt=""/>
+                            <a class="btn-default btn-xs"
+                               href="{{ path('ptv_photo_delete',
+                                   {ptv:places_to_visit.id,id:g.id,_token:csrf_token('delete-gallery-photo'~g.id)}) }}"
+                               target="_self"
+                               onclick="return confirm('Are you sure you want to delete this item?');"
+                               style="position: absolute;"><i class="fa fa-close"></i></a>
+
+
+                        {% endfor %}
+
+                    </div>
 
 
                 </div>
