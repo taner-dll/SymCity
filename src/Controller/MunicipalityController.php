@@ -123,6 +123,13 @@ class MunicipalityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            //güncellenirken, yeni resim yoksa boş yazmasın.
+            $municipality->setFeaturedPicture($fileOldNameMun);
+            $municipality->setMayorPhoto($fileOldNameMay);
+
+
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Successfully Updated');
 
@@ -154,7 +161,7 @@ class MunicipalityController extends AbstractController
                 $this->base64update($munCroppedImage, $dir, $fileName, $fileOldNameMun);
             }
 
-            return $this->redirectToRoute('municipality_index', [
+            return $this->redirectToRoute('municipality_show', [
                 'id' => $municipality->getId(),
             ]);
         }
@@ -188,5 +195,71 @@ class MunicipalityController extends AbstractController
         }
 
         return $this->redirectToRoute('municipality_index');
+    }
+
+    /**
+     * @Route("/municipality/featured/photo/delete/{municipality}", 
+     *     name="municipality_featured_photo_delete", methods={"GET"})
+     * @param Request $request
+     * @param $municipality
+     * @return mixed
+     */
+    public function deleteFeatured(Request $request,$municipality)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('delete-featured-photo'.$municipality  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $photo = $em->getRepository(Municipality::class)->find($municipality);
+
+            $dir = $this->getParameter('mun_directory');
+            $this->deleteFile($dir,$photo->getFeaturedPicture());
+
+            $photo->setFeaturedPicture(null);
+            $em->flush();
+
+            $this->addFlash('success','Successfully Deleted');
+
+        }
+
+        return $this->redirectToRoute('municipality_show', ['id' => $municipality]);
+
+    }
+
+    /**
+     * @Route("/municipality/mayor/photo/delete/{municipality}",
+     *     name="municipality_mayor_photo_delete", methods={"GET"})
+     * @param Request $request
+     * @param $municipality
+     * @return mixed
+     */
+    public function deleteMayorPhoto(Request $request,$municipality)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('delete-mayor-photo'.$municipality  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $photo = $em->getRepository(Municipality::class)->find($municipality);
+
+            $dir = $this->getParameter('may_directory');
+            $this->deleteFile($dir,$photo->getMayorPhoto());
+
+            $photo->setMayorPhoto(null);
+            $em->flush();
+
+            $this->addFlash('success','Successfully Deleted');
+
+        }
+
+        return $this->redirectToRoute('municipality_show', ['id' => $municipality]);
+
     }
 }

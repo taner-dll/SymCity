@@ -76,6 +76,13 @@
 
                                     <img src="{{ asset('uploads/municipality/')~municipality.featuredPicture }}" width="300"
                                          height="225"/>
+                                    <a class="btn-default btn-xs"
+                                       href="{{ path('municipality_featured_photo_delete',
+                                           {municipality:municipality.id,
+                                               _token:csrf_token('delete-featured-photo'~municipality.id)}) }}"
+                                       target="_self"
+                                       onclick="return confirm('Are you sure you want to delete this item?');"
+                                       style="position: absolute;"><i class="fa fa-close"></i></a>
 
                                 {% endif %}
                             </td>
@@ -101,6 +108,13 @@
 
                                     <img src="{{ asset('uploads/mayor/')~municipality.mayorPhoto }}" width="300"
                                          height="225"/>
+                                    <a class="btn-default btn-xs"
+                                       href="{{ path('municipality_mayor_photo_delete',
+                                           {municipality:municipality.id,
+                                               _token:csrf_token('delete-mayor-photo'~municipality.id)}) }}"
+                                       target="_self"
+                                       onclick="return confirm('Are you sure you want to delete this item?');"
+                                       style="position: absolute;"><i class="fa fa-close"></i></a>
 
                                 {% endif %}
                             </td>
