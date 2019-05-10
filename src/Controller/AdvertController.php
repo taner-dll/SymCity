@@ -1,0 +1,202 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Advert;
+use App\Form\AdvertType;
+use App\Repository\AdvertRepository;
+use App\Traits\FileTrait;
+use DateTime;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @Route("/advert")
+ */
+class AdvertController extends AbstractController
+{
+    use FileTrait;
+    /**
+     * @Route("/", name="advert_index", methods={"GET"})
+     * @param AdvertRepository $advertRepository
+     * @return Response
+     */
+    public function index(AdvertRepository $advertRepository): Response
+    {
+        return $this->render('advert/index.html.twig', [
+            'adverts' => $advertRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/new", name="advert_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function new(Request $request): Response
+    {
+
+        $advert = new Advert();
+        $form = $this->createForm(AdvertType::class, $advert);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $advert->setUser($this->getUser());
+            $advert->setLastUpdate(new \DateTime('now'));
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($advert);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Successfully Added');
+
+            //jquery-cropper (cropped image hidden input)
+            $file = $request->request->get('cropped_image');
+
+            //cropped image
+            if(!empty($file)) {
+
+                //dosya adı oluştur ve db güncelle
+                $fileName = $this->base64generateFileName($file);
+                $advert->setFeaturedImage($fileName);
+                $entityManager->flush();
+
+                //dosya yükle
+                $dir = $this->getParameter('adv_directory');
+                $this->base64upload($file, $dir, $fileName);
+            }
+
+            return $this->redirectToRoute('advert_index');
+        }
+
+        return $this->render('advert/new.html.twig', [
+            'advert' => $advert,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="advert_show", methods={"GET"})
+     * @param Advert $advert
+     * @return Response
+     */
+    public function show(Advert $advert): Response
+    {
+        return $this->render('advert/show.html.twig', [
+            'advert' => $advert,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="advert_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Advert $advert
+     * @return Response
+     * @throws \Exception
+     */
+    public function edit(Request $request, Advert $advert): Response
+    {
+        //eski resmi kaldırırken sorgu gerekti. product->getPicture() temp olarak gözüküyor?
+        $em = $this->getDoctrine()->getManager();
+        $p = $em->getRepository(Advert::class)->find($advert->getId());
+        $fileOldName = $p->getFeaturedImage();
+
+        $form = $this->createForm(AdvertType::class, $advert);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $advert->setFeaturedImage($fileOldName);
+            $advert->setConfirm(0);//guncellenince onay yeniden 0 olmalı.
+            $advert->setLastUpdate(new DateTime('now'));
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Successfully Updated');
+
+            //jquery-cropper (cropped image hidden input)
+            $file = $request->request->get('cropped_image');
+
+
+            //cropped image
+            if(!empty($file)) {
+
+                //dosya adı oluştur ve db güncelle
+                $fileName = $this->base64generateFileName($file);
+                $advert->setFeaturedImage($fileName);
+                $em->flush();
+
+                //dosya yükle
+                $dir = $this->getParameter('adv_directory');
+                $this->base64update($file, $dir, $fileName, $fileOldName);
+
+            }
+
+            return $this->redirectToRoute('advert_show', [
+                'id' => $advert->getId(),
+            ]);
+        }
+
+        return $this->render('advert/edit.html.twig', [
+            'advert' => $advert,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="advert_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Advert $advert
+     * @return Response
+     */
+    public function delete(Request $request, Advert $advert): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$advert->getId(), $request->request->get('_token'))) {
+
+            //öne çıkan resmi sil
+            $dir = $this->getParameter('adv_directory');
+            $this->deleteFile($dir, $advert->getFeaturedImage());
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($advert);
+            $entityManager->flush();
+            $this->addFlash('success', 'Successfully Deleted');
+        }
+
+        return $this->redirectToRoute('advert_index');
+    }
+
+
+    /**
+     * @Route("/advert/featured/photo/delete/{advert}", name="advert_featured_photo_delete", methods={"GET"})
+     * @param Request $request
+     * @param $advert
+     * @return mixed
+     */
+    public function deleteFeatured(Request $request,$advert)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('delete-featured-photo'.$advert  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $photo = $em->getRepository(Advert::class)->find($advert);
+
+            $dir = $this->getParameter('adv_directory');
+            $this->deleteFile($dir,$photo->getFeaturedImage());
+
+            $photo->setFeaturedImage(null);
+            $em->flush();
+
+            $this->addFlash('success','Successfully Deleted');
+
+        }
+
+        return $this->redirectToRoute('advert_show', ['id' => $advert]);
+
+    }
+}

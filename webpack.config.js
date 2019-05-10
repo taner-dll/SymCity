@@ -24,6 +24,8 @@ Encore
     .addEntry('places_to_visit', './assets/js/places_to_visit.js')
     .addEntry('municipality', './assets/js/municipality.js')
     .addEntry('event', './assets/js/event.js')
+    .addEntry('announce', './assets/js/announce.js')
+    .addEntry('place_an_ad', './assets/js/place_an_ad.js')
 
 
     /*

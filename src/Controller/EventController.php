@@ -6,6 +6,8 @@ use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use App\Traits\FileTrait;
+use DateTime;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +37,7 @@ class EventController extends AbstractController
      * @Route("/new", name="event_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function new(Request $request): Response
     {
@@ -44,6 +47,8 @@ class EventController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $event->setUser($this->getUser());
+            $event->setLastUpdate(new DateTime('now'));
             $entityManager->persist($event);
             $entityManager->flush();
 
@@ -91,6 +96,7 @@ class EventController extends AbstractController
      * @param Request $request
      * @param Event $event
      * @return Response
+     * @throws Exception
      */
     public function edit(Request $request, Event $event): Response
     {
@@ -105,6 +111,8 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $event->setImage($fileOldName);
+            $event->setConfirm(0);//event guncellenince onay yeniden 0 olmalı.
+            $event->setLastUpdate(new DateTime('now'));
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Successfully Updated');
 

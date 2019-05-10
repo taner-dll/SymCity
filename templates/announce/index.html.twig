@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Duyurular{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('event') }}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            Duyurular
+            <small>Liste</small>
+        </h1>
+
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li class="active"><a href="{{ path('announce_index') }}">Duyurular</a></li>
+
+        </ol>
+    </section>
+
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="box">
+                <!--
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+                </div>
+                -->
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="example1_wrapper"
+                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                                <table id="example1" class="table table-bordered table-striped
+                                table-hover table-condensed
+                                dataTable" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="sorting_desc">Name</th>
+                                        <th>Description</th>
+                                        <th>Last_update</th>
+                                        <th>actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for announce in announces %}
+                                        <tr>
+                                            <td>{{ announce.name }}</td>
+                                            <td>{{ announce.description|raw }}</td>
+                                            <td>{{ announce.lastUpdate ? announce.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                                            <td>
+                                                <a href="{{ path('announce_show', {'id': announce.id}) }}"
+                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="10">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('event') }}
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}İlanlar{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('place_an_ad') }}
+{% endblock %}                                                                       
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            İlanlar
+            <small>{{ advert.title }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li><a href="{{ path('advert_index') }}">İlanlar</a></li>
+            <li class="active"><a href="{{ path('advert_show', {id:advert.id}) }}">
+                    {{ advert.title }}</a></li>
+
+        </ol>
+    </section>
+
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="box">
+
+        <!--
+        <div class="box-header with-border">
+            <h3 class="box-title">Gezilecek Yerler</h3>
+        </div>
+
+       -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th>İlan Sahibi</th>
+                            <td>{{ advert.owner }}</td>
+                        </tr>
+                        <tr>
+                            <th>İlan Başlığı</th>
+                            <td>{{ advert.title }}</td>
+                        </tr>
+                        <tr>
+                            <th>Açıklama</th>
+                            <td>{{ advert.description|raw }}</td>
+                        </tr>
+                        <tr>
+                            <th>Son Güncelleme</th>
+                            <td>{{ advert.lastUpdate ? advert.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>İlan Görseli</th>
+                            <td>
+
+                                {% if advert.featuredImage|length > 0 %}
+
+                                    <img src="{{ asset('uploads/place_an_ad/')~advert.featuredImage }}" width="300"
+                                         height="225" />
+                                    <a class="btn-default btn-xs"
+                                       href="{{ path('advert_featured_photo_delete',
+                                           {advert:advert.id,
+                                               _token:csrf_token('delete-featured-photo'~advert.id)}) }}"
+                                       target="_self"
+                                       onclick="return confirm('Are you sure you want to delete this item?');"
+                                       style="position: absolute;"><i class="fa fa-close"></i></a>
+
+
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-6">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th>Fiyat (TL)</th>
+                            <td>{{ advert.price }}</td>
+                        </tr>
+                        <tr>
+                            <th>Telefon</th>
+                            <td>{{ advert.telephone }}</td>
+                        </tr>
+                        <tr>
+                            <th>Eposta</th>
+                            <td>{{ advert.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>İlan Durumu</th>
+                            <td>{{ advert.status }}</td>
+                        </tr>
+                        <tr>
+                            <th>İlan Tipi</th>
+                            <td>{{ advert.type }}</td>
+                        </tr>
+                        <tr>
+                            <th>Onay Durumu</th>
+                            <td>
+                                {% if advert.confirm == 0 %}
+                                    Onay Bekliyor
+                                {% else %}
+                                    Yayınlandı
+                                {% endif %}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                
+
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th>Ekleyen ID</th>
+                            <td>{{ advert.user.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Ekleyen Eposta</th>
+                            <td>{{ advert.user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Ekleyen Üye Tipi</th>
+                            <td>
+                                {% for roles in advert.user.roles %}
+                                    {{ roles }}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <a href="{{ path('advert_index') }}" class="btn btn-primary" style="margin-right: 10px;">Liste</a>
+            <a href="{{ path('advert_edit', {'id': advert.id}) }}" class="btn btn-warning"
+               style="margin-right: 10px;">Düzenle</a>
+            <!-- Button trigger modal -->
+            <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                Sil
+            </a>
+            {{ include('advert/_delete_form.html.twig') }}
+        </div>
+        <!-- /.box-footer-->
+    </div>
+
+
+
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('place_an_ad') }}
+{% endblock %}

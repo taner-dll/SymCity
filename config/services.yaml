@@ -9,6 +9,8 @@ parameters:
     mun_directory:  '%kernel.project_dir%/public/uploads/municipality'
     may_directory:  '%kernel.project_dir%/public/uploads/mayor'
     evt_directory:  '%kernel.project_dir%/public/uploads/event'
+    ann_directory:  '%kernel.project_dir%/public/uploads/announce'
+    adv_directory:  '%kernel.project_dir%/public/uploads/place_an_ad'
     locale: 'en'
 
 services:

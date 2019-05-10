@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\AnnounceRepository")
  */
-class Event
+class Announce
 {
     /**
      * @ORM\Id()
@@ -29,23 +29,7 @@ class Event
     /**
      * @ORM\Column(type="datetime")
      */
-    private $start;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $end;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $image;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="event")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
+    private $last_update;
 
     /**
      * @ORM\Column(type="integer")
@@ -53,9 +37,15 @@ class Event
     private $confirm = 0;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $last_update;
+    private $image;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="announce")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -86,26 +76,26 @@ class Event
         return $this;
     }
 
-    public function getStart(): ?\DateTimeInterface
+    public function getLastUpdate(): ?\DateTimeInterface
     {
-        return $this->start;
+        return $this->last_update;
     }
 
-    public function setStart(\DateTimeInterface $start): self
+    public function setLastUpdate(\DateTimeInterface $last_update): self
     {
-        $this->start = $start;
+        $this->last_update = $last_update;
 
         return $this;
     }
 
-    public function getEnd(): ?\DateTimeInterface
+    public function getConfirm(): ?int
     {
-        return $this->end;
+        return $this->confirm;
     }
 
-    public function setEnd(\DateTimeInterface $end): self
+    public function setConfirm(int $confirm): self
     {
-        $this->end = $end;
+        $this->confirm = $confirm;
 
         return $this;
     }
@@ -130,30 +120,6 @@ class Event
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getConfirm(): ?int
-    {
-        return $this->confirm;
-    }
-
-    public function setConfirm(int $confirm): self
-    {
-        $this->confirm = $confirm;
-
-        return $this;
-    }
-
-    public function getLastUpdate(): ?\DateTimeInterface
-    {
-        return $this->last_update;
-    }
-
-    public function setLastUpdate(\DateTimeInterface $last_update): self
-    {
-        $this->last_update = $last_update;
 
         return $this;
     }

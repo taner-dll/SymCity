@@ -61,10 +61,28 @@ class User implements UserInterface
      */
     private $pTVComments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="user")
+     */
+    private $event;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Announce", mappedBy="user")
+     */
+    private $announce;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="user", orphanRemoval=true)
+     */
+    private $adverts;
+
     public function __construct()
     {
         $this->roles = array('ROLE_USER');
         $this->pTVComments = new ArrayCollection();
+        $this->event = new ArrayCollection();
+        $this->announce = new ArrayCollection();
+        $this->adverts = new ArrayCollection();
     }
 
     // other properties and methods
@@ -162,6 +180,99 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($pTVComment->getOwner() === $this) {
                 $pTVComment->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvent(): Collection
+    {
+        return $this->event;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->event->contains($event)) {
+            $this->event[] = $event;
+            $event->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->event->contains($event)) {
+            $this->event->removeElement($event);
+            // set the owning side to null (unless already changed)
+            if ($event->getUser() === $this) {
+                $event->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Announce[]
+     */
+    public function getAnnounce(): Collection
+    {
+        return $this->announce;
+    }
+
+    public function addAnnounce(Announce $announce): self
+    {
+        if (!$this->announce->contains($announce)) {
+            $this->announce[] = $announce;
+            $announce->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnounce(Announce $announce): self
+    {
+        if ($this->announce->contains($announce)) {
+            $this->announce->removeElement($announce);
+            // set the owning side to null (unless already changed)
+            if ($announce->getUser() === $this) {
+                $announce->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Advert[]
+     */
+    public function getAdverts(): Collection
+    {
+        return $this->adverts;
+    }
+
+    public function addAdvert(Advert $advert): self
+    {
+        if (!$this->adverts->contains($advert)) {
+            $this->adverts[] = $advert;
+            $advert->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdvert(Advert $advert): self
+    {
+        if ($this->adverts->contains($advert)) {
+            $this->adverts->removeElement($advert);
+            // set the owning side to null (unless already changed)
+            if ($advert->getUser() === $this) {
+                $advert->setUser(null);
             }
         }
 
