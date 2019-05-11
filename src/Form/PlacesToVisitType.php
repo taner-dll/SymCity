@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\PlacesToVisit;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -19,6 +20,16 @@ class PlacesToVisitType extends AbstractType
             ->add('name')
             ->add('about')
             ->add('maps')
+            ->add('type', ChoiceType::class, array(
+                'choices'  => [
+                    'Seçiniz' => '',
+                    'Doğa & Gezilecek Yer' => 'nature',
+                    'Tarihi Mekan & Müzeler' => 'history',
+                    'Sahil ve Plajlar' => 'sea',
+                    'Kültür ve Sanat' => 'culture',
+                    'Tur Rotaları' => 'tour',
+                ],
+            ))
             ->add('phone')
             ->add('web', UrlType::class)
             ->add('email', EmailType::class)

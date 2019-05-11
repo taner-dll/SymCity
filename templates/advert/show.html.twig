@@ -63,7 +63,7 @@
 
                                 {% if advert.featuredImage|length > 0 %}
 
-                                    <img src="{{ asset('uploads/place_an_ad/')~advert.featuredImage }}" width="300"
+                                    <img alt="" src="{{ asset('uploads/place_an_ad/')~advert.featuredImage }}" width="300"
                                          height="225" />
                                     <a class="btn-default btn-xs"
                                        href="{{ path('advert_featured_photo_delete',

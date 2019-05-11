@@ -4,4 +4,4 @@ app_logout:
 # redirecting the homepage
 homepage:
   path:     /
-  controller: App\Controller\PlacesToVisitController:index
+  controller: App\Controller\SecurityController:index

@@ -68,6 +68,11 @@ class PlacesToVisit
      */
     private $pTVCategories;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $type;
+
     public function __construct()
     {
         $this->pTVPhotos = new ArrayCollection();
@@ -233,6 +238,18 @@ class PlacesToVisit
                 $pTVCategory->setPtv(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

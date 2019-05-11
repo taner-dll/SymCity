@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Settings;
+
 use App\Entity\User;
 use App\Form\UserType;
 use http\Env\Response;
@@ -21,6 +21,15 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
  */
 class SecurityController extends AbstractController
 {
+
+    /**
+     * @Route("/", name="index")
+     */
+    public function index(){
+        
+
+        return $this->render('web_site/base.html.twig');
+    }
 
 
     /**
