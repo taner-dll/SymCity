@@ -480,10 +480,8 @@ nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a{
 /* ---------- Banner  Css  --------- */
 /* ================================= */
 #banner{
-	background:url('../../img/front_end/banner-1.jpg');
-	background-position:center center;
-	background-repeat:no-repeat;
-	background-size:cover;
+    background: url('../../img/front_end/banner-1.jpg') no-repeat center center;
+    background-size:cover;
 	padding:150px 0;
 	position:relative;
 }

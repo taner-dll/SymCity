@@ -73,6 +73,11 @@ class PlacesToVisit
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="ptv")
+     */
+    private $place;
+
     public function __construct()
     {
         $this->pTVPhotos = new ArrayCollection();
@@ -250,6 +255,18 @@ class PlacesToVisit
     public function setType(?string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): self
+    {
+        $this->place = $place;
 
         return $this;
     }

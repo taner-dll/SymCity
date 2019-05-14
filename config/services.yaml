@@ -11,6 +11,7 @@ parameters:
     evt_directory:  '%kernel.project_dir%/public/uploads/event'
     ann_directory:  '%kernel.project_dir%/public/uploads/announce'
     adv_directory:  '%kernel.project_dir%/public/uploads/place_an_ad'
+    plc_directory:  '%kernel.project_dir%/public/uploads/place'
     locale: 'en'
 
 services:

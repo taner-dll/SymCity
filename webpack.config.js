@@ -26,6 +26,7 @@ Encore
     .addEntry('event', './assets/js/event.js')
     .addEntry('announce', './assets/js/announce.js')
     .addEntry('place_an_ad', './assets/js/place_an_ad.js')
+    .addEntry('place', './assets/js/place.js')
 
 
     /*

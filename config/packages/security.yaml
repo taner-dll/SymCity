@@ -48,4 +48,12 @@ security:
     access_control:
         - { path: ^/security/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/security/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/security/list-users, roles: ROLE_ADMIN }
+        - { path: ^/advert/, roles: ROLE_USER }
+        - { path: ^/announce/, roles: ROLE_USER }
+        - { path: ^/event/, roles: ROLE_USER }
+        - { path: ^/municipality/, roles: ROLE_USER }
+        - { path: ^/event/, roles: ROLE_USER }
+        - { path: ^/ptv/, roles: ROLE_USER }
+        - { path: ^/places/to/visit/, roles: ROLE_USER }
+        - { path: ^/place/, roles: ROLE_USER }

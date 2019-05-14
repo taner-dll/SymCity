@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Yerleşim Yerleri{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('place') }}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            Yerleşim Yerleri
+            <small>{{ place.name }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li><a href="{{ path('place_index') }}">Yerleşim Yerleri</a></li>
+            <li class="active"><a href="{{ path('place_show', {id:place.id}) }}">
+                    {{ place.name }}</a></li>
+
+        </ol>
+    </section>
+
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="box">
+
+        <!--
+        <div class="box-header with-border">
+            <h3 class="box-title">Gezilecek Yerler</h3>
+        </div>
+
+       -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ place.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Yer Adı</th>
+                            <td>{{ place.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Hakkında</th>
+                            <td>{{ place.about|raw }}</td>
+                        </tr>
+                        <tr>
+                            <th>Harita</th>
+                            <td>{{ place.map }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Image</th>
+                            <td>
+                                {% if place.featuredImage|length > 0 %}
+
+                                    <img src="{{ asset('uploads/place/')~place.featuredImage }}" width="300"
+                                         height="225"/>
+                                    <a class="btn-default btn-xs"
+                                       href="{{ path('place_featured_photo_delete',
+                                           {place:place.id,
+                                               _token:csrf_token('delete-featured-photo'~place.id)}) }}"
+                                       target="_self"
+                                       onclick="return confirm('Are you sure you want to delete this item?');"
+                                       style="position: absolute;"><i class="fa fa-close"></i></a>
+
+
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <a href="{{ path('place_index') }}" class="btn btn-primary" style="margin-right: 10px;">Liste</a>
+            <a href="{{ path('place_edit', {'id': place.id}) }}" class="btn btn-warning"
+               style="margin-right: 10px;">Düzenle</a>
+            <!-- Button trigger modal -->
+            <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                Sil
+            </a>
+            {{ include('place/_delete_form.html.twig') }}
+        </div>
+        <!-- /.box-footer-->
+    </div>
+
+
+
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('place') }}
+{% endblock %}
