@@ -31,8 +31,8 @@ class PlacesToVisitType extends AbstractType
                 ],
             ))
             ->add('phone')
-            ->add('web', UrlType::class)
-            ->add('email', EmailType::class)
+            ->add('web', UrlType::class, array('required'=>false))
+            ->add('email', EmailType::class, array('required'=>false))
             ->add('address')
             ->add('featured_picture', FileType::class, array('data_class' => null, 'required' => false))
         ;

@@ -63,7 +63,7 @@ $input.change(function () {
 
 $ptv_gallery.change(function () {
 
-    $('#myModal').modal('show');
+    $('#galleryModal').modal('show');
 
     let oFReader = new FileReader();
     oFReader.readAsDataURL(this.files[0]);

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\PlacesToVisit;
 use App\Entity\User;
 use App\Form\UserType;
 use http\Env\Response;
@@ -26,11 +27,13 @@ class SecurityController extends AbstractController
      * @Route("/", name="index")
      */
     public function index(){
-        
 
-        return $this->render('web_site/base.html.twig');
-    }
+        $em = $this->getDoctrine()->getManager();
 
+        $ptv = $em->getRepository(PlacesToVisit::class)->findBy(array(), array('name'=>'ASC'));
+
+        return $this->render('web_site/base.html.twig', ['ptv'=>$ptv]);
+    }   
 
     /**
      * @Route("/list-users", name="list_users")

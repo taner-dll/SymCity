@@ -54,7 +54,7 @@ class PlacesToVisitController extends AbstractController
             $file = $request->request->get('cropped_image');
 
             //cropped image
-            if(!empty($file)) {
+            if (!empty($file)) {
                 $em = $this->getDoctrine()->getManager();
 
                 //dosya adı oluştur ve db güncelle
@@ -121,7 +121,7 @@ class PlacesToVisitController extends AbstractController
 
 
             //cropped image
-            if(!empty($file)) {
+            if (!empty($file)) {
 
 
                 //dosya adı oluştur ve db güncelle
@@ -132,7 +132,6 @@ class PlacesToVisitController extends AbstractController
                 //dosya yükle
                 $dir = $this->getParameter('ptv_directory');
                 $this->base64update($file, $dir, $fileName, $fileOldName);
-
             }
 
 
@@ -156,7 +155,17 @@ class PlacesToVisitController extends AbstractController
      */
     public function delete(Request $request, PlacesToVisit $placesToVisit): Response
     {
+
+
         if ($this->isCsrfTokenValid('delete' . $placesToVisit->getId(), $request->request->get('_token'))) {
+
+            //galeridekileri sil
+            $gal_dir = $this->getParameter('gal_directory');
+            foreach ($placesToVisit->getPTVPhotos() as $photo) {
+                echo $photo->getFileName();
+                $this->deleteFile($gal_dir, $photo->getFileName());
+            }
+
 
             //öne çıkan resmi sil
             $dir = $this->getParameter('ptv_directory');
@@ -178,31 +187,27 @@ class PlacesToVisitController extends AbstractController
      * @param $ptv
      * @return mixed
      */
-    public function deleteFeatured(Request $request,$ptv)
+    public function deleteFeatured(Request $request, $ptv)
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('delete-featured-photo'.$ptv  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('delete-featured-photo' . $ptv, $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $photo = $em->getRepository(PlacesToVisit::class)->find($ptv);
 
             $dir = $this->getParameter('ptv_directory');
-            $this->deleteFile($dir,$photo->getFeaturedPicture());
+            $this->deleteFile($dir, $photo->getFeaturedPicture());
 
             $photo->setFeaturedPicture(null);
             $em->flush();
 
-            $this->addFlash('success','Successfully Deleted');
-
+            $this->addFlash('success', 'Successfully Deleted');
         }
 
         return $this->redirectToRoute('places_to_visit_show', ['id' => $ptv]);
-
     }
-
-
 }

@@ -75,13 +75,13 @@
                                                 <div class="content">
                                                     <ul class="menu-col">
 
-                                                        <li><a href="index.html">Sütüven Şelalesi</a></li>
-                                                        <li><a href="index.html">Hasan Boğuldu</a></li>
-                                                        <li><a href="index.html">Zeytinli Çayı</a></li>
-                                                        <li><a href="index.html">Pınarbaşı</a></li>
-                                                        <li><a href="index.html">Ayvalık Adaları</a></li>
-                                                        <li><a href="index.html">Cunda (Alibey) Adası</a></li>
-                                                        <li><a href="index.html">Şeytan Sofrası</a></li>
+                                                        {% for p in ptv %}
+                                                            {% if p.type == 'nature' %}
+                                                            <li><a href="#">{{ p.name }}</a></li>
+                                                            {% endif %}
+                                                        {% endfor %}
+
+
                                                     </ul>
                                                 </div>
                                             </div>
@@ -90,11 +90,12 @@
                                                 <h6 class="title">Tarihi Mekan & Müzeler</h6>
                                                 <div class="content">
                                                     <ul class="menu-col">
-                                                        <li><a href="favorites.html">Antandros Antik Kenti</a></li>
-                                                        <li><a href="favorites.html">Assos Antik Kenti</a></li>
-                                                        <li><a href="favorites.html">Adramytteion Antik Kenti</a></li>
-                                                        <li><a href="favorites.html">Zeus Altarı</a></li>
-                                                        <li><a href="favorites.html">Tahtakuşlar Köyü Etnografya Galerisi</a></li>
+
+                                                        {% for p in ptv %}
+                                                            {% if p.type == 'history' %}
+                                                                <li><a href="#">{{ p.name }}</a></li>
+                                                            {% endif %}
+                                                        {% endfor %}
 
                                                     </ul>
                                                 </div>
