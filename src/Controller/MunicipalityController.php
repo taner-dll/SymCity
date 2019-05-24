@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Municipality;
 use App\Form\MunicipalityType;
 use App\Repository\MunicipalityRepository;
-use App\Traits\FileTrait;
+use App\Traits\File;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MunicipalityController extends AbstractController
 {
-    use FileTrait;
+    use File;
     /**
      * @Route("/", name="municipality_index", methods={"GET"})
      * @param MunicipalityRepository $municipalityRepository
@@ -129,7 +129,7 @@ class MunicipalityController extends AbstractController
             $municipality->setFeaturedPicture($fileOldNameMun);
             $municipality->setMayorPhoto($fileOldNameMay);
 
-
+            
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Successfully Updated');
 

@@ -531,7 +531,7 @@ nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a{
   width: 100%;
 }
 .single-query .zelected::after{
-    content: url(../../img/front_end/select-icon.png);
+    content: url(images/select-icon.png);
     position: absolute;
     right: 0;
     top: 0;
@@ -690,7 +690,7 @@ nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a{
     border: 1px solid #dbdbdb !important;
 }
 .check-box i {
-    background: url("../../img/front_end/check_mark.png") no-repeat center center;
+    background: url("images/check_mark.png") no-repeat center center;
     position: absolute;
     left: 3px;
     bottom: -15px;
@@ -766,7 +766,7 @@ nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a{
 
 /* --- Banner - 2 Css  ---- */
 .banner-2-bg{
-	background:url(../../img/front_end/banner-2.jpg);
+	background:url(images/banner-2.jpg);
 	background-position:center center;
 	background-size:cover;
 	position:relative;
@@ -1494,7 +1494,7 @@ figure.effect-ming ul {
 /* ------- Best Things  Css  ------- */
 /* ================================= */  
 #best-things{
-	background:url(../../img/front_end/best-thing-bg.jpg);
+	background:url(images/best-thing-bg.jpg);
 	background-position:center center;
 	background-repeat:no-repeat;
 	background-size:cover;
@@ -1982,7 +1982,7 @@ footer#footer::after {
 	padding:10px;
 }
 .footer_link > li + li::before {
-  content:url(../../img/front_end/foote_di.jpg);
+  content:url(images/foote_di.jpg);
   top: -3px;
   position: relative;
   right: 2px;
@@ -2143,7 +2143,7 @@ footer#footer::after {
 /* ---------- SERVICES  ------------ */
 /* ================================= */
 #post-visited-places{
-	background:url(../../img/front_end/1.jpg) no-repeat;
+	background:url(images/1.jpg) no-repeat;
 	background-size:cover;
 	position:center;
 	padding:77px 0 90px;
@@ -2277,7 +2277,7 @@ footer#footer::after {
 }
 /* ------ Inner Banner - 2 Css  ---- */
 #inner-banner-2{
-	background-image:url(../../img/front_end/inner-banner.jpg);
+	background-image:url(images/inner-banner.jpg);
 	background-position:center center;
 	background-repeat:no-repeat;
 	background-size:cover;
@@ -3075,7 +3075,7 @@ ul.day-open li:nth-child(3){
 	line-height: 26px;
 }
 #about-bg-img{
-	background:url(../../img/front_end/call-to-action-bg.jpg);
+	background:url(images/call-to-action-bg.jpg);
 	background-repeat:no-repeat;
 	background-size:cover;
 }
@@ -3128,7 +3128,7 @@ ul.day-open li:nth-child(3){
 	transition: 0.2s 0.2s;
 }
 #about-bg-img2{
-	background:url(../../img/front_end/bg.jpg);
+	background:url(images/bg.jpg);
 	background-repeat:no-repeat;
 	background-size:cover;
 	padding: 10% 0;
@@ -3366,7 +3366,7 @@ ul.day-open li:nth-child(3){
 /* -------- Contact Us Css --------- */
 /* ================================= */
 #contact-us {
-	background:url(../../img/front_end/map-bg.png);
+	background:url(images/map-bg.png);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;

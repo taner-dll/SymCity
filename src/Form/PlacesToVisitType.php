@@ -2,12 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Place;
 use App\Entity\PlacesToVisit;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,8 +19,15 @@ class PlacesToVisitType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('place', EntityType::class, array(
+                'class' => Place::class,
+                'choice_label' => function(Place $place) {
+                    return $place->getName();
+                },
+                'required' => false,
+                'placeholder' => ''
+            ))
             ->add('about')
-            ->add('maps')
             ->add('type', ChoiceType::class, array(
                 'choices'  => [
                     'Seçiniz' => '',

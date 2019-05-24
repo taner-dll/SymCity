@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\PlacesToVisit;
 use App\Entity\PTVPhoto;
-use App\Traits\FileTrait;
+use App\Traits\File;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PTVPhotoController extends AbstractController
 {
 
-    use FileTrait;
+    use File;
 
 
     /**

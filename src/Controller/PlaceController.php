@@ -6,7 +6,7 @@ namespace App\Controller;
 use App\Entity\Place;
 use App\Form\PlaceType;
 use App\Repository\PlaceRepository;
-use App\Traits\FileTrait;
+use App\Traits\File;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PlaceController extends AbstractController
 {
 
-    use FileTrait;
+    use File;
     /**
      * @Route("/", name="place_index", methods={"GET"})
      * @param PlaceRepository $placeRepository

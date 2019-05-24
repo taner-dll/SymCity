@@ -23,17 +23,7 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 class SecurityController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="index")
-     */
-    public function index(){
 
-        $em = $this->getDoctrine()->getManager();
-
-        $ptv = $em->getRepository(PlacesToVisit::class)->findBy(array(), array('name'=>'ASC'));
-
-        return $this->render('web_site/base.html.twig', ['ptv'=>$ptv]);
-    }   
 
     /**
      * @Route("/list-users", name="list_users")

@@ -46,12 +46,16 @@
                             <td>{{ places_to_visit.name }}</td>
                         </tr>
                         <tr>
-                            <th>Hakkında</th>
-                            <td>{{ places_to_visit.about|raw }}</td>
+                            <th>Yerleşim Yeri</th>
+                            <td>
+                                {% if places_to_visit.place %}
+                                    {{ places_to_visit.place.name}}
+                                {% endif %}
+                            </td>
                         </tr>
                         <tr>
-                            <th>Harita</th>
-                            <td>{{ places_to_visit.maps }}</td>
+                            <th>Hakkında</th>
+                            <td>{{ places_to_visit.about[:500]|striptags }}&hellip;</td>
                         </tr>
                         <tr>
                             <th>Telefon</th>
@@ -68,6 +72,10 @@
                         <tr>
                             <th>Adres</th>
                             <td>{{ places_to_visit.address }}</td>
+                        </tr>
+                        <tr>
+                            <th>URL slug</th>
+                            <td>{{ places_to_visit.slug }}</td>
                         </tr>
                         <tr>
                             <th>Öne Çıkan Resim</th>

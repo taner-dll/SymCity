@@ -5,7 +5,8 @@ namespace App\Controller;
 use App\Entity\PlacesToVisit;
 use App\Form\PlacesToVisitType;
 use App\Repository\PlacesToVisitRepository;
-use App\Traits\FileTrait;
+use App\Traits\File;
+use App\Traits\Util;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class PlacesToVisitController extends AbstractController
 {
 
-    use FileTrait;
+    use File;
+    use Util;
 
     /**
      * @Route("/", name="places_to_visit_index", methods={"GET"})
@@ -46,6 +48,10 @@ class PlacesToVisitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
+
+            //url slug
+            $placesToVisit->setSlug($this->slugify($request->request->get('places_to_visit')['name']));
+
             $entityManager->persist($placesToVisit);
             $entityManager->flush();
             $this->addFlash('success', 'Successfully Added');
@@ -110,6 +116,7 @@ class PlacesToVisitController extends AbstractController
 
             //yeni resim yoksa, boş olarak kaydedilmemeli!
             $placesToVisit->setFeaturedPicture($fileOldName);
+            $placesToVisit->setSlug($this->slugify($placesToVisit->getName()));
 
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Successfully Updated');
@@ -119,10 +126,8 @@ class PlacesToVisitController extends AbstractController
 
 
 
-
             //cropped image
             if (!empty($file)) {
-
 
                 //dosya adı oluştur ve db güncelle
                 $fileName = $this->base64generateFileName($file);

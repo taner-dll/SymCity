@@ -1,0 +1,85 @@
+{% extends 'web_site/base.html.twig' %}
+
+{% block title %}Gezilecek Yerler | {{ ptv.name }}{% endblock %}
+
+{% block body %}
+
+    <!-- Blog -->
+    <section class="p_b70 p_t70 bg_lightgry" id="blog">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-9 col-sm-9 col-xs-12">
+
+                    <div class="blog heading">
+
+                        <h2>{{ ptv.name }}</h2>
+
+                        {% if ptv.featuredPicture|length > 10 %}
+                        <div class="blog-img" style="height: 500px; overflow: hidden;">
+                            <img alt="image" style="width: 800px; height: 600px;"
+                                 src="{{ asset('uploads/ptv/'~ptv.featuredPicture) }}">
+                        </div>
+                        {% endif %}
+
+                        <div class="blog-detail">
+                            <ul class="blog-admin">
+                                <!--
+                                <li>
+                                    <i class="fa fa-user"></i>Posted By:<a href="#">
+                                        Admin</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-clock-o"></i>
+                                    <a href="#">
+                                        March 16, 2015</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-comment"></i>
+                                    <a href="#">4 Comments</a>
+                                </li>
+                                -->
+                            </ul>
+                            <p>
+                                {{ ptv.about|raw }}
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="right-bar bg_white">
+                        <h4>Daha Fazla <span>Bilgi Edinin</span></h4>
+                        <div id="cd-google-map">
+                            <div id="google-container">
+                                <iframe
+                                        width="242"
+                                        height="200"
+                                        style="border:0"
+                                        src="https://www.google.com/maps/embed/v1/search?key=AIzaSyDRZiGMQckANKsm81gKmi4cF53SAqI0MtU
+                                        &q={{ ptv.name }}" allowfullscreen>
+                                </iframe>
+
+                            </div>
+                            <p><i class="fa fa-map-marker" aria-hidden="true"></i>{{ ptv.address }}</p>
+                            <p><i class="fa fa-phone" aria-hidden="true"></i>{{ ptv.phone }}</p>
+                            <p><i class="fa fa-globe" aria-hidden="true"></i> <a target="_blank"
+                                                                                 href="{{ ptv.web }}">{{ ptv.web }}</a>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- Blog -->
+
+{% endblock %}

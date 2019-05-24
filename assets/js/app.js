@@ -6,21 +6,19 @@
  */
 
 // any CSS you require will output into a single css file (app.css in this case)
-require('../css/app.scss');
+import '../css/app.scss';
 
 // require jQuery normally
-const $ = require('jquery');
+import $ from 'jquery';
 
 // create global $ and jQuery variables
 global.$ = global.jQuery = $;
 
-require('bootstrap');
-require('slimscroll');
-require('fastclick');
+import 'bootstrap';
+import 'slimscroll';
+import 'fastclick';
 
 
 
-require('../js/theme');
-require('../js/demo');
-
-
+import '../js/theme';
+import '../js/demo';

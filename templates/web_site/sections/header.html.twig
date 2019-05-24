@@ -1,0 +1,119 @@
+<!-- HEADER -->
+<header id="main_header">
+    <div id="header-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-5 col-xs-12">
+                    <div class="top-contact">
+                        <p>Whatsapp: <span>+90 542 791 07 30</span> eposta: <span>tnrdll@gmail.com</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-7 col-xs-12 top_right_links">
+                    <ul class="top_links">
+                        <li><a href="http://127.0.0.1/edremitkorfezi.com/public/places/to/visit/">
+                                <i class="fa fa-user-o" aria-hidden="true"></i> Profile</a> </li>
+                        <li><a href="login-registerd.html"><i class="fa fa-lock" aria-hidden="true"></i> Login / Register</a> </li>
+                    </ul>
+                    <div class="add-listing"> <a href="add-listing.html"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-default navbar-sticky bootsnav">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Start Header Navigation -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu"> <i class="fa fa-bars"></i>
+                        </button>
+                        <a class="navbar-brand" href="index.html"><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/logo.png" class="logo" alt="">
+                        </a>
+                    </div>
+                    <!-- End Header Navigation -->
+                    <div class="collapse navbar-collapse" id="navbar-menu">
+                        <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+
+                            <li> <a href="{{ path('homepage') }}" class="dropdown-toggle" data-toggle="dropdown">Ana Sayfa</a></li>
+
+                            {{ render(controller('App\\Controller\\WebSiteController::menu1')) }}
+
+                            <li class="dropdown"> <a href="#." class="dropdown-toggle" data-toggle="dropdown">Turlar</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="restaurant.html">Resturent</a>
+                                    </li>
+                                    <li><a href="real-estate.html">Real Estate</a>
+                                    </li>
+                                    <li><a href="sport.html">Sport</a>
+                                    </li>
+                                    <li><a href="beauty-spa.html">Beauty & Spa</a>
+                                    </li>
+                                    <li><a href="vehicles.html">Vehicles</a>
+                                    </li>
+                                    <li><a href="shoping.html">Shoping</a>
+                                    </li>
+                                    <li><a href="industry.html">Industry</a>
+                                    </li>
+                                    <li><a href="dating.html">Dating</a>
+                                    </li>
+                                    <li><a href="job.html">Jobs</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown"> <a href="#." class="dropdown-toggle" data-toggle="dropdown">Etkinlik ve Duyurular</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="restaurant.html">Resturent</a>
+                                    </li>
+                                    <li><a href="real-estate.html">Real Estate</a>
+                                    </li>
+                                    <li><a href="sport.html">Sport</a>
+                                    </li>
+                                    <li><a href="beauty-spa.html">Beauty & Spa</a>
+                                    </li>
+                                    <li><a href="vehicles.html">Vehicles</a>
+                                    </li>
+                                    <li><a href="shoping.html">Shoping</a>
+                                    </li>
+                                    <li><a href="industry.html">Industry</a>
+                                    </li>
+                                    <li><a href="dating.html">Dating</a>
+                                    </li>
+                                    <li><a href="job.html">Jobs</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown"> <a href="#." class="dropdown-toggle" data-toggle="dropdown">İlanlar</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="listing.html">Listing Style - 1</a>
+                                    </li>
+                                    <li><a href="listing-2.html">Listing Style - 2</a>
+                                    </li>
+                                    <li><a href="listing-3.html">Listing Style - 3</a>
+                                    </li>
+                                    <li><a href="listing-details.html">Listing Details</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+
+                            <li class="dropdown"> <a href="#." class="dropdown-toggle" data-toggle="dropdown">Yerel İşletmeler</a>
+                                <ul class="dropdown-menu slideInDown">
+                                    <li><a href="contact.html">Contact Us</a>
+                                    </li>
+                                    <li><a href="contact-map.html">Contact With Map</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<!-- HEADER  -->

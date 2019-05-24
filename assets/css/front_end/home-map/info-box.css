@@ -159,7 +159,7 @@
   margin: 0;
 }
 .ads-maps .details li {
-  background: url(../../images/icon-ads-grey.png) no-repeat scroll 5px top;
+  background: url(../images/icon-ads-grey.png) no-repeat scroll 5px top;
   float: left;
   color: #777;
   font-size: 13px;
@@ -188,7 +188,7 @@
   width: 92px;
 }
 .ads-maps .details li:after {
-  background: url(../../images/mini-arrow.png) no-repeat scroll right top;
+  background: url(../images/banner-arrow.png) no-repeat scroll right top;
   content: "";
   height: 36px;
   width: 22px;
@@ -262,7 +262,7 @@
   font-size: 14px;
 }
 .box-ads .detail dt {
-  background: url(../../images/icon-ads-grey.png) no-repeat scroll left center;
+  background: url(../images/icon-ads-grey.png) no-repeat scroll left center;
   float: left;
   font-weight: 400 !important;
   padding-left: 36px;
@@ -280,7 +280,7 @@
   background-position: left -164px;
 }
 .box-ads .detail dd {
-  background: url(../../images/separator.png) no-repeat scroll left center;
+  background: url(../images/banner-arrow.png) no-repeat scroll left center;
   float: right;
   width: 64%;
   padding-left: 18px;
@@ -614,7 +614,7 @@
   font-size: 14px;
 }
 .box-property-slide .left-block .detail dt {
-  background: url(../../images/icon-ads.png) no-repeat scroll left center;
+  background: url(../images/icon-ads-grey.png) no-repeat scroll left center;
   font-weight: 400 !important;
   float: left;
   padding-left: 36px;
@@ -650,7 +650,7 @@
   border-radius: 1px;
 }
 .box-property-slide .left-block .detail dd span:after {
-  background: url(../../images/mini-arrow.png) no-repeat right bottom;
+  background: url(../images/banner-arrow.png) no-repeat right bottom;
   content: '';
   height: 21px;
   width: 9px;
@@ -662,7 +662,7 @@
   z-index: 1;
 }
 .box-property-slide .left-block .detail li {
-  background: url(../../images/icon-ads.png) no-repeat left top;
+  background: url(../images/icon-ads-grey.png) no-repeat left top;
   padding: 10px 5px 0 20px;
 }
 .box-property-slide .left-block .detail li .icon-bathroom {

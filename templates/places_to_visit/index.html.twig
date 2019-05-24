@@ -46,8 +46,7 @@
                                     <thead>
                                     <tr role="row">
                                         <th class="sorting_desc">Yer Adı</th>
-                                        <th>Hakkında</th>
-                                        <th>Harita</th>
+                                        <th>Yerleşim Yeri</th>
                                         <th>Telefon</th>
                                         <th>Web</th>
                                         <th>Eposta</th>
@@ -59,8 +58,11 @@
                                     {% for places_to_visit in places_to_visits %}
                                         <tr>
                                             <td>{{ places_to_visit.name }}</td>
-                                            <td>{{ places_to_visit.about[:30]|striptags }}</td>
-                                            <td>{{ places_to_visit.maps }}</td>
+                                            <td>
+                                                {% if places_to_visit.place %}
+                                                {{ places_to_visit.place.name}}
+                                                {% endif %}
+                                            </td>
                                             <td>{{ places_to_visit.phone }}</td>
                                             <td>{{ places_to_visit.web }}</td>
                                             <td>{{ places_to_visit.email }}</td>

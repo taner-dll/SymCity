@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Advert;
 use App\Form\AdvertType;
 use App\Repository\AdvertRepository;
-use App\Traits\FileTrait;
+use App\Traits\File;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdvertController extends AbstractController
 {
-    use FileTrait;
+    use File;
     /**
      * @Route("/", name="advert_index", methods={"GET"})
      * @param AdvertRepository $advertRepository

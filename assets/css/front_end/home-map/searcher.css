@@ -150,7 +150,7 @@
   height: 80px;
   display: block;
   padding: 20px 0 20px 70px;
-  background-image:url(../../images/icon-property.png);
+  background-image:url(../images/icon-property.png);
   background-repeat: no-repeat;
   cursor: pointer;
   color: #ffffff;
@@ -171,7 +171,7 @@
   z-index: 1;
   width: 16px;
   height: 16px;
-  background-image: url(../../images/icon-property.png);
+  background-image: url(../images/icon-property.png);
   background-position: right bottom;
 }
 .ads-type .icon-1 {
@@ -202,7 +202,7 @@
   display: block;
 }
 .ads-type .nav-box a {
-  background-image: url(../../images/icon-slider.png);
+  background-image: url(../images/icon-slider.png);
   display: block;
   width: 40px;
   height: 80px;

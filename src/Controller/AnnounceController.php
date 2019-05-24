@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Announce;
 use App\Form\AnnounceType;
 use App\Repository\AnnounceRepository;
-use App\Traits\FileTrait;
+use App\Traits\File;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AnnounceController extends AbstractController
 {
 
-    use FileTrait;
+    use File;
 
     /**
      * @Route("/", name="announce_index", methods={"GET"})
