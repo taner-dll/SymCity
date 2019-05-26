@@ -8,7 +8,9 @@ use App\Repository\EventRepository;
 use App\Traits\File;
 use DateTime;
 use Exception;
+use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -95,6 +97,12 @@ class EventController extends AbstractController
      */
     public function show(Event $event): Response
     {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+              if($event->getUser()->getId() != $this->getUser()->getId()){
+                  return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+              }
+        }
+
         return $this->render('event/show.html.twig', [
             'event' => $event,
         ]);
@@ -109,6 +117,12 @@ class EventController extends AbstractController
      */
     public function edit(Request $request, Event $event): Response
     {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            if($event->getUser()->getId() != $this->getUser()->getId()){
+                return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+            }
+        }
+
         //eski resmi kaldırırken sorgu gerekti. product->getPicture() temp olarak gözüküyor?
         $em = $this->getDoctrine()->getManager();
         $p = $em->getRepository(Event::class)->find($event->getId());
@@ -162,6 +176,12 @@ class EventController extends AbstractController
      */
     public function delete(Request $request, Event $event): Response
     {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            if($event->getUser()->getId() != $this->getUser()->getId()){
+                return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+            }
+        }
+
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
 
             //öne çıkan resmi sil
@@ -186,14 +206,18 @@ class EventController extends AbstractController
     public function deleteFeatured(Request $request,$event)
     {
 
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
         $submittedToken = $request->query->get('_token');
 
         if ($this->isCsrfTokenValid('delete-featured-photo'.$event  , $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $photo = $em->getRepository(Event::class)->find($event);
+
+            if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+                if($photo->getUser()->getId() != $this->getUser()->getId()){
+                    return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+                }
+            }
 
             $dir = $this->getParameter('evt_directory');
             $this->deleteFile($dir,$photo->getImage());
