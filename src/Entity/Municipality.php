@@ -98,6 +98,12 @@ class Municipality
      */
     private $mayor_photo;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="municipalities")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $place;
+
     public function __construct()
     {
         $this->municipalityNews = new ArrayCollection();
@@ -315,6 +321,18 @@ class Municipality
                 $municipalityNews->setMunicipality(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): self
+    {
+        $this->place = $place;
 
         return $this;
     }

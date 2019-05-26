@@ -45,21 +45,42 @@
                                 dataTable" role="grid" aria-describedby="example1_info">
                                     <thead>
                                     <tr role="row">
-                                        <th class="sorting_desc">Etkinlik Adı</th>
+                                        <th>Onay Durumu</th>
+                                        <th>Son Güncelleme</th>
+                                        <th>Etkinlik No</th>
+                                        <th>Etkinlik Adı</th>
                                         <th>Açıklama</th>
+                                        <th>Bölge</th>
                                         <th>Başlangıç</th>
                                         <th>Bitiş</th>
+
+                                        <th>Ekleyen Eposta</th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {% for event in events %}
                                         <tr>
-                                            <td>{{ event.name }}</td>
-                                            <td>{{ event.description|raw }}</td>
+                                            <td>
+                                                {% if  event.confirm == 0 %}
+                                                    <span class="label label-warning">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    Yönetici Onayı Bekleniyor</span>
+                                                {% else %}
+                                                    <span class="label label-success">
+                                                    <i class="fa fa-check"></i>
+                                                     Onaylandı</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ event.lastUpdate ? event.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                                            <td>{{ event.id }}</td>
+                                            <td>{{ event.name[:20]|striptags }}&hellip;</td>
+                                            <td>{{ event.description[:20]|striptags }}&hellip;</td>
+                                            <td>{{ event.place ? event.place.name : '' }}</td>
                                             <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
                                             <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
 
+                                            <td>{{ event.user.email }}</td>
                                             <td>
                                                 <a href="{{ path('event_show', {'id': event.id}) }}"
                                                    class="btn btn-xs btn-primary pull-left">Göster</a>

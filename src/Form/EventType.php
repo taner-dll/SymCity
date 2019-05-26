@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\Place;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -15,9 +17,21 @@ class EventType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('place', EntityType::class, array(
+                'class' => Place::class,
+                'choice_label' => function(Place $place) {
+                    return $place->getName();
+                },
+                'required' => false,
+                'placeholder' => ''
+            ))
             ->add('description')
-            ->add('start', DateTimeType::class)
-            ->add('end', DateTimeType::class)
+            ->add('start', DateTimeType::class, array(
+                'data' => new \DateTime('now')
+            ))
+            ->add('end', DateTimeType::class, array(
+                'data' => new \DateTime('now')
+            ))
             ->add('image', FileType::class, array('data_class' => null, 'required' => false))
         ;
     }

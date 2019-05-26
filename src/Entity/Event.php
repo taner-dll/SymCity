@@ -57,6 +57,11 @@ class Event
      */
     private $last_update;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="events")
+     */
+    private $place;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +159,18 @@ class Event
     public function setLastUpdate(\DateTimeInterface $last_update): self
     {
         $this->last_update = $last_update;
+
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): self
+    {
+        $this->place = $place;
 
         return $this;
     }

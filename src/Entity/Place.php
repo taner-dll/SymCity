@@ -48,9 +48,21 @@ class Place
      */
     private $ptv;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Municipality", mappedBy="place")
+     */
+    private $municipalities;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="place")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->ptv = new ArrayCollection();
+        $this->municipalities = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,6 +155,68 @@ class Place
             // set the owning side to null (unless already changed)
             if ($ptv->getPlace() === $this) {
                 $ptv->setPlace(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Municipality[]
+     */
+    public function getMunicipalities(): Collection
+    {
+        return $this->municipalities;
+    }
+
+    public function addMunicipality(Municipality $municipality): self
+    {
+        if (!$this->municipalities->contains($municipality)) {
+            $this->municipalities[] = $municipality;
+            $municipality->setPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMunicipality(Municipality $municipality): self
+    {
+        if ($this->municipalities->contains($municipality)) {
+            $this->municipalities->removeElement($municipality);
+            // set the owning side to null (unless already changed)
+            if ($municipality->getPlace() === $this) {
+                $municipality->setPlace(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            // set the owning side to null (unless already changed)
+            if ($event->getPlace() === $this) {
+                $event->setPlace(null);
             }
         }
 

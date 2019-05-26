@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Municipality;
+use App\Entity\Place;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -16,6 +18,14 @@ class MunicipalityType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('place', EntityType::class, array(
+                'class' => Place::class,
+                'choice_label' => function(Place $place) {
+                    return $place->getName();
+                },
+                'required' => false,
+                'placeholder' => ''
+            ))
             ->add('about')
             ->add('mayor')
             ->add('mayorPhoto', FileType::class, array('data_class' => null, 'required' => false))

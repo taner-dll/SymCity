@@ -45,13 +45,13 @@
                                 dataTable" role="grid" aria-describedby="example1_info">
                                     <thead>
                                     <tr role="row">
-                                        <th class="sorting_desc">Name</th>
-                                        <th>Mayor</th>
+                                        <th class="sorting_desc">Belediye</th>
+                                        <th>Başkan</th>
+                                        <th>Yerleşim Yeri</th>
                                         <th>Web</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Fax</th>
-                                        <th>Map</th>
+                                        <th>Eposta</th>
+                                        <th>Telefon</th>
+                                        <th>Faks</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -60,11 +60,15 @@
                                         <tr>
                                             <td>{{ municipality.name }}</td>
                                             <td>{{ municipality.mayor }}</td>
+                                            <td>
+                                                {% if municipality.place %}
+                                                    {{ municipality.place.name}}
+                                                {% endif %}
+                                            </td>
                                             <td>{{ municipality.web }}</td>
                                             <td>{{ municipality.email }}</td>
                                             <td>{{ municipality.phone }}</td>
                                             <td>{{ municipality.fax }}</td>
-                                            <td>{{ municipality.map }}</td>
                                             <td>
                                                 <a class="btn btn-xs btn-primary pull-left"
                                                    href="{{ path('municipality_show', {'id': municipality.id}) }}">Göster</a>

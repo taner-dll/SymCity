@@ -11,11 +11,23 @@
                 </div>
                 <div class="col-md-6 col-sm-7 col-xs-12 top_right_links">
                     <ul class="top_links">
-                        <li><a href="http://127.0.0.1/edremitkorfezi.com/public/places/to/visit/">
-                                <i class="fa fa-user-o" aria-hidden="true"></i> Profile</a> </li>
-                        <li><a href="login-registerd.html"><i class="fa fa-lock" aria-hidden="true"></i> Login / Register</a> </li>
+                        <li>
+                            {% if app.user %}
+                            <a href="{{ path('places_to_visit_index') }}">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                {{ app.user.email[:30] }}
+                            </a>
+                                {% else %}
+                            <a href="{{ path('login') }}">
+                                <i class="fa fa-lock" aria-hidden="true"></i>
+                                Giriş Yap
+                            </a>
+                            {% endif %}
+                        </li>
+
                     </ul>
-                    <div class="add-listing"> <a href="add-listing.html"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </div>
+                    <div class="add-listing"><a href="add-listing.html"><i class="fa fa-plus" aria-hidden="true"></i>
+                            Ücretsiz Ekle</a></div>
                 </div>
             </div>
         </div>
@@ -26,20 +38,24 @@
                 <div class="col-md-12">
                     <!-- Start Header Navigation -->
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu"> <i class="fa fa-bars"></i>
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu"><i
+                                    class="fa fa-bars"></i>
                         </button>
-                        <a class="navbar-brand" href="index.html"><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/logo.png" class="logo" alt="">
+                        <a class="navbar-brand" href="index.html"><img
+                                    src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/logo.png" class="logo"
+                                    alt="">
                         </a>
                     </div>
                     <!-- End Header Navigation -->
                     <div class="collapse navbar-collapse" id="navbar-menu">
                         <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
 
-                            <li> <a href="{{ path('homepage') }}" class="dropdown-toggle" data-toggle="dropdown">Ana Sayfa</a></li>
+                            <li><a href="{{ path('homepage') }}" class="dropdown-toggle" data-toggle="dropdown">Ana
+                                    Sayfa</a></li>
 
                             {{ render(controller('App\\Controller\\WebSiteController::menu1')) }}
 
-                            <li class="dropdown"> <a href="#." class="dropdown-toggle" data-toggle="dropdown">Turlar</a>
+                            <li class="dropdown"><a href="#." class="dropdown-toggle" data-toggle="dropdown">Turlar</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="restaurant.html">Resturent</a>
                                     </li>
@@ -62,7 +78,8 @@
                                 </ul>
                             </li>
 
-                            <li class="dropdown"> <a href="#." class="dropdown-toggle" data-toggle="dropdown">Etkinlik ve Duyurular</a>
+                            <li class="dropdown"><a href="#." class="dropdown-toggle" data-toggle="dropdown">Etkinlik ve
+                                    Duyurular</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="restaurant.html">Resturent</a>
                                     </li>
@@ -85,7 +102,7 @@
                                 </ul>
                             </li>
 
-                            <li class="dropdown"> <a href="#." class="dropdown-toggle" data-toggle="dropdown">İlanlar</a>
+                            <li class="dropdown"><a href="#." class="dropdown-toggle" data-toggle="dropdown">İlanlar</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="listing.html">Listing Style - 1</a>
                                     </li>
@@ -99,8 +116,8 @@
                             </li>
 
 
-
-                            <li class="dropdown"> <a href="#." class="dropdown-toggle" data-toggle="dropdown">Yerel İşletmeler</a>
+                            <li class="dropdown"><a href="#." class="dropdown-toggle" data-toggle="dropdown">Yerel
+                                    İşletmeler</a>
                                 <ul class="dropdown-menu slideInDown">
                                     <li><a href="contact.html">Contact Us</a>
                                     </li>

@@ -42,31 +42,39 @@
                     <table class="table table-bordered">
                         <tbody>
                         <tr>
-                            <th>Name</th>
+                            <th>Belediye</th>
                             <td>{{ municipality.name }}</td>
                         </tr>
                         <tr>
-                            <th>About</th>
-                            <td>{{ municipality.about }}</td>
+                            <th>Yerleşim Yeri</th>
+                            <td>
+                                {% if municipality.place %}
+                                    {{ municipality.place.name}}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Hakkında</th>
+                            <td>{{ municipality.about[:500]|striptags }}&hellip;</td>
                         </tr>
                         <tr>
                             <th>Web</th>
                             <td>{{ municipality.web }}</td>
                         </tr>
                         <tr>
-                            <th>Email</th>
+                            <th>Eposta</th>
                             <td>{{ municipality.email }}</td>
                         </tr>
                         <tr>
-                            <th>Phone</th>
+                            <th>Telefon</th>
                             <td>{{ municipality.phone }}</td>
                         </tr>
                         <tr>
-                            <th>Fax</th>
+                            <th>Faks</th>
                             <td>{{ municipality.fax }}</td>
                         </tr>
                         <tr>
-                            <th>Extra_info</th>
+                            <th>Ekstra Bilgi</th>
                             <td>{{ municipality.extraInfo }}</td>
                         </tr>
                         <tr>
@@ -87,10 +95,6 @@
                                 {% endif %}
                             </td>
                         </tr>
-                        <tr>
-                            <th>Map</th>
-                            <td>{{ municipality.map }}</td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -98,11 +102,11 @@
                     <table class="table table-bordered">
                         <tbody>
                         <tr>
-                            <th>Mayor</th>
-                            <td>{{ municipality.mayor }}</td>
+                            <th>Başkan Hakkında</th>
+                            <td>{{ municipality.mayor[:500]|striptags }}&hellip;</td>
                         </tr>
                         <tr>
-                            <th>Mayor Photo</th>
+                            <th>Başkan Fotoğrafı</th>
                             <td>
                                 {% if municipality.mayorPhoto|length > 0 %}
 

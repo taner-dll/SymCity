@@ -28,8 +28,17 @@ class EventController extends AbstractController
      */
     public function index(EventRepository $eventRepository): Response
     {
+
+        if($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            $events = $eventRepository->findAll();
+        }
+        else{
+            $events = $eventRepository->findBy(array('user'=>$this->getUser()));
+        }
+
+
         return $this->render('event/index.html.twig', [
-            'events' => $eventRepository->findAll(),
+            'events' => $events,
         ]);
     }
 
