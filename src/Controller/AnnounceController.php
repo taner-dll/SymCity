@@ -8,6 +8,7 @@ use App\Repository\AnnounceRepository;
 use App\Traits\File;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,8 +28,16 @@ class AnnounceController extends AbstractController
      */
     public function index(AnnounceRepository $announceRepository): Response
     {
+
+        if($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            $announces = $announceRepository->findAll();
+        }
+        else{
+            $announces = $announceRepository->findBy(array('user'=>$this->getUser()));
+        }
+
         return $this->render('announce/index.html.twig', [
-            'announces' => $announceRepository->findAll(),
+            'announces' => $announces,
         ]);
     }
 
@@ -88,6 +97,12 @@ class AnnounceController extends AbstractController
      */
     public function show(Announce $announce): Response
     {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            if($announce->getUser()->getId() != $this->getUser()->getId()){
+                return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+            }
+        }
+        
         return $this->render('announce/show.html.twig', [
             'announce' => $announce,
         ]);
@@ -102,8 +117,14 @@ class AnnounceController extends AbstractController
      */
     public function edit(Request $request, Announce $announce): Response
     {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            if($announce->getUser()->getId() != $this->getUser()->getId()){
+                return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+            }
+        }
+
         //eski resmi kaldırırken sorgu gerekti. product->getPicture() temp olarak gözüküyor?
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();   
         $p = $em->getRepository(Announce::class)->find($announce->getId());
         $fileOldName = $p->getImage();
 
@@ -156,6 +177,13 @@ class AnnounceController extends AbstractController
      */
     public function delete(Request $request, Announce $announce): Response
     {
+
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            if($announce->getUser()->getId() != $this->getUser()->getId()){
+                return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+            }
+        }
+
         if ($this->isCsrfTokenValid('delete'.$announce->getId(), $request->request->get('_token'))) {
 
             //öne çıkan resmi sil
@@ -188,6 +216,12 @@ class AnnounceController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $photo = $em->getRepository(Announce::class)->find($announce);
+
+            if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+                if($photo->getUser()->getId() != $this->getUser()->getId()){
+                    return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+                }
+            }
 
             $dir = $this->getParameter('ann_directory');
             $this->deleteFile($dir,$photo->getImage());

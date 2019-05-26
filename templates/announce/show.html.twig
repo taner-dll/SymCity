@@ -42,19 +42,45 @@
                     <table class="table table-bordered">
                         <tbody>
                         <tr>
-                            <th>Name</th>
-                            <td>{{ announce.name }}</td>
+                            <th style="width: 20%">Onay Durumu</th>
+                            <td>
+                                {% if  announce.confirm == 0 %}
+                                    <span class="label label-warning">
+                                        <i class="fa fa-clock-o"></i>
+                                        Yönetici Onayı Bekleniyor</span>
+                                {% else %}
+                                    <span class="label label-success">
+                                        <i class="fa fa-check"></i>
+                                         Onaylandı</span>
+                                {% endif %}
+                            </td>
                         </tr>
                         <tr>
-                            <th>Description</th>
-                            <td>{{ announce.description|raw }}</td>
-                        </tr>
-                        <tr>
-                            <th>Last Update</th>
+                            <th>Son Güncelleme</th>
                             <td>{{ announce.lastUpdate ? announce.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
                         </tr>
                         <tr>
-                            <th>Image</th>
+                            <th>Duyuru No</th>
+                            <td>{{ announce.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Duyuru Başlığı</th>
+                            <td>{{ announce.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Bölge</th>
+                            <td>
+                                {% if announce.place %}
+                                    {{ announce.place.name}}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Açıklama</th>
+                            <td>{{ announce.description|raw }}</td>
+                        </tr>
+                        <tr>
+                            <th>Görsel</th>
                             <td>
                                 {% if announce.image|length > 0 %}
 
