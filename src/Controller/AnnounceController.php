@@ -6,6 +6,7 @@ use App\Entity\Announce;
 use App\Form\AnnounceType;
 use App\Repository\AnnounceRepository;
 use App\Traits\File;
+use App\Traits\Util;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,6 +21,7 @@ class AnnounceController extends AbstractController
 {
 
     use File;
+    use Util;
 
     /**
      * @Route("/", name="announce_index", methods={"GET"})
@@ -54,7 +56,12 @@ class AnnounceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager = $this->getDoctrine()->getManager();
+
+            //url slug
+            $announce->setSlug($this->slugify($request->request->get('announce')['name']));
+
             $announce->setUser($this->getUser());
             $announce->setLastUpdate(new DateTime('now'));
             $entityManager->persist($announce);
@@ -136,6 +143,10 @@ class AnnounceController extends AbstractController
             $announce->setImage($fileOldName);
             $announce->setConfirm(0);//announce guncellenince onay yeniden 0 olmalı.
             $announce->setLastUpdate(new DateTime('now'));
+
+            //url slug
+            $announce->setSlug($this->slugify($announce->getName()));
+
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Successfully Updated');
 
