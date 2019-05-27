@@ -6,6 +6,7 @@ use App\Entity\Advert;
 use App\Form\AdvertType;
 use App\Repository\AdvertRepository;
 use App\Traits\File;
+use App\Traits\Util;
 use DateTime;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,6 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdvertController extends AbstractController
 {
     use File;
+    use Util;
     /**
      * @Route("/", name="advert_index", methods={"GET"})
      * @param AdvertRepository $advertRepository
@@ -54,6 +56,9 @@ class AdvertController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //url slug
+            $advert->setSlug($this->slugify($request->request->get('advert')['title']));
 
             $advert->setUser($this->getUser());
             $advert->setLastUpdate(new \DateTime('now'));
@@ -135,6 +140,10 @@ class AdvertController extends AbstractController
             $advert->setFeaturedImage($fileOldName);
             $advert->setConfirm(0);//guncellenince onay yeniden 0 olmalı.
             $advert->setLastUpdate(new DateTime('now'));
+
+            //url slug
+            $advert->setSlug($this->slugify($advert->getTitle()));
+
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Successfully Updated');
 
