@@ -7,6 +7,7 @@ use App\Entity\Place;
 use App\Form\PlaceType;
 use App\Repository\PlaceRepository;
 use App\Traits\File;
+use App\Traits\Util;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ class PlaceController extends AbstractController
 {
 
     use File;
+    use Util;
     /**
      * @Route("/", name="place_index", methods={"GET"})
      * @param PlaceRepository $placeRepository
@@ -43,6 +45,11 @@ class PlaceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //print_r($request->request->all());exit;
+
+            //url slug
+            $place->setSlug($this->slugify($request->request->get('place')['name']));
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($place);
@@ -104,6 +111,11 @@ class PlaceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            //url slug
+            $place->setSlug($this->slugify($place->getName()));
+
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'Successfully Updated');
