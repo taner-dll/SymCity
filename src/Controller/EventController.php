@@ -6,9 +6,9 @@ use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use App\Traits\File;
+use App\Traits\Util;
 use DateTime;
 use Exception;
-use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +22,7 @@ class EventController extends AbstractController
 {
 
     use File;
+    use Util;
 
     /**
      * @Route("/", name="event_index", methods={"GET"})
@@ -57,7 +58,12 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager = $this->getDoctrine()->getManager();
+            
+            //url slug
+            $event->setSlug($this->slugify($request->request->get('event')['name']));
+
             $event->setUser($this->getUser());
             $event->setLastUpdate(new DateTime('now'));
             $entityManager->persist($event);
@@ -136,6 +142,10 @@ class EventController extends AbstractController
             $event->setImage($fileOldName);
             $event->setConfirm(0);//event guncellenince onay yeniden 0 olmalı.
             $event->setLastUpdate(new DateTime('now'));
+
+            //url slug
+            $event->setSlug($this->slugify($event->getName()));
+
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Successfully Updated');
 

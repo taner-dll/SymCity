@@ -7,7 +7,9 @@ use App\Form\AdvertType;
 use App\Repository\AdvertRepository;
 use App\Traits\File;
 use DateTime;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,8 +27,16 @@ class AdvertController extends AbstractController
      */
     public function index(AdvertRepository $advertRepository): Response
     {
+
+        if($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            $adverts = $advertRepository->findAll();
+        }
+        else{
+            $adverts = $advertRepository->findBy(array('user'=>$this->getUser()));
+        }
+
         return $this->render('advert/index.html.twig', [
-            'adverts' => $advertRepository->findAll(),
+            'adverts' => $adverts,
         ]);
     }
 
@@ -34,7 +44,7 @@ class AdvertController extends AbstractController
      * @Route("/new", name="advert_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function new(Request $request): Response
     {
@@ -85,6 +95,12 @@ class AdvertController extends AbstractController
      */
     public function show(Advert $advert): Response
     {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            if($advert->getUser()->getId() != $this->getUser()->getId()){
+                return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+            }
+        }
+
         return $this->render('advert/show.html.twig', [
             'advert' => $advert,
         ]);
@@ -95,10 +111,17 @@ class AdvertController extends AbstractController
      * @param Request $request
      * @param Advert $advert
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function edit(Request $request, Advert $advert): Response
     {
+
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            if($advert->getUser()->getId() != $this->getUser()->getId()){
+                return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+            }
+        }
+
         //eski resmi kaldırırken sorgu gerekti. product->getPicture() temp olarak gözüküyor?
         $em = $this->getDoctrine()->getManager();
         $p = $em->getRepository(Advert::class)->find($advert->getId());
@@ -152,6 +175,13 @@ class AdvertController extends AbstractController
      */
     public function delete(Request $request, Advert $advert): Response
     {
+
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            if($advert->getUser()->getId() != $this->getUser()->getId()){
+                return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+            }
+        }
+
         if ($this->isCsrfTokenValid('delete'.$advert->getId(), $request->request->get('_token'))) {
 
             //öne çıkan resmi sil
@@ -185,6 +215,12 @@ class AdvertController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $photo = $em->getRepository(Advert::class)->find($advert);
+
+            if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+                if($photo->getUser()->getId() != $this->getUser()->getId()){
+                    return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
+                }
+            }
 
             $dir = $this->getParameter('adv_directory');
             $this->deleteFile($dir,$photo->getFeaturedImage());
