@@ -63,12 +63,18 @@ class Place
      */
     private $announces;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="place")
+     */
+    private $adverts;
+
     public function __construct()
     {
         $this->ptv = new ArrayCollection();
         $this->municipalities = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->announces = new ArrayCollection();
+        $this->adverts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -254,6 +260,37 @@ class Place
             // set the owning side to null (unless already changed)
             if ($announce->getPlace() === $this) {
                 $announce->setPlace(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Advert[]
+     */
+    public function getAdverts(): Collection
+    {
+        return $this->adverts;
+    }
+
+    public function addAdvert(Advert $advert): self
+    {
+        if (!$this->adverts->contains($advert)) {
+            $this->adverts[] = $advert;
+            $advert->setPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdvert(Advert $advert): self
+    {
+        if ($this->adverts->contains($advert)) {
+            $this->adverts->removeElement($advert);
+            // set the owning side to null (unless already changed)
+            if ($advert->getPlace() === $this) {
+                $advert->setPlace(null);
             }
         }
 

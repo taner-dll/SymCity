@@ -50,6 +50,14 @@
                             <td>{{ advert.title }}</td>
                         </tr>
                         <tr>
+                            <th>Bölge</th>
+                            <td>
+                                {% if advert.place %}
+                                    {{ advert.place.name}}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
                             <th>Açıklama</th>
                             <td>{{ advert.description|raw }}</td>
                         </tr>
@@ -107,10 +115,14 @@
                         <tr>
                             <th>Onay Durumu</th>
                             <td>
-                                {% if advert.confirm == 0 %}
-                                    Onay Bekliyor
+                                {% if  advert.confirm == 0 %}
+                                    <span class="label label-warning">
+                                        <i class="fa fa-clock-o"></i>
+                                        Yönetici Onayı Bekleniyor</span>
                                 {% else %}
-                                    Yayınlandı
+                                    <span class="label label-success">
+                                        <i class="fa fa-check"></i>
+                                         Onaylandı</span>
                                 {% endif %}
                             </td>
                         </tr>
@@ -119,7 +131,7 @@
 
                 
 
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" style="display: none">
                         <tbody>
                         <tr>
                             <th>Ekleyen ID</th>

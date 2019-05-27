@@ -45,38 +45,43 @@
                                 dataTable" role="grid" aria-describedby="example1_info">
                                     <thead>
                                     <tr role="row">
-                                        <th class="sorting_desc">İlan Başlığı</th>
-                                        <th>Fiyat</th>
+                                        <th>Onay Durumu</th>
+                                        <th>Son Güncelleme</th>
+                                        <th>İlan Başlığı</th>
+                                        <th>Bölge</th>
+                                        <th>Fiyat (TL)</th>
                                         <th>Telefon</th>
                                         <th>E-posta</th>
-                                        <th>Son Güncelleme</th>
                                         <th>İlan Durumu</th>
                                         <th>İlan Tipi</th>
-                                        <th>Onay Durumu</th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    
                                     {% for advert in adverts %}
                                         <tr>
-                                            <td>{{ advert.title }}</td>
+                                            <td>
+                                                {% if  advert.confirm == 0 %}
+                                                    <span class="label label-warning">
+                                        <i class="fa fa-clock-o"></i>
+                                        Yönetici Onayı Bekleniyor</span>
+                                                {% else %}
+                                                    <span class="label label-success">
+                                        <i class="fa fa-check"></i>
+                                         Onaylandı</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ advert.lastUpdate ? advert.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                                            <td>{{ advert.title[:20]|striptags }}&hellip;</td>
+                                            <td>{{ advert.place ? advert.place.name : '' }}</td>
                                             <td>{{ advert.price }}</td>
                                             <td>{{ advert.telephone }}</td>
                                             <td>{{ advert.email }}</td>
-                                            <td>{{ advert.lastUpdate ? advert.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
                                             <td>{{ advert.status }}</td>
                                             <td>{{ advert.type }}</td>
                                             <td>
-                                                {% if advert.confirm == 0 %}
-                                                    Onay Bekliyor
-                                                {% else %}
-                                                    Yayınlandı
-                                                {% endif %}
-                                            </td>
-                                            <td>
                                                 <a class="btn btn-xs btn-primary pull-left"
-                                                     href="{{ path('advert_show', {'id': advert.id}) }}">Göster</a>
+                                                   href="{{ path('advert_show', {'id': advert.id}) }}">Göster</a>
                                             </td>
                                         </tr>
                                     {% else %}

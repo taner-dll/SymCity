@@ -2,6 +2,8 @@
 namespace App\Form;
 
 use App\Entity\Advert;
+use App\Entity\Place;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -19,7 +21,17 @@ class AdvertType extends AbstractType
         $builder
             ->add('title')
             ->add('price', IntegerType::class)
-            ->add('owner')
+            ->add('place', EntityType::class, array(
+                'class' => Place::class,
+                'choice_label' => function(Place $place) {
+                    return $place->getName();
+                },
+                'required' => false,
+                'placeholder' => ''
+            ))
+            ->add('owner', null, array(
+                'attr' => array('placeholder'=>'Ad Soyad')
+            ))
             ->add('featured_image', FileType::class, array('data_class' => null, 'required' => false))
             ->add('description')
             ->add('telephone')

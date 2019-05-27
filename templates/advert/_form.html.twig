@@ -11,6 +11,10 @@
             {{ form_widget(form.title) }}
         </div>
         <div class="form-group">
+            {{ form_label(form.place, 'Bölge') }}
+            {{ form_widget(form.place) }}
+        </div>
+        <div class="form-group">
             {{ form_label(form.description, 'Açıklama') }}
             {{ form_widget(form.description) }}
         </div>
