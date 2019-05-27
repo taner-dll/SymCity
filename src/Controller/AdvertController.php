@@ -61,7 +61,7 @@ class AdvertController extends AbstractController
             $advert->setSlug($this->slugify($request->request->get('advert')['title']));
 
             $advert->setUser($this->getUser());
-            $advert->setLastUpdate(new \DateTime('now'));
+            $advert->setLastUpdate(new DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($advert);
             $entityManager->flush();
