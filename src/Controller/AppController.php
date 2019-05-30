@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 
+use App\Entity\Advert;
+use App\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,14 +17,30 @@ class AppController extends AbstractController
     /**
      * @Route("/dashboard", name="app_dashboard", methods={"GET","POST"})
      */
-    public function dashboard(){
-        return 0;
+    public function dashboard()
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $adverts = $em->getRepository(Advert::class)
+            ->findBy(array(), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+
+        $events = $em->getRepository(Event::class)
+            ->findBy(array(), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+
+        return $this->render('app/dashboard.html.twig', [
+            'adverts' => $adverts,
+            'events' => $events
+        ]);
+
+
     }
 
     /**
      * @Route("/test-em", name="test_em", methods={"GET","POST"})
      */
-    public function testEM(){
+    public function testEM()
+    {
 
         $em = $this->getDoctrine()->getManager();
 

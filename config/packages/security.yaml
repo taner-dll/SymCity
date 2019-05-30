@@ -49,6 +49,7 @@ security:
         - { path: ^/security/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/security/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/security/list-users, roles: ROLE_ADMIN }
+        - { path: ^/app/dashboard, roles: ROLE_ADMIN }
         - { path: ^/advert/, roles: ROLE_USER }
         - { path: ^/announce/, roles: ROLE_USER }
         - { path: ^/event/, roles: ROLE_USER }

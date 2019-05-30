@@ -1,56 +1,192 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Kontrol Merkezi{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('place_an_ad') }}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            Kontrol Merkezi
+            <small></small>
+        </h1>
+    </section>
+
+{% endblock %}
+
 {% block body %}
 
-    <div class="row">
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-aqua">
-                <div class="inner">
-                    <h3>{{ total_products }}</h3>
-                    <p>Ürün</p>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-coffee"></i>
-                </div>
-                <a href="{{ path('product_index') }}" class="small-box-footer">
-                    Ürün Listesi <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-green">
-                <div class="inner">
-                    <h3>{{ orders|length }}</h3>
 
-                    <p>Sipariş</p>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-shopping-cart"></i>
-                </div>
-                <a href="#" class="small-box-footer">Tüm Siparişler <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="box box-info">
-        <div class="box-header with-border">
-            <h3 class="box-title"></h3>
-        </div>
-        <!-- /.box-header -->
+    <div class="box">
         <div class="box-body">
-            {% for role in app.user.roles %}
-                {{ role }} <br>
-            {% endfor %}
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer clearfix">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">İlan Kontrolü</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+
+                            <div id="example1_wrapper"
+                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                                <table id="example1" class="table table-bordered table-striped
+                                table-hover table-condensed
+                                dataTable" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th>Onay Durumu</th>
+                                        <th>Son Güncelleme</th>
+                                        <th>İlan Başlığı</th>
+                                        <th>Bölge</th>
+                                        <th>Fiyat (TL)</th>
+                                        <th>Telefon</th>
+                                        <th>E-posta</th>
+                                        <th>İlan Durumu</th>
+                                        <th>İlan Tipi</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for advert in adverts %}
+                                        <tr>
+                                            <td>
+                                                {% if  advert.confirm == 0 %}
+                                                    <span class="label label-warning">
+                                        <i class="fa fa-clock-o"></i>
+                                        Yönetici Onayı Bekleniyor</span>
+                                                {% else %}
+                                                    <span class="label label-success">
+                                        <i class="fa fa-check"></i>
+                                         Onaylandı</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ advert.lastUpdate ? advert.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                                            <td>{{ advert.title[:20]|striptags }}&hellip;</td>
+                                            <td>{{ advert.place ? advert.place.name : '' }}</td>
+                                            <td>{{ advert.price }}</td>
+                                            <td>{{ advert.telephone }}</td>
+                                            <td>{{ advert.email }}</td>
+                                            <td>{{ advert.status }}</td>
+                                            <td>{{ advert.type }}</td>
+                                            <td>
+                                                <a class="btn btn-xs btn-primary pull-left"
+                                                   href="{{ path('advert_show', {'id': advert.id}) }}">Göster</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="11">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Etkinlik Kontrolü</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+
+                            <div id="example1_wrapper"
+                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                                <table id="example1" class="table table-bordered table-striped
+                                table-hover table-condensed
+                                dataTable" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th>Onay Durumu</th>
+                                        <th>Son Güncelleme</th>
+                                        <th>Etkinlik No</th>
+                                        <th>Etkinlik Adı</th>
+                                        <th>Açıklama</th>
+                                        <th>Bölge</th>
+                                        <th>Başlangıç</th>
+                                        <th>Bitiş</th>
+
+                                        <th>Ekleyen Eposta</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for event in events %}
+                                        <tr>
+                                            <td>
+                                                {% if  event.confirm == 0 %}
+                                                    <span class="label label-warning">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    Yönetici Onayı Bekleniyor</span>
+                                                {% else %}
+                                                    <span class="label label-success">
+                                                    <i class="fa fa-check"></i>
+                                                     Onaylandı</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ event.lastUpdate ? event.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                                            <td>{{ event.id }}</td>
+                                            <td>{{ event.name[:20]|striptags }}&hellip;</td>
+                                            <td>{{ event.description[:20]|striptags }}&hellip;</td>
+                                            <td>{{ event.place ? event.place.name : '' }}</td>
+                                            <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
+                                            <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
+
+                                            <td>{{ event.user.email }}</td>
+                                            <td>
+                                                <a href="{{ path('event_show', {'id': event.id}) }}"
+                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="10">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </div>
 
         </div>
-        <!-- /.box-footer -->
+
     </div>
 
 
+
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('place_an_ad') }}
 {% endblock %}
