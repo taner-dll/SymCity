@@ -4,7 +4,9 @@ namespace App\Controller;
 
 
 use App\Entity\Advert;
+use App\Entity\Announce;
 use App\Entity\Event;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,14 +25,23 @@ class AppController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $adverts = $em->getRepository(Advert::class)
-            ->findBy(array(), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+            ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
 
         $events = $em->getRepository(Event::class)
-            ->findBy(array(), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+            ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+
+        $announces = $em->getRepository(Announce::class)
+            ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+
+        $users = $em->getRepository(User::class)->findAll();
+
+
 
         return $this->render('app/dashboard.html.twig', [
             'adverts' => $adverts,
-            'events' => $events
+            'events' => $events,
+            'announces' => $announces,
+            'users' => $users
         ]);
 
 

@@ -53,7 +53,7 @@
                             <th>Bölge</th>
                             <td>
                                 {% if advert.place %}
-                                    {{ advert.place.name}}
+                                    {{ advert.place.name }}
                                 {% endif %}
                             </td>
                         </tr>
@@ -71,8 +71,9 @@
 
                                 {% if advert.featuredImage|length > 0 %}
 
-                                    <img alt="" src="{{ asset('uploads/place_an_ad/')~advert.featuredImage }}" width="300"
-                                         height="225" />
+                                    <img alt="" src="{{ asset('uploads/place_an_ad/')~advert.featuredImage }}"
+                                         width="300"
+                                         height="225"/>
                                     <a class="btn-default btn-xs"
                                        href="{{ path('advert_featured_photo_delete',
                                            {advert:advert.id,
@@ -118,18 +119,27 @@
                                 {% if  advert.confirm == 0 %}
                                     <span class="label label-warning">
                                         <i class="fa fa-clock-o"></i>
-                                        Yönetici Onayı Bekleniyor</span>
+                                        Yönetici Onayı Bekleniyor</span><br><br>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('advert_confirm',
+                                            {id:advert.id,_token:csrf_token('confirm' ~ advert.id)}) }}"
+                                           class="btn btn-success" style="margin-right: 10px;">Onayla</a>
+                                    {% endif %}
                                 {% else %}
                                     <span class="label label-success">
                                         <i class="fa fa-check"></i>
-                                         Onaylandı</span>
+                                         Onaylandı</span><br><br>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('advert_unconfirm',
+                                            {id:advert.id,_token:csrf_token('unconfirm' ~ advert.id)}) }}"
+                                           class="btn btn-danger" style="margin-right: 10px;">Yayından Kaldır</a>
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         </tr>
                         </tbody>
                     </table>
 
-                
 
                     <table class="table table-bordered" style="display: none">
                         <tbody>

@@ -244,4 +244,60 @@ class AdvertController extends AbstractController
         return $this->redirectToRoute('advert_show', ['id' => $advert]);
 
     }
+
+    /**
+     * @Route("/advert/confirm/{id}", name="advert_confirm", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function confirm(Request $request, $id)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('confirm'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $advert = $em->getRepository(Advert::class)->find($id);
+            $advert->setConfirm(1);
+            $em->flush();
+
+            $this->addFlash('success','Successfully Confirmed');
+
+        }
+
+        return $this->redirectToRoute('advert_show', ['id' => $id]);
+
+    }
+
+    /**
+     * @Route("/advert/unconfirm/{id}", name="advert_unconfirm", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function unconfirm(Request $request, $id)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('unconfirm'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $advert = $em->getRepository(Advert::class)->find($id);
+            $advert->setConfirm(0);
+            $em->flush();
+
+            $this->addFlash('success','Successfully Unconfirmed');
+
+        }
+
+        return $this->redirectToRoute('advert_show', ['id' => $id]);
+
+    }
 }
