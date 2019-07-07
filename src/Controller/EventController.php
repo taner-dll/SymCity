@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Advert;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
@@ -240,6 +241,62 @@ class EventController extends AbstractController
         }
 
         return $this->redirectToRoute('event_show', ['id' => $event]);
+
+    }
+
+    /**
+     * @Route("/event/confirm/{id}", name="event_confirm", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function confirm(Request $request, $id)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('confirm'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $event = $em->getRepository(Event::class)->find($id);
+            $event->setConfirm(1);
+            $em->flush();
+
+            $this->addFlash('success','Successfully Confirmed');
+
+        }
+
+        return $this->redirectToRoute('event_show', ['id' => $id]);
+
+    }
+
+    /**
+     * @Route("/event/unconfirm/{id}", name="event_unconfirm", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function unconfirm(Request $request, $id)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('unconfirm'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $event = $em->getRepository(Event::class)->find($id);
+            $event->setConfirm(0);
+            $em->flush();
+
+            $this->addFlash('success','Successfully Canceled');
+
+        }
+
+        return $this->redirectToRoute('event_show', ['id' => $id]);
 
     }
 }

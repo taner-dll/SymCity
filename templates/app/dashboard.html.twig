@@ -89,7 +89,11 @@
         <div class="col-sm-6">
             <div class="box collapsed-box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-book"></i> İlanlar ({{ adverts|length }})</h3>
+                    <h3 class="box-title">
+                        <a style="text-decoration: underline"  href="{{ path('advert_index') }}">
+                        İlanlar ({{ adverts|length }})
+                        </a>
+                    </h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -163,7 +167,12 @@
         <div class="col-sm-6">
             <div class="box collapsed-box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-calendar"></i> Etkinlikler ({{ events|length }})</h3>
+                    <h3 class="box-title">
+                        <a style="text-decoration: underline"  href="{{ path('event_index') }}">
+                            Etkinlikler ({{ events|length }})
+                        </a>
+
+                    </h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -229,7 +238,11 @@
         <div class="col-sm-6">
             <div class="box collapsed-box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-microphone"></i> Duyurular ({{ announces|length }})</h3>
+                    <h3 class="box-title">
+                        <a style="text-decoration: underline" href="{{ path('announce_index') }}">
+                            Duyurular ({{ announces|length }})
+                        </a>
+                    </h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>

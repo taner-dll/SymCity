@@ -41,20 +41,7 @@
                 <div class="col-sm-12">
                     <table class="table table-bordered">
                         <tbody>
-                        <tr>
-                            <th style="width: 20%">Onay Durumu</th>
-                            <td>
-                                {% if  event.confirm == 0 %}
-                                    <span class="label label-warning">
-                                        <i class="fa fa-clock-o"></i>
-                                        Yönetici Onayı Bekleniyor</span>
-                                {% else %}
-                                    <span class="label label-success">
-                                        <i class="fa fa-check"></i>
-                                         Onaylandı</span>
-                                {% endif %}
-                            </td>
-                        </tr>
+                    
                         <tr>
                             <th>Son Güncelleme</th>
                             <td>{{ event.lastUpdate ? event.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
@@ -86,6 +73,30 @@
                         <tr>
                             <th>Bitiş Tarihi ve Saati</th>
                             <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Onay Durumu</th>
+                            <td>
+                                {% if  event.confirm == 0 %}
+                                    <span class="label label-warning">
+                                        <i class="fa fa-clock-o"></i>
+                                        Yönetici Onayı Bekleniyor</span><br><br>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('event_confirm',
+                                            {id:event.id,_token:csrf_token('confirm' ~ event.id)}) }}"
+                                           class="btn btn-success" style="margin-right: 10px;">Onayla</a>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="label label-success">
+                                        <i class="fa fa-check"></i>
+                                         Onaylandı</span><br><br>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('event_unconfirm',
+                                            {id:event.id,_token:csrf_token('unconfirm' ~ event.id)}) }}"
+                                           class="btn btn-danger" style="margin-right: 10px;">Yayından Kaldır</a>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
                         </tr>
                         <tr>
                             <th>Görsel</th>

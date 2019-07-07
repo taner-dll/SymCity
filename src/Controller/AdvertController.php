@@ -293,7 +293,7 @@ class AdvertController extends AbstractController
             $advert->setConfirm(0);
             $em->flush();
 
-            $this->addFlash('success','Successfully Unconfirmed');
+            $this->addFlash('success','Successfully Canceled');
 
         }
 
