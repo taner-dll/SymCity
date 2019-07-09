@@ -27,49 +27,52 @@
             </li>
             <li>
                 <a href="{{ path('app_dashboard') }}">
-                    <i class="fa fa-dashboard"></i> <span>Kontrol Paneli</span>
+                    <i class="fa fa-home"></i> <span>Ana Sayfa</span>
                 </a>
             </li>
 
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-map-marker"></i> <span>Yerleşim Yerleri</span>
-                    <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ path('place_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a></li>
-                    <li><a href="{{ path('place_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
-                </ul>
-            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-map-marker"></i> <span>Yerleşim Yerleri</span>
+                        <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ path('place_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a></li>
+                        <li><a href="{{ path('place_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
+                    </ul>
+                </li>
 
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-heart"></i> <span>Gezilecek Yerler</span>
-                    <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ path('places_to_visit_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a></li>
-                    <li><a href="{{ path('places_to_visit_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
-                </ul>
-            </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-heart"></i> <span>Gezilecek Yerler</span>
+                        <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ path('places_to_visit_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a>
+                        </li>
+                        <li><a href="{{ path('places_to_visit_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
+                    </ul>
+                </li>
 
 
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-building"></i> <span>Belediyeler</span>
-                    <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ path('municipality_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a></li>
-                    <li><a href="{{ path('municipality_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
-                </ul>
-            </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-building"></i> <span>Belediyeler</span>
+                        <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ path('municipality_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a></li>
+                        <li><a href="{{ path('municipality_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
+                    </ul>
+                </li>
+            {% endif %}
 
 
             <li class="treeview">

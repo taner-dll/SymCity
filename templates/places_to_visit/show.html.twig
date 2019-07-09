@@ -5,6 +5,9 @@
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('places_to_visit') }}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+
 {% endblock %}
 
 {% block breadcrumb %}
@@ -49,7 +52,7 @@
                             <th>Yerleşim Yeri</th>
                             <td>
                                 {% if places_to_visit.place %}
-                                    {{ places_to_visit.place.name}}
+                                    {{ places_to_visit.place.name }}
                                 {% endif %}
                             </td>
                         </tr>
@@ -82,8 +85,11 @@
                             <td>
                                 {% if places_to_visit.featuredPicture|length > 0 %}
 
-                                    <img src="{{ asset('uploads/ptv/')~places_to_visit.featuredPicture }}" width="300"
-                                         height="225"/>
+                                    <a data-fancybox="gallery" href="{{ asset('uploads/ptv/')~places_to_visit.featuredPicture }}">
+                                        <img src="{{ asset('uploads/ptv/')~places_to_visit.featuredPicture }}" width="300"
+                                             height="225"/>
+                                    </a>
+                                
                                     <a class="btn-default btn-xs"
                                        href="{{ path('ptv_featured_photo_delete',
                                            {ptv:places_to_visit.id,
@@ -178,9 +184,12 @@
                         {% for g in places_to_visit.pTVPhotos %}
 
 
-                            <img style="margin-bottom: 20px;margin-left: 20px;"
-                                 src="{{ asset('uploads/ptv/gallery/')~g.filename }}" width="200"
-                                 height="150" alt=""/>
+                            <a data-fancybox="gallery" href="{{ asset('uploads/ptv/gallery/')~g.filename }}">
+                                <img style="margin-bottom: 20px;margin-left: 20px;"
+                                     src="{{ asset('uploads/ptv/gallery/')~g.filename }}" width="200"
+                                     height="150" alt=""/>
+                            </a>
+
                             <a class="btn-default btn-xs"
                                href="{{ path('ptv_photo_delete',
                                    {ptv:places_to_visit.id,id:g.id,_token:csrf_token('delete-gallery-photo'~g.id)}) }}"
@@ -222,4 +231,6 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('places_to_visit') }}
+
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 {% endblock %}

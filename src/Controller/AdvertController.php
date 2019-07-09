@@ -216,7 +216,6 @@ class AdvertController extends AbstractController
     public function deleteFeatured(Request $request,$advert)
     {
 
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $submittedToken = $request->query->get('_token');
 

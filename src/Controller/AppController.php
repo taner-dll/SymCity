@@ -24,25 +24,40 @@ class AppController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
 
-        $adverts = $em->getRepository(Advert::class)
-            ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
 
-        $events = $em->getRepository(Event::class)
-            ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
 
-        $announces = $em->getRepository(Announce::class)
-            ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        $users = $em->getRepository(User::class)->findAll();
+            $adverts = $em->getRepository(Advert::class)
+                ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+
+            $events = $em->getRepository(Event::class)
+                ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+
+            $announces = $em->getRepository(Announce::class)
+                ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+
+            $users = $em->getRepository(User::class)->findAll();
+
+            return $this->render('app/dashboard.html.twig', [
+                'adverts' => $adverts,
+                'events' => $events,
+                'announces' => $announces,
+                'users' => $users
+            ]);
+
+        }
+        else{
+
+            return $this->render('app/user-dashboard.html.twig');
+
+
+        }
 
 
 
-        return $this->render('app/dashboard.html.twig', [
-            'adverts' => $adverts,
-            'events' => $events,
-            'announces' => $announces,
-            'users' => $users
-        ]);
+
 
 
     }

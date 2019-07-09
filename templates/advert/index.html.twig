@@ -51,7 +51,7 @@
                                         <th>Bölge</th>
                                         <th>Fiyat (TL)</th>
                                         <th>Telefon</th>
-                                        <th>E-posta</th>
+                                        <th>Ekleyen</th>
                                         <th>İlan Durumu</th>
                                         <th>İlan Tipi</th>
                                         <th></th>
@@ -76,7 +76,7 @@
                                             <td>{{ advert.place ? advert.place.name : '' }}</td>
                                             <td>{{ advert.price }}</td>
                                             <td>{{ advert.telephone }}</td>
-                                            <td>{{ advert.email }}</td>
+                                            <td>{{ advert.user.email }}</td>
                                             <td>{{ advert.status }}</td>
                                             <td>{{ advert.type }}</td>
                                             <td>

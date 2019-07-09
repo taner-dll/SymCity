@@ -24,7 +24,7 @@ security:
                 login_path: login
                 check_path: login
                 csrf_token_generator: security.csrf.token_manager
-                default_target_path: homepage
+                default_target_path: app_dashboard
 
             logout:
                 path:   app_logout
@@ -49,7 +49,7 @@ security:
         - { path: ^/security/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/security/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/security/list-users, roles: ROLE_ADMIN }
-        - { path: ^/app/dashboard, roles: ROLE_ADMIN }
+        - { path: ^/app/dashboard, roles: ROLE_USER }
         - { path: ^/advert/, roles: ROLE_USER }
         - { path: ^/announce/, roles: ROLE_USER }
         - { path: ^/event/, roles: ROLE_USER }

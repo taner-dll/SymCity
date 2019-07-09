@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Announce;
+use App\Entity\Event;
 use App\Form\AnnounceType;
 use App\Repository\AnnounceRepository;
 use App\Traits\File;
@@ -218,9 +219,7 @@ class AnnounceController extends AbstractController
      */
     public function deleteFeatured(Request $request,$announce)
     {
-
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
+        
         $submittedToken = $request->query->get('_token');
 
         if ($this->isCsrfTokenValid('delete-featured-photo'.$announce  , $submittedToken)) {
@@ -247,4 +246,61 @@ class AnnounceController extends AbstractController
         return $this->redirectToRoute('announce_show', ['id' => $announce]);
 
     }
+
+    /**
+     * @Route("/announce/confirm/{id}", name="announce_confirm", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function confirm(Request $request, $id)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('confirm'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $announce = $em->getRepository(Announce::class)->find($id);
+            $announce->setConfirm(1);
+            $em->flush();
+
+            $this->addFlash('success','Successfully Confirmed');
+
+        }
+
+        return $this->redirectToRoute('announce_show', ['id' => $id]);
+
+    }
+
+    /**
+     * @Route("/announce/unconfirm/{id}", name="announce_unconfirm", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function unconfirm(Request $request, $id)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('unconfirm'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $announce = $em->getRepository(Announce::class)->find($id);
+            $announce->setConfirm(0);
+            $em->flush();
+
+            $this->addFlash('success','Successfully Canceled');
+
+        }
+
+        return $this->redirectToRoute('announce_show', ['id' => $id]);
+
+    }
+
 }
