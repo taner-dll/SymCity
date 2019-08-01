@@ -12,6 +12,7 @@ parameters:
     ann_directory:  '%kernel.project_dir%/public/uploads/announce'
     adv_directory:  '%kernel.project_dir%/public/uploads/place_an_ad'
     plc_directory:  '%kernel.project_dir%/public/uploads/place'
+    bus_directory:  '%kernel.project_dir%/public/uploads/business'
     locale: 'en'
 
 services:

@@ -27,6 +27,7 @@ Encore
     .addEntry('place_an_ad', './assets/js/place_an_ad.js')
     .addEntry('place', './assets/js/place.js')
     .addEntry('dashboard', './assets/js/dashboard.js')
+    .addEntry('business', './assets/js/business.js')
 
 
     /*
@@ -64,6 +65,15 @@ Encore
         // copies to {output}/static
         { from: './assets/img', to: 'img' }
     ]))
+
+    .configureBabel((babelConfig) => {
+        const preset = babelConfig.presets.find(([name]) => name === "@babel/preset-env");
+        if (preset !== undefined) {
+            preset[1].useBuiltIns = "usage";
+            preset[1].corejs = '3.0.0';
+        }
+    })
+
 ;
 
 module.exports = Encore.getWebpackConfig();

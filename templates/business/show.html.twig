@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}İş Yeri{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('business') }}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            İş Yeri
+            <small>{{ business.name }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li><a href="{{ path('business_index') }}">İş Yerleri</a></li>
+            <li class="active"><a href="{{ path('business_show', {id:business.id}) }}">
+                    {{ business.name }}</a></li>
+
+        </ol>
+    </section>
+
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="box">
+
+        <!--
+        <div class="box-header with-border">
+            <h3 class="box-title">Gezilecek Yerler</h3>
+        </div>
+
+       -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th>Son Güncelleme</th>
+                            <td>{{ business.lastUpdate ? business.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>İşletme Adı</th>
+                            <td>{{ business.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Harita</th>
+                            <td>{{ business.map }}</td>
+                        </tr>
+                        <tr>
+                            <th>Hakkında</th>
+                            <td>{{ business.about[:500]|striptags }}&hellip;</td>
+                        </tr>
+                        <tr>
+                            <th>Telefon</th>
+                            <td>{{ business.phone }}</td>
+                        </tr>
+                        <tr>
+                            <th>Web</th>
+                            <td>{{ business.web }}</td>
+                        </tr>
+                        <tr>
+                            <th>Eposta</th>
+                            <td>{{ business.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Adres</th>
+                            <td>{{ business.adress }}</td>
+                        </tr>
+                        <tr>
+                            <th>Facebook</th>
+                            <td>{{ business.facebook }}</td>
+                        </tr>
+                        <tr>
+                            <th>Twitter</th>
+                            <td>{{ business.twitter }}</td>
+                        </tr>
+                        <tr>
+                            <th>Instagram</th>
+                            <td>{{ business.instagram }}</td>
+                        </tr>
+                        <tr>
+                            <th>İşletme Türü</th>
+                            <td>{{ business.type }}</td>
+                        </tr>
+                        <tr>
+                            <th>Onay Durumu</th>
+                            <td>
+                                {% if  business.confirm == 0 %}
+                                    <span class="label label-warning">
+                                        <i class="fa fa-clock-o"></i>
+                                        Yönetici Onayı Bekleniyor</span><br><br>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('business_confirm',
+                                            {id:business.id,_token:csrf_token('confirm' ~ business.id)}) }}"
+                                           class="btn btn-success" style="margin-right: 10px;">Onayla</a>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="label label-success">
+                                        <i class="fa fa-check"></i>
+                                         Onaylandı</span><br><br>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('business_unconfirm',
+                                            {id:business.id,_token:csrf_token('unconfirm' ~ business.id)}) }}"
+                                           class="btn btn-danger" style="margin-right: 10px;">Yayından Kaldır</a>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Öne Çıkan Resim</th>
+                            <td>
+                                {% if business.featuredPicture|length > 0 %}
+
+                                    <img src="{{ asset('uploads/business/')~business.featuredPicture }}" width="300"
+                                         height="225"/>
+                                    <a class="btn-default btn-xs"
+                                       href="{{ path('business_featured_photo_delete',
+                                           {business:business.id,
+                                               _token:csrf_token('delete-featured-photo'~business.id)}) }}"
+                                       target="_self"
+                                       onclick="return confirm('Silmek istediğinizden emin misiniz?');"
+                                       style="position: absolute;"><i class="fa fa-close"></i></a>
+
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                       
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <a href="{{ path('business_index') }}" class="btn btn-primary" style="margin-right: 10px;">Liste</a>
+            <a href="{{ path('business_edit', {'id': business.id}) }}" class="btn btn-warning"
+               style="margin-right: 10px;">Düzenle</a>
+            <!-- Button trigger modal -->
+            <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                Sil
+            </a>
+            {{ include('business/_delete_form.html.twig') }}
+        </div>
+        <!-- /.box-footer-->
+    </div>
+
+
+
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('business') }}
+{% endblock %}

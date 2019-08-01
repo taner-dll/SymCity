@@ -58,3 +58,4 @@ security:
         - { path: ^/ptv/, roles: ROLE_USER }
         - { path: ^/places/to/visit/, roles: ROLE_USER }
         - { path: ^/place/, roles: ROLE_USER }
+        - { path: ^/business/, roles: ROLE_USER }

@@ -13,7 +13,7 @@
                     <ul class="top_links">
                         <li>
                             {% if app.user %}
-                            <a href="{{ path('places_to_visit_index') }}">
+                            <a href="{{ path('app_dashboard') }}">
                                 <i class="fa fa-user-o" aria-hidden="true"></i>
                                 {{ app.user.email[:30] }}
                             </a>

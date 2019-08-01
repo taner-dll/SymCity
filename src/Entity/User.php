@@ -76,6 +76,11 @@ class User implements UserInterface
      */
     private $adverts;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Business", mappedBy="user")
+     */
+    private $businesses;
+
     public function __construct()
     {
         $this->roles = array('ROLE_USER');
@@ -83,6 +88,7 @@ class User implements UserInterface
         $this->event = new ArrayCollection();
         $this->announce = new ArrayCollection();
         $this->adverts = new ArrayCollection();
+        $this->businesses = new ArrayCollection();
     }
 
     // other properties and methods
@@ -273,6 +279,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($advert->getUser() === $this) {
                 $advert->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Business[]
+     */
+    public function getBusinesses(): Collection
+    {
+        return $this->businesses;
+    }
+
+    public function addBusiness(Business $business): self
+    {
+        if (!$this->businesses->contains($business)) {
+            $this->businesses[] = $business;
+            $business->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBusiness(Business $business): self
+    {
+        if ($this->businesses->contains($business)) {
+            $this->businesses->removeElement($business);
+            // set the owning side to null (unless already changed)
+            if ($business->getUser() === $this) {
+                $business->setUser(null);
             }
         }
 

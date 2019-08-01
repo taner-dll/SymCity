@@ -153,7 +153,6 @@ class EventController extends AbstractController
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
 
-
             //cropped image
             if(!empty($file)) {
 
