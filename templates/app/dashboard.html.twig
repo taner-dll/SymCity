@@ -30,7 +30,7 @@
                     <p>Kullanıcılar</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-bag"></i>
+                    <i class="fa fa-user"></i>
                 </div>
                 <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
@@ -83,235 +83,238 @@
         <!-- ./col -->
     </div>
 
-
     <div class="row">
-        
-        <div class="col-sm-6">
-            <div class="box collapsed-box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <a style="text-decoration: underline"  href="{{ path('advert_index') }}">
-                        İlanlar ({{ adverts|length }})
+
+
+        <div class="col-md-8">
+            <!-- Custom Tabs (Pulled to the right) -->
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs pull-right">
+                    <li class=""><a href="#tab_ilan" data-toggle="tab" aria-expanded="false">
+                            İlanlar
+                            &nbsp;
+                            {% if adverts|length > 0  %}
+                            <small class="label pull-right bg-red">
+                            {{ adverts|length }}
+                            </small>
+                            {% endif %}
                         </a>
-                    </h3>
-
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-
-                    <div id="example1_wrapper"
-                         class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
-                        <table id="example1" class="table table-bordered table-striped
+                    </li>
+                    <li class=""><a href="#tab_duyuru" data-toggle="tab" aria-expanded="true">
+                            Duyurular
+                            &nbsp;
+                            {% if announces|length > 0  %}
+                                <small class="label pull-right bg-red">
+                                    {{ announces|length }}
+                                </small>
+                            {% endif %}
+                        </a></li>
+                    <li class=""><a href="#tab_etkinlik" data-toggle="tab" aria-expanded="false">
+                            Etkinlikler
+                            &nbsp;
+                            {% if events|length > 0  %}
+                                <small class="label pull-right bg-red">
+                                    {{ events|length }}
+                                </small>
+                            {% endif %}
+                        </a></li>
+                    <li class="active"><a href="#tab_isletme" data-toggle="tab" aria-expanded="false">
+                            İşletmeler
+                            &nbsp;
+                            {% if businesses|length > 0  %}
+                                <small class="label pull-right bg-red">
+                                    {{ businesses|length }}
+                                </small>
+                            {% endif %}
+                        </a></li>
+                    <li class="pull-left header"><i class="fa fa-check-circle"></i> Onay Bekleyenler</li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="tab_ilan">
+                        <div id="example1_wrapper"
+                             class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                            <table id="example1" class="table table-bordered table-striped
                                 table-hover
                                 dataTable" role="grid" aria-describedby="example1_info">
-                            <thead>
-                            <tr role="row">
-
-                                <th></th>
-                                <th>Güncelleme</th>
-                                <th>Başlık</th>
-                                <th>Bölge</th>
-                                <th>Durumu</th>
-                                <th>Tipi</th>
-                                <th></th>
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for advert in adverts %}
-                                <tr>
+                                <tbody>
+                                {% for advert in adverts %}
+                                    <tr>
 
 
-                                    <td>
-                                        {% if  advert.confirm == 0 %}
-                                            <span class="label label-warning">
+                                        <td>
+                                            {% if  advert.confirm == 0 %}
+                                                <span class="label label-warning">
                                         <i class="fa fa-clock-o"></i>
                                         Bekleniyor</span>
-                                        {% else %}
-                                            <span class="label label-success">
+                                            {% else %}
+                                                <span class="label label-success">
                                         <i class="fa fa-check"></i>
                                          Onaylandı</span>
-                                        {% endif %}
-                                    </td>
+                                            {% endif %}
+                                        </td>
 
-                                    <td>{{ advert.lastUpdate ?
-                                        advert.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
-                                    <td>{{ advert.title[:15]|striptags }}&hellip;</td>
-                                    <td>{{ advert.place ? advert.place.name : '' }}</td>
-                                    <td>{{ advert.status }}</td>
-                                    <td>{{ advert.type }}</td>
-                                    <td>
-                                        <a class="btn btn-xs btn-primary pull-left"
-                                           href="{{ path('advert_show', {'id': advert.id}) }}">Göster</a>
-                                    </td>
+                                        <td>{{ advert.lastUpdate ?
+                                            advert.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                                        <td>{{ advert.title[:15]|striptags }}&hellip;</td>
+                                        <td>{{ advert.place ? advert.place.name : '' }}</td>
+                                        <td>{{ advert.status }}</td>
+                                        <td>{{ advert.type }}</td>
+                                        <td>
+                                            <a class="btn btn-xs btn-primary pull-left"
+                                               href="{{ path('advert_show', {'id': advert.id}) }}">Göster</a>
+                                        </td>
 
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <td colspan="11">Onay bekleyen ilan bulunmamaktadır.</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="11">Onay bekleyen ilan bulunmamaktadır.</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
-                </div>
-                <!-- /.box-body -->
-            </div>
-        </div>
-
-        <div class="col-sm-6">
-            <div class="box collapsed-box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <a style="text-decoration: underline"  href="{{ path('event_index') }}">
-                            Etkinlikler ({{ events|length }})
-                        </a>
-
-                    </h3>
-
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-
-                    <div id="example1_wrapper"
-                         class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
-                        <table id="example1" class="table table-bordered table-striped
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_duyuru">
+                        <div id="example1_wrapper"
+                             class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                            <table id="example1" class="table table-bordered table-striped
                                 table-hover
                                 dataTable" role="grid" aria-describedby="example1_info">
-                            <thead>
-                            <tr role="row">
-                                <th></th>
-                                <th>Güncelleme</th>
-                                <th>Etkinlik</th>
-                                <th>Bölge</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for event in events %}
-                                <tr>
-                                    <td>
-                                        {% if  event.confirm == 0 %}
-                                            <span class="label label-warning">
+                                <tbody>
+                                {% for announce in announces %}
+                                    <tr>
+
+
+                                        <td>
+                                            {% if  announce.confirm == 0 %}
+                                                <span class="label label-warning">
+                                        <i class="fa fa-clock-o"></i>
+                                        Bekleniyor</span>
+                                            {% else %}
+                                                <span class="label label-success">
+                                        <i class="fa fa-check"></i>
+                                         Onaylandı</span>
+                                            {% endif %}
+                                        </td>
+
+                                        <td>{{ announce.lastUpdate ?
+                                            announce.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                                        <td>{{ announce.name[:15]|striptags }}&hellip;</td>
+                                        <td>{{ announce.place ? announce.place.name : '' }}</td>
+
+                                        <td>
+                                            <a class="btn btn-xs btn-primary pull-left"
+                                               href="{{ path('announce_show', {'id': announce.id}) }}">Göster</a>
+                                        </td>
+
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="11">Onay bekleyen duyuru bulunmamaktadır.</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_etkinlik">
+                        <div id="example1_wrapper"
+                             class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                            <table id="example1" class="table table-bordered table-striped
+                                table-hover
+                                dataTable" role="grid" aria-describedby="example1_info">
+
+                                <tbody>
+                                {% for event in events %}
+                                    <tr>
+                                        <td>
+                                            {% if  event.confirm == 0 %}
+                                                <span class="label label-warning">
                                                     <i class="fa fa-clock-o"></i>
                                                     Bekleniyor</span>
-                                        {% else %}
-                                            <span class="label label-success">
+                                            {% else %}
+                                                <span class="label label-success">
                                                     <i class="fa fa-check"></i>
                                                      Onaylandı</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ event.lastUpdate ? event.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
-                                    <td>{{ event.name[:20]|striptags }}&hellip;</td>
-                                    <td>{{ event.place ? event.place.name : '' }}</td>
-                                    <td>
-                                        <a href="{{ path('event_show', {'id': event.id}) }}"
-                                           class="btn btn-xs btn-primary pull-left">Göster</a>
-                                    </td>
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <td colspan="10">Onay bekleyen etkinlik bulunmamaktadır.</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ event.lastUpdate ? event.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                                        <td>{{ event.name[:20]|striptags }}&hellip;</td>
+                                        <td>{{ event.place ? event.place.name : '' }}</td>
+                                        <td>
+                                            <a href="{{ path('event_show', {'id': event.id}) }}"
+                                               class="btn btn-xs btn-primary pull-left">Göster</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="10">Onay bekleyen etkinlik bulunmamaktadır.</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
 
+                        </div>
                     </div>
-
-                </div>
-                <!-- /.box-body -->
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="box collapsed-box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <a style="text-decoration: underline" href="{{ path('announce_index') }}">
-                            Duyurular ({{ announces|length }})
-                        </a>
-                    </h3>
-
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-
-                    <div id="example1_wrapper"
-                         class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
-                        <table id="example1" class="table table-bordered table-striped
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane active" id="tab_isletme">
+                        <div id="example1_wrapper"
+                             class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                            <table id="example1" class="table table-bordered table-striped
                                 table-hover
                                 dataTable" role="grid" aria-describedby="example1_info">
-                            <thead>
-                            <tr role="row">
-
-                                <th></th>
-                                <th>Güncelleme</th>
-                                <th>Başlık</th>
-                                <th>Bölge</th>
-                                <th></th>
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for announce in announces %}
-                                <tr>
+                                <tbody>
+                                {% for business in businesses %}
+                                    <tr>
 
 
-                                    <td>
-                                        {% if  announce.confirm == 0 %}
-                                            <span class="label label-warning">
+                                        <td>
+                                            {% if  business.confirm == 0 %}
+                                                <span class="label label-warning">
                                         <i class="fa fa-clock-o"></i>
                                         Bekleniyor</span>
-                                        {% else %}
-                                            <span class="label label-success">
+                                            {% else %}
+                                                <span class="label label-success">
                                         <i class="fa fa-check"></i>
                                          Onaylandı</span>
-                                        {% endif %}
-                                    </td>
+                                            {% endif %}
+                                        </td>
 
-                                    <td>{{ announce.lastUpdate ?
-                                        announce.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
-                                    <td>{{ announce.name[:15]|striptags }}&hellip;</td>
-                                    <td>{{ announce.place ? announce.place.name : '' }}</td>
+                                        <td>{{ business.lastUpdate ?
+                                            business.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                                        <td>{{ business.name[:15]|striptags }}&hellip;</td>
 
-                                    <td>
-                                        <a class="btn btn-xs btn-primary pull-left"
-                                           href="{{ path('announce_show', {'id': announce.id}) }}">Göster</a>
-                                    </td>
 
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <td colspan="11">Onay bekleyen duyuru bulunmamaktadır.</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                                        <td>
+                                            <a class="btn btn-xs btn-primary pull-left"
+                                               href="{{ path('business_show', {'id': business.id}) }}">Göster</a>
+                                        </td>
+
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="11">Onay bekleyen iş yeri bulunmamaktadır.</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
+                    <!-- /.tab-pane -->
                 </div>
-                <!-- /.box-body -->
+                <!-- /.tab-content -->
             </div>
+            <!-- nav-tabs-custom -->
         </div>
+        
+
 
 
     </div>
+
+
 
 
 

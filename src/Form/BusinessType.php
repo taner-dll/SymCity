@@ -15,6 +15,26 @@ class BusinessType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $choices = [
+            'Seçiniz'=>'',
+            'Restoran / Lokanta' => 'eat',
+            'Cafe / Bar' => 'cafe',
+            'Otel / Pansiyon / Konaklama' => 'otel',
+            'Dükkan / Market' => 'shop',
+            'Kamp Yeri' => 'camp',
+            'Tur / Seyahat' => 'tour',
+            'Sağlık / Güzellik' => 'health',
+            'Araç Kiralama' => 'car',
+            'Tamir / Servis' => 'service',
+            'Taksi' => 'taxi',
+            'Hukuk' => 'law',
+            'Sigorta' => 'insurance',
+            'Diğer' => 'other'
+        ];
+
+
+
         $builder
             ->add('name')
             ->add('map')
@@ -28,20 +48,7 @@ class BusinessType extends AbstractType
             ->add('instagram', UrlType::class, array('required' => false))
             ->add('featured_picture', FileType::class, array('data_class' => null, 'required' => false))
             ->add('type', ChoiceType::class, array(
-                'choices'  => [
-                    'Seçiniz'=>'',
-                    'Restoran / Lokanta' => 'eat',
-                    'Cafe / Bar' => 'cafe',
-                    'Otel / Pansiyon / Konaklama' => 'otel',
-                    'Dükkan / Market' => 'shop',
-                    'Kamp Yeri' => 'camp',
-                    'Tur / Seyahat' => 'tour',
-                    'Sağlık / Güzellik' => 'health',
-                    'Araç Kiralama' => 'car',
-                    'Tamir / Servis' => 'service',
-                    'Diğer' => 'other',
-
-                ],
+                'choices'  => $choices,
                 'required' => true,
         
             ))

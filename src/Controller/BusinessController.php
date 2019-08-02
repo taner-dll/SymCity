@@ -25,6 +25,7 @@ class BusinessController extends AbstractController
     use File;
     use Util;
 
+
     /**
      * @Route("/", name="business_index", methods={"GET"})
      * @param BusinessRepository $businessRepository
@@ -56,6 +57,7 @@ class BusinessController extends AbstractController
         $business = new Business();
         $form = $this->createForm(BusinessType::class, $business);
         $form->handleRequest($request);
+
 
 
         if ($form->isSubmitted() && $form->isValid()) {

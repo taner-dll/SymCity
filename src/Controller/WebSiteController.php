@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Advert;
+use App\Entity\Business;
 use App\Traits\Util;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,12 +14,24 @@ class WebSiteController extends AbstractController
 {
 
     use Util;
+
     /**
      * @Route("/", name="index")
      */
-     public function index(){
+    public function index()
+    {
 
-        return $this->render('web_site/base.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+
+        $eating = $em->getRepository(Business::class)
+            ->findBy(array('type' => 'eat'));
+
+
+        return $this->render('web_site/base.html.twig',
+            array(
+                'eating_count' => count($eating)
+            ));
     }
 
     /**
@@ -28,7 +42,7 @@ class WebSiteController extends AbstractController
     public function ptv_page($slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $ptv = $em->getRepository(PlacesToVisit::class)->findOneBy(array('slug'=>$slug));
+        $ptv = $em->getRepository(PlacesToVisit::class)->findOneBy(array('slug' => $slug));
 
         return $this->render('web_site/pages/ptv.html.twig', [
             'ptv' => $ptv,
@@ -36,14 +50,14 @@ class WebSiteController extends AbstractController
     }
 
 
-     /**
+    /**
      * @Route("/menu1", name="menu1")
      * header embed controller
      */
-     public function menu1()
-     {
+    public function menu1()
+    {
         $em = $this->getDoctrine()->getManager();
-        $ptv = $em->getRepository(PlacesToVisit::class)->findBy(array(), array('name'=>'ASC'));
-        return $this->render('web_site/embedded_controller/menu1.html.twig', ['ptv'=>$ptv]);
-     }
+        $ptv = $em->getRepository(PlacesToVisit::class)->findBy(array(), array('name' => 'ASC'));
+        return $this->render('web_site/embedded_controller/menu1.html.twig', ['ptv' => $ptv]);
+    }
 }

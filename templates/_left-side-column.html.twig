@@ -22,12 +22,19 @@
             <li class="header"></li>
             <li>
                 <a href="{{ path('homepage') }}">
-                    <i class="fa fa-arrow-left"></i> <span>Siteye Geri Dön</span>
+                    <i class="fa fa-home"></i> <span>Siteye Git</span>
                 </a>
             </li>
             <li>
                 <a href="{{ path('app_dashboard') }}">
-                    <i class="fa fa-home"></i> <span>Ana Sayfa</span>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <i class="fa fa-dashboard"></i> <span>Kontrol Merkezi</span>
+                    {% else %}
+                        <i class="fa fa-user"></i> <span>Profil</span>
+                    {% endif %}
+
+
                 </a>
             </li>
 

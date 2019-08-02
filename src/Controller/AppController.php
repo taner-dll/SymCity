@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Advert;
 use App\Entity\Announce;
+use App\Entity\Business;
 use App\Entity\Event;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,12 +39,16 @@ class AppController extends AbstractController
             $announces = $em->getRepository(Announce::class)
                 ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
 
+            $businesses = $em->getRepository(Business::class)
+                ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+
             $users = $em->getRepository(User::class)->findAll();
 
             return $this->render('app/dashboard.html.twig', [
                 'adverts' => $adverts,
                 'events' => $events,
                 'announces' => $announces,
+                'businesses' => $businesses,
                 'users' => $users
             ]);
 
