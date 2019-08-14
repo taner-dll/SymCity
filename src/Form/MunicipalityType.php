@@ -23,8 +23,9 @@ class MunicipalityType extends AbstractType
                 'choice_label' => function(Place $place) {
                     return $place->getName();
                 },
-                'required' => false,
-                'placeholder' => ''
+                'placeholder' => 'Seçiniz',
+                'required' => false
+
             ))
             ->add('about')
             ->add('mayor')

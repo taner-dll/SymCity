@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Business;
+use App\Entity\Place;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -17,19 +19,21 @@ class BusinessType extends AbstractType
     {
 
         $choices = [
-            'Seçiniz'=>'',
-            'Restoran / Lokanta' => 'eat',
-            'Cafe / Bar' => 'cafe',
-            'Otel / Pansiyon / Konaklama' => 'otel',
-            'Dükkan / Market' => 'shop',
+            'Yemek' => 'eat',
+            'Kafe / Bar' => 'cafe-bar',
+            'Otel' => 'hotel',
+            'Pansiyon / Konaklama' => 'hostel',
             'Kamp Yeri' => 'camp',
-            'Tur / Seyahat' => 'tour',
-            'Sağlık / Güzellik' => 'health',
+            'Tur / Seyahat' => 'tour-travel',
+            'Sağlık / Güzellik' => 'health-beauty',
             'Araç Kiralama' => 'car',
-            'Tamir / Servis' => 'service',
+            'Tamir / Bakım / Servis' => 'repair-service',
             'Taksi' => 'taxi',
             'Hukuk' => 'law',
             'Sigorta' => 'insurance',
+            'Emlak' => 'real-estate',
+            'Market / Büfe' => 'market',
+            'Dükkan' => 'shop',
             'Diğer' => 'other'
         ];
 
@@ -51,6 +55,15 @@ class BusinessType extends AbstractType
                 'choices'  => $choices,
                 'required' => true,
         
+            ))
+            ->add('place', EntityType::class, array(
+                'class' => Place::class,
+                'choice_label' => function(Place $place) {
+                    return $place->getName();
+                },
+                'placeholder' => 'Seçiniz',
+                'required' => false
+
             ))
         ;
     }

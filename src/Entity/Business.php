@@ -97,6 +97,11 @@ class Business
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="businesses")
+     */
+    private $place;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -290,6 +295,18 @@ class Business
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): self
+    {
+        $this->place = $place;
 
         return $this;
     }

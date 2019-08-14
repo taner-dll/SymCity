@@ -1,72 +1,122 @@
 <!-- Directory Category -->
-<section id="directory-category" class="p_b70 p_t70">
+<section id="directory-category" class="p_b30 p_t30">
     <div class="container">
        
         <div class="row">
             <div class="col-md-12">
-                <div class="directory-category-box text-center"> <span><i class="fa fa-glass" aria-hidden="true"></i></span>
+                <div class="directory-category-box dating text-center"> <span><i class="fa fa-cutlery" aria-hidden="true"></i></span>
                     <a href="#">
-                        <h3>Yeme / İçme</h3>
+                        <h3>{{ 'eat'|trans({}, 'business')}}</h3>
                     </a>
-                    <p>{{ eating_count }}</p>
-                </div>
-                <!--
-                <div class="directory-category-box text-center"> <span><i class="fa fa-home" aria-hidden="true"></i></span>
-                    <a href="real-estate.html">
-                        <h3>Real Estate</h3>
-                    </a>
-                    <p>35,366</p>
-                </div>
-                <div class="directory-category-box text-center"> <span><i class="fa fa-futbol-o" aria-hidden="true"></i></span>
-                    <a href="sport.html">
-                        <h3>Sport</h3>
-                    </a>
-                    <p>2,546</p>
-                </div>
-                <div class="directory-category-box text-center"> <span><i class="fa fa-female" aria-hidden="true"></i></span>
-                    <a href="beauty-spa.html">
-                        <h3>Beauty & Spa</h3>
-                    </a>
-                    <p>1,546</p>
-                </div>
-                <div class="directory-category-box text-center"> <span><i class="fa fa-car" aria-hidden="true"></i></span>
-                    <a href="vehicles.html">
-                        <h3>Vehicles</h3>
-                    </a>
-                    <p>2, 34, 546</p>
-                </div>
-                <div class="directory-category-box text-center"> <span><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></span>
-                    <a href="shoping.html">
-                        <h3>Shoping</h3>
-                    </a>
-                    <p>2,546</p>
-                </div>
-                <div class="directory-category-box text-center"> <span><i class="fa fa-cogs" aria-hidden="true"></i></span>
-                    <a href="industry.html">
-                        <h3>Industry</h3>
-                    </a>
-                    <p>3,506</p>
-                </div>
-                <div class="directory-category-box text-center"> <span><i class="fa fa-heart" aria-hidden="true"></i></span>
-                    <a href="dating.html">
-                        <h3>Dating</h3>
-                    </a>
-                    <p>12,546</p>
-                </div>
-                <div class="directory-category-box text-center"> <span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-                    <a href="job.html">
-                        <h3>Jobs</h3>
-                    </a>
-                    <p>22,546</p>
-                </div>
-                <div class="directory-category-box text-center"> <span><i class="fa fa-globe" aria-hidden="true"></i></span>
-                    <a href="job.html">
-                        <h3>Other Services</h3>
-                    </a>
-                    <p>24,567</p>
+                    <p>{{ business_count.eat }}</p>
                 </div>
 
-                -->
+                <div class="directory-category-box industry text-center"> <span><i class="fa fa-glass" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'cafe-bar'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.cafe }}</p>
+                </div>
+
+                <div class="directory-category-box beauty text-center"> <span><i class="fa fa-hotel" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'hotel'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.hotel }}</p>
+                </div>
+
+                <div class="directory-category-box beauty text-center"> <span><i class="fa fa-bed" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'hostel'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.hostel }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-tree" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'camp'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.camp }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-bus" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'tour-travel'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.tour }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-heart" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'health-beauty'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.health }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-car" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'car'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.car }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-wrench" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'repair-service'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.repair }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-taxi" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'taxi'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.taxi }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-taxi" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'law'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.law }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-file" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'insurance'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.insurance }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-home" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'real-estate'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.realestate }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-shopping-basket" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'market'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.market }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-shopping-bag" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'shop'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.shop }}</p>
+                </div>
+
+                <div class="directory-category-box text-center"> <span><i class="fa fa-shopping-bag" aria-hidden="true"></i></span>
+                    <a href="#">
+                        <h3>{{ 'other'|trans({}, 'business')}}</h3>
+                    </a>
+                    <p>{{ business_count.other }}</p>
+                </div>
+
+              
             </div>
         </div>
     </div>

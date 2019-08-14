@@ -1,0 +1,44 @@
+{% extends 'web_site/base.html.twig' %}
+
+{% block title %}İşletme Rehberi{% endblock %}
+
+{% block body %}
+
+    <!-- Blog -->
+    <section class="p_t30 bg_lightgry" id="blog">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-9 col-sm-9 col-xs-12">
+
+                    <div class="blog heading">
+
+                        <h2>{{ business_detail.name|upper }}</h2>
+                        
+                        <div class="blog-detail">
+
+                            {{ business_detail.about|raw }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="right-bar bg_white">
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- Blog -->
+
+{% endblock %}

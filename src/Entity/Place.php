@@ -73,6 +73,11 @@ class Place
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Business", mappedBy="place")
+     */
+    private $businesses;
+
     public function __construct()
     {
         $this->ptv = new ArrayCollection();
@@ -80,6 +85,7 @@ class Place
         $this->events = new ArrayCollection();
         $this->announces = new ArrayCollection();
         $this->adverts = new ArrayCollection();
+        $this->businesses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -310,6 +316,37 @@ class Place
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Business[]
+     */
+    public function getBusinesses(): Collection
+    {
+        return $this->businesses;
+    }
+
+    public function addBusiness(Business $business): self
+    {
+        if (!$this->businesses->contains($business)) {
+            $this->businesses[] = $business;
+            $business->setPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBusiness(Business $business): self
+    {
+        if ($this->businesses->contains($business)) {
+            $this->businesses->removeElement($business);
+            // set the owning side to null (unless already changed)
+            if ($business->getPlace() === $this) {
+                $business->setPlace(null);
+            }
+        }
 
         return $this;
     }

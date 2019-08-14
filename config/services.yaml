@@ -13,7 +13,7 @@ parameters:
     adv_directory:  '%kernel.project_dir%/public/uploads/place_an_ad'
     plc_directory:  '%kernel.project_dir%/public/uploads/place'
     bus_directory:  '%kernel.project_dir%/public/uploads/business'
-    locale: 'en'
+    locale: 'tr'
 
 services:
     # default configuration for services in *this* file

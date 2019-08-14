@@ -51,6 +51,7 @@
                                         <th>Telefon</th>
                                         <th>Web</th>
                                         <th>Eposta</th>
+                                        <th>Bölge</th>
                                         <th>İşletme Türü</th>
                                         <th></th>
                                     </tr>
@@ -74,7 +75,10 @@
                                             <td>{{ business.phone }}</td>
                                             <td>{{ business.web }}</td>
                                             <td>{{ business.email }}</td>
-                                            <td>{{ business.type }}</td>
+                                            <td>
+                                                {{ business.place.name is defined ? business.place.name : ''  }}
+                                            </td>
+                                            <td>{{ business.type| trans({}, 'business') }}</td>
                                             <td>
                                                 <a href="{{ path('business_show', {'id': business.id}) }}"
                                                    class="btn btn-xs btn-primary pull-left">Göster</a>

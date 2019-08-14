@@ -50,6 +50,11 @@
                             <td>{{ business.name }}</td>
                         </tr>
                         <tr>
+                            <th>Bölge</th>
+                            <td>{{ business.place.name is defined ? business.place.name : ''  }}</td>
+                        </tr>
+
+                        <tr>
                             <th>Harita</th>
                             <td>{{ business.map }}</td>
                         </tr>
@@ -60,7 +65,7 @@
                         <tr>
                             <th>Telefon</th>
                             <td>{{ business.phone }}</td>
-                        </tr>
+                        </tr>                                                       
                         <tr>
                             <th>Web</th>
                             <td>{{ business.web }}</td>
@@ -87,7 +92,7 @@
                         </tr>
                         <tr>
                             <th>İşletme Türü</th>
-                            <td>{{ business.type }}</td>
+                            <td>{{ business.type| trans({}, 'business') }}</td>
                         </tr>
                         <tr>
                             <th>Onay Durumu</th>
