@@ -83,20 +83,32 @@
                     <div class="right-bar bg_white">
                         <h4>{{ 'business_guide.advanced'|trans({}, 'business') }}
                             <span>{{ 'business_guide.searching'|trans({}, 'business') }}</span></h4>
-                        <form class="form-right" method="get" action="{{ path('business_guide') }}">
+                        <form class="form-right" method="get"
+                              action="{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}">
+
+
                             <div class="form-group">
-                                <label>
-                                    <input type="text" class="form-control" placeholder="İşletme Adı"
-                                           name="bname[name]">
-                                    <input type="text" class="form-control" placeholder="İşletme Adı"
-                                           name="bname[name2]">
-                                </label>
+                                <label for="name">İşletme Adında Ara</label>
+                                <label for="name"></label><input class="form-control" id="name"
+                                                                 name="name" value="" type="text">
                             </div>
+
+                            <div class="form-group">
+                                <select name="cat">
+                                    {% for key, value in categories %}
+                                        <option value="{{ value['shortname'] }}">{{ value['shortname']| trans({}, 'business') }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+
                             <div class="form-group">
                                 <button>{{ 'business_guide.search'|trans({}, 'business') }}</button>
                             </div>
                         </form>
                     </div>
+
+
 
                     <div class="right-bar bg_white">
                         <h4>{{ 'business_guide.category'|trans({}, 'business') }}
@@ -104,10 +116,26 @@
                         <ul class="right-bar-listing">
                             {% for key, value in categories %}
                                 <li>
-                                    <a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i>
-                                        {{ value['shortname']| trans({}, 'business') }}
-                                        <span>({{ value['total'] }})</span>
-                                    </a>
+                                    {# get parameter varsa & ile ekle #}
+                                    {% if app.request.query.all|length > 0  %}
+
+                                        <a href="{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}&cat={{ value['shortname'] }}">
+                                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                            {{ value['shortname']| trans({}, 'business') }}
+                                            <span>({{ value['total'] }})</span>
+                                        </a>
+
+                                    {% else %}
+
+                                        <a href="{{ path('business_guide') }}?cat={{ value['shortname'] }}">
+                                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                            {{ value['shortname']| trans({}, 'business') }}
+                                            <span>({{ value['total'] }})</span>
+                                        </a>
+
+                                    {% endif %}
+
+
                                 </li>
                             {% endfor %}
                         </ul>

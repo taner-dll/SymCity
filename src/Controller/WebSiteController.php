@@ -6,6 +6,7 @@ use App\Entity\Business;
 use App\Traits\Util;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +16,6 @@ class WebSiteController extends AbstractController
 {
 
     use Util;
-
 
 
     /**
@@ -29,14 +29,13 @@ class WebSiteController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
 
+        $businesses = $em->getRepository(Business::class)->businessGuideFilter($request);
 
-        $businesses = $em->getRepository(Business::class)->findBy(array('confirm'=>1));
 
         $businesses = $paginator->paginate(
             $businesses,
             $request->query->getInt('page', 1), 5
         );
-
 
 
         return $this->render('web_site/pages/business_guide.html.twig', [

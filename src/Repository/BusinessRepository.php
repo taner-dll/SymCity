@@ -6,6 +6,8 @@ use App\Entity\Business;
 use App\Entity\BusinessCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Request;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Business|null find($id, $lockMode = null, $lockVersion = null)
@@ -38,16 +40,25 @@ class BusinessRepository extends ServiceEntityRepository
     }
 
 
-    public function businessGuideFilter($options){
-
-
+    public function businessGuideFilter(Request $request){
 
         $qb = $this->createQueryBuilder('b')
             ->select('b')
+            ->leftJoin('b.category', 'c')
             ->where('b.confirm = :confirm')
-            ->setParameter('confirm',1)
-            ->getQuery();
-        return $qb->execute();
+            ->setParameter('confirm',1);
+
+        if ($request->query->get('name')):
+            $qb->andWhere($qb->expr()->like('b.name',':bname'))
+                ->setParameter('bname','%'.$request->query->get('name').'%');
+        endif;
+
+        if ($request->query->get('cat')):
+            $qb->andWhere($qb->expr()->like('c.short_name',':sname'))
+                ->setParameter('sname','%'.$request->query->get('cat').'%');
+        endif;
+
+        return $qb->getQuery()->execute();
     }
 
 
