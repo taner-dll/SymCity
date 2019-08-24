@@ -45,6 +45,7 @@ class BusinessRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('b')
             ->select('b')
             ->leftJoin('b.category', 'c')
+            ->leftJoin('b.place', 'p')
             ->where('b.confirm = :confirm')
             ->setParameter('confirm',1);
 
@@ -54,8 +55,13 @@ class BusinessRepository extends ServiceEntityRepository
         endif;
 
         if ($request->query->get('cat')):
-            $qb->andWhere($qb->expr()->like('c.short_name',':sname'))
-                ->setParameter('sname','%'.$request->query->get('cat').'%');
+            $qb->andWhere('c.short_name = :sname')
+                ->setParameter('sname',$request->query->get('cat'));
+        endif;
+
+        if ($request->query->get('place')):
+            $qb->andWhere('b.place = :pl_id')
+                ->setParameter('pl_id',$request->query->get('place'));
         endif;
 
         return $qb->getQuery()->execute();

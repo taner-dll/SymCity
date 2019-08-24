@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Business;
+use App\Entity\Place;
 use App\Traits\Util;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,7 +41,8 @@ class WebSiteController extends AbstractController
 
         return $this->render('web_site/pages/business_guide.html.twig', [
             'businesses' => $businesses,
-            'categories' => $em->getRepository(Business::class)->businessCategoryList()
+            'categories' => $em->getRepository(Business::class)->businessCategoryList(),
+            'places' => $em->getRepository(Place::class)->findAll()
         ]);
 
     }
