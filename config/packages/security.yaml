@@ -1,7 +1,7 @@
 security:
     encoders:
         App\Entity\User:
-            algorithm: bcrypt
+            algorithm: auto
 
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -57,6 +57,7 @@ security:
         - { path: ^/municipality/, roles: ROLE_USER }
         - { path: ^/event/, roles: ROLE_USER }
         - { path: ^/ptv/, roles: ROLE_USER }
-        - { path: ^/places/to/visit/, roles: ROLE_USER }
-        - { path: ^/place/, roles: ROLE_USER }
+        - { path: ^/places/to/visit/, roles: ROLE_ADMIN }
+        - { path: ^/place/, roles: ROLE_ADMIN }
         - { path: ^/business/, roles: ROLE_USER }
+        - { path: ^/business/category/, roles: ROLE_ADMIN }

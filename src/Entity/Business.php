@@ -71,10 +71,6 @@ class Business
      */
     private $featured_picture;
 
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="businesses")
@@ -101,6 +97,12 @@ class Business
      * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="businesses")
      */
     private $place;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BusinessCategory", inversedBy="businesses")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
 
     public function getId(): ?int
     {
@@ -239,17 +241,6 @@ class Business
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -307,6 +298,18 @@ class Business
     public function setPlace(?Place $place): self
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    public function getCategory(): ?BusinessCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?BusinessCategory $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

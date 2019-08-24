@@ -14,3 +14,11 @@ real-estate: Emlak
 market: Market
 shop: Dükkan
 other: Diğer
+
+business_guide:
+  business_guide: İşletme Rehberi
+  category: Kategori
+  list: Listesi
+  advanced: Gelişmiş
+  searching: Arama
+  search: Ara

@@ -14,7 +14,7 @@
 nav.navbar.bootsnav li.dropdown ul.dropdown-menu {
   border-color: #1fb7a6;
 }
-nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a:hover, 
+nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a:hover,
 nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li.active a,
 nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li:focus a{
   background-color: #1fb7a6;
@@ -36,8 +36,8 @@ nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li.ac
 .directory-category-heading span {
 	color:#1fb7a6;
 }
-.sort-listing.nav-tabs > li.active > a, 
-.sort-listing.nav-tabs > li.active > a:focus, 
+.sort-listing.nav-tabs > li.active > a,
+.sort-listing.nav-tabs > li.active > a:focus,
 .sort-listing.nav-tabs > li.active > a:hover,
 .sort-listing.nav > li > a:focus,
 .sort-listing.nav > li > a:hover {
@@ -155,10 +155,10 @@ nav.navbar.bootsnav ul.nav > li > a:hover,
 #main_header_3 nav.navbar.bootsnav ul.nav > li > a:hover{
   color: #1fb7a6;
 }
-nav.navbar.bootsnav ul.nav li.megamenu-fw > a:hover, 
-nav.navbar.bootsnav ul.nav li.megamenu-fw > a:focus, 
-nav.navbar.bootsnav ul.nav li.active > a:hover, 
-nav.navbar.bootsnav ul.nav li.active > a:focus, 
+nav.navbar.bootsnav ul.nav li.megamenu-fw > a:hover,
+nav.navbar.bootsnav ul.nav li.megamenu-fw > a:focus,
+nav.navbar.bootsnav ul.nav li.active > a:hover,
+nav.navbar.bootsnav ul.nav li.active > a:focus,
 nav.navbar.bootsnav ul.nav li.active > a,
 #main_header_3 nav.navbar.bootsnav ul.nav > li > a:focus,
 #main_header_3 nav.navbar.bootsnav ul.nav > li.active > a{
@@ -210,11 +210,11 @@ nav.navbar.bootsnav ul.nav li.active > a,
 .places-list .media-heading .fa{
 	color:#1fb7a6;
 }
-#popular-listing .pagination > .active > a, 
-#popular-listing .pagination > .active > a:focus, 
-#popular-listing .pagination > .active > a:hover, 
-#popular-listing .pagination > .active > span, 
-#popular-listing .pagination > .active > span:focus, 
+#popular-listing .pagination > .active > a,
+#popular-listing .pagination > .active > a:focus,
+#popular-listing .pagination > .active > a:hover,
+#popular-listing .pagination > .active > span,
+#popular-listing .pagination > .active > span:focus,
 #popular-listing .pagination > .active > span:hover {
   background-color: #1fb7a6;
   border-color: #1fb7a6;
@@ -227,8 +227,8 @@ nav.navbar.bootsnav ul.nav li.active > a,
 	background:#1fb7a6;
 	border:1px solid #1fb7a6;
 }
-#login-register .nav-tabs > li.active > a, 
-#login-register .nav-tabs > li.active > a:focus, 
+#login-register .nav-tabs > li.active > a,
+#login-register .nav-tabs > li.active > a:focus,
 #login-register .nav-tabs > li.active > a:hover {
 	background-color: #1fb7a6;
 	border:1px solid #1fb7a6;

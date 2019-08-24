@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Business;
+use App\Entity\BusinessCategory;
 use App\Entity\Place;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,27 +20,6 @@ class BusinessType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $choices = [
-            'Yemek' => 'eat',
-            'Kafe / Bar' => 'cafe-bar',
-            'Otel' => 'hotel',
-            'Pansiyon / Konaklama' => 'hostel',
-            'Kamp Yeri' => 'camp',
-            'Tur / Seyahat' => 'tour-travel',
-            'Sağlık / Güzellik' => 'health-beauty',
-            'Araç Kiralama' => 'car',
-            'Tamir / Bakım / Servis' => 'repair-service',
-            'Taksi' => 'taxi',
-            'Hukuk' => 'law',
-            'Sigorta' => 'insurance',
-            'Emlak' => 'real-estate',
-            'Market / Büfe' => 'market',
-            'Dükkan' => 'shop',
-            'Diğer' => 'other'
-        ];
-
-
-
         $builder
             ->add('name')
             ->add('map')
@@ -51,9 +32,17 @@ class BusinessType extends AbstractType
             ->add('twitter', UrlType::class, array('required' => false))
             ->add('instagram', UrlType::class, array('required' => false))
             ->add('featured_picture', FileType::class, array('data_class' => null, 'required' => false))
-            ->add('type', ChoiceType::class, array(
-                'choices'  => $choices,
+            ->add('category', EntityType::class, array(
+                'class'  => BusinessCategory::class,
+
+                'query_builder' => function(EntityRepository $er){
+                    return $er->createQueryBuilder('bc')
+                        ->orderBy('bc.sort','asc');
+                },
+                'choice_label' => 'short_name',
+                'placeholder' => 'Seçiniz',
                 'required' => true,
+                'choice_translation_domain' => 'business'
         
             ))
             ->add('place', EntityType::class, array(

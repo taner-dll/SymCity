@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}İş Yerleri{% endblock %}
+{% block title %}İş Yeri Kategorisi{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,13 +11,13 @@
 
     <section class="content-header">
         <h1>
-            İş Yerleri
+            İş Yeri Kategorisi
             <small>Liste</small>
         </h1>
 
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li class="active"><a href="{{ path('business_index') }}">İş Yerleri</a></li>
+            <li class="active"><a href="{{ path('business_category_index') }}">İş Yeri Kategorisi</a></li>
 
         </ol>
     </section>
@@ -45,73 +45,42 @@
                                 dataTable" role="grid" aria-describedby="example1_info">
                                     <thead>
                                     <tr role="row">
-                                        <th>Onay Durumu</th>
-                                        <th>Son Güncelleme</th>
-                                        <th>İşletme Adı</th>
-                                        <th>Telefon</th>
-                                        <th>Web</th>
-                                        <th>Eposta</th>
-                                        <th>Bölge</th>
-                                        <th>İşletme Türü</th>
+                                        <th>Kısa Ad</th>
+                                        <th>Sıralama</th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for business in businesses %}
+                                    {% for business_category in business_categories %}
                                         <tr>
+                                            <td>{{ business_category.shortName }}</td>
+                                            <td>{{ business_category.sort }}</td>
                                             <td>
-                                                {% if  business.confirm == 0 %}
-                                                    <span class="label label-warning">
-                                                    <i class="fa fa-clock-o"></i>
-                                                    Yönetici Onayı Bekleniyor</span>
-                                                {% else %}
-                                                    <span class="label label-success">
-                                                    <i class="fa fa-check"></i>
-                                                     Onaylandı</span>
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ business.lastUpdate ? business.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
-                                            <td>{{ business.name }}</td>
-                                            <td>{{ business.phone }}</td>
-                                            <td>{{ business.web }}</td>
-                                            <td>{{ business.email }}</td>
-                                            <td>
-                                                {{ business.place.name is defined ? business.place.name : ''  }}
-                                            </td>
-                                            <td>{{ business.category.shortName| trans({}, 'business') }}</td>
-                                            <td>
-                                                <a href="{{ path('business_show', {'id': business.id}) }}"
+                                                <a href="{{ path('business_category_show', {'id': business_category.id}) }}"
                                                    class="btn btn-xs btn-primary pull-left">Göster</a>
                                             </td>
                                         </tr>
                                     {% else %}
                                         <tr>
-                                            <td colspan="10">no records found</td>
+                                            <td colspan="4">no records found</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
                                 </table>
-
                             </div>
-
-
                         </div>
                     </div>
                 </div>
                 <!-- /.box-body -->
             </div>
         </div>
-
     </div>
-
 
     {% for message in app.flashes('success') %}
         <input type="hidden" id="success_message" value="{{ message }}"/>
     {% endfor %}
 
 {% endblock %}
-
-
 
 
 {% block javascripts %}

@@ -42,7 +42,7 @@
                     <table class="table table-bordered">
                         <tbody>
                         <tr>
-                            <th>Son Güncelleme</th>
+                            <th style="width: 25%">Son Güncelleme</th>
                             <td>{{ business.lastUpdate ? business.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
                         </tr>
                         <tr>
@@ -92,7 +92,7 @@
                         </tr>
                         <tr>
                             <th>İşletme Türü</th>
-                            <td>{{ business.type| trans({}, 'business') }}</td>
+                            <td>{{ business.category.shortName| trans({}, 'business') }}</td>
                         </tr>
                         <tr>
                             <th>Onay Durumu</th>

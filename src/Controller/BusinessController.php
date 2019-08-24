@@ -62,6 +62,15 @@ class BusinessController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
+            /*
+            echo '<pre>';
+            echo print_r($_POST);
+            echo '</pre>';
+            //exit;
+            */
+
+
             $entityManager = $this->getDoctrine()->getManager();
 
             //url slug

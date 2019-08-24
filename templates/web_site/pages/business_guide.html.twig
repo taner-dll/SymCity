@@ -1,6 +1,6 @@
 {% extends 'web_site/base.html.twig' %}
 
-{% block title %}İşletme Rehberi{% endblock %}
+{% block title %}{{ 'business_guide.business_guide'|trans({}, 'business') }}{% endblock %}
 
 {% block body %}
 
@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="inner_banner_detail">
-                        <h2>İşletme Rehberi</h2>
+                        <h2>{{ 'business_guide.business_guide'|trans({}, 'business') }}</h2>
                     </div>
                 </div>
 
@@ -25,166 +25,100 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="popular-listing-box">
-                                <div class="row">
-                                    <div class="col-md-5 col-sm-5 col-xs-12">
-                                        <div class="popular-listing-img">
-                                            <figure class="effect-ming"> <img src="images/restaurant/1.jpg" alt="image">
-                                                <figcaption>
-                                                    <ul>
-                                                        <li><a href="#!"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                        <li><a href="#!"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                        <li><a href="#!"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                    </ul>
-                                                </figcaption>
-                                            </figure>
+
+                            {% for b in businesses %}
+
+                                <div class="popular-listing-box">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <div class="popular-listing-img">
+                                                <figure class="effect-ming">
+                                                    {% if b.featuredPicture is not null %}
+                                                        <img src="{{ asset('uploads/business/')~b.featuredPicture }}"
+                                                             alt="image">
+                                                    {% else %}
+                                                        <img src="{{ asset('build/img/no-image.png') }}"
+                                                             alt="image">
+
+                                                    {% endif %}
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <div class="popular-listing-detail">
+                                                <h3><a href="#">{{ b.name|title }}</a></h3>
+                                                <p>{{ (b.about|striptags)[:100] }} </p>
+                                            </div>
+                                            <div class="popular-listing-add">
+                                                <span><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                    {{ b.place.name }}
+                                                </span>
+                                                <a href="#" class="pull-right">Detaylı Göster &raquo;</a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-7 col-sm-7 col-xs-12">
-                                        <div class="popular-listing-detail">
-                                            <h3><a href="listing-details.html">Restaurant Name Here</a></h3>
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                        </div>
-                                        <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="images/stars.png" alt="image"></span> </div>
-                                    </div>
+
                                 </div>
+
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            {# display navigation #}
+                            <div class="navigation">
+                                {{ knp_pagination_render(businesses) }}
                             </div>
                         </div>
                     </div>
 
-
-                    <div class="bs-example" data-example-id="disabled-active-pagination">
-                        <nav aria-label="...">
-                            <ul class="pagination">
-                                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a>
-                                </li>
-                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li><a href="#">2</a>
-                                </li>
-                                <li><a href="#">3</a>
-                                </li>
-                                <li><a href="#">4</a>
-                                </li>
-                                <li><a href="#">5</a>
-                                </li>
-                                <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-
                 </div>
+
 
                 <div class="col-md-3 col-sm-3 col-xs-12 listing-rightbar">
 
-                    <div class="right-bar">
-                        <h4>Category <span>List</span></h4>
+                    <div class="right-bar bg_white">
+                        <h4>{{ 'business_guide.advanced'|trans({}, 'business') }}
+                            <span>{{ 'business_guide.searching'|trans({}, 'business') }}</span></h4>
+                        <form class="form-right" method="get" action="{{ path('business_guide') }}">
+                            <div class="form-group">
+                                <label>
+                                    <input type="text" class="form-control" placeholder="İşletme Adı"
+                                           name="bname[name]">
+                                    <input type="text" class="form-control" placeholder="İşletme Adı"
+                                           name="bname[name2]">
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <button>{{ 'business_guide.search'|trans({}, 'business') }}</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="right-bar bg_white">
+                        <h4>{{ 'business_guide.category'|trans({}, 'business') }}
+                            <span>{{ 'business_guide.list'|trans({}, 'business') }}</span></h4>
                         <ul class="right-bar-listing">
-                            <li><a href="#"><i class="fa fa-glass" aria-hidden="true"></i> Restaurant <span>(08)</span></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Real Estate <span>(15)</span></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-futbol-o" aria-hidden="true"></i> Sport <span>(21)</span></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-female" aria-hidden="true"></i> Beauty &amp; Spa <span>(18)</span></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-car" aria-hidden="true"></i> Vehicles <span>(28)</span></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i> Shoping <span>(38)</span></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i> Industry <span>(20)</span></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i> Dating <span>(10)</span></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Jobs <span>(17)</span></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i> Other Services <span>(50)</span></a>
-                            </li>
+                            {% for key, value in categories %}
+                                <li>
+                                    <a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                        {{ value['shortname']| trans({}, 'business') }}
+                                        <span>({{ value['total'] }})</span>
+                                    </a>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
 
-
-
-
-
                 </div>
 
             </div>
         </div>
     </section>
 
-    <!-- Blog -->
-    <section class="p_t30 bg_lightgry" id="blog">
-        <div class="container">
 
-            <div class="row">
-
-                <div class="col-md-9 col-sm-9 col-xs-12">
-
-                    <div class="blog heading">
-
-                        <div class="blog-detail">
-
-                            <div id="example1_wrapper"
-                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
-                                <table id="example1" class="table table-striped
-                                table-hover table-condensed
-                                dataTable" role="grid" aria-describedby="example1_info">
-                                    <thead>
-                                    <tr role="row">
-                                        <th{% if businesses.isSorted('name') %}
-                                            class="sorted"{% endif %}>
-                                            {{ knp_pagination_sortable(businesses, 'Title', 'name') }}</th>
-                                        <th>İşletme Türü</th>
-                                        <th>Bölge</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for business in businesses %}
-                                        <tr>
-                                            <td>{{ business.name }}</td>
-                                            <td>{{ business.type| trans({}, 'business') }}</td>
-                                            <td>{{ business.place.name }}</td>
-                                            <td>
-                                                <a href="{{ path('business_detail', {'id': business.id, 'slug':business.slug}) }}"
-                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
-                                            </td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="10">no records found</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-
-                                <div>
-                                    {{ knp_pagination_render(businesses) }}
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-3 col-sm-3 col-xs-12">
-                    <div class="right-bar bg_white">
-
-                    </div>
-
-
-
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-    <!-- Blog -->
 
 {% endblock %}

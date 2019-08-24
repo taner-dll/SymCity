@@ -79,6 +79,29 @@
                         <li><a href="{{ path('municipality_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
                     </ul>
                 </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-list"></i> <span>Kategoriler</span>
+                        <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-home"></i> <span>İş Yeri Kategorileri</span>
+                                <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{ path('business_category_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a></li>
+                                <li><a href="{{ path('business_category_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
             {% endif %}
 
 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Business;
+use App\Entity\BusinessCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -19,32 +20,35 @@ class BusinessRepository extends ServiceEntityRepository
         parent::__construct($registry, Business::class);
     }
 
-    // /**
-    //  * @return Business[] Returns an array of Business objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Business
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+    /**
+     * Business guide - right colum, category list.
+     * @return Business[]
+     */
+    public function businessCategoryList(){
+        $qb = $this->createQueryBuilder('b')
+            ->select('b.id as id, count(c.id) as total, c.short_name as shortname')
+            ->innerJoin('b.category', 'c')
+            ->where('b.confirm = :confirm')
+            ->setParameter('confirm',1)
+            ->groupBy('shortname')
+            ->orderBy('c.sort','asc')
+            ->getQuery();
+        return $qb->execute();
     }
-    */
+
+
+    public function businessGuideFilter($options){
+
+
+
+        $qb = $this->createQueryBuilder('b')
+            ->select('b')
+            ->where('b.confirm = :confirm')
+            ->setParameter('confirm',1)
+            ->getQuery();
+        return $qb->execute();
+    }
+
+
 }

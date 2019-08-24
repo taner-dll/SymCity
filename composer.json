@@ -7,15 +7,15 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "dompdf/dompdf": "^0.8.3",
-        "knplabs/knp-paginator-bundle": "^2.8",
+        "knplabs/knp-paginator-bundle": "*",
         "phpoffice/phpspreadsheet": "^1.6",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "*",
         "symfony/console": "*",
-        "symfony/event-dispatcher": "4.2.*",
+        "symfony/event-dispatcher": "^4.0",
         "symfony/expression-language": "*",
-        "symfony/filesystem": "4.2.*",
+        "symfony/filesystem": "*",
         "symfony/flex": "^1.1",
         "symfony/form": "*",
         "symfony/framework-bundle": "*",
@@ -24,14 +24,14 @@
         "symfony/process": "*",
         "symfony/requirements-checker": "^1.1",
         "symfony/security-bundle": "*",
-        "symfony/security-csrf": "4.2.*",
+        "symfony/security-csrf": "*",
         "symfony/serializer-pack": "*",
         "symfony/swiftmailer-bundle": "^3.2",
-        "symfony/translation": "4.2.*",
+        "symfony/translation": "*",
         "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/web-link": "*",
-        "symfony/webpack-encore-bundle": "^1.0",
+        "symfony/webpack-encore-bundle": "^1.6",
         "symfony/yaml": "*"
     },
     "require-dev": {
@@ -84,7 +84,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": "true",
+            "allow-contrib": "false",
             "require": "4.3.*"
         }
     }
