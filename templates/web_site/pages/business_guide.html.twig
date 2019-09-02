@@ -7,7 +7,7 @@
     <section id="inner-banner">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="inner_banner_detail">
                         <h2>{{ 'business_guide.business_guide'|trans({}, 'business') }}</h2>
                     </div>
@@ -17,7 +17,7 @@
         </div>
     </section>
 
-    <section id="popular-listing" class="p_b70 p_t70">
+    <section id="popular-listing" class="p_b30 p_t30">
         <div class="container">
             <div class="row">
 
@@ -53,7 +53,14 @@
                                                 <span><i class="fa fa-map-marker" aria-hidden="true"></i>
                                                     {{ b.place.name }}
                                                 </span>
-                                                <a href="#" class="pull-right">Detaylı Göster &raquo;</a>
+
+                                                <span style="margin-left: 20px">
+                                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                                    {{ b.category.shortname|trans({}, 'business') }}</span>
+
+
+                                                <a href="{{ path('business_detail', {id:b.id,slug:b.slug}) }}" style="text-decoration: underline"
+                                                   class="pull-right">  Göster</a>
                                             </div>
                                         </div>
                                     </div>
@@ -89,14 +96,19 @@
 
                             <div class="form-group">
                                 <label for="name">İşletme Adında Ara</label>
+
+                                {% set bname = "" %}
+                                {% if app.request.get('name') is not null %}
+                                    {% set bname = app.request.get('name') %}
+                                {% endif %}
                                 <label for="name"></label><input class="form-control" id="name"
-                                                                 name="name" value="" type="text">
+                                                                 name="name" value="{{ bname }}" type="text">
                             </div>
 
                             <div class="form-group">
                                 <label for="cat">Kategori</label><br>
                                 <select name="cat" id="cat">
-                                    <option value="">Seçiniz</option>
+                                    <option value="">Hepsi</option>
                                     {% for key, value in categories %}
                                         <option
                                                 {% set selected = '' %}
@@ -114,7 +126,7 @@
                             <div class="form-group">
                                 <label for="place">Bölge</label><br>
                                 <select name="place" id="place">
-                                    <option value="">Seçiniz</option>
+                                    <option value="">Hepsi</option>
                                     {% for p in places %}
                                         <option
                                                 {% set selected = '' %}
@@ -133,6 +145,11 @@
                                 <button>{{ 'business_guide.search'|trans({}, 'business') }}</button>
                             </div>
                         </form>
+
+
+                        <a href="{{ path('business_guide') }}" style="text-decoration: underline">
+                            Aramayı Sıfırla
+                        </a>
                     </div>
 
 
@@ -146,7 +163,7 @@
                                     {% if app.request.query.all|length > 0 %}
 
                                         <a href="{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}&cat={{ value['shortname'] }}">
-                                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+
                                             {{ value['shortname']| trans({}, 'business') }}
                                             <span>({{ value['total'] }})</span>
                                         </a>
@@ -154,7 +171,7 @@
                                     {% else %}
 
                                         <a href="{{ path('business_guide') }}?cat={{ value['shortname'] }}">
-                                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+
                                             {{ value['shortname']| trans({}, 'business') }}
                                             <span>({{ value['total'] }})</span>
                                         </a>
@@ -165,6 +182,9 @@
                                 </li>
                             {% endfor %}
                         </ul>
+
+
+
                     </div>
 
                 </div>
