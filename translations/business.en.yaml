@@ -1,1 +1,31 @@
+eat: Eat / Drink
+cafe-bar: Cafe / Bar
+hotel: Hotel
+hostel: Hostel
+camp: Camping
+tour-travel: Tour / Travel
+health-beauty: Health / Beauty
+car: Rent A Car
+repair-service: Repair / Service
+taxi: Taxi
+law: Law
+insurance: Insurance
+real-estate: Real Estate
+market: Market
+shop: Shop
+other: Other
 
+business_guide:
+  business_guide: Business Guide
+  category: Category
+  list: List
+  advanced: Advanced
+  searching: Search
+  search: Search
+  business_name: Business Name
+  place: Place
+  reset_search: Reset Search
+
+business_detail:
+  posted_by: Posted By
+  last_update: Last Update

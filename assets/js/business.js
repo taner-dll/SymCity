@@ -51,13 +51,15 @@ $input.change(function () {
 
             // Start cropper
             $image.cropper({
-                aspectRatio: 800 / 600,
+                aspectRatio: 870 / 470,
                 dragMode: 'move',
-                cropBoxMovable: false,
-                cropBoxResizable: false,
+                cropBoxMovable: true,
+                cropBoxResizable: true,
                 guides: false,
                 minContainerWidth: 800,
-                minContainerHeight: 600
+                minContainerHeight: 432,
+                viewMode: 2 //?
+                
             });
         };
 });
@@ -65,8 +67,8 @@ $input.change(function () {
 $('#crop_image').on('click', function () {
 
     let imageData = $image.cropper('getCroppedCanvas',{
-        width:800,
-        height:600,
+        width:870,
+        height:470,
         fillColor: '#fff',
     }).toDataURL('image/jpeg');
 

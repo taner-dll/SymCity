@@ -68,10 +68,10 @@
         <div class="form-group">
             {% if app.request.get('_route') == 'business_edit' %}
                 <img id="preview" src="{{ asset('uploads/business/')~business.featuredPicture }}"
-                     class="img-responsive img-bordered" width="300" height="225"  alt=""/>
+                     class="img-responsive img-bordered" width="400" height="216"  alt=""/>
             {% else %}
                 <img id="preview" src=""
-                     class="img-responsive img-bordered" width="300" height="225" alt="" />
+                     class="img-responsive img-bordered" width="400" height="216" alt="" />
             {% endif %}
         </div>
 
@@ -87,8 +87,13 @@
                                     aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Resim Düzenle</h4>
                     </div>
-                    <div class="modal-body" style="overflow: hidden">
-                        <img alt="" src="" id="selected_image" style="max-width: 800px; max-height: 500px;"/>
+                    <div class="modal-body" style="">
+
+
+                        <div>
+                            <img alt="" src="" id="selected_image" style="max-width: 800px;max-height: 432px"/>
+                        </div>
+
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" data-method="zoom" data-option="0.1"
                                     title="Zoom In" onclick="$('#selected_image').cropper('zoom', 0.1)">

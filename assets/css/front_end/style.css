@@ -43,7 +43,7 @@ Description: A default stylesheet for Find Do Directory Template, Developed By 9
 body {
     position: relative;
     font-size: 15px;
-    color: #888;
+    color: #404040;
     font-family: 'Exo 2', sans-serif;
 }
 html,
@@ -391,7 +391,7 @@ nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li.ac
 	color:#fff;
 }
 nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a{
-  color: #888;
+  color: #404040;
 }
 /* ---------- Header - 2 CSS --------- */
 #header-top {
@@ -1073,8 +1073,8 @@ nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a{
 }
 #directory-category-slider .owl-prev,
 #directory-category-slider .owl-next{
-  border: 1px solid #888;
-  color:#888;
+  border: 1px solid #404040;
+  color:#404040;
   display: inline-block;
   font-size: 20px;
   height: 50px;
@@ -1317,14 +1317,14 @@ figure.effect-ming ul {
   border-bottom:1px solid #e2e2e2;
 }
 .popular-listing-detail > p {
-  color: #888888;
+  color: #404040;
   padding-bottom: 25px;
 }
 .popular-listing-add {
-  padding: 12px 15px 15px;
+  padding: 12px 15px 0px;
 }
 .popular-listing-add > span {
-  color: #888;
+  color: #404040;
 }
 .popular-listing-add img {
   float: right;
@@ -1347,7 +1347,7 @@ figure.effect-ming ul {
 .form-right .form-control {
   border: 1px solid #e2e2e2;
   border-radius: 0;
-  color: #888;
+  color: #404040;
 }
 .form-right label {
   font-size: 13px;
@@ -1662,7 +1662,7 @@ figure.effect-ming ul {
   font-weight: bold;
 }
 .latest-news-2-details {
-  border: 1px solid #888;
+  border: 1px solid #404040;
   padding: 20px 20px 30px 20px;
 }
 .latest-news-2-details > p {
@@ -1672,12 +1672,12 @@ figure.effect-ming ul {
   display: inline-block;
 }
 .latest-news-2-details > ul {
-  border-top: 1px solid #888;
+  border-top: 1px solid #404040;
   padding-top: 21px;
 }
 .latest-news-2-details li a {
-  border-right: 1px solid #888;
-  color: #888;
+  border-right: 1px solid #404040;
+  color: #404040;
   margin-right: 6px;
   padding-right: 9px;
   text-transform: uppercase;
@@ -1882,7 +1882,7 @@ footer#footer::after {
 .footer-about a,
 .footer-about a .fa {
 	transition: all 400ms ease-in-out;
-	color:#888;
+	color:#404040;
 	font-size:13px;
 }
 .footer-about a .fa{
@@ -2205,8 +2205,8 @@ footer#footer::after {
 }
 #places-slider .owl-prev,
 #places-slider .owl-next{
-  border: 1px solid #888;
-  color:#888;
+  border: 1px solid #404040;
+  color:#404040;
   display: inline-block;
   font-size: 20px;
   height: 50px;
@@ -2409,7 +2409,7 @@ footer#footer::after {
   color: #fff;
 }
 #popular-listing .pagination > li > a{
-  color: #888;
+  color: #404040;
 }
 #popular-listing .pagination > li > a:hover{
   color: #fff;
@@ -2447,7 +2447,7 @@ footer#footer::after {
 }
 .login-register-bg .form-control {
 	height:48px;
-	color: #888;
+	color: #404040;
 	background-color: #fff;
 	border: 1px solid #fff;
 	border-radius: 0;
@@ -2660,7 +2660,7 @@ footer#footer::after {
 .profile-login-bg .form-control{
 	height: 44px;
 	border-radius: 0;
-	color:#888;
+	color:#404040;
 }
 .profile-login-bg h2 {
 	color: #3a2f2f;

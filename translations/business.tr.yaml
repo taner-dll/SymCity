@@ -22,3 +22,10 @@ business_guide:
   advanced: Gelişmiş
   searching: Arama
   search: Ara
+  business_name: İşletme Adı
+  place: Bölge
+  reset_search: Aramayı Sıfırla
+
+business_detail:
+  posted_by: Ekleyen
+  last_update: Son Güncelleme

@@ -20,7 +20,10 @@ class WebSiteController extends AbstractController
 
 
     /**
-     * @Route("/business-guide", name="business_guide",  methods={"GET"})
+     * @Route({
+     *     "en": "/business-guide",
+     *     "tr": "/isletme-rehberi"
+     * }, name="business_guide",  methods={"GET"})
      * @param Request $request
      * @param PaginatorInterface $paginator
      * @return Response
@@ -28,6 +31,8 @@ class WebSiteController extends AbstractController
     public function business_guide(Request $request, PaginatorInterface $paginator)
     {
         $em = $this->getDoctrine()->getManager();
+
+        //$request->setLocale('en');
 
 
         $businesses = $em->getRepository(Business::class)->businessGuideFilter($request);
@@ -49,7 +54,10 @@ class WebSiteController extends AbstractController
 
 
     /**
-     * @Route("/business-detail/{id}/{slug}", name="business_detail",  methods={"GET"})
+     * @Route({
+     *     "en": "/business-detail/{id}/{slug}",
+     *     "tr": "/isletme-detay/{id}/{slug}"
+     * }, name="business_detail",  methods={"GET"})
      * @param Request $request
      * @param PaginatorInterface $paginator
      * @param $id

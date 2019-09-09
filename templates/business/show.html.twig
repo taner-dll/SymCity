@@ -123,8 +123,8 @@
                             <td>
                                 {% if business.featuredPicture|length > 0 %}
 
-                                    <img src="{{ asset('uploads/business/')~business.featuredPicture }}" width="300"
-                                         height="225"/>
+                                    <img src="{{ asset('uploads/business/')~business.featuredPicture }}" width="400"
+                                         height="216"/>
                                     <a class="btn-default btn-xs"
                                        href="{{ path('business_featured_photo_delete',
                                            {business:business.id,

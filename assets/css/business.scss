@@ -1,3 +1,9 @@
 @import "~trumbowyg/dist/ui/trumbowyg.min.css";
 @import "~cropper/dist/cropper.min.css";
 @import "~sweetalert2/dist/sweetalert2.min.css";
+
+
+img {
+  max-width: 100%;
+}
+

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Business;
-use App\Entity\Event;
 use App\Form\BusinessType;
 use App\Repository\BusinessRepository;
 use App\Traits\File;

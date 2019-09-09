@@ -14,11 +14,28 @@
 
                     <div class="blog heading">
 
-                        <h2>{{ business_detail.name }}</h2>
+                        <h2>{{ business_detail.name|title }}</h2>
+
+                        {% if business_detail.featuredPicture|length > 10 %}
+                            <div class="blog-img" style="height: 470px; overflow: hidden;">
+                                <img alt="image" style="width: 870px; height: 470px;"
+                                     src="{{ asset('uploads/business/'~business_detail.featuredPicture) }}">
+                            </div>
+                        {% endif %}
                         
                         <div class="blog-detail">
 
-                            {{ business_detail.about }}
+                            <ul class="blog-admin">
+                                <li><i class="fa fa-user"></i>{{ 'business_detail.posted_by'|trans({}, 'business') }}:
+                                    <a href="#"> {{ business_detail.user.username }}</a>
+                                </li>
+                                <li><i class="fa fa-clock-o"></i>
+                                    {{ 'business_detail.last_update'|trans({}, 'business') }}:
+                                    <a href="#"> {{ business_detail.lastUpdate|date('d/m/Y') }}</a>
+                                </li>
+                            </ul>
+
+                            {{ business_detail.about|striptags }}
 
                         </div>
 
@@ -28,7 +45,26 @@
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
                     <div class="right-bar bg_white">
+                        <a href="javascript:history.back()"><i class="fa fa-caret-left"></i> Geri Dön</a>
+                    </div>
 
+                    <div class="right-bar bg_white">
+
+                        <h4>Daha Fazla <span>Bilgi Edinin</span></h4>
+                        <div id="cd-google-map">
+
+
+
+                            <p><i class="fa fa-phone" aria-hidden="true"></i>{{ business_detail.phone }}</p>
+                            <p><i class="fa fa-globe" aria-hidden="true"></i>
+                                <a target="_blank" href="{{ business_detail.web }}">{{ business_detail.web }}</a>
+                            </p>
+                            <p><i class="fa fa-facebook" aria-hidden="true"></i>{{ business_detail.facebook }}</p>
+                            <p><i class="fa fa-twitter" aria-hidden="true"></i>{{ business_detail.twitter }}</p>
+                            <p><i class="fa fa-instagram" aria-hidden="true"></i>{{ business_detail.instagram }}</p>
+
+                            <p><i class="fa fa-map-marker" aria-hidden="true"></i>{{ business_detail.adress }}</p>
+                        </div>
                     </div>
 
 
