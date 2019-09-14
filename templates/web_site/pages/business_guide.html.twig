@@ -48,7 +48,7 @@
                                             <div class="popular-listing-detail">
                                                 <h3><a href="{{ path('business_detail', {id:b.id,slug:b.slug}) }}">
                                                         {{ b.name|title }}</a></h3>
-                                                <p>{{ (b.about|striptags)[:100] }} </p>
+                                                <p>{{ (b.about|striptags)[:100] }}&hellip;</p>
                                             </div>
                                             <div class="popular-listing-add">
                                                 <span><i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -61,7 +61,7 @@
 
 
                                                 <a href="{{ path('business_detail', {id:b.id,slug:b.slug}) }}"
-                                                   class="pull-right">Göster <i class="fa fa-caret-right"></i> </a>
+                                                   class="pull-right btn btn-default btn-xs">Göster</a>
                                             </div>
                                         </div>
                                     </div>

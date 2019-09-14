@@ -12,7 +12,7 @@
     "bootstrap": "3.3.7",
     "core-js": "^3.1.4",
     "cropper": "^4.0.0",
-    "cropperjs": "^1.4.3",
+    "cropperjs": "^1.5.5",
     "datatables.net-bs": "^1.10.19",
     "fastclick": "^1.0.6",
     "jquery-cropper": "^1.0.0",

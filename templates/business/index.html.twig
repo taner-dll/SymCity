@@ -31,7 +31,7 @@
             <div class="box">
                 <!--
                 <div class="box-header">
-                    <h3 class="box-title"></h3>
+                <h3 class="box-title"></h3>
                 </div>
                 -->
                 <!-- /.box-header -->
@@ -41,8 +41,8 @@
                             <div id="example1_wrapper"
                                  class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
                                 <table id="example1" class="table table-bordered table-striped
-                                table-hover table-condensed
-                                dataTable" role="grid" aria-describedby="example1_info">
+                                        table-hover table-condensed
+                                        dataTable" role="grid" aria-describedby="example1_info">
                                     <thead>
                                     <tr role="row">
                                         <th>Onay Durumu</th>
@@ -62,12 +62,12 @@
                                             <td>
                                                 {% if  business.confirm == 0 %}
                                                     <span class="label label-warning">
-                                                    <i class="fa fa-clock-o"></i>
-                                                    Yönetici Onayı Bekleniyor</span>
+<i class="fa fa-clock-o"></i>
+Yönetici Onayı Bekleniyor</span>
                                                 {% else %}
                                                     <span class="label label-success">
-                                                    <i class="fa fa-check"></i>
-                                                     Onaylandı</span>
+<i class="fa fa-check"></i>
+Onaylandı</span>
                                                 {% endif %}
                                             </td>
                                             <td>{{ business.lastUpdate ? business.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
@@ -76,7 +76,7 @@
                                             <td>{{ business.web }}</td>
                                             <td>{{ business.email }}</td>
                                             <td>
-                                                {{ business.place.name is defined ? business.place.name : ''  }}
+                                                {{ business.place.name is defined ? business.place.name : '' }}
                                             </td>
                                             <td>{{ business.category.shortName| trans({}, 'business') }}</td>
                                             <td>
