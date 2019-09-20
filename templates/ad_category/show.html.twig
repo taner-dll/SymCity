@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}İlan Kategorisi{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('business') }}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            İlan Kategorisi
+            <small>{{ ad_category.shortName }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li><a href="{{ path('ad_category_index') }}">İlan Kategorisi</a></li>
+            <li class="active"><a href="{{ path('ad_category_show', {id:ad_category.id}) }}">
+                    {{ ad_category.shortName }}</a></li>
+
+        </ol>
+    </section>
+
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="box">
+
+        <!--
+        <div class="box-header with-border">
+            <h3 class="box-title">Gezilecek Yerler</h3>
+        </div>
+
+       -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th style="width: 25%">Id</th>
+                            <td>{{ ad_category.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Kısa Ad</th>
+                            <td>{{ ad_category.shortName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Aktif</th>
+                            <td>{{ ad_category.active }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <a href="{{ path('ad_category_index') }}" class="btn btn-primary" style="margin-right: 10px;">Liste</a>
+            <a href="{{ path('ad_category_edit', {'id': ad_category.id}) }}" class="btn btn-warning"
+               style="margin-right: 10px;">Düzenle</a>
+            <!-- Button trigger modal -->
+            <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                Sil
+            </a>
+            {{ include('ad_category/_delete_form.html.twig') }}
+        </div>
+        <!-- /.box-footer-->
+    </div>
+
+
+
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('business') }}
+{% endblock %}

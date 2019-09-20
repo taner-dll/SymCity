@@ -20,10 +20,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BusinessController extends AbstractController
 {
-
     use File;
     use Util;
-
 
     /**
      * @Route("/", name="business_index", methods={"GET"})
@@ -134,6 +132,7 @@ class BusinessController extends AbstractController
      * @param Request $request
      * @param Business $business
      * @return Response
+     * @throws Exception
      */
     public function edit(Request $request, Business $business): Response
     {
@@ -222,7 +221,6 @@ class BusinessController extends AbstractController
 
         return $this->redirectToRoute('business_index');
     }
-
 
     /**
      * @Route("/business/confirm/{id}", name="business_confirm", methods={"GET"})

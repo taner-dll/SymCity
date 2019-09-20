@@ -1,0 +1,14 @@
+{% form_theme form 'form/fields.html.twig' %}
+<div class="box-body">
+    {{ form_start(form) }}
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.short_name, 'Kısa Ad') }}
+            {{ form_widget(form.short_name) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.active, 'Aktif') }}
+            {{ form_widget(form.active) }}
+        </div>
+    </div>
+</div>

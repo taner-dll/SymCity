@@ -18,10 +18,6 @@ class AdCategory
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $name;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -38,6 +34,10 @@ class AdCategory
      */
     private $sub;
 
+    public function __toString() {
+        return $this->short_name;
+    }
+
     public function __construct()
     {
         $this->sub = new ArrayCollection();
@@ -48,17 +48,6 @@ class AdCategory
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     public function getShortName(): ?string
     {

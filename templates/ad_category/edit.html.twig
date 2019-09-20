@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}İlan Kategorisi{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('business') }}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            İlan Kategorisi
+            <small>{{ ad_category.shortName }} (edit)</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li><a href="{{ path('ad_category_index') }}">İlan Kategorisi</a></li>
+            <li class="active"><a href="{{ path('ad_category_edit', {id:ad_category.id}) }}">
+                    {{ ad_category.shortName }} (edit)</a></li>
+
+        </ol>
+    </section>
+
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <!--
+                <div class="box-header with-border">
+                    <h3 class="box-title"></h3>
+                </div>-->
+                <!-- /.box-header -->
+                <!-- form start -->
+
+                {{ include('ad_category/_form.html.twig') }}
+
+                <div class="box-footer">
+                    <a class="btn btn-primary" style="margin-right: 10px;"
+                       href="{{ path('ad_category_show',{id:ad_category.id}) }}">Geri</a>
+                    <button class="btn btn-success">{{ button_label|default('Güncelle') }}</button>
+
+                </div>
+
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('business') }}
+{% endblock %}
