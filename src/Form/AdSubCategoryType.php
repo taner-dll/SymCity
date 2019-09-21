@@ -12,7 +12,6 @@ class AdSubCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
             ->add('short_name')
             ->add('active')
             ->add('adCategory')

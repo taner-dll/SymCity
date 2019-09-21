@@ -1,6 +1,4 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}İlan Alt Kategorisi{% endblock %}
+<?= $helper->getHeadPrintCode($entity_class_name) ?>
 
 {% block stylesheets %}
 {{ parent() }}
@@ -10,13 +8,14 @@
 
 <section class="content-header">
     <h1>
-        İlan Alt Kategorisi        <small>(edit)</small>
+        <?= $entity_class_name ?>
+        <small>(edit)</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-        <li><a href="{{ path('ad_sub_category_index') }}">İlan Alt Kategorisi</a></li>
-        <li class="active"><a href="{{ path('ad_sub_category_edit',
-        {'id': ad_sub_category.id}) }}">
+        <li><a href="{{ path('<?= $route_name ?>_index') }}"><?= $entity_class_name ?></a></li>
+        <li class="active"><a href="{{ path('<?= $route_name ?>_edit',
+        {'<?= $entity_identifier ?>': <?= $entity_twig_var_singular ?>.<?= $entity_identifier ?>}) }}">
                 (edit)</a></li>
 
     </ol>
@@ -27,6 +26,8 @@
 
 
 {% block body %}
+    <h1></h1>
+
 <div class="row">
     <div class="col-md-12">
         <div class="box">
@@ -37,11 +38,11 @@
             <!-- /.box-header -->
             <!-- form start -->
 
-            {{ include('ad_sub_category/_form.html.twig') }}
+            {{ include('<?= $route_name ?>/_form.html.twig') }}
 
             <div class="box-footer">
                 <a class="btn btn-primary" style="margin-right: 10px;"
-                   href="{{ path('ad_sub_category_show', {'id': ad_sub_category.id}) }}">Geri</a>
+                   href="{{ path('<?= $route_name ?>_show', {'<?= $entity_identifier ?>': <?= $entity_twig_var_singular ?>.<?= $entity_identifier ?>}) }}">Geri</a>
                 <button class="btn btn-success">{{ button_label|default('Güncelle') }}</button>
 
             </div>

@@ -1,6 +1,4 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}İlan Alt Kategori - Yeni Ekle{% endblock %}
+<?= $helper->getHeadPrintCode($entity_class_name.' - Yeni Ekle') ?>
 
 {% block stylesheets %}
     {{ parent() }}
@@ -10,12 +8,13 @@
 
 <section class="content-header">
     <h1>
-        İlan Alt Kategori        <small>Yeni Ekle</small>
+        <?= $entity_class_name ?>
+        <small>Yeni Ekle</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-        <li><a href="{{ path('ad_sub_category_index') }}">İlan Alt Kategori</a></li>
-        <li class="active"><a href="{{ path('ad_sub_category_new') }}">
+        <li><a href="{{ path('<?= $route_name ?>_index') }}"><?= $entity_class_name ?></a></li>
+        <li class="active"><a href="{{ path('<?= $route_name ?>_new') }}">
                 Yeni Ekle</a></li>
     </ol>
 </section>
@@ -34,10 +33,10 @@
             <!-- /.box-header -->
             <!-- form start -->
 
-            {{ include('ad_sub_category/_form.html.twig') }}
+            {{ include('<?= $route_name ?>/_form.html.twig') }}
 
             <div class="box-footer">
-                <a class="btn btn-primary" style="margin-right: 10px;" href="{{ path('ad_sub_category_index') }}">
+                <a class="btn btn-primary" style="margin-right: 10px;" href="{{ path('<?= $route_name ?>_index') }}">
                     Liste</a>
                 <button class="btn btn-success">{{ button_label|default('Kaydet') }}</button>
 

@@ -1,90 +1,88 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}AdSubCategory{% endblock %}
+{% block title %}İlan Alt Kategorisi{% endblock %}
 
 {% block stylesheets %}
-{{ parent() }}
+    {{ parent() }}
 {% endblock %}
 
 {% block breadcrumb %}
 
-<section class="content-header">
-    <h1>
-        AdSubCategory        <small>Liste</small>
-    </h1>
+    <section class="content-header">
+        <h1>
+            İlan Alt Kategorisi <small>Liste</small>
+        </h1>
 
-    <ol class="breadcrumb">
-        <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-        <li class="active"><a href="{{ path('ad_sub_category_index') }}">AdSubCategory</a></li>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li class="active"><a href="{{ path('ad_sub_category_index') }}">İlan Alt Kategorisi</a></li>
 
-    </ol>
-</section>
+        </ol>
+    </section>
 
 {% endblock %}
 
 
 {% block body %}
-<div class="row">
-    <div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
 
-        <div class="box">
-            <!--
-            <div class="box-header">
-                <h3 class="box-title"></h3>
-            </div>
-            -->
-            <!-- /.box-header -->
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div id="example1_wrapper"
-                             class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
-                            <table id="example1" class="table table-bordered table-striped
+            <div class="box">
+                <!--
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+                </div>
+                -->
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="example1_wrapper"
+                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                                <table id="example1" class="table table-bordered table-striped
                                 table-hover table-condensed
                                 dataTable" role="grid" aria-describedby="example1_info">
-                                <thead>
-                                <tr role="row">
-                                                                            <th>Id</th>
-                                                                            <th>Name</th>
-                                                                            <th>Short_name</th>
-                                                                            <th>Active</th>
-                                                                        <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for ad_sub_category in ad_sub_categories %}
-                                <tr>
-                                                                            <td>{{ ad_sub_category.id }}</td>
-                                                                            <td>{{ ad_sub_category.name }}</td>
-                                                                            <td>{{ ad_sub_category.shortName }}</td>
-                                                                            <td>{{ ad_sub_category.active ? 'Yes' : 'No' }}</td>
-                                                                        <td>
-                                        <a href="{{ path('ad_sub_category_show', {'id': ad_sub_category.id}) }}"
-                                           class="btn btn-xs btn-primary pull-left">Göster</a>
-                                    </td>
-                                </tr>
-                                {% else %}
-                                <tr>
-                                    <td colspan="5">no records found</td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                                    <thead>
+                                    <tr role="row">
+                                        <th>Üst Kategori</th>
+                                        <th>Kısa Ad</th>
+                                        <th>Aktif?</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for ad_sub_category in ad_sub_categories %}
+                                        <tr>
+                                            <td style="width: 10%;">{{ ad_sub_category.adCategory.shortName }}</td>
+                                            <td style="width: 10%;">{{ ad_sub_category.shortName }}</td>
+                                            <td>{{ ad_sub_category.active ? 'Yes' : 'No' }}</td>
+                                            <td>
+                                                <a href="{{ path('ad_sub_category_show', {'id': ad_sub_category.id}) }}"
+                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="5">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- /.box-body -->
             </div>
-            <!-- /.box-body -->
         </div>
     </div>
-</div>
 
-{% for message in app.flashes('success') %}
-<input type="hidden" id="success_message" value="{{ message }}"/>
-{% endfor %}
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
 
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
+    {{ parent() }}
 {% endblock %}

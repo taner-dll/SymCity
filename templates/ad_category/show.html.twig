@@ -42,16 +42,12 @@
                     <table class="table table-bordered">
                         <tbody>
                         <tr>
-                            <th style="width: 25%">Id</th>
-                            <td>{{ ad_category.id }}</td>
-                        </tr>
-                        <tr>
-                            <th>Kısa Ad</th>
+                            <th style="width: 10%;">Kısa Ad</th>
                             <td>{{ ad_category.shortName }}</td>
                         </tr>
                         <tr>
                             <th>Aktif</th>
-                            <td>{{ ad_category.active }}</td>
+                            <td>{{ ad_category.active ? 'Yes' : 'No' }}</td>
                         </tr>
                         </tbody>
                     </table>

@@ -1,92 +1,88 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}AdSubCategory{% endblock %}
+{% block title %}İlan Alt Kategorisi{% endblock %}
 
 {% block stylesheets %}
-{{ parent() }}
+    {{ parent() }}
 {% endblock %}
 
 {% block breadcrumb %}
 
-<section class="content-header">
-    <h1>
-        AdSubCategory        <small></small>
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-        <li><a href="{{ path('ad_sub_category_index') }}">AdSubCategory</a></li>
-        <li class="active"><a href="{{ path('ad_sub_category_show',
-        {'id': ad_sub_category.id}) }}"></a></li>
+    <section class="content-header">
+        <h1>
+            İlan Alt Kategorisi <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li><a href="{{ path('ad_sub_category_index') }}">İlan Alt Kategorisi</a></li>
+            <li class="active"><a href="{{ path('ad_sub_category_show',
+                    {'id': ad_sub_category.id}) }}"></a></li>
 
-    </ol>
-</section>
+        </ol>
+    </section>
 
 {% endblock %}
 
 
 {% block body %}
 
-<div class="box">
+    <div class="box">
 
-    <!--
-    <div class="box-header with-border">
-        <h3 class="box-title">Gezilecek Yerler</h3>
-    </div>
+        <!--
+        <div class="box-header with-border">
+            <h3 class="box-title">Gezilecek Yerler</h3>
+        </div>
 
-   -->
-    <div class="box-body">
-        <div class="row">
-            <div class="col-sm-12">
-                <table class="table table-bordered">
-                    <tbody>
-                                            <tr>
-                            <th>Id</th>
-                            <td>{{ ad_sub_category.id }}</td>
+       -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th style="width: 10%;">Üst Kategori</th>
+                            <td>{{ ad_sub_category.adCategory.shortName }}</td>
                         </tr>
-                                            <tr>
-                            <th>Name</th>
-                            <td>{{ ad_sub_category.name }}</td>
-                        </tr>
-                                            <tr>
-                            <th>Short_name</th>
+                        <tr>
+                            <th style="width: 10%;">Kısa Adı</th>
                             <td>{{ ad_sub_category.shortName }}</td>
                         </tr>
-                                            <tr>
-                            <th>Active</th>
+                        <tr>
+                            <th>Aktif?</th>
                             <td>{{ ad_sub_category.active ? 'Yes' : 'No' }}</td>
                         </tr>
-                                        </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
 
         </div>
-
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <a href="{{ path('ad_sub_category_index') }}" class="btn btn-primary" style="margin-right: 10px;">Liste</a>
+            <a href="{{ path('ad_sub_category_edit', {'id': ad_sub_category.id}) }}"
+               class="btn btn-warning"
+               style="margin-right: 10px;">Düzenle</a>
+            <!-- Button trigger modal -->
+            <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                Sil
+            </a>
+            {{ include('ad_sub_category/_delete_form.html.twig') }}
+        </div>
+        <!-- /.box-footer-->
     </div>
-    <!-- /.box-body -->
-    <div class="box-footer">
-        <a href="{{ path('ad_sub_category_index') }}" class="btn btn-primary" style="margin-right: 10px;">Liste</a>
-        <a href="{{ path('ad_sub_category_edit', {'id': ad_sub_category.id}) }}"
-           class="btn btn-warning"
-           style="margin-right: 10px;">Düzenle</a>
-        <!-- Button trigger modal -->
-        <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-            Sil
-        </a>
-        {{ include('ad_sub_category/_delete_form.html.twig') }}
-    </div>
-    <!-- /.box-footer-->
-</div>
 
 
 
-{% for message in app.flashes('success') %}
-<input type="hidden" id="success_message" value="{{ message }}"/>
-{% endfor %}
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
 
 
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-{{ encore_entry_script_tags('business') }}
+    {{ parent() }}
+    {{ encore_entry_script_tags('business') }}
 {% endblock %}

@@ -16,10 +16,6 @@ class AdSubCategory
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $name;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -42,17 +38,6 @@ class AdSubCategory
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     public function getShortName(): ?string
     {

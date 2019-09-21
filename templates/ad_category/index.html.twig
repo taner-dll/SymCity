@@ -45,7 +45,6 @@
                                 dataTable" role="grid" aria-describedby="example1_info">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
                                             <th>Kısa Ad</th>
                                             <th>Aktif</th>
                                             <th>İşlem</th>
@@ -54,8 +53,7 @@
                                     <tbody>
                                     {% for ad_category in ad_categories %}
                                         <tr>
-                                            <td>{{ ad_category.id }}</td>
-                                            <td>{{ ad_category.shortName }}</td>
+                                            <td style="width: 10%;">{{ ad_category.shortName }}</td>
                                             <td>{{ ad_category.active ? 'Yes' : 'No' }}</td>
                                             <td>
                                                 <a href="{{ path('ad_category_show', {'id': ad_category.id}) }}"

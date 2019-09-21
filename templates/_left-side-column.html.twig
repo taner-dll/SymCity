@@ -116,6 +116,20 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <span>İlan Alt Kategorileri</span>
+                                <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{ path('ad_sub_category_new') }}"><i class="fa fa-circle-o"></i> Yeni
+                                        Ekle</a></li>
+                                <li><a href="{{ path('ad_sub_category_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
             {% endif %}

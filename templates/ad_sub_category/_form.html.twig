@@ -3,7 +3,16 @@
     {{ form_start(form) }}
     <div class="col-md-6">
         <div class="form-group">
-            {{ form_widget(form) }}
+            {{ form_label(form.adCategory, 'Üst Kategori') }}
+            {{ form_widget(form.adCategory) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.short_name, 'Kısa Ad') }}
+            {{ form_widget(form.short_name) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.active, 'Aktif?') }}
+            {{ form_widget(form.active) }}
         </div>
     </div>
 </div>
