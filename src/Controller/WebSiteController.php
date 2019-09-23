@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\AdCategory;
 use App\Entity\Business;
 use App\Entity\Place;
 use App\Traits\Util;
@@ -100,6 +101,18 @@ class WebSiteController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $ptv = $em->getRepository(PlacesToVisit::class)->findBy(array(), array('name' => 'ASC'));
         return $this->render('web_site/embedded_controller/menu1.html.twig', ['ptv' => $ptv]);
+    }
+
+    /**
+     * @Route("/advert_menu", name="advert_menu")
+     * header embed controller
+     */
+    public function advertMenu()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ad_categories = $em->getRepository(AdCategory::class)->findBy(array('active' => 1), array('short_name' => 'ASC'));
+        return $this->render('web_site/embedded_controller/advert_menu.html.twig',
+            ['ad_categories' => $ad_categories]);
     }
 
 
