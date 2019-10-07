@@ -1,6 +1,108 @@
-vehicle: Vasıta İlanları
-real-estate: Emlak İlanları
-job: İş İlanları
-used-stuff: 2. El İlanlar
-private-lesson: Özel Ders İlanları
-pet-ownership: Evcil Hayvan Sahipliği
+other: Diğer
+
+vehicle: Vasıta İlanı
+real-estate: Emlak İlanı
+job: İş İlanı
+used-stuff: 2. El Eşya İlanı
+private-lesson: Özel Ders İlanı
+animals: Hayvanlar Alemi
+
+car: Otomobil
+suv-offroad-pickup: SUV, Arazi, Pickup
+motorcycle: Motosiklet
+sea-vehicle: Deniz Taşıtı
+aircraft: Hava Taşıtı
+atv-utv: ATV - UTV
+caravan: Karavan
+bus: Otobüs
+van: Panelvan - Minibus - Kamyonet
+commercial-vehicles: Ticari Araçlar (Kamyon - Tır)
+work-machines: İş Makineleri
+bicycle: Bisiklet
+
+house: Konut
+work-place: İş Yeri
+plot: Arsa
+timesharing: Devremülk
+plantation: Tarla
+
+bank_insurance: Banka - Sigorta
+it: Bilişim
+education: Eğitim - Öğretim
+security: Güvenlik
+law: Hukuk - Avukat
+hr_management: İnsan Kaynakları - Yönetim
+logistics: Lojistik - Taşımacılık - Depo
+store_retail: Mağaza - Perakende
+accounting: Muhasebe - Mali Müşavir
+sales_marketing: Satış - Pazarlama
+secretary_assistant: Sekreter - Asistan
+intern_new_graduate: Stajyer - Yeni Mezun
+textile: Tekstil - Konfeksiyon
+tourism_food_service: Turizm - Gıda - Hizmet
+production: Üretim ve İmalat
+building: Yapı - İnşaat - Mimarlık
+communication: Gazete - Haber
+telecommunication: Telekomünikasyon
+health: Sağlık
+repair_maintenance: Tamir - Bakım
+beauty: Güzellik - Bakım - Estetik
+farming: Tarım - Hayvancılık - Ziraat
+part_time: Part Time - Ek Gelir
+office: Ofis Yönetimi
+entertainment: Eğlence ve Aktivite
+design_advertising: Tasarım - Reklam - Yaratıcılık
+unskilled_worker: Vasıfsız İşçi
+
+computer: Bilgisayar
+phone: Telefon
+photo_camera: Fotoğraf Makinesi - Kamera
+home_decoration: Ev Dekorasyonu
+home_electronics: Ev Elektroniği
+clothing: Giyim - Aksesuar
+watch: Saat
+mom_baby: Anne - Bebek
+cosmetics: Kozmetik - Bakım
+hobby_toy: Hobi - Oyuncak
+game_console: Oyun Konsolu
+book_movie: Kitap - Dergi - Oyuncak
+electronics: Elektronik
+sport: Spor
+collection: Koleksiyon
+music: Müzik
+farm_equipment: Tarım Aleti
+vehicle_accessories: Araç Aksesuarı
+
+prepare: Lise - Üniversite Hazırlık
+elementary: İlköğretim
+foreign_lang: Yabancı Dil
+driving: Direksiyon
+dance: Dans
+art: Sanat
+music_instrument: Müzik - Enstrüman
+theater_acting: Tiyatro - Oyunculuk
+personal_evo: Kişisel Gelişim
+vocational: Mesleki Ders
+special: Özel Eğitim
+child: Çocuk Gelişimi
+diction: Güzel Konuşma - Diksiyon
+photography: Fotoğrafçılık
+
+pet-ownership: Evcil Hayvan Sahiplendirme
+fish: Akvaryum Balıkları
+animal_equipment: Ekipman - Aksesuar
+care: Bakım Ürünleri
+feed: Yem - Mama
+hencoop: Kümes Hayvanları
+cattle: Büyükbaş Hayvanlar
+sheep: Küçükbaş Hayvanlar
+sea_creatures: Deniz Canlıları
+reptile: Sürüngenler
+insects: Böcekler
+
+
+
+
+
+
+

@@ -11,8 +11,8 @@
 
     <section class="content-header">
         <h1>
-            İlanlar
-            <small>Yeni Ekle</small>
+            Yeni İlan Eklemektesiniz
+            <small>Adım (1/2)</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
@@ -35,12 +35,16 @@
                 <!-- form start -->
 
                 {{ include('advert/_form.html.twig') }}
+
+                <!--
                 <div class="box-footer">
                     <a class="btn btn-primary" style="margin-right: 10px;" href="{{ path('advert_index') }}">
                         Liste</a>
                     <button class="btn btn-success">{{ button_label|default('Kaydet') }}</button>
 
                 </div>
+
+                -->
 
                 {{ form_end(form) }}
 
@@ -52,5 +56,10 @@
 
 {% block javascripts %}
     {{ parent() }}
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     {{ encore_entry_script_tags('place_an_ad') }}
+
+
 {% endblock %}

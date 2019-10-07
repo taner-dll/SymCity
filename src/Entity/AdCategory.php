@@ -34,6 +34,16 @@ class AdCategory
      */
     private $sub;
 
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $sort;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="category")
+     */
+    private $adverts;
+
     public function __toString() {
         return $this->short_name;
     }
@@ -41,6 +51,7 @@ class AdCategory
     public function __construct()
     {
         $this->sub = new ArrayCollection();
+        $this->adverts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,6 +109,49 @@ class AdCategory
             // set the owning side to null (unless already changed)
             if ($sub->getAdCategory() === $this) {
                 $sub->setAdCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSort(): ?int
+    {
+        return $this->sort;
+    }
+
+    public function setSort(int $sort): self
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Advert[]
+     */
+    public function getAdverts(): Collection
+    {
+        return $this->adverts;
+    }
+
+    public function addAdvert(Advert $advert): self
+    {
+        if (!$this->adverts->contains($advert)) {
+            $this->adverts[] = $advert;
+            $advert->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdvert(Advert $advert): self
+    {
+        if ($this->adverts->contains($advert)) {
+            $this->adverts->removeElement($advert);
+            // set the owning side to null (unless already changed)
+            if ($advert->getCategory() === $this) {
+                $advert->setCategory(null);
             }
         }
 

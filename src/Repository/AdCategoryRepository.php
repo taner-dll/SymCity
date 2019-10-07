@@ -19,32 +19,17 @@ class AdCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, AdCategory::class);
     }
 
-    // /**
-    //  * @return AdCategory[] Returns an array of AdCategory objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    /**
+     * Business guide - right colum, category list.
+     * @return AdCategory[]
+     */
+    public function adCategorySort(){
+        $qb = $this->createQueryBuilder('a')
+            ->select('a')
+            ->where('a.active = :active')
+            ->setParameter('active',1)
+            ->orderBy('a.sort','asc')
+            ->getQuery();
+        return $qb->execute();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?AdCategory
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

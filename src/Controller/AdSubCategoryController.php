@@ -25,7 +25,7 @@ class AdSubCategoryController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         return $this->render('ad_sub_category/index.html.twig', [
-            'ad_sub_categories' => $adSubCategoryRepository->findAll(),
+            'ad_sub_categories' => $adSubCategoryRepository->findBy(array(),array('id'=>'desc')),
         ]);
     }
 

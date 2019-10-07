@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +34,21 @@ class AdSubCategory
      * @ORM\JoinColumn(nullable=false)
      */
     private $adCategory;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="sub_category")
+     */
+    private $adverts;
+
+    public function __construct()
+    {
+        $this->adverts = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getShortName();
+    }
 
     public function getId(): ?int
     {
@@ -71,6 +88,37 @@ class AdSubCategory
     public function setAdCategory(?AdCategory $adCategory): self
     {
         $this->adCategory = $adCategory;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Advert[]
+     */
+    public function getAdverts(): Collection
+    {
+        return $this->adverts;
+    }
+
+    public function addAdvert(Advert $advert): self
+    {
+        if (!$this->adverts->contains($advert)) {
+            $this->adverts[] = $advert;
+            $advert->setSubCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdvert(Advert $advert): self
+    {
+        if ($this->adverts->contains($advert)) {
+            $this->adverts->removeElement($advert);
+            // set the owning side to null (unless already changed)
+            if ($advert->getSubCategory() === $this) {
+                $advert->setSubCategory(null);
+            }
+        }
 
         return $this;
     }

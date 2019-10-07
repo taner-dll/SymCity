@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\AdSubCategory;
 use App\Entity\Advert;
 use App\Form\AdvertType;
 use App\Repository\AdvertRepository;
@@ -50,6 +51,11 @@ class AdvertController extends AbstractController
      */
     public function new(Request $request): Response
     {
+
+        //TODO pet hayvan eklenirken fiyat 0'la, fiyat göster false
+
+
+        //return new JsonResponse($request->request->all());
 
         $advert = new Advert();
         $form = $this->createForm(AdvertType::class, $advert);
@@ -299,4 +305,11 @@ class AdvertController extends AbstractController
         return $this->redirectToRoute('advert_show', ['id' => $id]);
 
     }
+
+
+
+
+
+
+
 }

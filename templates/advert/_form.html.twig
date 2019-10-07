@@ -1,63 +1,109 @@
 {% form_theme form 'form/fields.html.twig' %}
 <div class="box-body">
     {{ form_start(form) }}
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="form-group">
             {{ form_label(form.owner, 'İlan Sahibi') }}
             {{ form_widget(form.owner) }}
         </div>
-        <div class="form-group">
-            {{ form_label(form.title, 'İlan Başlığı') }}
-            {{ form_widget(form.title) }}
-        </div>
-        <div class="form-group">
-            {{ form_label(form.place, 'Bölge') }}
-            {{ form_widget(form.place) }}
-        </div>
-        <div class="form-group">
-            {{ form_label(form.description, 'Açıklama') }}
-            {{ form_widget(form.description) }}
-        </div>
 
 
-    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
 
-    <div class="col-md-6">
-        <div class="form-group">
-            {{ form_label(form.price, 'Fiyat (TL)') }}
-            {{ form_widget(form.price) }}
+                    {{ form_label(form.category, 'İlan Tipi') }}
+                    {{ form_widget(form.category) }}
+
+
+                </div>
+
+                <div class="form-group" id="messages">
+
+                    <div id="job_ad_msg" class="ad_msg"
+                         style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
+                        <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                            <i class="fa fa-user-plus"></i> Şu anda
+                            <b>iş ilanı</b> eklemektesiniz.
+                        </p>
+                    </div>
+                    <div id="used_stuff_ad_msg" class="ad_msg"
+                         style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
+                        <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                            <i class="fa fa-laptop"></i> Şu anda
+                            <b>2. el eşya ilanı</b> eklemektesiniz.
+                        </p>
+                    </div>
+                    <div id="real_estate_ad_msg" class="ad_msg"
+                         style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
+                        <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                            <i class="fa fa-home"></i> Şu anda
+                            <b style="text-decoration: underline">emlak ilanı</b> eklemektesiniz.
+                        </p>
+                    </div>
+                    <div id="vehicle_ad_msg" class="ad_msg"
+                         style="display: none;background: #ded9ff;color: black;border-radius: 10px">
+                        <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                            <i class="fa fa-car"></i> Şu anda
+                            <b style="text-decoration: underline">vasıta ilanı</b> eklemektesiniz.
+                        </p>
+                    </div>
+                    <div id="private_lesson_ad_msg" class="ad_msg"
+                         style="display: none;background: #ded9ff;color: black;border-radius: 10px">
+                        <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                            <i class="fa fa-graduation-cap"></i> Şu anda
+                            <b style="text-decoration: underline">özel ders ilanı</b> eklemektesiniz.
+                        </p>
+                    </div>
+                    <div id="pet_ownership_ad_msg" class="ad_msg"
+                         style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
+                        <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                            <i class="fa fa-paw"></i> Şu anda
+                            <b style="text-decoration: underline">hayvanlar alemi ilanı</b> eklemektesiniz.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div style="display: none" class="form-group" id="ajax-loader">
+                    <img src="{{ asset('build/img/ajax-loader.gif') }}"  alt=""/>
+                </div>
+
+                <div class="form-group" id="sub_category">
+                    {{ form_label(form.sub_category, 'İlan Kategorisi') }}
+                    {{ form_widget(form.sub_category) }}
+                </div>
+
+            </div>
         </div>
-        <div class="form-group">
-            {{ form_label(form.telephone, 'Telefon') }}
-            {{ form_widget(form.telephone) }}
-        </div>
-        <div class="form-group">
-            {{ form_label(form.email, 'Eposta') }}
-            {{ form_widget(form.email) }}
-        </div>
+
         <div class="form-group">
             {{ form_label(form.status, 'İlan Durumu') }}
             {{ form_widget(form.status) }}
         </div>
+
+
         <div class="form-group">
-            {{ form_label(form.type, 'İlan Tipi') }}
-            {{ form_widget(form.type) }}
+            {{ form_label(form.place, 'İlan Bölgesi') }}
+            {{ form_widget(form.place) }}
         </div>
+
+
         <div class="form-group">
             {{ form_label(form.featured_image, 'İlan Görseli') }}
             {{ form_widget(form.featured_image) }}
-            <input type="hidden" id="cropped_image" name="cropped_image" />
+            <input type="hidden" id="cropped_image" name="cropped_image"/>
         </div>
         <div class="form-group">
             {% if app.request.get('_route') == 'announce_edit' %}
                 <img id="preview" src="{{ asset('uploads/announce/')~announce.image }}"
-                     class="img-responsive img-bordered" width="300" height="225"  alt=""/>
+                     class="img-responsive img-bordered" width="300" height="225" alt=""/>
             {% else %}
                 <img id="preview" src=""
-                     class="img-responsive img-bordered" width="300" height="225" alt="" />
+                     class="img-responsive img-bordered" width="300" height="225" alt=""/>
             {% endif %}
         </div>
-
 
 
         <!-- Modal -->
@@ -87,11 +133,78 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="crop_image"  onclick="$('#image_demo').cropper('crop')"
-                                type="button" class="btn btn-default" data-dismiss="modal">Seç</button>
+                        <button id="crop_image" onclick="$('#image_demo').cropper('crop')"
+                                type="button" class="btn btn-default" data-dismiss="modal">Seç
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
+
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            {{ form_label(form.title, 'İlan Başlığı') }}
+            {{ form_widget(form.title) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.description, 'İlan Açıklaması') }}
+            {{ form_widget(form.description) }}
+        </div>
+
+    </div>
+
+    <div class="col-md-2">
+
+
+        <div class="form-group">
+
+            {{ form_label(form.price, 'Fiyat / Ücret (TL)') }}
+            {{ form_widget(form.price) }}
+            <label style="margin-top: 15px" for="secret_price"></label>
+            <input id="secret_price" checked
+                   type="checkbox" name="secret_price" value="1"> İlanda göster
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+
+            {{ form_label(form.telephone, 'Telefon') }}
+            {{ form_widget(form.telephone) }}
+
+            <label style="margin-top: 15px" for="secret_phone"> </label>
+            <input id="secret_phone" checked
+                   type="checkbox" name="secret_phone" value="1"> İlanda göster
+
+
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+
+            {{ form_label(form.email, 'Eposta') }}
+            {{ form_widget(form.email) }}
+
+            <label style="margin-top: 15px" for="secret_email"></label>
+            <input id="secret_email" checked
+                   type="checkbox" name="secret_email" value="1"> Eposta bilgisini ilanda göster
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-group pull-right">
+            <button class="btn btn-lg btn-success" data-toggle="tooltip" data-placement="bottom"
+                    title="İlanınız kaydedildikten sonra ön izleme aşamasına geçilecektir.
+                            Bu aşamada son kontrollerinizi yapabilir, fotoğraf galerisi ekleyebilirsiniz.
+                            Her şey hazır olduğunda ise ilanı onaya gönderebilirsiniz.">
+                <i class="fa fa-save"></i> {{ button_label|default('İlanı Kaydet & Ön İzle') }}</button>
         </div>
 
 

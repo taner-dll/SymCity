@@ -57,11 +57,6 @@ class Advert
     private $status;
 
     /**
-     * @ORM\Column(type="string", length=55)
-     */
-    private $type;
-
-    /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $email;
@@ -86,6 +81,16 @@ class Advert
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\AdSubCategory", inversedBy="adverts")
+     */
+    private $sub_category;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\AdCategory", inversedBy="adverts")
+     */
+    private $category;
 
     public function getId(): ?int
     {
@@ -187,18 +192,7 @@ class Advert
 
         return $this;
     }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
+    
 
     public function getEmail(): ?string
     {
@@ -256,6 +250,30 @@ class Advert
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getSubCategory(): ?AdSubCategory
+    {
+        return $this->sub_category;
+    }
+
+    public function setSubCategory(?AdSubCategory $sub_category): self
+    {
+        $this->sub_category = $sub_category;
+
+        return $this;
+    }
+
+    public function getCategory(): ?AdCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?AdCategory $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

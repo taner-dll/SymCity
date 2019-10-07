@@ -15,6 +15,8 @@
     "cropperjs": "^1.5.5",
     "datatables.net-bs": "^1.10.19",
     "fastclick": "^1.0.6",
+    "icheck": "^1.0.2",
+    "inputmask": "^4.0.9",
     "jquery-cropper": "^1.0.0",
     "slimscroll": "^0.9.1",
     "sweetalert2": "^8.5.0",

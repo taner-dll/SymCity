@@ -15,6 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdCategoryController extends AbstractController
 {
+
+
+    //TODO job, real-estate, vehicle... silinemez olmalı.
+
     /**
      * @Route("/", name="ad_category_index", methods={"GET"})
      * @param AdCategoryRepository $adCategoryRepository

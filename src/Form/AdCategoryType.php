@@ -14,6 +14,7 @@ class AdCategoryType extends AbstractType
         $builder
             ->add('short_name')
             ->add('active')
+            ->add('sort')
         ;
     }
 

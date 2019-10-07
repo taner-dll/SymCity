@@ -110,7 +110,7 @@ class WebSiteController extends AbstractController
     public function advertMenu()
     {
         $em = $this->getDoctrine()->getManager();
-        $ad_categories = $em->getRepository(AdCategory::class)->findBy(array('active' => 1), array('short_name' => 'ASC'));
+        $ad_categories = $em->getRepository(AdCategory::class)->findBy(array('active' => 1), array('sort' => 'ASC'));
         return $this->render('web_site/embedded_controller/advert_menu.html.twig',
             ['ad_categories' => $ad_categories]);
     }

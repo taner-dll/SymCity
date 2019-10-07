@@ -47,14 +47,16 @@
                                         <tr>
                                             <th>Kısa Ad</th>
                                             <th>Aktif</th>
+                                            <th>Sıralama</th>
                                             <th>İşlem</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     {% for ad_category in ad_categories %}
                                         <tr>
-                                            <td style="width: 10%;">{{ ad_category.shortName }}</td>
+                                            <td style="width: 25%;">{{ ad_category.shortName }}</td>
                                             <td>{{ ad_category.active ? 'Yes' : 'No' }}</td>
+                                            <td>{{ ad_category.sort }}</td>
                                             <td>
                                                 <a href="{{ path('ad_category_show', {'id': ad_category.id}) }}"
                                                    class="btn btn-xs btn-primary pull-left">Göster</a>
