@@ -19,6 +19,7 @@
     "inputmask": "^4.0.9",
     "jquery-cropper": "^1.0.0",
     "slimscroll": "^0.9.1",
+    "sortablejs": "^1.10.1",
     "sweetalert2": "^8.5.0",
     "trumbowyg": "^2.14.0",
     "yarn": "^1.16.0"

@@ -22,19 +22,16 @@ class AdSubCategoryRepository extends ServiceEntityRepository
     // /**
     //  * @return AdSubCategory[] Returns an array of AdSubCategory objects
     //  */
+
     /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    public function subCategoryNames(){
+        $qb = $this->createQueryBuilder('c')
+            ->select('a.short_name')
+            ->innerJoin('c.adCategory','a')
+            ->groupBy('c.adCategory')
+            ->getQuery();
+        return $qb->execute();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?AdSubCategory

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\AdCategory;
 use App\Entity\AdSubCategory;
 use App\Form\AdSubCategoryType;
 use App\Repository\AdSubCategoryRepository;
@@ -24,8 +25,12 @@ class AdSubCategoryController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+
+
+
         return $this->render('ad_sub_category/index.html.twig', [
             'ad_sub_categories' => $adSubCategoryRepository->findBy(array(),array('id'=>'desc')),
+            'category_names' => $this->getDoctrine()->getRepository(AdCategory::class)->findAll()
         ]);
     }
 

@@ -68,7 +68,7 @@ $('#advert_category').on('change', function () {
                 let subCategorySelect = $("#advert_sub_category");
                 subCategorySelect.html('');
 
-                console.log(subcategories);
+                //console.log(subcategories);
 
                 subCategorySelect.append('<option>Seçiniz</option>');
 
@@ -100,9 +100,13 @@ $('#advert_category').on('change', function () {
 
     //console.log(this.value);
 
+    $('#div_advert_status').show();
+
     switch (this.value) {
+
         case 'job':
             $('#job_ad_msg').show();
+            $('#div_advert_status').hide();
             break;
 
         case 'used-stuff':
@@ -119,19 +123,16 @@ $('#advert_category').on('change', function () {
 
         case 'private-lesson':
             $('#private_lesson_ad_msg').show();
+            $('#div_advert_status').hide();
             break;
 
         case 'animals':
-
             $('#pet_ownership_ad_msg').show();
-
-
             break;
 
         default:
             $('.callout').hide();
-
-
+            $('#ajax-loader').hide();
     }
 
 
@@ -142,7 +143,6 @@ $('#advert_sub_category').on('change', function () {
 
     $('#advert_price').prop('disabled', false);
     $('#secret_price').prop('disabled', false);
-
 
     if (this.value === 'pet-ownership'){
         $('#advert_price').val(0);
@@ -166,9 +166,6 @@ import icons from 'trumbowyg/dist/ui/icons.svg';
 
 $.trumbowyg.svgPath = icons;
 $('#advert_description').trumbowyg();
-
-
-
 
 const Toast = Swal.mixin({
     toast: true,
