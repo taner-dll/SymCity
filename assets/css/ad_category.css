@@ -1,3 +1,5 @@
 @import url(~sweetalert2/dist/sweetalert2.min.css);
+.ghost {
+  opacity: 0.1; }
 
 /*# sourceMappingURL=ad_category.css.map */

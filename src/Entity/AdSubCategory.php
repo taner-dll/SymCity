@@ -40,6 +40,11 @@ class AdSubCategory
      */
     private $adverts;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $sort = 0;
+
     public function __construct()
     {
         $this->adverts = new ArrayCollection();
@@ -119,6 +124,18 @@ class AdSubCategory
                 $advert->setSubCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSort(): ?int
+    {
+        return $this->sort;
+    }
+
+    public function setSort(int $sort): self
+    {
+        $this->sort = $sort;
 
         return $this;
     }

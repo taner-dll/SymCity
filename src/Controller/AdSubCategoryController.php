@@ -7,6 +7,7 @@ use App\Entity\AdSubCategory;
 use App\Form\AdSubCategoryType;
 use App\Repository\AdSubCategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,11 +27,32 @@ class AdSubCategoryController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
 
+        /*
+        echo '<pre>';
+        print_r($this->getDoctrine()->getRepository(AdCategory::class)->subCategorySort());
+        echo '</pre>';
+        */
 
+
+        /*
+        $response = new Response(json_encode($this->getDoctrine()->getRepository(AdCategory::class)->subCategorySort())
+            ,Response::HTTP_OK);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+        */
+
+
+        /*
+        foreach ($this->getDoctrine()->getRepository(AdCategory::class)->subCategorySort() as $cat){
+             echo $cat['cat_id'].'-'.$cat['cat_sn'].'-'.$cat['sub_sn'].'-'.$cat['sub_sort'].'<br>';
+        }
+        exit;
+        */
+        
 
         return $this->render('ad_sub_category/index.html.twig', [
-            'ad_sub_categories' => $adSubCategoryRepository->findBy(array(),array('id'=>'desc')),
-            'category_names' => $this->getDoctrine()->getRepository(AdCategory::class)->findAll()
+
+            'category_names' => $this->getDoctrine()->getRepository(AdCategory::class)->subCategorySort()
         ]);
     }
 
@@ -114,7 +136,7 @@ class AdSubCategoryController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        if ($this->isCsrfTokenValid('delete'.$adSubCategory->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $adSubCategory->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($adSubCategory);
             $entityManager->flush();

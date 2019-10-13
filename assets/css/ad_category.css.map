@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAAQ,kDAAuC",
+"mappings": "AAAQ,kDAAuC;AAE/C,MAAO;EACL,OAAO,EAAE,GAAG",
 "sources": ["ad_category.scss"],
 "names": [],
 "file": "ad_category.css"

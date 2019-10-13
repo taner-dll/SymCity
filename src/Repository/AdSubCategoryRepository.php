@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\AdCategory;
 use App\Entity\AdSubCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -22,6 +23,7 @@ class AdSubCategoryRepository extends ServiceEntityRepository
     // /**
     //  * @return AdSubCategory[] Returns an array of AdSubCategory objects
     //  */
+
 
     /*
     public function subCategoryNames(){

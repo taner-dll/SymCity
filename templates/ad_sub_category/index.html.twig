@@ -29,14 +29,15 @@
         <div class="col-md-12">
 
             <div class="box">
-                <!--
+
                 <div class="box-header">
-                    <h3 class="box-title"></h3>
+                    <a href="{{ path('ad_sub_category_new') }}"
+                       class="btn btn-success btn-xs pull-right    ">
+                        <i class="fa fa-plus"></i> Yeni Ekle</a>
                 </div>
-                -->
+
                 <!-- /.box-header -->
                 <div class="box-body">
-
 
 
                     <div class="row">
@@ -47,21 +48,23 @@
                             {% set all_names = all_names|merge([cn.shortName]) %}
 
 
-                            <div class="col-md-6" >
+                            <div class="col-md-6">
 
                                 <h3 style="font-weight: bold;text-decoration: underline">
                                     {{ cn.shortName| trans({}, 'advert') }}</h3>
 
                                 <div id="sort_list_{{ cn.shortName }}" class="list-group"
-                                     style="max-height: 300px;min-height:300px;overflow:auto;background: #ECF0F5">
-
+                                     style="max-height: 300px;min-height:300px;overflow:auto;background: #eeeeee">
 
 
                                     {% for cn_sub in cn.sub %}
 
-                                        <div class="list-group-item" style="cursor: pointer">
-                                            <i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;
-                                             {{ cn_sub.shortName|trans({}, 'advert') }}</div>
+                                        <div data-shortname="{{ cn_sub.shortName }}" data-sort-no=""
+                                             class="list-group-item" style="cursor: pointer">
+                                            {{ cn_sub.shortName|trans({}, 'advert') }}
+                                            <a href="{{ path('ad_sub_category_show', {'id': cn_sub.id}) }}"
+                                               class="btn btn-xs btn-default pull-right">Göster</a>
+                                        </div>
 
 
                                     {% endfor %}
@@ -69,69 +72,19 @@
 
                                 </div>
 
+
                             </div>
 
 
                         {% endfor %}
 
 
-                        <input type="hidden" id="all_names" value="{{ all_names|json_encode }}" />
-
+                        <input type="hidden" id="all_names" value="{{ all_names|json_encode }}"/>
 
 
                     </div>
 
 
-
-
-
-                    <div class="row">
-
-
-                        <div class="col-sm-12">
-
-
-
-
-
-
-
-
-                            <div id="example1_wrapper"
-                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
-                                <table id="example1" class="table table-bordered table-striped
-                                table-hover table-condensed
-                                dataTable" role="grid" aria-describedby="example1_info">
-                                    <thead>
-                                    <tr role="row">
-                                        <th>Üst Kategori</th>
-                                        <th>Kısa Ad</th>
-                                        <th>Aktif?</th>
-                                        <th><a href="{{ path('ad_sub_category_new') }}" class="btn btn-success btn-xs pull-right    ">
-                                                <i class="fa fa-plus"></i> Yeni Ekle</a> </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for ad_sub_category in ad_sub_categories %}
-                                        <tr>
-                                            <td style="width: 10%;">{{ ad_sub_category.adCategory.shortName }}</td>
-                                            <td style="width: 10%;">{{ ad_sub_category.shortName }}</td>
-                                            <td>{{ ad_sub_category.active ? 'Yes' : 'No' }}</td>
-                                            <td>
-                                                <a href="{{ path('ad_sub_category_show', {'id': ad_sub_category.id}) }}"
-                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
-                                            </td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="5">no records found</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -146,5 +99,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     {{ encore_entry_script_tags('ad_category') }}
 {% endblock %}

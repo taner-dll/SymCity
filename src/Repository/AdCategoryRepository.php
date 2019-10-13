@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\AdCategory;
+use App\Entity\AdSubCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -29,6 +31,16 @@ class AdCategoryRepository extends ServiceEntityRepository
             ->where('a.active = :active')
             ->setParameter('active',1)
             ->orderBy('a.sort','asc')
+            ->getQuery();
+        return $qb->execute();
+    }
+
+    public function subCategorySort(){
+        $qb = $this->createQueryBuilder('a')
+            ->select('a,s')
+            ->innerJoin('a.sub','s')
+            ->orderBy('s.sort','ASC')
+            ->addOrderBy('a.sort','ASC')
             ->getQuery();
         return $qb->execute();
     }
