@@ -38,7 +38,8 @@ class AjaxController extends AbstractController
         $sub_categories = array();
 
         foreach ($sub_cat as $key => $sc) {
-            $sub_categories[$key]['shortname_translated'] = $translator->trans($sc->getShortName(), [], 'advert', null);
+            $sub_categories[$key]['shortname_translated'] = $translator->trans($sc->getShortName()
+                , [], 'advert', null);
             $sub_categories[$key]['shortname'] = $sc->getShortName();
         }
 
@@ -89,11 +90,7 @@ class AjaxController extends AbstractController
         $em->flush();
 
 
-
-
-
-
-        return new JsonResponse('ok',Response::HTTP_OK);
+        return new JsonResponse('ok', Response::HTTP_OK);
 
 
     }
