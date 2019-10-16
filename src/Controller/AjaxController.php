@@ -45,9 +45,6 @@ class AjaxController extends AbstractController
 
         return new JsonResponse($sub_categories);
 
-        /**
-         *     sdfsdf
-         */
 
 
 
