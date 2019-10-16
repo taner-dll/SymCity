@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class Test1Controller extends AbstractController
@@ -13,6 +12,8 @@ class Test1Controller extends AbstractController
      */
     public function index()
     {
-        return new JsonResponse("sdfsdf");
+        return $this->render('test1/index.html.twig', [
+            'controller_name' => 'Test1Controller',
+        ]);
     }
 }
