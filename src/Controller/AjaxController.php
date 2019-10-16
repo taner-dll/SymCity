@@ -64,6 +64,7 @@ class AjaxController extends AbstractController
 
         $sort_list = $request->request->get('sortlist');
         $category = $request->request->get('cat');
+        $category = $request->request->get('cat');
 
 
         $cat = $em->getRepository(AdCategory::class)->findOneBy(array('short_name' => $category));
