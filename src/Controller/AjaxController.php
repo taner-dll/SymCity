@@ -47,7 +47,8 @@ class AjaxController extends AbstractController
     }
 
     /**
-     * @Route("/ajax-ad-subcategories-sort", name="ajax_ad_subcategories_sort", methods={"POST"}, options={"expose"=true})
+     * @Route("/ajax-ad-subcategories-sort", name="ajax_ad_subcategories_sort",
+     *     methods={"POST"}, options={"expose"=true})
      * @param Request $request
      * @param TranslatorInterface $translator
      * @return Response
