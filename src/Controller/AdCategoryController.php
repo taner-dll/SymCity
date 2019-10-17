@@ -29,7 +29,7 @@ class AdCategoryController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         return $this->render('ad_category/index.html.twig', [
-            'ad_categories' => $adCategoryRepository->findAll(),
+            'ad_categories' => $adCategoryRepository->adCategorySort(),
         ]);
     }
 

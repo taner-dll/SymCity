@@ -4,7 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('business') }}
+    {{ encore_entry_link_tags('ad_category') }}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -36,42 +36,39 @@
                 -->
                 <!-- /.box-header -->
                 <div class="box-body">
+
                     <div class="row">
-                        <div class="col-sm-12">
-                            <div id="example1_wrapper"
-                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
-                                <table id="example1" class="table table-bordered table-striped
-                                table-hover table-condensed
-                                dataTable" role="grid" aria-describedby="example1_info">
-                                    <thead>
-                                        <tr>
-                                            <th>Kısa Ad</th>
-                                            <th>Aktif</th>
-                                            <th>Sıralama</th>
-                                            <th>İşlem</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for ad_category in ad_categories %}
-                                        <tr>
-                                            <td style="width: 25%;">{{ ad_category.shortName }}</td>
-                                            <td>{{ ad_category.active ? 'Yes' : 'No' }}</td>
-                                            <td>{{ ad_category.sort }}</td>
-                                            <td>
-                                                <a href="{{ path('ad_category_show', {'id': ad_category.id}) }}"
-                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
-                                            </td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="4">no records found</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+
+                        <div class="col-md-6">
+
+                            <div id="sort_list" class="list-group"
+                                 style="max-height: 300px;min-height:300px;overflow:auto;background: #eeeeee">
+
+                                {% set all_names = [] %}
+                                {% for cn in ad_categories %}
+
+                                    {% set all_names = all_names|merge([cn.shortName]) %}
+
+                                    <div data-shortname="{{ cn.shortName }}" data-sort-no=""
+                                         class="list-group-item" style="cursor: pointer">
+                                        {{ cn.shortName|trans({}, 'advert') }}
+                                        <a href="{{ path('ad_category_show', {'id': cn.id}) }}"
+                                           class="btn btn-xs btn-default pull-right">Göster</a>
+                                    </div>
+
+                                {% endfor %}
+
                             </div>
+
+
+                            <input type="hidden" id="all_names" value="{{ all_names|json_encode }}"/>
+
+
                         </div>
+
                     </div>
+
+
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -87,5 +84,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('business') }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    {{ encore_entry_script_tags('ad_category') }}
 {% endblock %}
