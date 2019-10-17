@@ -64,12 +64,7 @@ class AjaxController extends AbstractController
 
         $sort_list = $request->request->get('sortlist');
         $category = $request->request->get('cat');
-        $category = $request->request->get('cat');
 
-        $category = $request->request->get('cat');
-        $category = $request->request->get('cat');
-        $category = $request->request->get('cat');
-        $category = $request->request->get('cat');
 
 
 
@@ -104,6 +99,48 @@ class AjaxController extends AbstractController
 
 
     }
+
+
+    /**
+     * @Route("/ajax-ad-categories-sort", name="ajax_ad_categories_sort",
+     *     methods={"POST"}, options={"expose"=true})
+     * @param Request $request
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function ajaxAdCategoriesSort(Request $request, TranslatorInterface $translator)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $sort_list = $request->request->get('sortlist');
+
+
+
+
+        //echo json_encode($sort_list, JSON_PRETTY_PRINT);
+
+        foreach ($sort_list as $sl) {
+
+            $short_name = $sl[0];
+            $new_sort = $sl[1];
+
+            $cat = $em->getRepository(AdCategory::class)->findOneBy(array('short_name' => $short_name));
+
+
+            $cat->setSort($new_sort);
+
+
+        }
+
+        $em->flush();
+
+
+        return new JsonResponse('ok', Response::HTTP_OK);
+
+
+    }
+
 
 
 }

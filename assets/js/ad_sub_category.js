@@ -1,4 +1,4 @@
-import '../css/ad_category.scss';
+import '../css/ad_sub_category.scss';
 
 import Swal from 'sweetalert2';
 import Sortable from 'sortablejs';
@@ -54,7 +54,7 @@ let all_names_array = [];
 for (let i = 0; i < an_length; i++) {
     //console.log(all_names[i]);
 
-    Sortable.create(document.getElementById('sort_list'), {
+    Sortable.create(document.getElementById('sort_list_' + all_names[i]), {
         //handle: '.drag-area',
         animation: 200,
         ghostClass: 'ghost',
@@ -78,10 +78,10 @@ for (let i = 0; i < an_length; i++) {
 
 
             $.ajax({
-                url: Routing.generate('ajax_ad_categories_sort'),
+                url: Routing.generate('ajax_ad_subcategories_sort'),
                 type: "POST",
                 dataType: "json",
-                data: {sortlist: sort_list},
+                data: {sortlist: sort_list, cat: all_names[i]},
                 statusCode: {
                     /**
                      * Response Manipulation
