@@ -30,6 +30,7 @@ Encore
     .addEntry('business', './assets/js/business.js')
     .addEntry('ad_sub_category', './assets/js/ad_sub_category.js')
     .addEntry('ad_category', './assets/js/ad_category.js')
+    .addEntry('business_category', './assets/js/business_category.js')
 
 
     /*

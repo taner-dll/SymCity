@@ -24,9 +24,9 @@ class BusinessCategoryController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('business_category/index.html.twig', [
-            'business_categories' => $businessCategoryRepository->findAll(),
+            'business_categories' => $businessCategoryRepository->businessCategorySort()
         ]);
-    }
+    }                                                       
 
     /**
      * @Route("/new", name="business_category_new", methods={"GET","POST"})
