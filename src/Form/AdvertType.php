@@ -7,6 +7,7 @@ use App\Entity\AdSubCategory;
 use App\Entity\Advert;
 use App\Entity\Place;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -73,12 +74,15 @@ class AdvertType extends AbstractType
                 'placeholder' => 'Seçiniz'
             ))
             ->add('category', EntityType::class, array(
-                    'required' => true,
-                    'placeholder' => 'Seçiniz',
-                    'class' => AdCategory::class,
-                    'choice_value' => 'short_name',
-                    'choice_translation_domain' => 'advert'))
-
+                'required' => true,
+                'placeholder' => 'Seçiniz',
+                'class' => AdCategory::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('ac')
+                        ->orderBy('ac.sort', 'asc');
+                },
+                'choice_value' => 'short_name',
+                'choice_translation_domain' => 'advert'))
             ->add('sub_category', ChoiceType::class, array(
                     'required' => false,
                     'placeholder' => 'Seçiniz',
