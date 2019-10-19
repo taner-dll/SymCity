@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\AdCategory;
 use App\Entity\AdSubCategory;
+use App\Entity\BusinessCategory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -126,6 +127,47 @@ class AjaxController extends AbstractController
             $new_sort = $sl[1];
 
             $cat = $em->getRepository(AdCategory::class)->findOneBy(array('short_name' => $short_name));
+
+
+            $cat->setSort($new_sort);
+
+
+        }
+
+        $em->flush();
+
+
+        return new JsonResponse('ok', Response::HTTP_OK);
+
+
+    }
+
+
+    /**
+     * @Route("/ajax-business-categories-sort", name="ajax_business_categories_sort",
+     *     methods={"POST"}, options={"expose"=true})
+     * @param Request $request
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function ajaxBusinessCategoriesSort(Request $request, TranslatorInterface $translator)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $sort_list = $request->request->get('sortlist');
+
+
+
+
+        //echo json_encode($sort_list, JSON_PRETTY_PRINT);
+
+        foreach ($sort_list as $sl) {
+
+            $short_name = $sl[0];
+            $new_sort = $sl[1];
+
+            $cat = $em->getRepository(BusinessCategory::class)->findOneBy(array('short_name' => $short_name));
 
 
             $cat->setSort($new_sort);

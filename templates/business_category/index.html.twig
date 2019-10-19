@@ -4,15 +4,15 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('business') }}
+    {{ encore_entry_link_tags('business_category') }}
 {% endblock %}
 
 {% block breadcrumb %}
 
     <section class="content-header">
         <h1>
-            İş Yeri Kategorisi
-            <small>Liste</small>
+            İş Yeri Kategorileri
+            <small>Sıralama</small>
         </h1>
 
         <ol class="breadcrumb">
@@ -37,38 +37,34 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <div id="example1_wrapper"
-                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
-                                <table id="example1" class="table table-bordered table-striped
-                                table-hover table-condensed
-                                dataTable" role="grid" aria-describedby="example1_info">
-                                    <thead>
-                                    <tr role="row">
-                                        <th>Kısa Ad</th>
-                                        <th>Sıralama</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for business_category in business_categories %}
-                                        <tr>
-                                            <td>{{ business_category.shortName }}</td>
-                                            <td>{{ business_category.sort }}</td>
-                                            <td>
-                                                <a href="{{ path('business_category_show', {'id': business_category.id}) }}"
-                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
-                                            </td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="4">no records found</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+
+                        <div class="col-md-4">
+
+                            <div id="sort_list" class="list-group"
+                                 style="/*max-height: 500px;min-height:500px;overflow:auto;*/background: #eeeeee">
+
+                                {% set all_names = [] %}
+                                {% for cn in business_categories %}
+
+                                    {% set all_names = all_names|merge([cn.shortName]) %}
+
+                                    <div data-shortname="{{ cn.shortName }}" data-sort-no=""
+                                         class="list-group-item" style="cursor: pointer">
+                                        {{ cn.shortName|trans({}, 'business') }}
+                                        <a href="{{ path('ad_category_show', {'id': cn.id}) }}"
+                                           class="btn btn-xs btn-default pull-right">Göster</a>
+                                    </div>
+
+                                {% endfor %}
+
                             </div>
+
+
+                            <input type="hidden" id="all_names" value="{{ all_names|json_encode }}"/>
+
+
                         </div>
+
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -85,5 +81,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('business') }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    {{ encore_entry_script_tags('business_category') }}
 {% endblock %}

@@ -35,7 +35,8 @@ class AdSubCategoryController extends AbstractController
 
 
         /*
-        $response = new Response(json_encode($this->getDoctrine()->getRepository(AdCategory::class)->subCategorySort())
+        $response = new Response(json_encode($this->getDoctrine()
+        ->getRepository(AdCategory::class)->subCategorySort())
             ,Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -48,11 +49,12 @@ class AdSubCategoryController extends AbstractController
         }
         exit;
         */
-        
+
 
         return $this->render('ad_sub_category/index.html.twig', [
 
-            'category_names' => $this->getDoctrine()->getRepository(AdCategory::class)->subCategorySort()
+            'category_names' => $this->getDoctrine()
+                ->getRepository(AdCategory::class)->subCategorySort()
         ]);
     }
 
@@ -136,7 +138,8 @@ class AdSubCategoryController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        if ($this->isCsrfTokenValid('delete' . $adSubCategory->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $adSubCategory->getId(),
+            $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($adSubCategory);
             $entityManager->flush();

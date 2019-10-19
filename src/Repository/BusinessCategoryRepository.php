@@ -19,32 +19,16 @@ class BusinessCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, BusinessCategory::class);
     }
 
-    // /**
-    //  * @return BusinessCategory[] Returns an array of BusinessCategory objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    public function businessCategorySort(){
+        $qb = $this->createQueryBuilder('a')
+            ->select('a')
+            ->orderBy('a.sort','asc')
+            ->getQuery();
+        return $qb->execute();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?BusinessCategory
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+
+
+
+
 }
