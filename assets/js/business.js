@@ -8,7 +8,6 @@ $.trumbowyg.svgPath = icons;
 $('#business_about').trumbowyg();
 
 
-
 //sweetalert2
 import Swal from 'sweetalert2';
 
@@ -19,7 +18,7 @@ const Toast = Swal.mixin({
     timer: 3000
 });
 
-if($('#success_message').val()){
+if ($('#success_message').val()) {
     Toast.fire({
         title: $('#success_message').val(),
         type: 'success',
@@ -37,38 +36,57 @@ const $input = $('#business_featured_picture');
 
 $input.change(function () {
 
+    /**
+     * Dosya uzantı kontrolü.
+     * Sadece jpeg, jpg, png
+     * @type {*[]}
+     */
+    let ext = ['jpeg','jpg','png'];
+    if (!ext.includes(this.files[0]['name'].split(".")[1])){
+        Swal.fire({
+            type: 'error',
+            title: 'Geçersiz Dosya Formatı',
+            text: 'Yalnızca JPEG, PNG formatında görsel yükleyiniz.',
+            confirmButtonText: 'Tamam',
+        });
+        // Destroy the old cropper instance
+        $image.cropper('destroy');
+        return false;
+    }
+
+
     $('#myModal').modal('show');
 
-        let oFReader = new FileReader();
-        oFReader.readAsDataURL(this.files[0]);
-        oFReader.onload = function () {
+    let oFReader = new FileReader();
+    oFReader.readAsDataURL(this.files[0]);
+    oFReader.onload = function () {
 
-            // Destroy the old cropper instance
-            $image.cropper('destroy');
+        // Destroy the old cropper instance
+        $image.cropper('destroy');
 
-            // Replace url
-            $image.attr('src', this.result);
+        // Replace url
+        $image.attr('src', this.result);
 
-            // Start cropper
-            $image.cropper({
-                aspectRatio: 870 / 470,
-                dragMode: 'move',
-                cropBoxMovable: true,
-                cropBoxResizable: true,
-                guides: false,
-                minContainerWidth: 800,
-                minContainerHeight: 432,
-                viewMode: 2 //?
-                
-            });
-        };
+        // Start cropper
+        $image.cropper({
+            aspectRatio: 870 / 470,
+            dragMode: 'move',
+            cropBoxMovable: true,
+            cropBoxResizable: true,
+            guides: false,
+            minContainerWidth: 800,
+            minContainerHeight: 432,
+            viewMode: 2 //?
+
+        });
+    };
 });
 
 $('#crop_image').on('click', function () {
 
-    let imageData = $image.cropper('getCroppedCanvas',{
-        width:870,
-        height:470,
+    let imageData = $image.cropper('getCroppedCanvas', {
+        width: 870,
+        height: 470,
         fillColor: '#fff',
     }).toDataURL('image/jpeg');
 

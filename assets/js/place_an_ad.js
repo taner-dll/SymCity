@@ -188,6 +188,24 @@ const $input = $('#advert_featured_image');
 
 $input.change(function () {
 
+    /**
+     * Dosya uzantı kontrolü.
+     * Sadece jpeg, jpg, png
+     * @type {*[]}
+     */
+    let ext = ['jpeg','jpg','png'];
+    if (!ext.includes(this.files[0]['name'].split(".")[1])){
+        Swal.fire({
+            type: 'error',
+            title: 'Geçersiz Dosya Formatı',
+            text: 'Yalnızca JPEG, PNG formatında görsel yükleyiniz.',
+            confirmButtonText: 'Tamam',
+        });
+        // Destroy the old cropper instance
+        $image.cropper('destroy');
+        return false;
+    }
+
     $('#myModal').modal('show');
 
     let oFReader = new FileReader();
