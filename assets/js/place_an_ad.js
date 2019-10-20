@@ -21,6 +21,12 @@ import 'jquery-cropper/dist/jquery-cropper.min';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
 
 
 $('input').iCheck({
@@ -52,7 +58,7 @@ $('#advert_category').on('change', function () {
     $('#messages').hide();
 
 
-    let delayInMilliseconds = 300;
+    let delayInMilliseconds = 100;
 
     setTimeout(function () {
 
@@ -160,6 +166,54 @@ $('#advert_sub_category').on('change', function () {
 });
 
 
+/**
+ * iCheck için kullanılan özel yöntemler: ifChecked, ifUnchecked
+ */
+$('#secret_price').on('ifChecked', function (event){
+    Toast.fire({
+        title: 'Fiyat Bilgisi İlanda Gösterilecek',
+        type: 'success',
+    })
+});
+$('#secret_price').on('ifUnchecked', function (event) {
+    Toast.fire({
+        title: 'Fiyat Bilgisi İlanda Gösterilmeyecek',
+        type: 'warning',
+    })
+});
+
+
+$('#secret_phone').on('ifChecked', function (event){
+    Toast.fire({
+        title: 'Telefon Bilgisi İlanda Gösterilecek',
+        type: 'success',
+    })
+});
+$('#secret_phone').on('ifUnchecked', function (event) {
+    Toast.fire({
+        title: 'Telefon Bilgisi İlanda Gösterilmeyecek',
+        type: 'warning',
+    })
+});
+
+
+$('#secret_email').on('ifChecked', function (event){
+    Toast.fire({
+        title: 'Eposta Bilgisi İlanda Gösterilecek',
+        type: 'success',
+    })
+});
+$('#secret_email').on('ifUnchecked', function (event) {
+    Toast.fire({
+        title: 'Eposta Bilgisi İlanda Gösterilmeyecek',
+        type: 'warning',
+    })
+});
+
+
+
+
+
 //trumbowyg
 import 'trumbowyg/dist/trumbowyg.min';
 import icons from 'trumbowyg/dist/ui/icons.svg';
@@ -167,12 +221,7 @@ import icons from 'trumbowyg/dist/ui/icons.svg';
 $.trumbowyg.svgPath = icons;
 $('#advert_description').trumbowyg();
 
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000
-});
+
 
 if ($('#success_message').val()) {
     Toast.fire({

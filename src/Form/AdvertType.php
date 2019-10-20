@@ -55,15 +55,7 @@ class AdvertType extends AbstractType
             ))
             ->add('featured_image', FileType::class, array('data_class' => null, 'required' => false))
             ->add('description')
-            ->add('telephone', TelType::class, array(
-                'attr' => array(
-                    'pattern' => '[0-9]{3}-[0-9]{3}-[0-9]{4}',
-                    //'placeholder' => '000-000-0000'
-                ),
-                'required' => true
-
-
-            ))
+            ->add('telephone', TelType::class, array('required' => true))
             ->add('email', EmailType::class)
             ->add('status', ChoiceType::class, array(
                 'choices' => [

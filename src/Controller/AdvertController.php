@@ -52,10 +52,9 @@ class AdvertController extends AbstractController
     public function new(Request $request): Response
     {
 
-        //TODO pet hayvan eklenirken fiyat 0'la, fiyat göster false
-
 
         //return new JsonResponse($request->request->all());
+        dump($request->request->all());exit;
 
         $advert = new Advert();
         $form = $this->createForm(AdvertType::class, $advert);
@@ -63,11 +62,19 @@ class AdvertController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
+
+
             //url slug
             $advert->setSlug($this->slugify($request->request->get('advert')['title']));
 
             $advert->setUser($this->getUser());
             $advert->setLastUpdate(new DateTime('now'));
+
+            //0: bekliyor, 1: onaylandı, 2: önizleme modu
+            $advert->setStatus(2);
+
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($advert);
             $entityManager->flush();
