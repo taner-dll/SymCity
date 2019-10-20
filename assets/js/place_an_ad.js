@@ -202,26 +202,27 @@ $input.change(function () {
 
         // Start cropper
         $image.cropper({
-            aspectRatio: 800 / 600,
+            aspectRatio: 870 / 470,
             dragMode: 'move',
-            cropBoxMovable: false,
-            cropBoxResizable: false,
+            cropBoxMovable: true,
+            cropBoxResizable: true,
             guides: false,
             minContainerWidth: 800,
-            minContainerHeight: 600
+            minContainerHeight: 432,
+            viewMode: 2 //?
+
         });
     };
 });
 
 $('#crop_image').on('click', function () {
 
-    let imageData = $image.cropper('getCroppedCanvas', {
-        width: 800,
-        height: 600,
+    let imageData = $image.cropper('getCroppedCanvas',{
+        width:870,
+        height:470,
         fillColor: '#fff',
     }).toDataURL('image/jpeg');
 
     $('#preview').attr('src', imageData);
     $('#cropped_image').val(imageData);
 });
-
