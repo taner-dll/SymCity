@@ -53,17 +53,18 @@ class AdvertController extends AbstractController
     {
 
 
-        //return new JsonResponse($request->request->all());
-        dump($request->request->all());exit;
+/*        dump($request->request->all());exit;*/
 
         $advert = new Advert();
         $form = $this->createForm(AdvertType::class, $advert);
         $form->handleRequest($request);
 
+
+/*        dump($form);exit;*/
+
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-
+            $entityManager = $this->getDoctrine()->getManager();
 
             //url slug
             $advert->setSlug($this->slugify($request->request->get('advert')['title']));
@@ -72,15 +73,12 @@ class AdvertController extends AbstractController
             $advert->setLastUpdate(new DateTime('now'));
 
             //0: bekliyor, 1: onaylandı, 2: önizleme modu
-            $advert->setStatus(2);
+            $advert->setConfirm(2);
 
-
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($advert);
             $entityManager->flush();
 
             $this->addFlash('success', 'Successfully Added');
-
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
 
@@ -134,6 +132,9 @@ class AdvertController extends AbstractController
     public function edit(Request $request, Advert $advert): Response
     {
 
+
+/*        dump($request->request->all());exit;*/
+
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             if($advert->getUser()->getId() != $this->getUser()->getId()){
                 return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
@@ -151,15 +152,17 @@ class AdvertController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $advert->setFeaturedImage($fileOldName);
-            $advert->setConfirm(0);//guncellenince onay yeniden 0 olmalı.
+            $advert->setConfirm(2);//guncellenince taslak olarak kaydedilmeli
             $advert->setLastUpdate(new DateTime('now'));
 
             //url slug
             $advert->setSlug($this->slugify($advert->getTitle()));
 
-            $this->getDoctrine()->getManager()->flush();
+
+            $em->flush();
             $this->addFlash('success', 'Successfully Updated');
 
+            
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
 

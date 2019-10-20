@@ -93,19 +93,21 @@ class Advert
     private $category;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="boolean")
      */
     private $secret_price;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="boolean")
      */
     private $secret_phone;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="boolean")
      */
     private $secret_email;
+
+
 
     public function getId(): ?int
     {
@@ -293,39 +295,41 @@ class Advert
         return $this;
     }
 
-    public function getSecretPrice(): ?int
+    public function getSecretPrice(): ?bool
     {
         return $this->secret_price;
     }
 
-    public function setSecretPrice(int $secret_price): self
+    public function setSecretPrice(bool $secret_price): self
     {
         $this->secret_price = $secret_price;
 
         return $this;
     }
 
-    public function getSecretPhone(): ?int
+    public function getSecretPhone(): ?bool
     {
         return $this->secret_phone;
     }
 
-    public function setSecretPhone(int $secret_phone): self
+    public function setSecretPhone(bool $secret_phone): self
     {
         $this->secret_phone = $secret_phone;
 
         return $this;
     }
 
-    public function getSecretEmail(): ?int
+    public function getSecretEmail(): ?bool
     {
         return $this->secret_email;
     }
 
-    public function setSecretEmail(int $secret_email): self
+    public function setSecretEmail(bool $secret_email): self
     {
         $this->secret_email = $secret_email;
 
         return $this;
     }
+
+
 }

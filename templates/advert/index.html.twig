@@ -65,6 +65,10 @@
                                                     <span class="label label-warning">
                                         <i class="fa fa-clock-o"></i>
                                         Yönetici Onayı Bekleniyor</span>
+                                                {% elseif advert.confirm == 2  %}
+                                                    <span class="label label-info">
+                                        <i class="fa fa-save"></i>
+                                         Taslak Olarak Kaydedildi</span>
                                                 {% else %}
                                                     <span class="label label-success">
                                         <i class="fa fa-check"></i>
@@ -78,7 +82,7 @@
                                             <td>{{ advert.telephone }}</td>
                                             <td>{{ advert.user.email }}</td>
                                             <td>{{ advert.status }}</td>
-                                          
+
                                             <td>
                                                 <a class="btn btn-xs btn-primary pull-left"
                                                    href="{{ path('advert_show', {'id': advert.id}) }}">Göster</a>

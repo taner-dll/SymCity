@@ -33,8 +33,8 @@ class AjaxController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $req = $request->query->get('category');
-        $category = $em->getRepository(AdCategory::class)->findOneBy(array('short_name' => $req));
-        $sub_cat = $em->getRepository(AdSubCategory::class)->findBy(array('adCategory' => $category->getId()));
+        //$category = $em->getRepository(AdCategory::class)->findOneBy(array('id' => $req));
+        $sub_cat = $em->getRepository(AdSubCategory::class)->findBy(array('adCategory' => $req),array('sort'=>'ASC'));
 
         $sub_categories = array();
 
@@ -42,6 +42,7 @@ class AjaxController extends AbstractController
             $sub_categories[$key]['shortname_translated'] = $translator->trans($sc->getShortName()
                 , [], 'advert', null);
             $sub_categories[$key]['shortname'] = $sc->getShortName();
+            $sub_categories[$key]['id'] = $sc->getId();
         }
 
         return new JsonResponse($sub_categories);

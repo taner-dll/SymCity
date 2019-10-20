@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -53,6 +54,12 @@ class AdvertType extends AbstractType
             ->add('owner', null, array(
                 'attr' => array('placeholder' => 'Ad Soyad')
             ))
+            ->add('secretEmail',CheckboxType::class,array('required'=>false,
+                'label'=>'İlanda Göster','label_attr'=>array('style'=>'margin-left:5px;')))
+            ->add('secretPhone',CheckboxType::class,array('required'=>false,
+                'label'=>'İlanda Göster','label_attr'=>array('style'=>'margin-left:5px;')))
+            ->add('secretPrice',CheckboxType::class,array('required'=>false,
+                'label'=>'İlanda Göster','label_attr'=>array('style'=>'margin-left:5px;')))
             ->add('featured_image', FileType::class, array('data_class' => null, 'required' => false))
             ->add('description')
             ->add('telephone', TelType::class, array('required' => true))
@@ -73,12 +80,18 @@ class AdvertType extends AbstractType
                     return $er->createQueryBuilder('ac')
                         ->orderBy('ac.sort', 'asc');
                 },
-                'choice_value' => 'short_name',
+                'choice_value' => 'id',
                 'choice_translation_domain' => 'advert'))
-            ->add('sub_category', ChoiceType::class, array(
-                    'required' => false,
-                    'placeholder' => 'Seçiniz',
-                    'choice_value' => null)
+            ->add('sub_category', EntityType::class, array(
+                'required' => true,
+                'placeholder' => 'Seçiniz',
+                'class' => AdSubCategory::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.sort', 'asc');
+                },
+                'choice_value' => 'id',
+                'choice_translation_domain' => 'advert')
 
             );
 

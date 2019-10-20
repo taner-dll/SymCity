@@ -46,12 +46,74 @@ let tel_mask = new InputMask("(999) 999-9999");
 tel_mask.mask($('#advert_telephone'));
 
 
+let ajax_post = function (select, edit_mode=0) {
 
 
-$('#sub_category').hide();
+
+
+
+    $.ajax({
+        url: Routing.generate('ajax_ad_subcategories'),
+        type: "GET",
+        dataType: "json",
+        data: {category: select.val()},
+
+        success: function (subcategories) {
+            let subCategorySelect = $("#advert_sub_category");
+            subCategorySelect.html('');
+            subCategorySelect.append('<option>Seçiniz</option>');
+
+            $.each(subcategories, function (key, subcategory) {
+
+                subCategorySelect.append('<option value="' + subcategory.id + '">'
+                    + subcategory.shortname_translated + '</option>');
+
+            });
+
+            /**
+             * düzenleme sayfasında option selected yapıyoruz.
+             */
+            if(edit_mode===1){
+                let selected = $('#selected_sub_category').val();
+                subCategorySelect.val(selected);
+            }
+
+            $('#ajax-loader').hide();
+            $('#sub_category').show();
+            $('#messages').show();
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+
+};
+
+/**
+ * Sub category, düzenleme sayfasında görünür olarak
+ * gelmelidir.
+ */
+console.log($('#current_page').val());
+if($('#current_page').val()==='edit'){
+    $('#sub_category').show();
+
+    ajax_post($('#advert_category'),1);
+}
+else{
+    $('#sub_category').hide();
+    $('#advert_secretPrice').iCheck('check');
+    $('#advert_secretPhone').iCheck('check');
+    $('#advert_secretEmail').iCheck('check');
+}
+
+
+
 $('#advert_category').on('change', function () {
 
-    let categorySelector = $(this);
+    // console.clear();
+    // console.log(1111);
+
+    let select = $(this);
 
     $('#sub_category').hide();
     $('#ajax-loader').show();
@@ -62,77 +124,45 @@ $('#advert_category').on('change', function () {
 
     setTimeout(function () {
 
-        $.ajax({
-            url: Routing.generate('ajax_ad_subcategories'),
-            type: "GET",
-            dataType: "json",
-            data: {category: categorySelector.val()},
-
-            success: function (subcategories) {
-
-
-                let subCategorySelect = $("#advert_sub_category");
-                subCategorySelect.html('');
-
-                //console.log(subcategories);
-
-                subCategorySelect.append('<option>Seçiniz</option>');
-
-                $.each(subcategories, function (key, subcategory) {
-                    subCategorySelect.append('<option value="' + subcategory.shortname + '">'
-                        + subcategory.shortname_translated + '</option>');
-                });
-
-                $('#ajax-loader').hide();
-                $('#sub_category').show();
-                $('#messages').show();
-
-
-            },
-            error: function (err) {
-                console.log(err);
-            }
-
-
-        });
+        ajax_post(select,0);
 
     }, delayInMilliseconds);
 
 
     $('.ad_msg').hide();
     $('#advert_price').prop('disabled', false);
-    $('#secret_price').prop('disabled', false);
+    $('#advert_secretPrice').prop('disabled', false);
 
 
-    //console.log(this.value);
 
     $('#div_advert_status').show();
 
+
     switch (this.value) {
 
-        case 'job':
+        case '4':
             $('#job_ad_msg').show();
             $('#div_advert_status').hide();
             break;
 
-        case 'used-stuff':
+        case '5':
             $('#used_stuff_ad_msg').show();
             break;
 
-        case 'real-estate':
+        case '3':
             $('#real_estate_ad_msg').show();
             break;
 
-        case 'vehicle':
+        case '2':
             $('#vehicle_ad_msg').show();
             break;
 
-        case 'private-lesson':
+        case '6':
             $('#private_lesson_ad_msg').show();
             $('#div_advert_status').hide();
             break;
 
-        case 'animals':
+        case '7':
             $('#pet_ownership_ad_msg').show();
             break;
 
@@ -148,14 +178,15 @@ $('#advert_category').on('change', function () {
 $('#advert_sub_category').on('change', function () {
 
     $('#advert_price').prop('disabled', false);
-    $('#secret_price').prop('disabled', false);
+    $('#advert_secretPrice').prop('disabled', false);
 
-    if (this.value === 'pet-ownership'){
+    //87: pet-ownership
+    if (this.value === '87'){
         $('#advert_price').val(0);
         $('#advert_price').prop('disabled', true);
-        $('#secret_price').iCheck('unCheck');
-        $('#secret_price').removeAttr('checked');
-        $('#secret_price').prop('disabled', true);
+        $('#advert_secretPrice').iCheck('unCheck');
+        $('#advert_secretPrice').removeAttr('checked');
+        $('#advert_secretPrice').prop('disabled', true);
 
         Swal.fire(
             'Bilgilendirme',
@@ -169,13 +200,13 @@ $('#advert_sub_category').on('change', function () {
 /**
  * iCheck için kullanılan özel yöntemler: ifChecked, ifUnchecked
  */
-$('#secret_price').on('ifChecked', function (event){
+$('#advert_secretPrice').on('ifChecked', function (event){
     Toast.fire({
         title: 'Fiyat Bilgisi İlanda Gösterilecek',
         type: 'success',
     })
 });
-$('#secret_price').on('ifUnchecked', function (event) {
+$('#advert_secretPrice').on('ifUnchecked', function (event) {
     Toast.fire({
         title: 'Fiyat Bilgisi İlanda Gösterilmeyecek',
         type: 'warning',
@@ -183,13 +214,13 @@ $('#secret_price').on('ifUnchecked', function (event) {
 });
 
 
-$('#secret_phone').on('ifChecked', function (event){
+$('#advert_secretPhone').on('ifChecked', function (event){
     Toast.fire({
         title: 'Telefon Bilgisi İlanda Gösterilecek',
         type: 'success',
     })
 });
-$('#secret_phone').on('ifUnchecked', function (event) {
+$('#advert_secretPhone').on('ifUnchecked', function (event) {
     Toast.fire({
         title: 'Telefon Bilgisi İlanda Gösterilmeyecek',
         type: 'warning',
@@ -197,13 +228,13 @@ $('#secret_phone').on('ifUnchecked', function (event) {
 });
 
 
-$('#secret_email').on('ifChecked', function (event){
+$('#advert_secretEmail').on('ifChecked', function (event){
     Toast.fire({
         title: 'Eposta Bilgisi İlanda Gösterilecek',
         type: 'success',
     })
 });
-$('#secret_email').on('ifUnchecked', function (event) {
+$('#advert_secretEmail').on('ifUnchecked', function (event) {
     Toast.fire({
         title: 'Eposta Bilgisi İlanda Gösterilmeyecek',
         type: 'warning',
@@ -293,3 +324,5 @@ $('#crop_image').on('click', function () {
     $('#preview').attr('src', imageData);
     $('#cropped_image').val(imageData);
 });
+
+
