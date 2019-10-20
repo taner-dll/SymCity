@@ -12,7 +12,7 @@
             <div class="col-md-12">
                 <div class="form-group">
 
-                    {{ form_label(form.category, 'İlan Tipi') }}
+                    {{ form_label(form.category, 'İlan Kategorisi') }}
                     {{ form_widget(form.category) }}
 
 
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="form-group" id="sub_category">
-                    {{ form_label(form.sub_category, 'İlan Kategorisi') }}
+                    {{ form_label(form.sub_category, 'İlan Alt Kategorisi') }}
                     {{ form_widget(form.sub_category) }}
                 </div>
 
@@ -164,9 +164,9 @@
 
             {{ form_label(form.price, 'Fiyat / Ücret (TL)') }}
             {{ form_widget(form.price) }}
-            <label style="margin-top: 15px" for="secret_price"></label>
-            <input id="secret_price" checked
-                   type="checkbox" name="secret_price" value="1"> İlanda göster
+
+            {{ form_widget(form.secretPrice) }}
+
         </div>
 
         <hr>
@@ -176,9 +176,7 @@
             {{ form_label(form.telephone, 'Telefon') }}
             {{ form_widget(form.telephone) }}
 
-            <label style="margin-top: 15px" for="secret_phone"> </label>
-            <input id="secret_phone" checked
-                   type="checkbox" name="secret_phone" value="1"> İlanda göster
+            {{ form_widget(form.secretPhone) }}
 
 
         </div>
@@ -190,23 +188,23 @@
             {{ form_label(form.email, 'Eposta') }}
             {{ form_widget(form.email) }}
 
-            <label style="margin-top: 15px" for="secret_email"></label>
-            <input id="secret_email" checked
-                   type="checkbox" name="secret_email" value="1"> Eposta bilgisini ilanda göster
+           
+            {{ form_widget(form.secretEmail) }}
 
         </div>
 
     </div>
 
-    <div class="col-md-3">
-        <div class="form-group pull-right">
-            <button class="btn btn-lg btn-success" data-toggle="tooltip" data-placement="bottom"
-                    title="İlanınız kaydedildikten sonra ön izleme aşamasına geçilecektir.
-                            Bu aşamada son kontrollerinizi yapabilir, fotoğraf galerisi ekleyebilirsiniz.
-                            Her şey hazır olduğunda ise ilanı onaya gönderebilirsiniz.">
-                <i class="fa fa-save"></i> {{ button_label|default('İlanı Kaydet & Ön İzle') }}</button>
-        </div>
+
+{#    <div class="col-md-3">#}
+{#        <div class="form-group pull-right">#}
+{#            <button class="btn btn-lg btn-success" data-toggle="tooltip" data-placement="bottom"#}
+{#                    title="İlanınız kaydedildikten sonra ön izleme aşamasına geçilecektir.#}
+{#                            Bu aşamada son kontrollerinizi yapabilir, fotoğraf galerisi ekleyebilirsiniz.#}
+{#                            Her şey hazır olduğunda ise ilanı onaya gönderebilirsiniz.">#}
+{#                <i class="fa fa-save"></i> {{ button_label|default('Kaydet & Ön İzle') }}</button>#}
+{#        </div>#}
 
 
-    </div>
+{#    </div>#}
 </div>

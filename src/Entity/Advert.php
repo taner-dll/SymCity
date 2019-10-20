@@ -92,6 +92,23 @@ class Advert
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $secret_price;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $secret_phone;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $secret_email;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -277,4 +294,42 @@ class Advert
 
         return $this;
     }
+
+    public function getSecretPrice(): ?bool
+    {
+        return $this->secret_price;
+    }
+
+    public function setSecretPrice(bool $secret_price): self
+    {
+        $this->secret_price = $secret_price;
+
+        return $this;
+    }
+
+    public function getSecretPhone(): ?bool
+    {
+        return $this->secret_phone;
+    }
+
+    public function setSecretPhone(bool $secret_phone): self
+    {
+        $this->secret_phone = $secret_phone;
+
+        return $this;
+    }
+
+    public function getSecretEmail(): ?bool
+    {
+        return $this->secret_email;
+    }
+
+    public function setSecretEmail(bool $secret_email): self
+    {
+        $this->secret_email = $secret_email;
+
+        return $this;
+    }
+
+
 }
