@@ -19,7 +19,8 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
-    .addEntry('app', './assets/js/app.js')    
+    .addEntry('app', './assets/js/app.js')
+    .addEntry('app_left_menu_active', './assets/js/app_left_menu_active.js')
     .addEntry('places_to_visit', './assets/js/places_to_visit.js')
     .addEntry('municipality', './assets/js/municipality.js')
     .addEntry('event', './assets/js/event.js')

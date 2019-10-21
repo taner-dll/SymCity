@@ -4,34 +4,34 @@
 
 
         <!-- search form -->
-        <!--
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-            </button>
-          </span>
-            </div>
-        </form>
-        -->
+{#        <form action="#" method="get" class="sidebar-form">#}
+{#            <div class="input-group">#}
+{#                <input type="text" name="q" class="form-control" placeholder="Search...">#}
+{#                <span class="input-group-btn">#}
+{#            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>#}
+{#            </button>#}
+{#          </span>#}
+{#            </div>#}
+{#        </form>#}
         <!-- /.search form -->
 
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="header"></li>
+{#            <li class="header">#}
+{#                {{ dump(app.request.get('_route')) }}#}
+{#            </li>#}
             <li>
                 <a href="{{ path('homepage') }}">
                     <i class="fa fa-home"></i> <span>Siteye Git</span>
                 </a>
             </li>
-            <li>
+            <li class="_dashboad_menu">
                 <a href="{{ path('app_dashboard') }}">
 
                     {% if is_granted('ROLE_ADMIN') %}
-                        <i class="fa fa-dashboard"></i> <span>Kontrol Merkezi</span>
+                        <span class="label label-default">admin</span><span>Kontrol Merkezi</span>
                     {% else %}
-                        <i class="fa fa-user"></i> <span>Profil</span>
+                        <i class="fa fa-user"></i> <span>Profilim</span>
                     {% endif %}
 
 
@@ -39,9 +39,9 @@
             </li>
 
             {% if is_granted('ROLE_ADMIN') %}
-                <li class="treeview">
+                <li class="treeview _place_menu">
                     <a href="#">
-                        <i class="fa fa-map-marker"></i> <span>Bölgeler</span>
+                        <span class="label label-default">admin</span><span>Bölgeler</span>
                         <span class="pull-right-container">
                           <i class="fa fa-angle-left pull-right"></i>
                         </span>
@@ -52,9 +52,9 @@
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li class="treeview _places_to_visit_menu">
                     <a href="#">
-                        <i class="fa fa-heart"></i> <span>Gezilecek Yerler</span>
+                        <span class="label label-default">admin</span><span>Gezilecek Yerler</span>
                         <span class="pull-right-container">
                           <i class="fa fa-angle-left pull-right"></i>
                         </span>
@@ -67,9 +67,9 @@
                 </li>
 
 
-                <li class="treeview">
+                <li class="treeview _municipality_menu">
                     <a href="#">
-                        <i class="fa fa-building"></i> <span>Belediyeler</span>
+                        <span class="label label-default">admin</span><span>Belediyeler</span>
                         <span class="pull-right-container">
                           <i class="fa fa-angle-left pull-right"></i>
                         </span>
@@ -80,15 +80,15 @@
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li class="treeview _category_menu">
                     <a href="#">
-                        <i class="fa fa-list"></i> <span>Kategoriler</span>
+                        <span class="label label-default">admin</span><span>Kategoriler</span>
                         <span class="pull-right-container">
                           <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="treeview">
+                        <li class="treeview _business_category_menu">
                             <a href="#">
                                 <span>İş Yeri Kategorileri</span>
                                 <span class="pull-right-container">
@@ -102,7 +102,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="treeview">
+                        <li class="treeview _ad_category_menu">
                             <a href="#">
                                 <span>İlan Kategorileri</span>
                                 <span class="pull-right-container">
@@ -116,7 +116,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="treeview">
+                        <li class="treeview _ad_sub_category_menu">
                             <a href="#">
                                 <span>İlan Alt Kategorileri</span>
                                 <span class="pull-right-container">
@@ -135,36 +135,9 @@
             {% endif %}
 
 
-            <li class="treeview">
+            <li class="treeview _advert_menu">
                 <a href="#">
-                    <i class="fa fa-calendar"></i> <span>Etkinlikler</span>
-                    <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ path('event_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a></li>
-                    <li><a href="{{ path('event_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
-                </ul>
-            </li>
-
-
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-microphone"></i> <span>Duyurular</span>
-                    <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ path('announce_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a></li>
-                    <li><a href="{{ path('announce_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
-                </ul>
-            </li>
-
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-book"></i> <span>İlanlar</span>
+                    <i class="fa fa-book"></i> <span>İlanlarım</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -175,9 +148,9 @@
                 </ul>
             </li>
 
-            <li class="treeview">
+            <li class="treeview _business_menu">
                 <a href="#">
-                    <i class="fa fa-home"></i> <span>İş Yerleri</span>
+                    <i class="fa fa-home"></i> <span>İş Yerim</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -188,6 +161,32 @@
                 </ul>
             </li>
 
+            <li class="treeview _announce_menu">
+                <a href="#">
+                    <i class="fa fa-microphone"></i> <span>Duyuru / Anons</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ path('announce_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a></li>
+                    <li><a href="{{ path('announce_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
+                </ul>
+            </li>
+
+
+            <li class="treeview _event_menu">
+                <a href="#">
+                    <i class="fa fa-calendar"></i> <span>Etkinliklerim</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ path('event_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a></li>
+                    <li><a href="{{ path('event_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
+                </ul>
+            </li>
 
         </ul>
     </section>

@@ -15,10 +15,10 @@ import $ from 'jquery';
 global.$ = global.jQuery = $;
 
 import 'bootstrap';
+
+import './app_left_menu_active';
+
 import 'slimscroll';
 import 'fastclick';
-
-
-
 import '../js/theme';
 import '../js/demo';

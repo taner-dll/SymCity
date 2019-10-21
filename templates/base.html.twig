@@ -30,7 +30,7 @@
 </head>
 <body class="hold-transition
   {% if is_granted('ROLE_ADMIN') %}
-  skin-purple
+  skin-purple-light
   {% else %}
   skin-red-light
   {% endif %}
@@ -60,6 +60,8 @@ sidebar-mini">
 
 
             {% block body %}{% endblock %}
+
+            <input type="hidden" id="current_route" value="{{ app.request.get('_route') }}" />
 
         </section>
         <!-- /.content -->

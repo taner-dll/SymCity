@@ -48,10 +48,6 @@ tel_mask.mask($('#advert_telephone'));
 
 let ajax_post = function (select, edit_mode=0) {
 
-
-
-
-
     $.ajax({
         url: Routing.generate('ajax_ad_subcategories'),
         type: "GET",
@@ -93,7 +89,7 @@ let ajax_post = function (select, edit_mode=0) {
  * Sub category, düzenleme sayfasında görünür olarak
  * gelmelidir.
  */
-console.log($('#current_page').val());
+
 if($('#current_page').val()==='edit'){
     $('#sub_category').show();
 
@@ -120,13 +116,12 @@ $('#advert_category').on('change', function () {
     $('#messages').hide();
 
 
-    let delayInMilliseconds = 100;
+    /*let delayInMilliseconds = 100;*/
+    // setTimeout(function () {
+    //     ajax_post(select,0);
+    // }, delayInMilliseconds);
 
-    setTimeout(function () {
-
-        ajax_post(select,0);
-
-    }, delayInMilliseconds);
+    ajax_post(select,0);
 
 
     $('.ad_msg').hide();
