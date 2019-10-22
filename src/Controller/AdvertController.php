@@ -160,7 +160,7 @@ class AdvertController extends AbstractController
 
 
             $em->flush();
-            $this->addFlash('success', 'Successfully Updated');
+            $this->addFlash('success', 'İlanınız Güncellendi');
 
             
             //jquery-cropper (cropped image hidden input)

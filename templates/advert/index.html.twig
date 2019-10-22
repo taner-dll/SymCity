@@ -51,8 +51,9 @@
                                         <th>Bölge</th>
                                         <th>Fiyat (TL)</th>
                                         <th>Telefon</th>
-                                        <th>Ekleyen</th>
+
                                         <th>İlan Durumu</th>
+                                        <th>Ekleyen</th>
 
                                         <th></th>
                                     </tr>
@@ -80,17 +81,18 @@
                                             <td>{{ advert.place ? advert.place.name : '' }}</td>
                                             <td>{{ advert.price }}</td>
                                             <td>{{ advert.telephone }}</td>
+
+                                            <td>{{ advert.status|trans({},'advert') }}</td>
                                             <td>{{ advert.user.email }}</td>
-                                            <td>{{ advert.status }}</td>
 
                                             <td>
                                                 <a class="btn btn-xs btn-primary pull-left"
-                                                   href="{{ path('advert_show', {'id': advert.id}) }}">Göster</a>
+                                                   href="{{ path('advert_show', {'id': advert.id}) }}">Detaylı Göster</a>
                                             </td>
                                         </tr>
                                     {% else %}
                                         <tr>
-                                            <td colspan="11">no records found</td>
+                                            <td colspan="11">Kayıtlı ilanınız bulunmamaktadır.</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
