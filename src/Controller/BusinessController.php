@@ -56,16 +56,7 @@ class BusinessController extends AbstractController
         $form->handleRequest($request);
 
 
-
         if ($form->isSubmitted() && $form->isValid()) {
-
-
-            /*
-            echo '<pre>';
-            echo print_r($_POST);
-            echo '</pre>';
-            //exit;
-            */
 
 
             $entityManager = $this->getDoctrine()->getManager();
