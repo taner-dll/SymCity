@@ -28,14 +28,14 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition
+<body class="hold-transition 
   {% if is_granted('ROLE_ADMIN') %}
-  skin-purple-light
+  skin-red layout-boxed {#sidebar-collapse#}
   {% else %}
-  skin-red-light
+  skin-blue-light layout-boxed
   {% endif %}
 
-sidebar-mini">
+sidebar-mini" sty>
 <!-- Site wrapper -->
 <div class="wrapper">
 

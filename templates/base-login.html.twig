@@ -1,6 +1,6 @@
 {% spaceless %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,23 +19,29 @@
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
-
+    
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page"
+      style="background-image: url('../assets/img/front_end/banner-1.jpg');
+       background-repeat: no-repeat;
+  background-size: 100% 100%;
+">
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b>Edremit</b> Körfezi</a>
+        <h2 style="color:#FFFFFF;">Edremit Körfezi</h2>
+        <h4 style="color:#FFFFFF;font-style: oblique">"Körfezin Kısayolu"</h4>
+       
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
 
 
         <form class="form-signin" method="post" href="{{ path('login') }}" target="_self">
-            <p class="login-box-msg">
+            <p class="login-box-msg" style="color: red">
                 {% if error %}
             {{ error.messageKey|trans(error.messageData, 'security') }}
             {% endif %}

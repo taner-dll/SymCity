@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAQ,iDAAsC;AACtC,0CAA+B;AAC/B,kDAAuC;AACvC,kCAAuB;AAE/B,iCAAkC;EAChC,MAAM,EAAE,iBAAiB",
+"sources": ["place_an_ad.scss"],
+"names": [],
+"file": "place_an_ad.css"
+}

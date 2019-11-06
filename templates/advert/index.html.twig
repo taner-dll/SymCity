@@ -55,7 +55,7 @@
                                         <th>İlan Durumu</th>
                                         <th>Ekleyen</th>
 
-                                        <th></th>
+                                        <th>İşlem</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -83,7 +83,16 @@
                                             <td>{{ advert.telephone }}</td>
 
                                             <td>{{ advert.status|trans({},'advert') }}</td>
-                                            <td>{{ advert.user.email }}</td>
+                                            <td>
+                                                {% if is_granted('ROLE_ADMIN') %}
+
+                                                    <label class="label label-danger">Yönetici</label>
+                                                {% else %}
+
+                                                    {{advert.user.email}}
+
+                                                {% endif %}
+                                            </td>
 
                                             <td>
                                                 <a class="btn btn-xs btn-primary pull-left"

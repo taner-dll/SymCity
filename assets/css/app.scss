@@ -3,3 +3,19 @@
 @import "../components/font-awesome/scss/font-awesome.scss"; //?
 @import "theme.css";
 @import "skins/_all-skins.min.css";
+
+body {
+  
+  background-image: url("../img/front_end/banner-1.jpg") !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100%;
+  
+  
+}
+
+html {
+  height: 100%
+}
+
+
+

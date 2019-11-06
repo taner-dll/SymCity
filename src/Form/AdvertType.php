@@ -41,7 +41,8 @@ class AdvertType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', null, array('attr' => array(
+                'placeholder' => 'İlanınızı özetleyen başlık giriniz...')))
             ->add('price', IntegerType::class)
             ->add('place', EntityType::class, array(
                 'class' => Place::class,
@@ -52,14 +53,14 @@ class AdvertType extends AbstractType
                 'placeholder' => 'Seçiniz',
             ))
             ->add('owner', null, array(
-                'attr' => array('placeholder' => 'Ad Soyad')
+                'attr' => array('placeholder' => 'İlanda gösterilecek, ilan sahibine ait isim giriniz...')
             ))
-            ->add('secretEmail',CheckboxType::class,array('required'=>false,
-                'label'=>'İlanda Göster','label_attr'=>array('style'=>'margin-left:5px;')))
-            ->add('secretPhone',CheckboxType::class,array('required'=>false,
-                'label'=>'İlanda Göster','label_attr'=>array('style'=>'margin-left:5px;')))
-            ->add('secretPrice',CheckboxType::class,array('required'=>false,
-                'label'=>'İlanda Göster','label_attr'=>array('style'=>'margin-left:5px;')))
+            ->add('secretEmail', CheckboxType::class, array('required' => false,
+                'label' => 'İlanda Göster', 'label_attr' => array('style' => 'margin-left:5px;')))
+            ->add('secretPhone', CheckboxType::class, array('required' => false,
+                'label' => 'İlanda Göster', 'label_attr' => array('style' => 'margin-left:5px;')))
+            ->add('secretPrice', CheckboxType::class, array('required' => false,
+                'label' => 'İlanda Göster', 'label_attr' => array('style' => 'margin-left:5px;')))
             ->add('featured_image', FileType::class, array('data_class' => null, 'required' => false))
             ->add('description')
             ->add('telephone', TelType::class, array('required' => true))
@@ -83,15 +84,15 @@ class AdvertType extends AbstractType
                 'choice_value' => 'id',
                 'choice_translation_domain' => 'advert'))
             ->add('sub_category', EntityType::class, array(
-                'required' => true,
-                'placeholder' => 'Seçiniz',
-                'class' => AdSubCategory::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('s')
-                        ->orderBy('s.sort', 'asc');
-                },
-                'choice_value' => 'id',
-                'choice_translation_domain' => 'advert')
+                    'required' => true,
+                    'placeholder' => 'Seçiniz',
+                    'class' => AdSubCategory::class,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('s')
+                            ->orderBy('s.sort', 'asc');
+                    },
+                    'choice_value' => 'id',
+                    'choice_translation_domain' => 'advert')
 
             );
 
