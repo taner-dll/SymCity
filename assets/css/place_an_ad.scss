@@ -2,3 +2,7 @@
 @import "~cropper/dist/cropper.min.css";
 @import "~sweetalert2/dist/sweetalert2.min.css";
 @import "~icheck/skins/all.css";
+
+.trumbowyg-box, .trumbowyg-editor {
+  margin: 0 auto !important;
+}

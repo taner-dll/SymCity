@@ -30,9 +30,8 @@ const Toast = Swal.mixin({
 
 
 $('input').iCheck({
-    checkboxClass: 'icheckbox_square-purple',
-    radioClass: 'iradio_square-purple',
-    increaseArea: '20%' // optional
+    checkboxClass: 'icheckbox_flat-grey',
+    //increaseArea: '-10%' // optional
 });
 
 /**

@@ -1,0 +1,8 @@
+@import url(~trumbowyg/dist/ui/trumbowyg.min.css);
+@import url(~cropper/dist/cropper.min.css);
+@import url(~sweetalert2/dist/sweetalert2.min.css);
+@import url(~icheck/skins/all.css);
+.trumbowyg-box, .trumbowyg-editor {
+  margin: 0 auto !important; }
+
+/*# sourceMappingURL=place_an_ad.css.map */

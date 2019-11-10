@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}İlan Kategorisi{% endblock %}
+{% block title %}İlan Kategorileri{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,13 +11,13 @@
 
     <section class="content-header">
         <h1>
-            İlan Kategorisi
+            İlan Kategorileri
             <small>Liste</small>
         </h1>
 
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li class="active"><a href="{{ path('ad_category_index') }}">İlan Kategorisi</a></li>
+            <li class="active"><a href="{{ path('ad_category_index') }}">İlan Kategorileri</a></li>
 
         </ol>
     </section>
@@ -51,9 +51,28 @@
 
                                     <div data-shortname="{{ cn.shortName }}" data-sort-no=""
                                          class="list-group-item" style="cursor: pointer">
-                                        {{ cn.shortName|trans({}, 'advert') }}
-                                        <a href="{{ path('ad_category_show', {'id': cn.id}) }}"
-                                           class="btn btn-xs btn-default pull-right">Göster</a>
+
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                {{ cn.shortName|trans({}, 'advert') }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                {% if cn.active == 1 %}
+                                                    <label class="label label-success">A</label>
+                                                {% else %}
+                                                    <label class="label label-danger">P</label>
+                                                {% endif %}
+
+
+                                            </div>
+                                            <div class="col-md-2">
+                                                <a href="{{ path('ad_category_show', {'id': cn.id}) }}"
+                                                   class="btn btn-xs btn-default pull-right">Göster</a>
+                                            </div>
+
+                                        </div>
+
+
                                     </div>
 
                                 {% endfor %}

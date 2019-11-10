@@ -41,8 +41,8 @@ $input.change(function () {
      * Sadece jpeg, jpg, png
      * @type {*[]}
      */
-    let ext = ['jpeg','jpg','png'];
-    if (!ext.includes(this.files[0]['name'].split(".")[1])){
+    let ext = ['jpeg', 'jpg', 'png'];
+    if (!ext.includes(this.files[0]['name'].split(".")[1])) {
         Swal.fire({
             type: 'error',
             title: 'Geçersiz Dosya Formatı',
@@ -92,4 +92,13 @@ $('#crop_image').on('click', function () {
 
     $('#preview').attr('src', imageData);
     $('#cropped_image').val(imageData);
+});
+
+$('#myModal').on('hidden.bs.modal', function () {
+    // Destroy the old cropper instance
+    $image.cropper('destroy');
+
+    // Replace url
+    $image.val('');
+    $input.val('');
 });

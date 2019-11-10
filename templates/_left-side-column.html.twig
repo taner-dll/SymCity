@@ -29,7 +29,8 @@
                 <a href="{{ path('app_dashboard') }}">
 
                     {% if is_granted('ROLE_ADMIN') %}
-                        <span class="label label-default">admin</span><span>Kontrol Merkezi</span>
+                        <i class="fa fa-dashboard"></i>
+                        <span>Kontrol Merkezi</span>
                     {% else %}
                         <i class="fa fa-user"></i> <span>Profilim</span>
                     {% endif %}
@@ -41,7 +42,8 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="treeview _place_menu">
                     <a href="#">
-                        <span class="label label-default">admin</span><span>Bölgeler</span>
+                        <i class="fa fa-map-marker"></i>
+                        <span>Bölgeler</span>
                         <span class="pull-right-container">
                           <i class="fa fa-angle-left pull-right"></i>
                         </span>
@@ -54,7 +56,8 @@
 
                 <li class="treeview _places_to_visit_menu">
                     <a href="#">
-                        <span class="label label-default">admin</span><span>Gezilecek Yerler</span>
+                        <i class="fa fa-tree"></i>
+                        <span>Gezilecek Yerler</span>
                         <span class="pull-right-container">
                           <i class="fa fa-angle-left pull-right"></i>
                         </span>
@@ -69,7 +72,8 @@
 
                 <li class="treeview _municipality_menu">
                     <a href="#">
-                        <span class="label label-default">admin</span><span>Belediyeler</span>
+                        <i class="fa fa-building"></i>
+                        <span>Belediyeler</span>
                         <span class="pull-right-container">
                           <i class="fa fa-angle-left pull-right"></i>
                         </span>
@@ -82,7 +86,8 @@
 
                 <li class="treeview _category_menu">
                     <a href="#">
-                        <span class="label label-default">admin</span><span>Kategoriler</span>
+                        <i class="fa fa-list"></i>
+                        <span>Kategoriler</span>
                         <span class="pull-right-container">
                           <i class="fa fa-angle-left pull-right"></i>
                         </span>

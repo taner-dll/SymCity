@@ -9,18 +9,18 @@
 
 {% block breadcrumb %}
 
-        <section class="content-header">
-            <h1>
-                İlan Detayı
-                <small></small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-                <li><a href="{{ path('advert_index') }}">İlanlar</a></li>
-                <li class="active">İlan Detayı</li>
+    <section class="content-header">
+        <h1>
+            İlan Detayı
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li><a href="{{ path('advert_index') }}">İlanlar</a></li>
+            <li class="active">İlan Detayı</li>
 
-            </ol>
-        </section>
+        </ol>
+    </section>
 
 {% endblock %}
 
@@ -37,7 +37,7 @@
        -->
         <div class="box-body">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                     <table class="table table-bordered table-responsive">
                         <tbody>
                         <tr>
@@ -112,25 +112,38 @@
                     </table>
 
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
 
                     <table class="table table-bordered">
                         <tbody>
                         <tr>
                             <td>
-                                <a href="{{ path('advert_index') }}" class="btn btn-primary" style="margin-right: 10px;">
-                                    <i class="fa fa-caret-left"></i>
-                                    İlanlarıma Git</a>
-                                <a href="{{ path('advert_edit', {'id': advert.id}) }}" class="btn btn-warning"
-                                   style="margin-right: 10px;">
-                                    <i class="fa fa-pencil-square-o"></i>
-                                    Bu İlanı Düzenle</a>
-                                <!-- Button trigger modal -->
-                                <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-                                    <i class="fa fa-trash-o"></i>
-                                    Bu İlanı Sil
-                                </a>
-                                {{ include('advert/_delete_form.html.twig') }}
+
+                                        <a href="{{ path('advert_index') }}" class="btn btn-primary"
+                                           style="margin-right: 10px;">
+                                            <i class="fa fa-caret-left"></i>
+                                            İlanlarım</a>
+
+
+
+
+                                        <a href="{{ path('advert_edit', {'id': advert.id}) }}" class="btn btn-warning"
+                                           style="margin-right: 10px;">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                            Düzenle</a>
+
+
+
+                                        <!-- Button trigger modal -->
+                                        <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                                            <i class="fa fa-trash-o"></i>
+                                            Sil
+                                        </a>
+                                        {{ include('advert/_delete_form.html.twig') }}
+
+
+
+            
                             </td>
                         </tr>
                         </tbody>
@@ -145,29 +158,58 @@
                         <tbody>
                         <tr>
                             <td>
-                                {{ advert.confirm}}    {# todo confirm 0,1,2 durumları için güncelle #}
-                            </td>
-                            <td>
-                                {% if  advert.confirm == 0 %}
+
+
+                                {% if  advert.confirm == 0 %}  {#onay bekleniyor#}
+
                                     <span class="label label-warning">
-                                        <i class="fa fa-clock-o"></i>
-                                        Yönetici Onayı Bekleniyor</span><br><br>
+                                            <i class="fa fa-clock-o"></i>
+                                            Yönetici Onayı Bekleniyor
+                                        </span>
+
+                                {% elseif advert.confirm == 1 %} {#onaylandı#}
+
+                                    <span class="label label-success">
+                                            <i class="fa fa-check"></i>
+                                            Yayında
+                                        </span>
+
+                                {% elseif advert.confirm == 2 %} {#taslak olarak kaydedildi#}
+
+                                    <span class="label label-info">
+                                            <i class="fa fa-save"></i>
+                                            Taslak Durumunda
+                                        </span>
+
+                                {% endif %}
+
+                                <hr />
+
+                                {% if  advert.confirm == 0 %}  {#onay bekleniyor#}
+
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <a href="{{ path('advert_confirm',
                                             {id:advert.id,_token:csrf_token('confirm' ~ advert.id)}) }}"
                                            class="btn btn-success" style="margin-right: 10px;">Onayla</a>
                                     {% endif %}
-                                {% else %}
-                                    <span class="label label-success">
-                                        <i class="fa fa-check"></i>
-                                         Onaylandı</span><br><br>
+
+                                {% elseif advert.confirm == 1 %} {#onaylandı#}
+
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <a href="{{ path('advert_unconfirm',
                                             {id:advert.id,_token:csrf_token('unconfirm' ~ advert.id)}) }}"
                                            class="btn btn-danger" style="margin-right: 10px;">Yayından Kaldır</a>
                                     {% endif %}
+
+                                {% elseif advert.confirm == 2 %} {#taslak olarak kaydedildi#}
+
+                                    {#do nothing#}
+
                                 {% endif %}
+
+
                             </td>
+                          
                         </tr>
                         </tbody>
                     </table>
