@@ -7,3 +7,7 @@ img {
   max-width: 100%;
 }
 
+label.required:before {
+  content: "* ";
+  color:red;
+}

@@ -40,12 +40,11 @@ $('input').iCheck({
 $('[data-toggle="tooltip"]').tooltip();
 
 
-
 let tel_mask = new InputMask("(999) 999-9999");
 tel_mask.mask($('#advert_telephone'));
 
 
-let ajax_post = function (select, edit_mode=0) {
+let ajax_post = function (select, edit_mode = 0) {
 
     $.ajax({
         url: Routing.generate('ajax_ad_subcategories'),
@@ -68,7 +67,7 @@ let ajax_post = function (select, edit_mode=0) {
             /**
              * düzenleme sayfasında option selected yapıyoruz.
              */
-            if(edit_mode===1){
+            if (edit_mode === 1) {
                 let selected = $('#selected_sub_category').val();
                 subCategorySelect.val(selected);
             }
@@ -89,18 +88,16 @@ let ajax_post = function (select, edit_mode=0) {
  * gelmelidir.
  */
 
-if($('#current_page').val()==='edit'){
+if ($('#current_page').val() === 'edit') {
     $('#sub_category').show();
 
-    ajax_post($('#advert_category'),1);
-}
-else{
+    ajax_post($('#advert_category'), 1);
+} else {
     $('#sub_category').hide();
     $('#advert_secretPrice').iCheck('check');
     $('#advert_secretPhone').iCheck('check');
     $('#advert_secretEmail').iCheck('check');
 }
-
 
 
 $('#advert_category').on('change', function () {
@@ -120,13 +117,12 @@ $('#advert_category').on('change', function () {
     //     ajax_post(select,0);
     // }, delayInMilliseconds);
 
-    ajax_post(select,0);
+    ajax_post(select, 0);
 
 
     $('.ad_msg').hide();
     $('#advert_price').prop('disabled', false);
     $('#advert_secretPrice').prop('disabled', false);
-
 
 
     $('#div_advert_status').show();
@@ -175,7 +171,7 @@ $('#advert_sub_category').on('change', function () {
     $('#advert_secretPrice').prop('disabled', false);
 
     //87: pet-ownership
-    if (this.value === '87'){
+    if (this.value === '87') {
         $('#advert_price').val(0);
         $('#advert_price').prop('disabled', true);
         $('#advert_secretPrice').iCheck('unCheck');
@@ -194,7 +190,7 @@ $('#advert_sub_category').on('change', function () {
 /**
  * iCheck için kullanılan özel yöntemler: ifChecked, ifUnchecked
  */
-$('#advert_secretPrice').on('ifChecked', function (event){
+$('#advert_secretPrice').on('ifChecked', function (event) {
     Toast.fire({
         title: 'Fiyat Bilgisi İlanda Gösterilecek',
         type: 'success',
@@ -208,7 +204,7 @@ $('#advert_secretPrice').on('ifUnchecked', function (event) {
 });
 
 
-$('#advert_secretPhone').on('ifChecked', function (event){
+$('#advert_secretPhone').on('ifChecked', function (event) {
     Toast.fire({
         title: 'Telefon Bilgisi İlanda Gösterilecek',
         type: 'success',
@@ -222,7 +218,7 @@ $('#advert_secretPhone').on('ifUnchecked', function (event) {
 });
 
 
-$('#advert_secretEmail').on('ifChecked', function (event){
+$('#advert_secretEmail').on('ifChecked', function (event) {
     Toast.fire({
         title: 'Eposta Bilgisi İlanda Gösterilecek',
         type: 'success',
@@ -236,9 +232,6 @@ $('#advert_secretEmail').on('ifUnchecked', function (event) {
 });
 
 
-
-
-
 //trumbowyg
 import 'trumbowyg/dist/trumbowyg.min';
 import icons from 'trumbowyg/dist/ui/icons.svg';
@@ -247,14 +240,12 @@ $.trumbowyg.svgPath = icons;
 $('#advert_description').trumbowyg();
 
 
-
 if ($('#success_message').val()) {
     Toast.fire({
         title: $('#success_message').val(),
         type: 'success',
     })
 }
-
 
 
 const $image = $("#selected_image");
@@ -267,8 +258,8 @@ $input.change(function () {
      * Sadece jpeg, jpg, png
      * @type {*[]}
      */
-    let ext = ['jpeg','jpg','png'];
-    if (!ext.includes(this.files[0]['name'].split(".")[1])){
+    let ext = ['jpeg', 'jpg', 'png'];
+    if (!ext.includes(this.files[0]['name'].split(".")[1])) {
         Swal.fire({
             type: 'error',
             title: 'Geçersiz Dosya Formatı',
@@ -309,9 +300,9 @@ $input.change(function () {
 
 $('#crop_image').on('click', function () {
 
-    let imageData = $image.cropper('getCroppedCanvas',{
-        width:870,
-        height:470,
+    let imageData = $image.cropper('getCroppedCanvas', {
+        width: 870,
+        height: 470,
         fillColor: '#fff',
     }).toDataURL('image/jpeg');
 
@@ -319,4 +310,11 @@ $('#crop_image').on('click', function () {
     $('#cropped_image').val(imageData);
 });
 
+$('#myModal').on('hidden.bs.modal', function () {
+    // Destroy the old cropper instance
+    $image.cropper('destroy');
 
+    // Replace url
+    $image.val('');
+    $input.val('');
+});

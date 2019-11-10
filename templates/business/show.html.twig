@@ -11,12 +11,12 @@
 
     <section class="content-header">
         <h1>
-            İş Yeri
-            <small>{{ business.name }}</small>
+            {{ business.name }}
+            <small></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li><a href="{{ path('business_index') }}">İş Yerleri</a></li>
+            <li><a href="{{ path('business_index') }}">İş Yerlerim</a></li>
             <li class="active"><a href="{{ path('business_show', {id:business.id}) }}">
                     {{ business.name }}</a></li>
 
