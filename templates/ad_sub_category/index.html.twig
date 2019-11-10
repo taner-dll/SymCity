@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}İlan Alt Kategorisi{% endblock %}
+{% block title %}İlan Alt Kategorileri{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,12 +11,12 @@
 
     <section class="content-header">
         <h1>
-            İlan Alt Kategorisi <small>Liste</small>
+            İlan Alt Kategorileri <small>Liste</small>
         </h1>
 
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li class="active"><a href="{{ path('ad_sub_category_index') }}">İlan Alt Kategorisi</a></li>
+            <li class="active"><a href="{{ path('ad_sub_category_index') }}">İlan Alt Kategorileri</a></li>
 
         </ol>
     </section>
@@ -30,11 +30,9 @@
 
             <div class="box">
 
-                <div class="box-header">
-                    <a href="{{ path('ad_sub_category_new') }}"
-                       class="btn btn-success btn-xs pull-right    ">
-                        <i class="fa fa-plus"></i> Yeni Ekle</a>
-                </div>
+{#                <div class="box-header">
+
+                </div>#}
 
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -48,10 +46,8 @@
                             {% set all_names = all_names|merge([cn.shortName]) %}
 
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
 
-                                <h3 style="font-weight: bold;text-decoration: underline">
-                                    {{ cn.shortName| trans({}, 'advert') }}</h3>
 
                                 <div id="sort_list_{{ cn.shortName }}" class="list-group"
                                      style="max-height: 300px;min-height:300px;overflow:auto;background: #eeeeee">
@@ -61,9 +57,33 @@
 
                                         <div data-shortname="{{ cn_sub.shortName }}" data-sort-no=""
                                              class="list-group-item" style="cursor: pointer">
-                                            {{ cn_sub.shortName|trans({}, 'advert') }}
-                                            <a href="{{ path('ad_sub_category_show', {'id': cn_sub.id}) }}"
-                                               class="btn btn-xs btn-default pull-right">Göster</a>
+
+
+
+
+
+
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    {{ cn_sub.shortName|trans({}, 'advert') }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    {% if cn_sub.active == 1 %}
+                                                        <label class="label label-success">A</label>
+                                                    {% else %}
+                                                        <label class="label label-danger">P</label>
+                                                    {% endif %}
+
+
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <a href="{{ path('ad_sub_category_show', {'id': cn_sub.id}) }}"
+                                                       class="btn btn-xs btn-default pull-right">Göster</a>
+                                                </div>
+
+                                            </div>
+
+
                                         </div>
 
 

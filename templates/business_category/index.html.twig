@@ -50,9 +50,24 @@
 
                                     <div data-shortname="{{ cn.shortName }}" data-sort-no=""
                                          class="list-group-item" style="cursor: pointer">
-                                        {{ cn.shortName|trans({}, 'business') }}
-                                        <a href="{{ path('ad_category_show', {'id': cn.id}) }}"
-                                           class="btn btn-xs btn-default pull-right">Göster</a>
+
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                {{ cn.shortName|trans({}, 'business') }}
+                                            </div>
+                                            <div class="col-md-3">
+
+
+
+                                            </div>
+                                            <div class="col-md-2">
+                                                <a href="{{ path('ad_category_show', {'id': cn.id}) }}"
+                                                   class="btn btn-xs btn-default pull-right">Göster</a>
+                                            </div>
+
+                                        </div>
+
+
                                     </div>
 
                                 {% endfor %}
