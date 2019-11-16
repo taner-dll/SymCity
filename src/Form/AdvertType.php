@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -41,8 +42,21 @@ class AdvertType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, array('attr' => array(
-                'placeholder' => 'İlanınızı özetleyen başlık giriniz...')))
+            ->add('title', TextType::class,
+                array(
+                    'attr' => array(
+                        'placeholder' => 'İlanınızı özetleyen başlık giriniz...'
+                    ),
+                    'required' => true
+
+                )
+            )
+            ->add('owner', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => 'İlanda gösterilecek, ilan sahibine ait isim giriniz...'
+                ),
+                'required' => true
+            ))
             ->add('price', IntegerType::class)
             ->add('place', EntityType::class, array(
                 'class' => Place::class,
@@ -51,9 +65,6 @@ class AdvertType extends AbstractType
                 },
                 'required' => true,
                 'placeholder' => 'Seçiniz',
-            ))
-            ->add('owner', null, array(
-                'attr' => array('placeholder' => 'İlanda gösterilecek, ilan sahibine ait isim giriniz...')
             ))
             ->add('secretEmail', CheckboxType::class, array('required' => false,
                 'label' => 'İlanda Göster', 'label_attr' => array('style' => 'margin-left:5px;')))

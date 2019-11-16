@@ -53,7 +53,13 @@
                                         <th>Telefon</th>
 
                                         <th>İlan Durumu</th>
-                                        <th>Ekleyen</th>
+
+
+
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <th>Ekleyen</th>
+
+                                        {% endif %}
 
                                         <th>İşlem</th>
                                     </tr>
@@ -83,16 +89,18 @@
                                             <td>{{ advert.telephone }}</td>
 
                                             <td>{{ advert.status|trans({},'advert') }}</td>
-                                            <td>
-                                                {% if is_granted('ROLE_ADMIN') %}
 
-                                                    <label class="label label-danger">Yönetici</label>
-                                                {% else %}
 
-                                                    {{advert.user.email}}
+                                            {% if is_granted('ROLE_ADMIN') %}
 
-                                                {% endif %}
-                                            </td>
+                                                <td>
+                                                    {{advert.user.username}}
+                                                </td>
+
+                                            {% endif %}
+
+
+
 
                                             <td>
                                                 <a class="btn btn-xs btn-primary pull-left"
