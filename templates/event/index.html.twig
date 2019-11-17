@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Etkinlikler{% endblock %}
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        Etkinlik Yönetimi
+    {% else %}
+        Etkinliklerim
+    {% endif %}
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,13 +17,23 @@
 
     <section class="content-header">
         <h1>
-            Etkinlikler
-            <small>Liste</small>
+            {% if is_granted('ROLE_ADMIN') %}
+                Etkinlik Yönetimi
+            {% else %}
+                Etkinliklerim
+            {% endif %}
+            <small></small>
         </h1>
 
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li class="active"><a href="{{ path('event_index') }}">Etkinlikler</a></li>
+            <li class="active"><a href="{{ path('event_index') }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        Etkinlik Yönetimi
+                    {% else %}
+                        Etkinliklerim
+                    {% endif %}
+                </a></li>
 
         </ol>
     </section>
@@ -47,7 +63,6 @@
                                     <tr role="row">
                                         <th>Onay Durumu</th>
                                         <th>Son Güncelleme</th>
-                                        <th>Etkinlik No</th>
                                         <th>Etkinlik Adı</th>
                                         <th>Açıklama</th>
                                         <th>Bölge</th>
@@ -72,13 +87,12 @@
                                                      Onaylandı</span>
                                                 {% endif %}
                                             </td>
-                                            <td>{{ event.lastUpdate ? event.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
-                                            <td>{{ event.id }}</td>
+                                            <td>{{ event.lastUpdate ? event.lastUpdate|date('d/m/Y H:i') : '' }}</td>
                                             <td>{{ event.name[:20]|striptags }}&hellip;</td>
                                             <td>{{ event.description[:20]|striptags }}&hellip;</td>
                                             <td>{{ event.place ? event.place.name : '' }}</td>
-                                            <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
-                                            <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
+                                            <td>{{ event.start ? event.start|date('d/m/Y H:i') : '' }}</td>
+                                            <td>{{ event.end ? event.end|date('d/m/Y H:i') : '' }}</td>
 
                                             <td>{{ event.user.email }}</td>
                                             <td>
@@ -88,7 +102,7 @@
                                         </tr>
                                     {% else %}
                                         <tr>
-                                            <td colspan="10">no records found</td>
+                                            <td colspan="10">Kayıtlı etkinliğiniz bulunmamaktadır.</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>

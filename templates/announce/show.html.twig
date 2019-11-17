@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Duyurular{% endblock %}
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        Duyuru Yönetimi
+    {% else %}
+        Duyurularım
+    {% endif %}
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,12 +17,18 @@
 
     <section class="content-header">
         <h1>
-            Duyurular
-            <small>{{ announce.name }}</small>
+            Duyuru Detayı
+            <small></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li><a href="{{ path('announce_index') }}">Duyurular</a></li>
+            <li><a href="{{ path('announce_index') }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        Duyuru Yönetimi
+                    {% else %}
+                        Duyurularım
+                    {% endif %}
+                </a></li>
             <li class="active"><a href="{{ path('announce_show', {id:announce.id}) }}">
                     {{ announce.name }}</a></li>
 
@@ -45,10 +57,6 @@
                         <tr>
                             <th>Son Güncelleme</th>
                             <td>{{ announce.lastUpdate ? announce.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Duyuru No</th>
-                            <td>{{ announce.id }}</td>
                         </tr>
                         <tr>
                             <th>Duyuru Başlığı</th>

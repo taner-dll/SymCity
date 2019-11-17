@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}İş Yerlerim{% endblock %}
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        İş Yeri Yönetimi
+    {% else %}
+        İş Yerlerim
+    {% endif %}
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,13 +17,23 @@
 
     <section class="content-header">
         <h1>
-            İş Yerlerim
-            <small>Liste</small>
+            {% if is_granted('ROLE_ADMIN') %}
+                İş Yeri Yönetimi
+            {% else %}
+                İş Yerlerim
+            {% endif %}
+            <small></small>
         </h1>
 
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li class="active"><a href="{{ path('business_index') }}">İş Yerlerim</a></li>
+            <li class="active"><a href="{{ path('business_index') }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        İş Yeri Yönetimi
+                    {% else %}
+                        İş Yerlerim
+                    {% endif %}
+                </a></li>
 
         </ol>
     </section>
@@ -97,7 +113,7 @@
                                         </tr>
                                     {% else %}
                                         <tr>
-                                            <td colspan="10">no records found</td>
+                                            <td colspan="10">Kayıtlı iş yeriniz bulunmamaktadır.</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
