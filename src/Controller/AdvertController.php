@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/advert")
@@ -46,10 +47,11 @@ class AdvertController extends AbstractController
     /**
      * @Route("/new", name="advert_new", methods={"GET","POST"})
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @return Response
      * @throws Exception
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
 
 
@@ -78,7 +80,7 @@ class AdvertController extends AbstractController
             $entityManager->persist($advert);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Successfully Added');
+            $this->addFlash('success', $translator->trans('advert_added'));
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
 
@@ -95,7 +97,7 @@ class AdvertController extends AbstractController
                 $this->base64upload($file, $dir, $fileName);
             }
 
-            return $this->redirectToRoute('advert_index');
+            return $this->redirectToRoute('advert_show',array('id'=>$advert->getId()));
         }
 
         return $this->render('advert/new.html.twig', [
@@ -126,10 +128,11 @@ class AdvertController extends AbstractController
      * @Route("/{id}/edit", name="advert_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Advert $advert
+     * @param TranslatorInterface $translator
      * @return Response
      * @throws Exception
      */
-    public function edit(Request $request, Advert $advert): Response
+    public function edit(Request $request, Advert $advert, TranslatorInterface $translator): Response
     {
 
 
@@ -160,7 +163,7 @@ class AdvertController extends AbstractController
 
 
             $em->flush();
-            $this->addFlash('success', 'İlanınız Güncellendi');
+            $this->addFlash('success', $translator->trans('advert_updated'));
 
             
             //jquery-cropper (cropped image hidden input)
@@ -196,9 +199,10 @@ class AdvertController extends AbstractController
      * @Route("/{id}", name="advert_delete", methods={"DELETE"})
      * @param Request $request
      * @param Advert $advert
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function delete(Request $request, Advert $advert): Response
+    public function delete(Request $request, Advert $advert, TranslatorInterface $translator): Response
     {
 
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
@@ -216,7 +220,7 @@ class AdvertController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($advert);
             $entityManager->flush();
-            $this->addFlash('success', 'Successfully Deleted');
+            $this->addFlash('success', $translator->trans('advert_deleted'));
         }
 
         return $this->redirectToRoute('advert_index');
@@ -264,9 +268,10 @@ class AdvertController extends AbstractController
      * @Route("/advert/confirm/{id}", name="advert_confirm", methods={"GET"})
      * @param Request $request
      * @param $id
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function confirm(Request $request, $id)
+    public function confirm(Request $request, $id, TranslatorInterface $translator)
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -280,7 +285,9 @@ class AdvertController extends AbstractController
             $advert->setConfirm(1);
             $em->flush();
 
-            $this->addFlash('success','Successfully Confirmed');
+            //TODO ilan onayında kullanıcıya bilgilendirme maili gönderilecek.
+
+            $this->addFlash('success', $translator->trans('advert_confirmed'));
 
         }
 
@@ -292,9 +299,10 @@ class AdvertController extends AbstractController
      * @Route("/advert/unconfirm/{id}", name="advert_unconfirm", methods={"GET"})
      * @param Request $request
      * @param $id
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function unconfirm(Request $request, $id)
+    public function unconfirm(Request $request, $id, TranslatorInterface $translator)
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -308,7 +316,37 @@ class AdvertController extends AbstractController
             $advert->setConfirm(0);
             $em->flush();
 
-            $this->addFlash('success','Successfully Canceled');
+            $this->addFlash('success', $translator->trans('advert_sent_for_approval'));
+
+        }
+
+        return $this->redirectToRoute('advert_show', ['id' => $id]);
+
+    }
+
+
+    /**
+     * @Route("/advert/draft/{id}", name="advert_draft", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @param TranslatorInterface $translator
+     * @return mixed
+     */
+    public function draft(Request $request, $id, TranslatorInterface $translator)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('draft'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $advert = $em->getRepository(Advert::class)->find($id);
+            $advert->setConfirm(2);
+            $em->flush();
+
+            $this->addFlash('success', $translator->trans('advert_confirm_cancelled'));
 
         }
 

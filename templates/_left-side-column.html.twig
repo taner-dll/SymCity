@@ -142,7 +142,14 @@
 
             <li class="treeview _advert_menu">
                 <a href="#">
-                    <i class="fa fa-book"></i> <span>İlanlarım</span>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <i class="fa fa-book"></i> <span>İlan Yönetimi</span>
+                    {% else %}
+                        <i class="fa fa-book"></i> <span>İlanlarım</span>
+                    {% endif %}
+
+
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -155,7 +162,14 @@
 
             <li class="treeview _business_menu">
                 <a href="#">
-                    <i class="fa fa-home"></i> <span>İş Yerlerim</span>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <i class="fa fa-home"></i> <span>İş Yeri Yönetimi</span>
+                    {% else %}
+                        <i class="fa fa-home"></i> <span>İş Yerlerim</span>
+                    {% endif %}
+
+
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -168,7 +182,14 @@
 
             <li class="treeview _announce_menu">
                 <a href="#">
-                    <i class="fa fa-microphone"></i> <span>Duyuru / Anons</span>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <i class="fa fa-microphone"></i> <span>Duyuru Yönetimi</span>
+                    {% else %}
+                        <i class="fa fa-microphone"></i> <span>Duyurularım</span>
+                    {% endif %}
+
+
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -182,7 +203,14 @@
 
             <li class="treeview _event_menu">
                 <a href="#">
-                    <i class="fa fa-calendar"></i> <span>Etkinliklerim</span>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <i class="fa fa-calendar"></i> <span>Etkinlik Yönetimi</span>
+                    {% else %}
+                        <i class="fa fa-calendar"></i> <span>Etkinliklerim</span>
+                    {% endif %}
+
+
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

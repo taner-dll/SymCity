@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,13 +22,13 @@ class BusinessType extends AbstractType
     {
 
         $builder
-            ->add('name')
+            ->add('name',TextType::class, array('required' => true))
             ->add('map')
             ->add('about')
-            ->add('phone')
+            ->add('phone',TextType::class, array('required' => true))
             ->add('web', UrlType::class, array('required' => false))
-            ->add('email', EmailType::class, array('required' => false))
-            ->add('adress')
+            ->add('email', EmailType::class, array('required' => true))
+            ->add('adress',TextType::class, array('required' => true))
             ->add('facebook', UrlType::class, array('required' => false))
             ->add('twitter', UrlType::class, array('required' => false))
             ->add('instagram', UrlType::class, array('required' => false))
@@ -51,7 +52,7 @@ class BusinessType extends AbstractType
                     return $place->getName();
                 },
                 'placeholder' => 'Seçiniz',
-                'required' => false
+                'required' => true
 
             ))
         ;

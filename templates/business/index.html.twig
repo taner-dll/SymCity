@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}İş Yerleri{% endblock %}
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        İş Yeri Yönetimi
+    {% else %}
+        İş Yerlerim
+    {% endif %}
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,13 +17,23 @@
 
     <section class="content-header">
         <h1>
-            İş Yerleri
-            <small>Liste</small>
+            {% if is_granted('ROLE_ADMIN') %}
+                İş Yeri Yönetimi
+            {% else %}
+                İş Yerlerim
+            {% endif %}
+            <small></small>
         </h1>
 
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li class="active"><a href="{{ path('business_index') }}">İş Yerleri</a></li>
+            <li class="active"><a href="{{ path('business_index') }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        İş Yeri Yönetimi
+                    {% else %}
+                        İş Yerlerim
+                    {% endif %}
+                </a></li>
 
         </ol>
     </section>
@@ -50,9 +66,11 @@
                                         <th>İşletme Adı</th>
                                         <th>Telefon</th>
                                         <th>Web</th>
-                                        <th>Eposta</th>
                                         <th>Bölge</th>
                                         <th>İşletme Türü</th>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                        <th>Ekleyen</th>
+                                        {% endif %}
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -62,23 +80,32 @@
                                             <td>
                                                 {% if  business.confirm == 0 %}
                                                     <span class="label label-warning">
-<i class="fa fa-clock-o"></i>
-Yönetici Onayı Bekleniyor</span>
+                                                        <i class="fa fa-clock-o"></i>
+                                                        Yönetici Onayı Bekleniyor</span>
                                                 {% else %}
                                                     <span class="label label-success">
-<i class="fa fa-check"></i>
-Onaylandı</span>
+                                                        <i class="fa fa-check"></i>
+                                                        Onaylandı</span>
                                                 {% endif %}
                                             </td>
                                             <td>{{ business.lastUpdate ? business.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
                                             <td>{{ business.name }}</td>
                                             <td>{{ business.phone }}</td>
                                             <td>{{ business.web }}</td>
-                                            <td>{{ business.email }}</td>
+
                                             <td>
                                                 {{ business.place.name is defined ? business.place.name : '' }}
                                             </td>
                                             <td>{{ business.category.shortName| trans({}, 'business') }}</td>
+
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <td>
+
+                                                    {{ business.user.username }}
+
+                                                </td>
+                                            {% endif %}
+
                                             <td>
                                                 <a href="{{ path('business_show', {'id': business.id}) }}"
                                                    class="btn btn-xs btn-primary pull-left">Göster</a>
@@ -86,7 +113,7 @@ Onaylandı</span>
                                         </tr>
                                     {% else %}
                                         <tr>
-                                            <td colspan="10">no records found</td>
+                                            <td colspan="10">Kayıtlı iş yeriniz bulunmamaktadır.</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>

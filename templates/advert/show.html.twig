@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}İlanlar{% endblock %}
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        İlan Yönetimi
+    {% else %}
+        İlanlarım
+    {% endif %}
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -16,7 +22,13 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li><a href="{{ path('advert_index') }}">İlanlar</a></li>
+            <li><a href="{{ path('advert_index') }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        İlan Yönetimi
+                    {% else %}
+                        İlanlarım
+                    {% endif %}
+                </a></li>
             <li class="active">İlan Detayı</li>
 
         </ol>
@@ -92,6 +104,34 @@
                         </tbody>
                     </table>
 
+                    <table class="table table-bordered">
+                        <tbody>
+
+                        <tr>
+                            <th>İlan Görseli</th>
+                            <td>
+
+                                {% if advert.featuredImage|length > 0 %}
+
+                                    <img alt="" src="{{ asset('uploads/place_an_ad/')~advert.featuredImage }}"
+                                         width="300"
+                                         height="225"/>
+                                    <a class="btn-default btn-xs"
+                                       href="{{ path('advert_featured_photo_delete',
+                                           {advert:advert.id,
+                                               _token:csrf_token('delete-featured-photo'~advert.id)}) }}"
+                                       target="_self"
+                                       onclick="return confirm('{{ 'advert_delete_featured_image'|trans }}');"
+                                       style="position: absolute;"><i class="fa fa-close"></i></a>
+
+
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
 
                     <table class="table table-bordered" style="display: none">
                         <tbody>
@@ -150,11 +190,6 @@
                     </table>
 
                     <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Onay Durumu</th>
-                        </tr>
-                        </thead>
                         <tbody>
                         <tr>
                             <td>
@@ -162,48 +197,85 @@
 
                                 {% if  advert.confirm == 0 %}  {#onay bekleniyor#}
 
-                                    <span class="label label-warning">
-                                            <i class="fa fa-clock-o"></i>
-                                            Yönetici Onayı Bekleniyor
-                                        </span>
+                                    <div class="callout callout-warning">
+                                        <h4>
+                                            <i class="icon fa fa-clock-o"></i>
+                                            Onay Bekliyor!
+                                        </h4>
+                                        <p>
+                                            İlanınınız onaya gönderilmiş durumda. İncelendikten
+                                            sonra yayına alınacaktır. Onaylandığında, tarafınıza otomatik olarak
+                                            eposta gönderilecektir.<br>
+                                            <a style="font-weight: bold" href="{{ path('advert_draft',
+                                                {id:advert.id,_token:csrf_token('draft' ~ advert.id)}) }}">
+                                                İptal etmek için tıklayınız
+                                            </a>
+                                        </p>
+                                    </div>
 
                                 {% elseif advert.confirm == 1 %} {#onaylandı#}
 
-                                    <span class="label label-success">
-                                            <i class="fa fa-check"></i>
-                                            Yayında
-                                        </span>
+                                    <div class="callout callout-success">
+                                        <h4>
+                                            <i class="icon fa fa-check-circle-o"></i> İlanınız Yayındadır.
+                                        </h4>
+                                        <p>
+                                            <b>Dikkat!</b> İlanınızı düzenleyip kaydederseniz, otomatik olarak
+                                            yayından kaldırılır ve yeniden onaya gönderilmesi
+                                            gerekir.
+                                        </p>
+                                    </div>
 
                                 {% elseif advert.confirm == 2 %} {#taslak olarak kaydedildi#}
 
-                                    <span class="label label-info">
-                                            <i class="fa fa-save"></i>
-                                            Taslak Durumunda
-                                        </span>
+                                    <div class="callout callout-info">
+                                        <h4>
+                                            <i class="icon fa fa-info-circle"></i> Henüz Yayında Değil!
+                                        </h4>
+                                        <p>
+                                            Lütfen son kontrollerinizi yapın ve onaylanması için
+                                            "Onaya Gönder" butonuna tıklayın.
+                                        </p>
+                                    </div>
 
                                 {% endif %}
 
-                                <hr />
+
 
                                 {% if  advert.confirm == 0 %}  {#onay bekleniyor#}
+
+                                    <br>
 
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <a href="{{ path('advert_confirm',
                                             {id:advert.id,_token:csrf_token('confirm' ~ advert.id)}) }}"
-                                           class="btn btn-success" style="margin-right: 10px;">Onayla</a>
+                                           class="btn btn-danger btn-block btn-lg" style="margin-right: 10px;">
+                                            <i class="fa fa-check-circle-o"></i> Yönetici Olarak Yayına Al
+                                        </a>
                                     {% endif %}
 
                                 {% elseif advert.confirm == 1 %} {#onaylandı#}
 
+                                    <br>
+
                                     {% if is_granted('ROLE_ADMIN') %}
+
                                         <a href="{{ path('advert_unconfirm',
                                             {id:advert.id,_token:csrf_token('unconfirm' ~ advert.id)}) }}"
-                                           class="btn btn-danger" style="margin-right: 10px;">Yayından Kaldır</a>
+                                           class="btn btn-danger btn-block btn-lg">
+                                            <i class="fa fa-close"></i> Yönetici Olarak Yayından Kaldır
+                                        </a>
                                     {% endif %}
 
                                 {% elseif advert.confirm == 2 %} {#taslak olarak kaydedildi#}
 
-                                    {#do nothing#}
+                                    <br>
+
+                                    <a href="{{ path('advert_unconfirm',
+                                        {id:advert.id,_token:csrf_token('unconfirm' ~ advert.id)}) }}"
+                                       class="btn btn-lg btn-success btn-block" style="margin-right: 10px;">
+                                        <i class="fa fa-check-circle-o"></i>
+                                        Onaya Gönder</a>
 
                                 {% endif %}
 
@@ -215,33 +287,7 @@
                     </table>
 
 
-                    <table class="table table-bordered">
-                        <tbody>
 
-                        <tr>
-                            <th>İlan Görseli</th>
-                            <td>
-
-                                {% if advert.featuredImage|length > 0 %}
-
-                                    <img alt="" src="{{ asset('uploads/place_an_ad/')~advert.featuredImage }}"
-                                         width="300"
-                                         height="225"/>
-                                    <a class="btn-default btn-xs"
-                                       href="{{ path('advert_featured_photo_delete',
-                                           {advert:advert.id,
-                                               _token:csrf_token('delete-featured-photo'~advert.id)}) }}"
-                                       target="_self"
-                                       onclick="return confirm('Are you sure you want to delete this item?');"
-                                       style="position: absolute;"><i class="fa fa-close"></i></a>
-
-
-                                {% endif %}
-
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
 
 
                 </div>

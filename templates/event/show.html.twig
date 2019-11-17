@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Etkinlikler{% endblock %}
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        Etkinlik Yönetimi
+    {% else %}
+        Etkinliklerim
+    {% endif %}
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,12 +17,18 @@
 
     <section class="content-header">
         <h1>
-            Etkinlikler
-            <small>{{ event.name }}</small>
+            Etkinlik Detayı
+            <small></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li><a href="{{ path('event_index') }}">Etkinlikler</a></li>
+            <li><a href="{{ path('event_index') }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        Etkinlik Yönetimi
+                    {% else %}
+                        Etkinliklerim
+                    {% endif %}
+                </a></li>
             <li class="active"><a href="{{ path('event_show', {id:event.id}) }}">
                     {{ event.name }}</a></li>
 
@@ -68,11 +80,11 @@
                         </tr>
                         <tr>
                             <th>Başlangıç Tarihi ve Saati</th>
-                            <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ event.start ? event.start|date('d/m/Y H:i') : '' }}</td>
                         </tr>
                         <tr>
                             <th>Bitiş Tarihi ve Saati</th>
-                            <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ event.end ? event.end|date('d/m/Y H:i') : '' }}</td>
                         </tr>
                         <tr>
                             <th>Onay Durumu</th>

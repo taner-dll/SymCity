@@ -6,3 +6,9 @@
 .trumbowyg-box, .trumbowyg-editor {
   margin: 0 auto !important;
 }
+
+
+label.required:before {
+  content: "* ";
+  color:red;
+}

@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Etkinlikler{% endblock %}
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        Etkinlik Yönetimi
+    {% else %}
+        Etkinliklerim
+    {% endif %}
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,14 +17,20 @@
 
     <section class="content-header">
         <h1>
-            Etkinlikler
-            <small>{{ event.name }} (edit)</small>
+            Etkinlik düzenlemektesiniz
+            <small></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li><a href="{{ path('event_index') }}">Etkinlikler</a></li>
+            <li><a href="{{ path('event_index') }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        Etkinlik Yönetimi
+                    {% else %}
+                        Etkinliklerim
+                    {% endif %}
+                </a></li>
             <li class="active"><a href="{{ path('event_edit', {id:event.id}) }}">
-                    {{ event.name }} (edit)</a></li>
+                    {{ event.name }}</a></li>
 
         </ol>
     </section>

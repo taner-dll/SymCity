@@ -1,5 +1,13 @@
 import '../css/business.scss'
 
+/**
+ * Inputmask
+ */
+import InputMask from 'inputmask';
+
+let tel_mask = new InputMask("(999) 999-9999");
+tel_mask.mask($('#business_phone'));
+
 //trumbowyg
 import 'trumbowyg/dist/trumbowyg.min';
 import icons from 'trumbowyg/dist/ui/icons.svg';

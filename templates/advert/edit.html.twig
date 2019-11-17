@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}İlanlar{% endblock %}
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        İlan Yönetimi
+    {% else %}
+        İlanlarım
+    {% endif %}
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,14 +17,20 @@
 
     <section class="content-header">
         <h1>
-            İlanınızı Düzenlemektesiniz
+            İlanı Düzenlemektesiniz
             <small></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li><a href="{{ path('advert_index') }}">İlanlar</a></li>
+            <li><a href="{{ path('advert_index') }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        İlan Yönetimi
+                    {% else %}
+                        İlanlarım
+                    {% endif %}
+                </a></li>
             <li class="active"><a href="{{ path('advert_edit', {id:advert.id}) }}">
-                    {{ advert.title }} (edit)</a></li>
+                    {{ advert.title }}</a></li>
 
         </ol>
     </section>
