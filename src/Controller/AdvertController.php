@@ -10,6 +10,7 @@ use App\Traits\File;
 use App\Traits\Util;
 use DateTime;
 use Exception;
+use phpDocumentor\Reflection\Types\Self_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,11 @@ class AdvertController extends AbstractController
 {
     use File;
     use Util;
+
+    const CONFIRM = 1;
+    const SAVE_AS_DRAFT = 2;
+    const SEND_CONFIRMATION_REQUEST = 0;
+
     /**
      * @Route("/", name="advert_index", methods={"GET"})
      * @param AdvertRepository $advertRepository
@@ -73,9 +79,7 @@ class AdvertController extends AbstractController
 
             $advert->setUser($this->getUser());
             $advert->setLastUpdate(new DateTime('now'));
-
-            //0: bekliyor, 1: onaylandı, 2: önizleme modu
-            $advert->setConfirm(2);
+            $advert->setConfirm(self::SAVE_AS_DRAFT);
 
             $entityManager->persist($advert);
             $entityManager->flush();
@@ -226,14 +230,14 @@ class AdvertController extends AbstractController
         return $this->redirectToRoute('advert_index');
     }
 
-
     /**
-     * @Route("/advert/featured/photo/delete/{advert}", name="advert_featured_photo_delete", methods={"GET"})
+     * @Route("/featured/photo/delete/{advert}", name="advert_featured_photo_delete", methods={"GET"})
      * @param Request $request
      * @param $advert
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function deleteFeatured(Request $request,$advert)
+    public function deleteFeatured(Request $request,$advert, TranslatorInterface $translator)
     {
 
 
@@ -256,7 +260,7 @@ class AdvertController extends AbstractController
             $photo->setFeaturedImage(null);
             $em->flush();
 
-            $this->addFlash('success','Successfully Deleted');
+            $this->addFlash('success', $translator->trans('advert_featured_image_deleted'));
 
         }
 
@@ -265,7 +269,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/advert/confirm/{id}", name="advert_confirm", methods={"GET"})
+     * @Route("/confirm/{id}", name="advert_confirm", methods={"GET"})
      * @param Request $request
      * @param $id
      * @param TranslatorInterface $translator
@@ -282,7 +286,7 @@ class AdvertController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $advert = $em->getRepository(Advert::class)->find($id);
-            $advert->setConfirm(1);
+            $advert->setConfirm(self::CONFIRM);
             $em->flush();
 
             //TODO ilan onayında kullanıcıya bilgilendirme maili gönderilecek.
@@ -296,7 +300,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/advert/unconfirm/{id}", name="advert_unconfirm", methods={"GET"})
+     * @Route("/unconfirm/{id}", name="advert_unconfirm", methods={"GET"})
      * @param Request $request
      * @param $id
      * @param TranslatorInterface $translator
@@ -313,10 +317,12 @@ class AdvertController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $advert = $em->getRepository(Advert::class)->find($id);
-            $advert->setConfirm(0);
+            $advert->setConfirm(self::SAVE_AS_DRAFT);
             $em->flush();
 
-            $this->addFlash('success', $translator->trans('advert_sent_for_approval'));
+            //todo yayından kaldırılma sebebi mail olarak gönderilebilir.
+
+            $this->addFlash('success', $translator->trans('advert_unconfirmed'));
 
         }
 
@@ -324,35 +330,66 @@ class AdvertController extends AbstractController
 
     }
 
-
     /**
-     * @Route("/advert/draft/{id}", name="advert_draft", methods={"GET"})
+     * @Route("/save-as-draft/{id}", name="advert_save_as_draft", methods={"GET"})
      * @param Request $request
      * @param $id
      * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function draft(Request $request, $id, TranslatorInterface $translator)
+    public function saveAsDraft(Request $request, $id, TranslatorInterface $translator)
     {
 
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('draft'.$id  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('advert_save_as_draft'.$id  , $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $advert = $em->getRepository(Advert::class)->find($id);
-            $advert->setConfirm(2);
+            $advert->setConfirm(self::SAVE_AS_DRAFT);
             $em->flush();
 
             $this->addFlash('success', $translator->trans('advert_confirm_cancelled'));
-
         }
 
         return $this->redirectToRoute('advert_show', ['id' => $id]);
 
     }
+
+    /**
+     * @Route("/send-confirmation-request/{id}", name="advert_send_confirmation_request", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @param TranslatorInterface $translator
+     * @return mixed
+     */
+    public function sendConfirmationRequest(Request $request, $id, TranslatorInterface $translator)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('advert_send_confirmation_request'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $advert = $em->getRepository(Advert::class)->find($id);
+            $advert->setConfirm(self::SEND_CONFIRMATION_REQUEST);
+            $em->flush();
+
+            $this->addFlash('success', $translator->trans('advert_send_confirmation_request'));
+        }
+
+        return $this->redirectToRoute('advert_show', ['id' => $id]);
+
+    }
+
+
+
+
+
 
 
 

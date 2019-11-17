@@ -62,13 +62,11 @@
                                     <thead>
                                     <tr role="row">
                                         <th>Onay Durumu</th>
-                                        <th>Son Güncelleme</th>
                                         <th>İlan Başlığı</th>
                                         <th>Bölge</th>
-                                        <th>Fiyat (TL)</th>
-                                        <th>Telefon</th>
-
-                                        <th>İlan Durumu</th>
+                                        <th>Kategori</th>
+                                        <th>Alt Kategori</th>
+                                        <th>Durumu</th>
 
 
 
@@ -87,23 +85,21 @@
                                                 {% if  advert.confirm == 0 %}
                                                     <span class="label label-warning">
                                         <i class="fa fa-clock-o"></i>
-                                        Yönetici Onayı Bekleniyor</span>
+                                        Onay Bekliyor</span>
                                                 {% elseif advert.confirm == 2  %}
                                                     <span class="label label-info">
                                         <i class="fa fa-save"></i>
-                                         Taslak Olarak Kaydedildi</span>
+                                         Taslak Durumunda</span>
                                                 {% else %}
                                                     <span class="label label-success">
                                         <i class="fa fa-check"></i>
                                          Onaylandı</span>
                                                 {% endif %}
                                             </td>
-                                            <td>{{ advert.lastUpdate ? advert.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
                                             <td>{{ advert.title[:20]|striptags }}&hellip;</td>
                                             <td>{{ advert.place ? advert.place.name : '' }}</td>
-                                            <td>{{ advert.price }}</td>
-                                            <td>{{ advert.telephone }}</td>
-
+                                            <td>{{ advert.category.shortName|trans({},'advert') }}</td>
+                                            <td>{{ advert.subCategory.shortName|trans({},'advert') }}</td>
                                             <td>{{ advert.status|trans({},'advert') }}</td>
 
 

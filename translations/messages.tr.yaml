@@ -2,6 +2,8 @@ advert_added: İlanınız başarılı bir şekilde eklendi.
 advert_deleted: İlan silme işleminiz başarıyla gerçekleşti.
 advert_updated: İlanınız başarılı bir şekilde güncellendi.
 advert_confirm_cancelled: Onaya gönderme işlemi iptal edildi.
-advert_sent_for_approval: İlanınız onaya gönderildi.
+advert_send_confirmation_request: İlanınız onaya gönderildi.
 advert_confirmed: İlan başarılı bir şekilde onaylandı.
+advert_unconfirmed: İlan yayından kaldırıldı.
 advert_delete_featured_image: İlana ait öne çıkan görsel silinecek, onaylıyor musunuz?
+advert_featured_image_deleted: İlana ait öne çıkan görsel başarıyla silindi.

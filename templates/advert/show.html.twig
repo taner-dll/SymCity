@@ -105,17 +105,18 @@
                     </table>
 
                     <table class="table table-bordered">
+                        <thead>
+                        <th>İlan Görseli</th>
+                        </thead>
                         <tbody>
-
                         <tr>
-                            <th>İlan Görseli</th>
                             <td>
 
                                 {% if advert.featuredImage|length > 0 %}
 
                                     <img alt="" src="{{ asset('uploads/place_an_ad/')~advert.featuredImage }}"
-                                         width="300"
-                                         height="225"/>
+                                         width="400"
+                                         height="216"/>
                                     <a class="btn-default btn-xs"
                                        href="{{ path('advert_featured_photo_delete',
                                            {advert:advert.id,
@@ -132,24 +133,6 @@
                         </tbody>
                     </table>
 
-
-                    <table class="table table-bordered" style="display: none">
-                        <tbody>
-                        <tr>
-                            <th>Ekleyen</th>
-                            <td>{{ advert.user.email }}</td>
-                        </tr>
-
-                        {#                        <tr>#}
-                        {#                            <th>Ekleyen Üye Tipi</th>#}
-                        {#                            <td>#}
-                        {#                                {% for roles in advert.user.roles %}#}
-                        {#                                    {{ roles }}#}
-                        {#                                {% endfor %}#}
-                        {#                            </td>#}
-                        {#                        </tr>#}
-                        </tbody>
-                    </table>
 
                 </div>
                 <div class="col-sm-4">
@@ -206,8 +189,8 @@
                                             İlanınınız onaya gönderilmiş durumda. İncelendikten
                                             sonra yayına alınacaktır. Onaylandığında, tarafınıza otomatik olarak
                                             eposta gönderilecektir.<br>
-                                            <a style="font-weight: bold" href="{{ path('advert_draft',
-                                                {id:advert.id,_token:csrf_token('draft' ~ advert.id)}) }}">
+                                            <a style="font-weight: bold" href="{{ path('advert_save_as_draft',
+                                                {id:advert.id,_token:csrf_token('advert_save_as_draft' ~ advert.id)}) }}">
                                                 İptal etmek için tıklayınız
                                             </a>
                                         </p>
@@ -220,7 +203,7 @@
                                             <i class="icon fa fa-check-circle-o"></i> İlanınız Yayındadır.
                                         </h4>
                                         <p>
-                                            <b>Dikkat!</b> İlanınızı düzenleyip kaydederseniz, otomatik olarak
+                                            <b>Dikkat!</b> İlanınızı yeniden düzenlerseniz, otomatik olarak
                                             yayından kaldırılır ve yeniden onaya gönderilmesi
                                             gerekir.
                                         </p>
@@ -271,8 +254,8 @@
 
                                     <br>
 
-                                    <a href="{{ path('advert_unconfirm',
-                                        {id:advert.id,_token:csrf_token('unconfirm' ~ advert.id)}) }}"
+                                    <a href="{{ path('advert_send_confirmation_request',
+                                        {id:advert.id,_token:csrf_token('advert_send_confirmation_request' ~ advert.id)}) }}"
                                        class="btn btn-lg btn-success btn-block" style="margin-right: 10px;">
                                         <i class="fa fa-check-circle-o"></i>
                                         Onaya Gönder</a>

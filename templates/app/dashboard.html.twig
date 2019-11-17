@@ -158,7 +158,7 @@
                                         <td>{{ advert.title[:15]|striptags }}&hellip;</td>
                                         <td>{{ advert.place ? advert.place.name : '' }}</td>
                                         <td>{{ advert.status }}</td>
-                                        <td>{{ advert.type }}</td>
+
                                         <td>
                                             <a class="btn btn-xs btn-primary pull-left"
                                                href="{{ path('advert_show', {'id': advert.id}) }}">Göster</a>
