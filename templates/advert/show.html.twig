@@ -69,10 +69,7 @@
                                 {% endif %}
                             </td>
                         </tr>
-                        <tr>
-                            <th>Son Güncelleme</th>
-                            <td>{{ advert.lastUpdate ? advert.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
-                        </tr>
+
                         <tr>
                             <th>Fiyat (TL)</th>
                             <td>{{ advert.price }}</td>
@@ -88,6 +85,10 @@
                         <tr>
                             <th>İlan Durumu</th>
                             <td>{{ advert.status|trans({},'advert') }}</td>
+                        </tr>
+                        <tr>
+                            <th>Son Güncelleme</th>
+                            <td>{{ advert.lastUpdate ? advert.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
                         </tr>
 
                         </tbody>

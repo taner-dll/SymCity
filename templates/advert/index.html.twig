@@ -84,16 +84,16 @@
                                             <td>
                                                 {% if  advert.confirm == 0 %}
                                                     <span class="label label-warning">
-                                        <i class="fa fa-clock-o"></i>
-                                        Onay Bekliyor</span>
-                                                {% elseif advert.confirm == 2  %}
-                                                    <span class="label label-info">
-                                        <i class="fa fa-save"></i>
-                                         Taslak Durumunda</span>
-                                                {% else %}
+                                                        <i class="fa fa-clock-o"></i>
+                                                        Onay Bekliyor</span>
+                                                {% elseif advert.confirm == 1 %}
                                                     <span class="label label-success">
-                                        <i class="fa fa-check"></i>
-                                         Onaylandı</span>
+                                                        <i class="fa fa-check"></i>
+                                                        Yayında</span>
+                                                {% elseif advert.confirm == 2 %}
+                                                    <span class="label label-info">
+                                                        <i class="fa fa-save"></i>
+                                                        Taslak</span>
                                                 {% endif %}
                                             </td>
                                             <td>{{ advert.title[:20]|striptags }}&hellip;</td>

@@ -9,11 +9,13 @@ use App\Traits\File;
 use App\Traits\Util;
 use DateTime;
 use Exception;
+use phpDocumentor\Reflection\Types\Self_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/business")
@@ -22,6 +24,10 @@ class BusinessController extends AbstractController
 {
     use File;
     use Util;
+
+    const CONFIRM = 1;
+    const SAVE_AS_DRAFT = 2;
+    const SEND_CONFIRMATION_REQUEST = 0;
 
     /**
      * @Route("/", name="business_index", methods={"GET"})
@@ -217,9 +223,10 @@ class BusinessController extends AbstractController
      * @Route("/business/confirm/{id}", name="business_confirm", methods={"GET"})
      * @param Request $request
      * @param $id
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function confirm(Request $request, $id)
+    public function confirm(Request $request, $id, TranslatorInterface $translator)
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -230,10 +237,12 @@ class BusinessController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $business = $em->getRepository(Business::class)->find($id);
-            $business->setConfirm(1);
+            $business->setConfirm(self::CONFIRM);
             $em->flush();
 
-            $this->addFlash('success','Successfully Confirmed');
+            //TODO iş yeri onayında kullanıcıya bilgilendirme maili gönderilecek.
+
+            $this->addFlash('success', $translator->trans('business_confirmed'));
 
         }
 
@@ -245,9 +254,10 @@ class BusinessController extends AbstractController
      * @Route("/business/unconfirm/{id}", name="business_unconfirm", methods={"GET"})
      * @param Request $request
      * @param $id
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function unconfirm(Request $request, $id)
+    public function unconfirm(Request $request, $id, TranslatorInterface $translator)
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -258,10 +268,68 @@ class BusinessController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $business = $em->getRepository(Business::class)->find($id);
-            $business->setConfirm(0);
+            $business->setConfirm(self::SAVE_AS_DRAFT);
             $em->flush();
 
-            $this->addFlash('success','Successfully Canceled');
+            //todo yayından kaldırılma sebebi mail olarak gönderilebilir.
+
+            $this->addFlash('success', $translator->trans('business_unconfirmed'));
+        }
+
+        return $this->redirectToRoute('business_show', ['id' => $id]);
+
+    }
+
+    /**
+     * @Route("/save-as-draft/{id}", name="business_save_as_draft", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @param TranslatorInterface $translator
+     * @return mixed
+     */
+    public function saveAsDraft(Request $request, $id, TranslatorInterface $translator)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('business_save_as_draft'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $advert = $em->getRepository(Business::class)->find($id);
+            $advert->setConfirm(self::SAVE_AS_DRAFT);
+            $em->flush();
+
+            $this->addFlash('success', $translator->trans('business_confirm_cancelled'));
+        }
+
+        return $this->redirectToRoute('business_show', ['id' => $id]);
+
+    }
+
+    /**
+     * @Route("/send-confirmation-request/{id}", name="business_send_confirmation_request", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @param TranslatorInterface $translator
+     * @return mixed
+     */
+    public function sendConfirmationRequest(Request $request, $id, TranslatorInterface $translator)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('business_send_confirmation_request'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $advert = $em->getRepository(Business::class)->find($id);
+            $advert->setConfirm(self::SEND_CONFIRMATION_REQUEST);
+            $em->flush();
+
+            $this->addFlash('success', $translator->trans('business_send_confirmation_request'));
         }
 
         return $this->redirectToRoute('business_show', ['id' => $id]);

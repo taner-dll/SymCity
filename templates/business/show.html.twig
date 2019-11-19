@@ -49,14 +49,11 @@
 
        -->
         <div class="box-body">
+
             <div class="row">
-                <div class="col-sm-12">
-                    <table class="table table-bordered">
+                <div class="col-sm-8">
+                    <table class="table table-bordered table-responsive">
                         <tbody>
-                        <tr>
-                            <th style="width: 25%">Son Güncelleme</th>
-                            <td>{{ business.lastUpdate ? business.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
-                        </tr>
                         <tr>
                             <th>İşletme Adı</th>
                             <td>{{ business.name }}</td>
@@ -70,14 +67,11 @@
                             <th>Harita</th>
                             <td>{{ business.map }}</td>
                         </tr>
-                        <tr>
-                            <th>Hakkında</th>
-                            <td>{{ business.about[:500]|striptags }}&hellip;</td>
-                        </tr>
+
                         <tr>
                             <th>Telefon</th>
                             <td>{{ business.phone }}</td>
-                        </tr>                                                       
+                        </tr>
                         <tr>
                             <th>Web</th>
                             <td>{{ business.web }}</td>
@@ -107,31 +101,32 @@
                             <td>{{ business.category.shortName| trans({}, 'business') }}</td>
                         </tr>
                         <tr>
-                            <th>Onay Durumu</th>
-                            <td>
-                                {% if  business.confirm == 0 %}
-                                    <span class="label label-warning">
-                                        <i class="fa fa-clock-o"></i>
-                                        Yönetici Onayı Bekleniyor</span><br><br>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <a href="{{ path('business_confirm',
-                                            {id:business.id,_token:csrf_token('confirm' ~ business.id)}) }}"
-                                           class="btn btn-success" style="margin-right: 10px;">Onayla</a>
-                                    {% endif %}
-                                {% else %}
-                                    <span class="label label-success">
-                                        <i class="fa fa-check"></i>
-                                         Onaylandı</span><br><br>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <a href="{{ path('business_unconfirm',
-                                            {id:business.id,_token:csrf_token('unconfirm' ~ business.id)}) }}"
-                                           class="btn btn-danger" style="margin-right: 10px;">Yayından Kaldır</a>
-                                    {% endif %}
-                                {% endif %}
-                            </td>
+                            <th>Son Güncelleme</th>
+                            <td>{{ business.lastUpdate ? business.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
                         </tr>
+
+
+
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <th>Hakkında</th>
+                        </thead>
+                        <tbody>
                         <tr>
-                            <th>Öne Çıkan Resim</th>
+                            <td>{{ business.about|raw }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <th>Öne Çıkan Görsel</th>
+                        </thead>
+                        <tbody>
+                        <tr>
                             <td>
                                 {% if business.featuredPicture|length > 0 %}
 
@@ -146,12 +141,156 @@
                                        style="position: absolute;"><i class="fa fa-close"></i></a>
 
                                 {% endif %}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <div class="col-sm-4">
+
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td>
+
+                                <a href="{{ path('business_index') }}" class="btn btn-primary"
+                                   style="margin-right: 10px;">
+                                    <i class="fa fa-caret-left"></i>
+                                    İş Yerlerim</a>
+
+
+
+
+                                <a href="{{ path('business_edit', {'id': business.id}) }}" class="btn btn-warning"
+                                   style="margin-right: 10px;">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                    Düzenle</a>
+
+
+
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                                    <i class="fa fa-trash-o"></i>
+                                    Sil
+                                </a>
+                                {{ include('business/_delete_form.html.twig') }}
+
+
+
 
                             </td>
                         </tr>
-                       
                         </tbody>
                     </table>
+
+
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td>
+
+
+                                {% if  business.confirm == 0 %}  {#onay bekleniyor#}
+
+                                    <div class="callout callout-warning">
+                                        <h4>
+                                            <i class="icon fa fa-clock-o"></i>
+                                            Onay Bekliyor!
+                                        </h4>
+                                        <p>
+                                            İş yeriniz onaya gönderilmiş durumda. İncelendikten
+                                            sonra yayına alınacaktır. Onaylandığında, tarafınıza otomatik olarak
+                                            eposta gönderilecektir.<br>
+                                            <a style="font-weight: bold" href="{{ path('business_save_as_draft',
+                                                {id:business.id,_token:csrf_token('business_save_as_draft' ~ business.id)}) }}">
+                                                İptal etmek için tıklayınız
+                                            </a>
+                                        </p>
+                                    </div>
+
+                                {% elseif business.confirm == 1 %} {#onaylandı#}
+
+                                    <div class="callout callout-success">
+                                        <h4>
+                                            <i class="icon fa fa-check-circle-o"></i> İş Yeriniz Yayındadır.
+                                        </h4>
+                                        <p>
+                                            <b>Dikkat!</b> İş yerinizi yeniden düzenlerseniz, otomatik olarak
+                                            yayından kaldırılır ve yeniden onaya gönderilmesi
+                                            gerekir.
+                                        </p>
+                                    </div>
+
+                                {% elseif business.confirm == 2 %} {#taslak olarak kaydedildi#}
+
+                                    <div class="callout callout-info">
+                                        <h4>
+                                            <i class="icon fa fa-info-circle"></i> Henüz Yayında Değil!
+                                        </h4>
+                                        <p>
+                                            Lütfen son kontrollerinizi yapın ve onaylanması için
+                                            "Onaya Gönder" butonuna tıklayın.
+                                        </p>
+                                    </div>
+
+                                {% endif %}
+
+
+
+                                {% if  business.confirm == 0 %}  {#onay bekleniyor#}
+
+                                    <br>
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('business_confirm',
+                                            {id:business.id,_token:csrf_token('confirm' ~ business.id)}) }}"
+                                           class="btn btn-danger btn-block btn-lg" style="margin-right: 10px;">
+                                            <i class="fa fa-check-circle-o"></i> Yönetici Olarak Yayına Al
+                                        </a>
+                                    {% endif %}
+
+                                {% elseif business.confirm == 1 %} {#onaylandı#}
+
+                                    <br>
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+
+                                        <a href="{{ path('business_unconfirm',
+                                            {id:business.id,_token:csrf_token('unconfirm' ~ business.id)}) }}"
+                                           class="btn btn-danger btn-block btn-lg">
+                                            <i class="fa fa-close"></i> Yönetici Olarak Yayından Kaldır
+                                        </a>
+                                    {% endif %}
+
+                                {% elseif business.confirm == 2 %} {#taslak olarak kaydedildi#}
+
+                                    <br>
+
+                                    <a href="{{ path('business_send_confirmation_request',
+                                        {id:business.id,_token:csrf_token('business_send_confirmation_request' ~
+                                            business.id)}) }}"
+                                       class="btn btn-lg btn-success btn-block" style="margin-right: 10px;">
+                                        <i class="fa fa-check-circle-o"></i>
+                                        Onaya Gönder</a>
+
+                                {% endif %}
+
+
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+
                 </div>
 
             </div>

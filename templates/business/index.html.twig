@@ -62,16 +62,13 @@
                                     <thead>
                                     <tr role="row">
                                         <th>Onay Durumu</th>
-                                        <th>Son Güncelleme</th>
                                         <th>İşletme Adı</th>
-                                        <th>Telefon</th>
-                                        <th>Web</th>
                                         <th>Bölge</th>
                                         <th>İşletme Türü</th>
                                         {% if is_granted('ROLE_ADMIN') %}
                                         <th>Ekleyen</th>
                                         {% endif %}
-                                        <th></th>
+                                        <th>İşlem</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -81,17 +78,18 @@
                                                 {% if  business.confirm == 0 %}
                                                     <span class="label label-warning">
                                                         <i class="fa fa-clock-o"></i>
-                                                        Yönetici Onayı Bekleniyor</span>
-                                                {% else %}
+                                                        Onay Bekliyor</span>
+                                                {% elseif business.confirm == 1 %}
                                                     <span class="label label-success">
                                                         <i class="fa fa-check"></i>
-                                                        Onaylandı</span>
+                                                        Yayında</span>
+                                                {% elseif business.confirm == 2 %}
+                                                    <span class="label label-info">
+                                                        <i class="fa fa-save"></i>
+                                                        Taslak</span>
                                                 {% endif %}
                                             </td>
-                                            <td>{{ business.lastUpdate ? business.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
                                             <td>{{ business.name }}</td>
-                                            <td>{{ business.phone }}</td>
-                                            <td>{{ business.web }}</td>
 
                                             <td>
                                                 {{ business.place.name is defined ? business.place.name : '' }}
@@ -108,7 +106,7 @@
 
                                             <td>
                                                 <a href="{{ path('business_show', {'id': business.id}) }}"
-                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
+                                                   class="btn btn-xs btn-primary pull-left">Detaylı Göster</a>
                                             </td>
                                         </tr>
                                     {% else %}

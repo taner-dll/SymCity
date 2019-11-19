@@ -7,3 +7,13 @@ advert_confirmed: İlan başarılı bir şekilde onaylandı.
 advert_unconfirmed: İlan yayından kaldırıldı.
 advert_delete_featured_image: İlana ait öne çıkan görsel silinecek, onaylıyor musunuz?
 advert_featured_image_deleted: İlana ait öne çıkan görsel başarıyla silindi.
+
+business_added: İş yeriniz başarılı bir şekilde eklendi.
+business_deleted: İş yeri silme işleminiz başarıyla gerçekleşti.
+business_updated: İş yeriniz başarılı bir şekilde güncellendi.
+business_confirm_cancelled: Onaya gönderme işlemi iptal edildi.
+business_send_confirmation_request: İş yeriniz onaya gönderildi.
+business_confirmed: İş yeri başarılı bir şekilde onaylandı.
+business_unconfirmed: İş yeri yayından kaldırıldı.
+business_delete_featured_image: İlana ait öne çıkan görsel silinecek, onaylıyor musunuz?
+business_featured_image_deleted: İlana ait öne çıkan görsel başarıyla silindi.
