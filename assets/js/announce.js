@@ -35,39 +35,68 @@ const $input = $('#announce_image');
 
 $input.change(function () {
 
+    /**
+     * Dosya uzantı kontrolü.
+     * Sadece jpeg, jpg, png
+     * @type {*[]}
+     */
+    let ext = ['jpeg', 'jpg', 'png'];
+    if (!ext.includes(this.files[0]['name'].split(".")[1])) {
+        Swal.fire({
+            type: 'error',
+            title: 'Geçersiz Dosya Formatı',
+            text: 'Yalnızca JPEG, PNG formatında görsel yükleyiniz.',
+            confirmButtonText: 'Tamam',
+        });
+        // Destroy the old cropper instance
+        $image.cropper('destroy');
+        return false;
+    }
+
     $('#myModal').modal('show');
 
-        let oFReader = new FileReader();
-        oFReader.readAsDataURL(this.files[0]);
-        oFReader.onload = function () {
+    let oFReader = new FileReader();
+    oFReader.readAsDataURL(this.files[0]);
+    oFReader.onload = function () {
 
-            // Destroy the old cropper instance
-            $image.cropper('destroy');
+        // Destroy the old cropper instance
+        $image.cropper('destroy');
 
-            // Replace url
-            $image.attr('src', this.result);
+        // Replace url
+        $image.attr('src', this.result);
 
-            // Start cropper
-            $image.cropper({
-                aspectRatio: 800 / 600,
-                dragMode: 'move',
-                cropBoxMovable: false,
-                cropBoxResizable: false,
-                guides: false,
-                minContainerWidth: 800,
-                minContainerHeight: 600
-            });
-        };
+        // Start cropper
+        $image.cropper({
+            aspectRatio: 870 / 470,
+            dragMode: 'move',
+            cropBoxMovable: true,
+            cropBoxResizable: true,
+            guides: false,
+            minContainerWidth: 800,
+            minContainerHeight: 432,
+            viewMode: 2 //?
+
+        });
+    };
 });
 
 $('#crop_image').on('click', function () {
 
-    let imageData = $image.cropper('getCroppedCanvas',{
-        width:800,
-        height:600,
+    let imageData = $image.cropper('getCroppedCanvas', {
+        width: 870,
+        height: 470,
         fillColor: '#fff',
     }).toDataURL('image/jpeg');
 
     $('#preview').attr('src', imageData);
     $('#cropped_image').val(imageData);
+});
+
+$('#myModal').on('hidden.bs.modal', function () {
+    // Destroy the old cropper instance
+    $image.cropper('destroy');
+
+    // Replace url
+    $image.val('');
+    $input.val('');
 });

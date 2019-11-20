@@ -9,7 +9,6 @@ use App\Traits\File;
 use App\Traits\Util;
 use DateTime;
 use Exception;
-use phpDocumentor\Reflection\Types\Self_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,10 +51,11 @@ class BusinessController extends AbstractController
     /**
      * @Route("/new", name="business_new", methods={"GET","POST"})
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @return Response
      * @throws Exception
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $business = new Business();
         $form = $this->createForm(BusinessType::class, $business);
@@ -75,7 +75,7 @@ class BusinessController extends AbstractController
             $entityManager->persist($business);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Successfully Added');
+            $this->addFlash('success', $translator->trans('business_added'));
 
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
@@ -128,10 +128,11 @@ class BusinessController extends AbstractController
      * @Route("/{id}/edit", name="business_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Business $business
+     * @param TranslatorInterface $translator
      * @return Response
      * @throws Exception
      */
-    public function edit(Request $request, Business $business): Response
+    public function edit(Request $request, Business $business, TranslatorInterface $translator): Response
     {
 
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
@@ -159,7 +160,7 @@ class BusinessController extends AbstractController
             $business->setSlug($this->slugify($business->getName()));
 
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', 'Successfully Updated');
+            $this->addFlash('success', $translator->trans('business_updated'));
 
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
@@ -193,9 +194,10 @@ class BusinessController extends AbstractController
      * @Route("/{id}", name="business_delete", methods={"DELETE"})
      * @param Request $request
      * @param Business $business
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function delete(Request $request, Business $business): Response
+    public function delete(Request $request, Business $business, TranslatorInterface $translator): Response
     {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             if($business->getUser()->getId() != $this->getUser()->getId()){
@@ -213,7 +215,7 @@ class BusinessController extends AbstractController
             $entityManager->remove($business);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Successfully Deleted');
+            $this->addFlash('success', $translator->trans('business_deleted'));
         }
 
         return $this->redirectToRoute('business_index');

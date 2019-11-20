@@ -50,10 +50,9 @@
        -->
         <div class="box-body">
             <div class="row">
-                <div class="col-sm-12">
-                    <table class="table table-bordered">
+                <div class="col-sm-8">
+                    <table class="table table-bordered table-responsive">
                         <tbody>
-                       
                         <tr>
                             <th>Son Güncelleme</th>
                             <td>{{ announce.lastUpdate ? announce.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
@@ -70,71 +69,194 @@
                                 {% endif %}
                             </td>
                         </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <th>Açıklama</th>
+                        </thead>
+                        <tbody>
                         <tr>
-                            <th>Açıklama</th>
                             <td>{{ announce.description|raw }}</td>
                         </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <th>Öne Çıkan Görsel</th>
+                        </thead>
+                        <tbody>
                         <tr>
-                            <th>Onay Durumu</th>
-                            <td>
-                                {% if  announce.confirm == 0 %}
-                                    <span class="label label-warning">
-                                        <i class="fa fa-clock-o"></i>
-                                        Yönetici Onayı Bekleniyor</span><br><br>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <a href="{{ path('announce_confirm',
-                                            {id:announce.id,_token:csrf_token('confirm' ~ announce.id)}) }}"
-                                           class="btn btn-success" style="margin-right: 10px;">Onayla</a>
-                                    {% endif %}
-                                {% else %}
-                                    <span class="label label-success">
-                                        <i class="fa fa-check"></i>
-                                         Onaylandı</span><br><br>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <a href="{{ path('announce_unconfirm',
-                                            {id:announce.id,_token:csrf_token('unconfirm' ~ announce.id)}) }}"
-                                           class="btn btn-danger" style="margin-right: 10px;">Yayından Kaldır</a>
-                                    {% endif %}
-                                {% endif %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Görsel</th>
                             <td>
                                 {% if announce.image|length > 0 %}
 
-                                    <img src="{{ asset('uploads/announce/')~announce.image }}" width="300"
-                                         height="225"/>
+                                    <img src="{{ asset('uploads/announce/')~announce.image }}" width="400"
+                                         height="216"/>
                                     <a class="btn-default btn-xs"
                                        href="{{ path('announce_featured_photo_delete',
                                            {announce:announce.id,
                                                _token:csrf_token('delete-featured-photo'~announce.id)}) }}"
                                        target="_self"
-                                       onclick="return confirm('Are you sure you want to delete this item?');"
+                                       onclick="return confirm('Silmek istediğinizden emin misiniz?');"
                                        style="position: absolute;"><i class="fa fa-close"></i></a>
 
-
                                 {% endif %}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+
+
+                </div>
+                <div class="col-sm-4">
+
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td>
+
+                                <a href="{{ path('announce_index') }}" class="btn btn-primary"
+                                   style="margin-right: 10px;">
+                                    <i class="fa fa-caret-left"></i>
+                                    Duyurularım</a>
+
+
+
+
+                                <a href="{{ path('announce_edit', {'id': announce.id}) }}" class="btn btn-warning"
+                                   style="margin-right: 10px;">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                    Düzenle</a>
+
+
+
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                                    <i class="fa fa-trash-o"></i>
+                                    Sil
+                                </a>
+                                {{ include('announce/_delete_form.html.twig') }}
+
+
+
 
                             </td>
                         </tr>
                         </tbody>
                     </table>
+
+
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td>
+
+
+                                {% if  announce.confirm == 0 %}  {#onay bekleniyor#}
+
+                                    <div class="callout callout-warning">
+                                        <h4>
+                                            <i class="icon fa fa-clock-o"></i>
+                                            Onay Bekliyor!
+                                        </h4>
+                                        <p>
+                                            Duyurunuz onaya gönderilmiş durumda. İncelendikten
+                                            sonra yayına alınacaktır. Onaylandığında, tarafınıza otomatik olarak
+                                            eposta gönderilecektir.<br>
+                                            <a style="font-weight: bold" href="{{ path('announce_save_as_draft',
+                                                {id:announce.id,_token:csrf_token('announce_save_as_draft' ~ announce.id)}) }}">
+                                                İptal etmek için tıklayınız
+                                            </a>
+                                        </p>
+                                    </div>
+
+                                {% elseif announce.confirm == 1 %} {#onaylandı#}
+
+                                    <div class="callout callout-success">
+                                        <h4>
+                                            <i class="icon fa fa-check-circle-o"></i> İş Yeriniz Yayındadır.
+                                        </h4>
+                                        <p>
+                                            <b>Dikkat!</b> Duyurunuzu yeniden düzenlerseniz, otomatik olarak
+                                            yayından kaldırılır ve yeniden onaya gönderilmesi
+                                            gerekir.
+                                        </p>
+                                    </div>
+
+                                {% elseif announce.confirm == 2 %} {#taslak olarak kaydedildi#}
+
+                                    <div class="callout callout-info">
+                                        <h4>
+                                            <i class="icon fa fa-info-circle"></i> Henüz Yayında Değil!
+                                        </h4>
+                                        <p>
+                                            Lütfen son kontrollerinizi yapın ve onaylanması için
+                                            "Onaya Gönder" butonuna tıklayın.
+                                        </p>
+                                    </div>
+
+                                {% endif %}
+
+
+
+                                {% if  announce.confirm == 0 %}  {#onay bekleniyor#}
+
+                                    <br>
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('announce_confirm',
+                                            {id:announce.id,_token:csrf_token('confirm' ~ announce.id)}) }}"
+                                           class="btn btn-danger btn-block btn-lg" style="margin-right: 10px;">
+                                            <i class="fa fa-check-circle-o"></i> Yönetici Olarak Yayına Al
+                                        </a>
+                                    {% endif %}
+
+                                {% elseif announce.confirm == 1 %} {#onaylandı#}
+
+                                    <br>
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+
+                                        <a href="{{ path('announce_unconfirm',
+                                            {id:announce.id,_token:csrf_token('unconfirm' ~ announce.id)}) }}"
+                                           class="btn btn-danger btn-block btn-lg">
+                                            <i class="fa fa-close"></i> Yönetici Olarak Yayından Kaldır
+                                        </a>
+                                    {% endif %}
+
+                                {% elseif announce.confirm == 2 %} {#taslak olarak kaydedildi#}
+
+                                    <br>
+
+                                    <a href="{{ path('announce_send_confirmation_request',
+                                        {id:announce.id,_token:csrf_token('announce_send_confirmation_request' ~
+                                            announce.id)}) }}"
+                                       class="btn btn-lg btn-success btn-block" style="margin-right: 10px;">
+                                        <i class="fa fa-check-circle-o"></i>
+                                        Onaya Gönder</a>
+
+                                {% endif %}
+
+
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+
                 </div>
+
 
             </div>
 
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
-            <a href="{{ path('announce_index') }}" class="btn btn-primary" style="margin-right: 10px;">Liste</a>
-            <a href="{{ path('announce_edit', {'id': announce.id}) }}" class="btn btn-warning"
-               style="margin-right: 10px;">Düzenle</a>
-            <!-- Button trigger modal -->
-            <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-                Sil
-            </a>
-            {{ include('announce/_delete_form.html.twig') }}
         </div>
         <!-- /.box-footer-->
     </div>

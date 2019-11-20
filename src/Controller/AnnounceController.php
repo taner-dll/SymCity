@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/announce")
@@ -23,6 +24,10 @@ class AnnounceController extends AbstractController
 
     use File;
     use Util;
+
+    const CONFIRM = 1;
+    const SAVE_AS_DRAFT = 2;
+    const SEND_CONFIRMATION_REQUEST = 0;
 
     /**
      * @Route("/", name="announce_index", methods={"GET"})
@@ -47,10 +52,11 @@ class AnnounceController extends AbstractController
     /**
      * @Route("/new", name="announce_new", methods={"GET","POST"})
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @return Response
-     * @throws /Exception
+     * @throws \Exception
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $announce = new Announce();
         $form = $this->createForm(AnnounceType::class, $announce);
@@ -68,7 +74,7 @@ class AnnounceController extends AbstractController
             $entityManager->persist($announce);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Successfully Added');
+            $this->addFlash('success', $translator->trans('announce_added'));
 
 
             //jquery-cropper (cropped image hidden input)
@@ -120,10 +126,11 @@ class AnnounceController extends AbstractController
      * @Route("/{id}/edit", name="announce_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Announce $announce
+     * @param TranslatorInterface $translator
      * @return Response
-     * @throws /Exception
+     * @throws \Exception
      */
-    public function edit(Request $request, Announce $announce): Response
+    public function edit(Request $request, Announce $announce, TranslatorInterface $translator): Response
     {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             if($announce->getUser()->getId() != $this->getUser()->getId()){
@@ -149,7 +156,7 @@ class AnnounceController extends AbstractController
             $announce->setSlug($this->slugify($announce->getName()));
 
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', 'Successfully Updated');
+            $this->addFlash('success', $translator->trans('announce_updated'));
 
 
             //jquery-cropper (cropped image hidden input)
@@ -170,7 +177,7 @@ class AnnounceController extends AbstractController
 
             }
 
-            return $this->redirectToRoute('announce_index', [
+            return $this->redirectToRoute('announce_show', [
                 'id' => $announce->getId(),
             ]);
         }
@@ -185,9 +192,10 @@ class AnnounceController extends AbstractController
      * @Route("/{id}", name="announce_delete", methods={"DELETE"})
      * @param Request $request
      * @param Announce $announce
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function delete(Request $request, Announce $announce): Response
+    public function delete(Request $request, Announce $announce, TranslatorInterface $translator): Response
     {
 
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
@@ -205,7 +213,7 @@ class AnnounceController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($announce);
             $entityManager->flush();
-            $this->addFlash('success', 'Successfully Deleted');
+            $this->addFlash('success', $translator->trans('announce_deleted'));
         }
 
         return $this->redirectToRoute('announce_index');
@@ -215,9 +223,10 @@ class AnnounceController extends AbstractController
      * @Route("/announce/featured/photo/delete/{announce}", name="announce_featured_photo_delete", methods={"GET"})
      * @param Request $request
      * @param $announce
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function deleteFeatured(Request $request,$announce)
+    public function deleteFeatured(Request $request,$announce, TranslatorInterface $translator): Response
     {
         
         $submittedToken = $request->query->get('_token');
@@ -239,7 +248,7 @@ class AnnounceController extends AbstractController
             $photo->setImage(null);
             $em->flush();
 
-            $this->addFlash('success','Successfully Deleted');
+            $this->addFlash('success', $translator->trans('announce_featured_image_deleted'));
 
         }
 
@@ -251,9 +260,10 @@ class AnnounceController extends AbstractController
      * @Route("/announce/confirm/{id}", name="announce_confirm", methods={"GET"})
      * @param Request $request
      * @param $id
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function confirm(Request $request, $id)
+    public function confirm(Request $request, $id, TranslatorInterface $translator): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -264,10 +274,12 @@ class AnnounceController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $announce = $em->getRepository(Announce::class)->find($id);
-            $announce->setConfirm(1);
+            $announce->setConfirm(self::CONFIRM);
             $em->flush();
 
-            $this->addFlash('success','Successfully Confirmed');
+            //TODO iş yeri onayında kullanıcıya bilgilendirme maili gönderilecek.
+
+            $this->addFlash('success', $translator->trans('announce_confirmed'));
 
         }
 
@@ -279,9 +291,10 @@ class AnnounceController extends AbstractController
      * @Route("/announce/unconfirm/{id}", name="announce_unconfirm", methods={"GET"})
      * @param Request $request
      * @param $id
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function unconfirm(Request $request, $id)
+    public function unconfirm(Request $request, $id, TranslatorInterface $translator): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -292,11 +305,69 @@ class AnnounceController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $announce = $em->getRepository(Announce::class)->find($id);
-            $announce->setConfirm(0);
+            $announce->setConfirm(self::SAVE_AS_DRAFT);
             $em->flush();
 
-            $this->addFlash('success','Successfully Canceled');
+            //todo yayından kaldırılma sebebi mail olarak gönderilebilir.
 
+            $this->addFlash('success', $translator->trans('announce_unconfirmed'));
+
+        }
+
+        return $this->redirectToRoute('announce_show', ['id' => $id]);
+
+    }
+
+    /**
+     * @Route("/save-as-draft/{id}", name="announce_save_as_draft", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @param TranslatorInterface $translator
+     * @return mixed
+     */
+    public function saveAsDraft(Request $request, $id, TranslatorInterface $translator): Response
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('announce_save_as_draft'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $advert = $em->getRepository(Announce::class)->find($id);
+            $advert->setConfirm(self::SAVE_AS_DRAFT);
+            $em->flush();
+
+            $this->addFlash('success', $translator->trans('announce_confirm_cancelled'));
+        }
+
+        return $this->redirectToRoute('announce_show', ['id' => $id]);
+
+    }
+
+    /**
+     * @Route("/send-confirmation-request/{id}", name="announce_send_confirmation_request", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @param TranslatorInterface $translator
+     * @return mixed
+     */
+    public function sendConfirmationRequest(Request $request, $id, TranslatorInterface $translator): Response
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('announce_send_confirmation_request'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $advert = $em->getRepository(Announce::class)->find($id);
+            $advert->setConfirm(self::SEND_CONFIRMATION_REQUEST);
+            $em->flush();
+
+            $this->addFlash('success', $translator->trans('announce_send_confirmation_request'));
         }
 
         return $this->redirectToRoute('announce_show', ['id' => $id]);

@@ -64,10 +64,8 @@
                                         <th>Onay Durumu</th>
                                         <th>Duyuru Başlığı</th>
                                         <th>Bölge</th>
-                                        <th>Detay</th>
-                                        <th>Son Güncelleme</th>
                                         <th>Ekleyen Eposta</th>
-                                        <th></th>
+                                        <th>İşlem</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -76,22 +74,24 @@
                                             <td>
                                                 {% if  announce.confirm == 0 %}
                                                     <span class="label label-warning">
-                                                    <i class="fa fa-clock-o"></i>
-                                                    Yönetici Onayı Bekleniyor</span>
-                                                {% else %}
+                                                        <i class="fa fa-clock-o"></i>
+                                                        Onay Bekliyor</span>
+                                                {% elseif announce.confirm == 1 %}
                                                     <span class="label label-success">
-                                                    <i class="fa fa-check"></i>
-                                                     Onaylandı</span>
+                                                        <i class="fa fa-check"></i>
+                                                        Yayında</span>
+                                                {% elseif announce.confirm == 2 %}
+                                                    <span class="label label-info">
+                                                        <i class="fa fa-save"></i>
+                                                        Taslak</span>
                                                 {% endif %}
                                             </td>
                                             <td>{{ announce.name[:20]|striptags }}&hellip;</td>
                                             <td>{{ announce.place ? announce.place.name : '' }}</td>
-                                            <td>{{ announce.description[:20]|striptags }}&hellip;</td>
-                                            <td>{{ announce.lastUpdate ? announce.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
                                             <td>{{ announce.user.email}}</td>
                                             <td>
                                                 <a href="{{ path('announce_show', {'id': announce.id}) }}"
-                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
+                                                   class="btn btn-xs btn-primary pull-left">Detaylı Göster</a>
                                             </td>
                                         </tr>
                                     {% else %}
