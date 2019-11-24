@@ -342,9 +342,10 @@ class BusinessController extends AbstractController
      * @Route("/business/featured/photo/delete/{business}", name="business_featured_photo_delete", methods={"GET"})
      * @param Request $request
      * @param $business
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function deleteFeatured(Request $request,$business)
+    public function deleteFeatured(Request $request,$business, TranslatorInterface $translator)
     {
 
         $submittedToken = $request->query->get('_token');
@@ -366,7 +367,7 @@ class BusinessController extends AbstractController
             $photo->setFeaturedPicture(null);
             $em->flush();
 
-            $this->addFlash('success','Successfully Deleted');
+            $this->addFlash('success', $translator->trans('business_featured_image_deleted'));
 
         }
 

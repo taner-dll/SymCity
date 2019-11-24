@@ -1,3 +1,19 @@
+ptv_added: Gezilecek yer başarılı bir şekilde eklendi.
+ptv_deleted: Gezilecek yer silme işleminiz başarıyla gerçekleşti.
+ptv_updated: Gezilecek yer başarılı bir şekilde güncellendi.
+ptv_delete_featured_image: Gezilecek yere ait öne çıkan görsel silinecek, onaylıyor musunuz?
+ptv_featured_image_deleted: Gezilecek yere ait öne çıkan görsel başarıyla silindi.
+
+event_added: Etkinliğiniz başarılı bir şekilde eklendi.
+event_deleted: Etkinlik silme işleminiz başarıyla gerçekleşti.
+event_updated: Etkinliğiniz başarılı bir şekilde güncellendi.
+event_confirm_cancelled: Onaya gönderme işlemi iptal edildi.
+event_send_confirmation_request: Etkinliğiniz onaya gönderildi.
+event_confirmed: Etkinlik başarılı bir şekilde onaylandı.
+event_unconfirmed: Etkinlik yayından kaldırıldı.
+event_delete_featured_image: Etkinliğe ait öne çıkan görsel silinecek, onaylıyor musunuz?
+event_featured_image_deleted: Etkinliğe ait öne çıkan görsel başarıyla silindi.
+
 advert_added: İlanınız başarılı bir şekilde eklendi.
 advert_deleted: İlan silme işleminiz başarıyla gerçekleşti.
 advert_updated: İlanınız başarılı bir şekilde güncellendi.
@@ -15,8 +31,8 @@ business_confirm_cancelled: Onaya gönderme işlemi iptal edildi.
 business_send_confirmation_request: İş yeriniz onaya gönderildi.
 business_confirmed: İş yeri başarılı bir şekilde onaylandı.
 business_unconfirmed: İş yeri yayından kaldırıldı.
-business_delete_featured_image: İlana ait öne çıkan görsel silinecek, onaylıyor musunuz?
-business_featured_image_deleted: İlana ait öne çıkan görsel başarıyla silindi.
+business_delete_featured_image: İş yerine ait öne çıkan görsel silinecek, onaylıyor musunuz?
+business_featured_image_deleted: İş yerine ait öne çıkan görsel başarıyla silindi.
 
 announce_added: Duyurunuz başarılı bir şekilde eklendi.
 announce_deleted: Duyuru silme işleminiz başarıyla gerçekleşti.
@@ -25,5 +41,5 @@ announce_confirm_cancelled: Onaya gönderme işlemi iptal edildi.
 announce_send_confirmation_request: Duyurunuz onaya gönderildi.
 announce_confirmed: Duyuru başarılı bir şekilde onaylandı.
 announce_unconfirmed: Duyuru yayından kaldırıldı.
-announce_delete_featured_image: İlana ait öne çıkan görsel silinecek, onaylıyor musunuz?
-announce_featured_image_deleted: İlana ait öne çıkan görsel başarıyla silindi.
+announce_delete_featured_image: Duyuruya ait öne çıkan görsel silinecek, onaylıyor musunuz?
+announce_featured_image_deleted: Duyuruya ait öne çıkan görsel başarıyla silindi.

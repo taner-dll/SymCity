@@ -137,7 +137,7 @@
                                            {business:business.id,
                                                _token:csrf_token('delete-featured-photo'~business.id)}) }}"
                                        target="_self"
-                                       onclick="return confirm('Silmek istediğinizden emin misiniz?');"
+                                       onclick="return confirm('{{ 'business_delete_featured_image'|trans }}');"
                                        style="position: absolute;"><i class="fa fa-close"></i></a>
 
                                 {% endif %}

@@ -50,6 +50,7 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-sm-8">
+
                     <table class="table table-bordered table-responsive">
                         <tbody>
                         <tr>
@@ -143,31 +144,26 @@
                         <tr>
                             <td>
 
-                                        <a href="{{ path('advert_index') }}" class="btn btn-primary"
-                                           style="margin-right: 10px;">
-                                            <i class="fa fa-caret-left"></i>
-                                            İlanlarım</a>
+                                <a href="{{ path('advert_index') }}" class="btn btn-primary"
+                                   style="margin-right: 10px;">
+                                    <i class="fa fa-caret-left"></i>
+                                    İlanlarım</a>
 
 
+                                <a href="{{ path('advert_edit', {'id': advert.id}) }}" class="btn btn-warning"
+                                   style="margin-right: 10px;">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                    Düzenle</a>
 
 
-                                        <a href="{{ path('advert_edit', {'id': advert.id}) }}" class="btn btn-warning"
-                                           style="margin-right: 10px;">
-                                            <i class="fa fa-pencil-square-o"></i>
-                                            Düzenle</a>
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                                    <i class="fa fa-trash-o"></i>
+                                    Sil
+                                </a>
+                                {{ include('advert/_delete_form.html.twig') }}
 
 
-
-                                        <!-- Button trigger modal -->
-                                        <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-                                            <i class="fa fa-trash-o"></i>
-                                            Sil
-                                        </a>
-                                        {{ include('advert/_delete_form.html.twig') }}
-
-
-
-            
                             </td>
                         </tr>
                         </tbody>
@@ -265,13 +261,10 @@
 
 
                             </td>
-                          
+
                         </tr>
                         </tbody>
                     </table>
-
-
-
 
 
                 </div>
