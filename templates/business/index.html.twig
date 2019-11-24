@@ -63,8 +63,8 @@
                                     <tr role="row">
                                         <th>Onay Durumu</th>
                                         <th>İşletme Adı</th>
-                                        <th>Bölge</th>
                                         <th>İşletme Türü</th>
+                                        <th>Bölge</th>
                                         {% if is_granted('ROLE_ADMIN') %}
                                         <th>Ekleyen</th>
                                         {% endif %}
@@ -90,12 +90,10 @@
                                                 {% endif %}
                                             </td>
                                             <td>{{ business.name }}</td>
-
+                                            <td>{{ business.category.shortName| trans({}, 'business') }}</td>
                                             <td>
                                                 {{ business.place.name is defined ? business.place.name : '' }}
                                             </td>
-                                            <td>{{ business.category.shortName| trans({}, 'business') }}</td>
-
                                             {% if is_granted('ROLE_ADMIN') %}
                                                 <td>
 

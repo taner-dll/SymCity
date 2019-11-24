@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 /**
@@ -37,9 +38,10 @@ class PlacesToVisitController extends AbstractController
     /**
      * @Route("/new", name="places_to_visit_new", methods={"GET","POST"})
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $placesToVisit = new PlacesToVisit();
         $form = $this->createForm(PlacesToVisitType::class, $placesToVisit);
@@ -54,7 +56,7 @@ class PlacesToVisitController extends AbstractController
 
             $entityManager->persist($placesToVisit);
             $entityManager->flush();
-            $this->addFlash('success', 'Successfully Added');
+            $this->addFlash('success', $translator->trans('ptv_added'));
 
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
@@ -99,9 +101,10 @@ class PlacesToVisitController extends AbstractController
      * @Route("/{id}/edit", name="places_to_visit_edit", methods={"GET","POST"})
      * @param Request $request
      * @param PlacesToVisit $placesToVisit
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function edit(Request $request, PlacesToVisit $placesToVisit): Response
+    public function edit(Request $request, PlacesToVisit $placesToVisit, TranslatorInterface $translator): Response
     {
         //eski resmi kaldırırken sorgu gerekti. product->getPicture() temp olarak gözüküyor?
         $em = $this->getDoctrine()->getManager();
@@ -119,7 +122,7 @@ class PlacesToVisitController extends AbstractController
             $placesToVisit->setSlug($this->slugify($placesToVisit->getName()));
 
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', 'Successfully Updated');
+            $this->addFlash('success', $translator->trans('ptv_updated'));
 
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
@@ -156,9 +159,10 @@ class PlacesToVisitController extends AbstractController
      * @Route("/{id}", name="places_to_visit_delete", methods={"DELETE"})
      * @param Request $request
      * @param PlacesToVisit $placesToVisit
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function delete(Request $request, PlacesToVisit $placesToVisit): Response
+    public function delete(Request $request, PlacesToVisit $placesToVisit, TranslatorInterface $translator): Response
     {
 
 
@@ -179,7 +183,7 @@ class PlacesToVisitController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($placesToVisit);
             $entityManager->flush();
-            $this->addFlash('success', 'Successfully Deleted');
+            $this->addFlash('success', $translator->trans('ptv_deleted'));
         }
 
         return $this->redirectToRoute('places_to_visit_index');
@@ -190,9 +194,10 @@ class PlacesToVisitController extends AbstractController
      * @Route("/ptv/featured/photo/delete/{ptv}", name="ptv_featured_photo_delete", methods={"GET"})
      * @param Request $request
      * @param $ptv
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function deleteFeatured(Request $request, $ptv)
+    public function deleteFeatured(Request $request, $ptv, TranslatorInterface $translator)
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -210,7 +215,7 @@ class PlacesToVisitController extends AbstractController
             $photo->setFeaturedPicture(null);
             $em->flush();
 
-            $this->addFlash('success', 'Successfully Deleted');
+            $this->addFlash('success', $translator->trans('ptv_featured_image_deleted'));
         }
 
         return $this->redirectToRoute('places_to_visit_show', ['id' => $ptv]);

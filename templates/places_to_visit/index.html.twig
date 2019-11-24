@@ -12,7 +12,7 @@
     <section class="content-header">
         <h1>
             Gezilecek Yerler
-            <small>Liste</small>
+            <small></small>
         </h1>
 
         <ol class="breadcrumb">
@@ -46,12 +46,10 @@
                                     <thead>
                                     <tr role="row">
                                         <th class="sorting_desc">Yer Adı</th>
-                                        <th>Yerleşim Yeri</th>
-                                        <th>Telefon</th>
-                                        <th>Web</th>
+                                        <th>Bölge</th>
+                                        <th>Web Sitesi</th>
                                         <th>Eposta</th>
-                                        <th>Adres</th>
-                                        <th></th>
+                                        <th>İşlem</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -63,18 +61,18 @@
                                                 {{ places_to_visit.place.name}}
                                                 {% endif %}
                                             </td>
-                                            <td>{{ places_to_visit.phone }}</td>
-                                            <td>{{ places_to_visit.web }}</td>
+                                            <td><a href="{{ places_to_visit.web }}" target="_blank">{{ places_to_visit.web }}</a>
+                                                </td>
                                             <td>{{ places_to_visit.email }}</td>
-                                            <td>{{ places_to_visit.address }}</td>
                                             <td>
                                                 <a class="btn btn-xs btn-primary pull-left"
-                                                   href="{{ path('places_to_visit_show', {'id': places_to_visit.id}) }}">Göster</a>
+                                                   href="{{ path('places_to_visit_show',
+                                                       {'id': places_to_visit.id}) }}">Detaylı Göster</a>
                                             </td>
                                         </tr>
                                     {% else %}
                                         <tr>
-                                            <td colspan="10">no records found</td>
+                                            <td colspan="10">Kayıtlı gezilecek yer bulunamadı.</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>

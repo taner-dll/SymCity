@@ -137,7 +137,7 @@
                                            {business:business.id,
                                                _token:csrf_token('delete-featured-photo'~business.id)}) }}"
                                        target="_self"
-                                       onclick="return confirm('Silmek istediğinizden emin misiniz?');"
+                                       onclick="return confirm('{{ 'business_delete_featured_image'|trans }}');"
                                        style="position: absolute;"><i class="fa fa-close"></i></a>
 
                                 {% endif %}
@@ -288,24 +288,11 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-sm-12">
 
-                </div>
-
-            </div>
 
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
-            <a href="{{ path('business_index') }}" class="btn btn-primary" style="margin-right: 10px;">Liste</a>
-            <a href="{{ path('business_edit', {'id': business.id}) }}" class="btn btn-warning"
-               style="margin-right: 10px;">Düzenle</a>
-            <!-- Button trigger modal -->
-            <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-                Sil
-            </a>
-            {{ include('business/_delete_form.html.twig') }}
         </div>
         <!-- /.box-footer-->
     </div>

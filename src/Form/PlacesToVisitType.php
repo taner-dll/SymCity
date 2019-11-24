@@ -21,11 +21,11 @@ class PlacesToVisitType extends AbstractType
             ->add('name')
             ->add('place', EntityType::class, array(
                 'class' => Place::class,
-                'choice_label' => function(Place $place) {
+                'choice_label' => function (Place $place) {
                     return $place->getName();
                 },
-                'required' => false,
-                'placeholder' => ''
+                'required' => true,
+                'placeholder' => 'Seçiniz',
             ))
             ->add('about')
             ->add('type', ChoiceType::class, array(

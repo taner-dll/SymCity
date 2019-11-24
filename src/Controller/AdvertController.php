@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\AdSubCategory;
+
 use App\Entity\Advert;
 use App\Form\AdvertType;
 use App\Repository\AdvertRepository;
@@ -10,7 +10,6 @@ use App\Traits\File;
 use App\Traits\Util;
 use DateTime;
 use Exception;
-use phpDocumentor\Reflection\Types\Self_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -237,7 +236,7 @@ class AdvertController extends AbstractController
      * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function deleteFeatured(Request $request,$advert, TranslatorInterface $translator)
+    public function deleteFeatured(Request $request,$advert, TranslatorInterface $translator): Response
     {
 
 
@@ -275,7 +274,7 @@ class AdvertController extends AbstractController
      * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function confirm(Request $request, $id, TranslatorInterface $translator)
+    public function confirm(Request $request, $id, TranslatorInterface $translator): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -306,7 +305,7 @@ class AdvertController extends AbstractController
      * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function unconfirm(Request $request, $id, TranslatorInterface $translator)
+    public function unconfirm(Request $request, $id, TranslatorInterface $translator): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -337,7 +336,7 @@ class AdvertController extends AbstractController
      * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function saveAsDraft(Request $request, $id, TranslatorInterface $translator)
+    public function saveAsDraft(Request $request, $id, TranslatorInterface $translator): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -365,7 +364,7 @@ class AdvertController extends AbstractController
      * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function sendConfirmationRequest(Request $request, $id, TranslatorInterface $translator)
+    public function sendConfirmationRequest(Request $request, $id, TranslatorInterface $translator): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -385,16 +384,5 @@ class AdvertController extends AbstractController
         return $this->redirectToRoute('advert_show', ['id' => $id]);
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

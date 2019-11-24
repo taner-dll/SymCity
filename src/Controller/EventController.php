@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/event")
@@ -24,6 +25,11 @@ class EventController extends AbstractController
 
     use File;
     use Util;
+
+
+    const CONFIRM = 1;
+    const SAVE_AS_DRAFT = 2;
+    const SEND_CONFIRMATION_REQUEST = 0;
 
     /**
      * @Route("/", name="event_index", methods={"GET"})
@@ -49,10 +55,11 @@ class EventController extends AbstractController
     /**
      * @Route("/new", name="event_new", methods={"GET","POST"})
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @return Response
      * @throws Exception
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
@@ -70,7 +77,7 @@ class EventController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Successfully Added');
+            $this->addFlash('success', $translator->trans('event_added'));
 
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
@@ -119,10 +126,11 @@ class EventController extends AbstractController
      * @Route("/{id}/edit", name="event_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Event $event
+     * @param TranslatorInterface $translator
      * @return Response
      * @throws Exception
      */
-    public function edit(Request $request, Event $event): Response
+    public function edit(Request $request, Event $event, TranslatorInterface $translator): Response
     {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             if($event->getUser()->getId() != $this->getUser()->getId()){
@@ -148,7 +156,7 @@ class EventController extends AbstractController
             $event->setSlug($this->slugify($event->getName()));
 
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', 'Successfully Updated');
+            $this->addFlash('success', $translator->trans('event_updated'));
 
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
@@ -182,9 +190,10 @@ class EventController extends AbstractController
      * @Route("/{id}", name="event_delete", methods={"DELETE"})
      * @param Request $request
      * @param Event $event
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function delete(Request $request, Event $event): Response
+    public function delete(Request $request, Event $event, TranslatorInterface $translator): Response
     {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             if($event->getUser()->getId() != $this->getUser()->getId()){
@@ -201,7 +210,7 @@ class EventController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($event);
             $entityManager->flush();
-            $this->addFlash('success', 'Successfully Deleted');
+            $this->addFlash('success', $translator->trans('event_deleted'));
         }
 
         return $this->redirectToRoute('event_index');
@@ -211,9 +220,10 @@ class EventController extends AbstractController
      * @Route("/event/featured/photo/delete/{event}", name="event_featured_photo_delete", methods={"GET"})
      * @param Request $request
      * @param $event
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function deleteFeatured(Request $request,$event)
+    public function deleteFeatured(Request $request,$event, TranslatorInterface $translator): Response
     {
 
         $submittedToken = $request->query->get('_token');
@@ -235,7 +245,7 @@ class EventController extends AbstractController
             $photo->setImage(null);
             $em->flush();
 
-            $this->addFlash('success','Successfully Deleted');
+            $this->addFlash('success', $translator->trans('event_featured_image_deleted'));
 
         }
 
@@ -247,9 +257,10 @@ class EventController extends AbstractController
      * @Route("/event/confirm/{id}", name="event_confirm", methods={"GET"})
      * @param Request $request
      * @param $id
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function confirm(Request $request, $id)
+    public function confirm(Request $request, $id, TranslatorInterface $translator): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -260,10 +271,10 @@ class EventController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $event = $em->getRepository(Event::class)->find($id);
-            $event->setConfirm(1);
+            $event->setConfirm(self::CONFIRM);
             $em->flush();
 
-            $this->addFlash('success','Successfully Confirmed');
+            $this->addFlash('success', $translator->trans('event_confirmed'));
 
         }
 
@@ -275,9 +286,10 @@ class EventController extends AbstractController
      * @Route("/event/unconfirm/{id}", name="event_unconfirm", methods={"GET"})
      * @param Request $request
      * @param $id
+     * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function unconfirm(Request $request, $id)
+    public function unconfirm(Request $request, $id, TranslatorInterface $translator): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -288,14 +300,74 @@ class EventController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $event = $em->getRepository(Event::class)->find($id);
-            $event->setConfirm(0);
+            $event->setConfirm(self::SAVE_AS_DRAFT);
             $em->flush();
 
-            $this->addFlash('success','Successfully Canceled');
+            $this->addFlash('success', $translator->trans('event_unconfirmed'));
 
         }
 
         return $this->redirectToRoute('event_show', ['id' => $id]);
 
     }
+
+    /**
+     * @Route("/save-as-draft/{id}", name="event_save_as_draft", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @param TranslatorInterface $translator
+     * @return mixed
+     */
+    public function saveAsDraft(Request $request, $id, TranslatorInterface $translator): Response
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('event_save_as_draft'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $event = $em->getRepository(Event::class)->find($id);
+            $event->setConfirm(self::SAVE_AS_DRAFT);
+            $em->flush();
+
+            $this->addFlash('success', $translator->trans('event_confirm_cancelled'));
+        }
+
+        return $this->redirectToRoute('event_show', ['id' => $id]);
+
+    }
+
+
+    /**
+     * @Route("/send-confirmation-request/{id}", name="event_send_confirmation_request", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @param TranslatorInterface $translator
+     * @return mixed
+     */
+    public function sendConfirmationRequest(Request $request, $id, TranslatorInterface $translator): Response
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $submittedToken = $request->query->get('_token');
+
+        if ($this->isCsrfTokenValid('event_send_confirmation_request'.$id  , $submittedToken)) {
+
+            $em = $this->getDoctrine()->getManager();
+            $event = $em->getRepository(Event::class)->find($id);
+            $event->setConfirm(self::SEND_CONFIRMATION_REQUEST);
+            $em->flush();
+
+            $this->addFlash('success', $translator->trans('event_send_confirmation_request'));
+        }
+
+        return $this->redirectToRoute('event_show', ['id' => $id]);
+
+    }
+
+
+
 }

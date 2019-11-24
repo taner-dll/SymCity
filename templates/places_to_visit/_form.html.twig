@@ -39,17 +39,17 @@
             {{ form_widget(form.address) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.featured_picture, 'Öne Çıkan Resim') }}
+            {{ form_label(form.featured_picture, 'Öne Çıkan Görsel') }}
             {{ form_widget(form.featured_picture) }}
             <input type="hidden" id="cropped_image" name="cropped_image" />
         </div>
         <div class="form-group">
             {% if app.request.get('_route') == 'places_to_visit_edit' %}
             <img id="preview" src="{{ asset('uploads/ptv/')~places_to_visit.featuredPicture }}"
-                 class="img-responsive img-bordered" width="300" height="225"  alt=""/>
+                 class="img-responsive img-bordered" width="400" height="216"  alt=""/>
             {% else %}
                 <img id="preview" src=""
-                     class="img-responsive img-bordered" width="300" height="225" alt="" />
+                     class="img-responsive img-bordered" width="400" height="216" alt="" />
             {% endif %}
         </div>
 

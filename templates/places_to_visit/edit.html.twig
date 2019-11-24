@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gezilecek Yerler | {{ places_to_visit.name }} (edit) {% endblock %}
+{% block title %}Gezilecek Yerler{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,14 +11,14 @@
 
     <section class="content-header">
         <h1>
-            Gezilecek Yerler
-            <small>{{ places_to_visit.name }} (edit)</small>
+            Gezilecek yeri düzenlemektesiniz
+            <small></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
             <li><a href="{{ path('places_to_visit_index') }}">Gezilecek Yerler</a></li>
             <li class="active"><a href="{{ path('places_to_visit_edit', {id:places_to_visit.id}) }}">
-                    {{ places_to_visit.name }} (edit)</a></li>
+                    {{ places_to_visit.name }}</a></li>
 
         </ol>
     </section>
