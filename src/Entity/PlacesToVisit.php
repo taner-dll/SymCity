@@ -64,11 +64,6 @@ class PlacesToVisit
     private $pTVPhotos;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PTVCategory", mappedBy="ptv")
-     */
-    private $pTVCategories;
-
-    /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $type;
@@ -84,10 +79,14 @@ class PlacesToVisit
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\PTVCategory", inversedBy="ptv")
+     */
+    private $pTVCategory;
+
     public function __construct()
     {
         $this->pTVPhotos = new ArrayCollection();
-        $this->pTVCategories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,36 +221,7 @@ class PlacesToVisit
         return $this;
     }
 
-    /**
-     * @return Collection|PTVCategory[]
-     */
-    public function getPTVCategories(): Collection
-    {
-        return $this->pTVCategories;
-    }
 
-    public function addPTVCategory(PTVCategory $pTVCategory): self
-    {
-        if (!$this->pTVCategories->contains($pTVCategory)) {
-            $this->pTVCategories[] = $pTVCategory;
-            $pTVCategory->setPtv($this);
-        }
-
-        return $this;
-    }
-
-    public function removePTVCategory(PTVCategory $pTVCategory): self
-    {
-        if ($this->pTVCategories->contains($pTVCategory)) {
-            $this->pTVCategories->removeElement($pTVCategory);
-            // set the owning side to null (unless already changed)
-            if ($pTVCategory->getPtv() === $this) {
-                $pTVCategory->setPtv(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getType(): ?string
     {
@@ -285,6 +255,18 @@ class PlacesToVisit
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getPTVCategory(): ?PTVCategory
+    {
+        return $this->pTVCategory;
+    }
+
+    public function setPTVCategory(?PTVCategory $pTVCategory): self
+    {
+        $this->pTVCategory = $pTVCategory;
 
         return $this;
     }

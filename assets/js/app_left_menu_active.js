@@ -140,7 +140,7 @@ if (current_route === 'business_index' || current_route === 'business_new') {
 
 let category_routes = [
     "business_category_index", "business_category_new", "ad_category_new", "ad_category_index",
-    "ad_sub_category_new", "ad_sub_category_index"
+    "ad_sub_category_new", "ad_sub_category_index", "p_t_v_category_new", "p_t_v_category_index"
 ];
 
 if (category_routes.includes(current_route)) {
@@ -185,6 +185,20 @@ if (category_routes.includes(current_route)) {
                 $(this).children('a').css(active);
             }
             if (current_route === 'ad_sub_category_index' && index === 1) {
+                $(this).children('a').css(active);
+            }
+        });
+    }
+
+    if (current_route === 'p_t_v_category_new' || current_route === 'p_t_v_category_index') {
+        $('._ptv_category_menu').toggleClass('menu-open');
+        $('._ptv_category_menu').children('a').css(active);
+        $('._ptv_category_menu').children('.treeview-menu').css('display', 'block');
+        $('._ptv_category_menu').children('.treeview-menu').children('li').each(function (index) {
+            if (current_route === 'p_t_v_category_new' && index === 0) {
+                $(this).children('a').css(active);
+            }
+            if (current_route === 'p_t_v_category_index' && index === 1) {
                 $(this).children('a').css(active);
             }
         });
