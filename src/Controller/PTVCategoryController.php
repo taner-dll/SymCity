@@ -17,6 +17,8 @@ class PTVCategoryController extends AbstractController
 {
     /**
      * @Route("/", name="p_t_v_category_index", methods={"GET"})
+     * @param PTVCategoryRepository $pTVCategoryRepository
+     * @return Response
      */
     public function index(PTVCategoryRepository $pTVCategoryRepository): Response
     {
@@ -27,6 +29,8 @@ class PTVCategoryController extends AbstractController
 
     /**
      * @Route("/new", name="p_t_v_category_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -39,6 +43,8 @@ class PTVCategoryController extends AbstractController
             $entityManager->persist($pTVCategory);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Gezilecek yer kategorisi başarıyla eklendi.');
+
             return $this->redirectToRoute('p_t_v_category_index');
         }
 
@@ -50,6 +56,8 @@ class PTVCategoryController extends AbstractController
 
     /**
      * @Route("/{id}", name="p_t_v_category_show", methods={"GET"})
+     * @param PTVCategory $pTVCategory
+     * @return Response
      */
     public function show(PTVCategory $pTVCategory): Response
     {
@@ -60,6 +68,9 @@ class PTVCategoryController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="p_t_v_category_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param PTVCategory $pTVCategory
+     * @return Response
      */
     public function edit(Request $request, PTVCategory $pTVCategory): Response
     {
@@ -68,6 +79,8 @@ class PTVCategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'Gezilecek yer kategorisi başarıyla güncellendi.');
 
             return $this->redirectToRoute('p_t_v_category_index');
         }
@@ -80,6 +93,9 @@ class PTVCategoryController extends AbstractController
 
     /**
      * @Route("/{id}", name="p_t_v_category_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param PTVCategory $pTVCategory
+     * @return Response
      */
     public function delete(Request $request, PTVCategory $pTVCategory): Response
     {
@@ -87,6 +103,7 @@ class PTVCategoryController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($pTVCategory);
             $entityManager->flush();
+            $this->addFlash('success', 'Gezilecek yer kategorisi başarıyla silindi.');
         }
 
         return $this->redirectToRoute('p_t_v_category_index');
