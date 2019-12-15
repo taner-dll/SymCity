@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,16 +23,38 @@ class PTVCategory
      */
     private $short_name;
 
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PlacesToVisit", inversedBy="pTVCategories")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer")
+     */
+    private $sort;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PlacesToVisit", mappedBy="pTVCategory")
      */
     private $ptv;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
+
+    public function __construct()
+    {
+        $this->ptv = new ArrayCollection();
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -49,27 +73,48 @@ class PTVCategory
         return $this;
     }
 
-    public function getName(): ?string
+    public function getSort(): ?int
     {
-        return $this->name;
+        return $this->sort;
     }
 
-    public function setName(string $name): self
+    public function setSort(int $sort): self
     {
-        $this->name = $name;
+        $this->sort = $sort;
 
         return $this;
     }
 
-    public function getPtv(): ?PlacesToVisit
+    /**
+     * @return Collection|PlacesToVisit[]
+     */
+    public function getPtv(): Collection
     {
         return $this->ptv;
     }
 
-    public function setPtv(?PlacesToVisit $ptv): self
+    public function addPtv(PlacesToVisit $ptv): self
     {
-        $this->ptv = $ptv;
+        if (!$this->ptv->contains($ptv)) {
+            $this->ptv[] = $ptv;
+            $ptv->setPTVCategory($this);
+        }
 
         return $this;
     }
+
+    public function removePtv(PlacesToVisit $ptv): self
+    {
+        if ($this->ptv->contains($ptv)) {
+            $this->ptv->removeElement($ptv);
+            // set the owning side to null (unless already changed)
+            if ($ptv->getPTVCategory() === $this) {
+                $ptv->setPTVCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }
