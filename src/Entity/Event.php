@@ -67,6 +67,11 @@ class Event
      */
     private $slug;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -188,6 +193,18 @@ class Event
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?string $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

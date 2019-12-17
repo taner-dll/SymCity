@@ -64,6 +64,7 @@
                                         <th>Onay Durumu</th>
                                         <th>Duyuru Başlığı</th>
                                         <th>Bölge</th>
+                                        <th>Kategori</th>
                                         {% if is_granted('ROLE_ADMIN') %}
                                             <th>Ekleyen</th>
                                         {% endif %}
@@ -90,6 +91,7 @@
                                             </td>
                                             <td>{{ announce.name[:20]|striptags }}&hellip;</td>
                                             <td>{{ announce.place ? announce.place.name : '' }}</td>
+                                            <td>{{ announce.category ? announce.category|trans({},'announce') : '' }}</td>
                                             {% if is_granted('ROLE_ADMIN') %}
                                                 <td>
 

@@ -11,6 +11,10 @@
             {{ form_widget(form.place) }}
         </div>
         <div class="form-group">
+            {{ form_label(form.category, 'Kategori') }}
+            {{ form_widget(form.category) }}
+        </div>
+        <div class="form-group">
             {{ form_label(form.description, 'Açıklama') }}
             {{ form_widget(form.description) }}
         </div>
