@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PTVCategory - Yeni Ekle{% endblock %}
+{% block title %}Gezilecek Yer Kategorisi - Yeni Ekle{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -10,11 +10,12 @@
 
 <section class="content-header">
     <h1>
-        PTVCategory        <small>Yeni Ekle</small>
+        Gezilecek Yer Kategorisi
+        <small>Yeni Ekle</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-        <li><a href="{{ path('p_t_v_category_index') }}">PTVCategory</a></li>
+        <li><a href="{{ path('p_t_v_category_index') }}">Gezilecek Yer Kategorisi</a></li>
         <li class="active"><a href="{{ path('p_t_v_category_new') }}">
                 Yeni Ekle</a></li>
     </ol>

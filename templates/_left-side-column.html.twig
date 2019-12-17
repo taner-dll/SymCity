@@ -19,7 +19,6 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">
                 {#{{ dump(app.request.get('_route')) }}#}
-                {{ dump("Hoş geldin Taner :)") }}
             </li>
             <li>
                 <a href="{{ path('homepage') }}">
@@ -199,9 +198,9 @@
                 <a href="#">
 
                     {% if is_granted('ROLE_ADMIN') %}
-                        <i class="fa fa-microphone"></i> <span>Duyuru Yönetimi</span>
+                        <i class="fa fa-microphone"></i> <span>Duyuru (Anons) Yönetimi</span>
                     {% else %}
-                        <i class="fa fa-microphone"></i> <span>Duyurularım</span>
+                        <i class="fa fa-microphone"></i> <span>Duyurularım (Anons)</span>
                     {% endif %}
 
 

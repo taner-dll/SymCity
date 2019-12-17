@@ -69,6 +69,14 @@
                                 {% endif %}
                             </td>
                         </tr>
+                        <tr>
+                            <th>Kategori</th>
+                            <td>
+                                {% if announce.category %}
+                                    {{ announce.category|trans({},'announce') }}
+                                {% endif %}
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
 
@@ -174,7 +182,7 @@
 
                                     <div class="callout callout-success">
                                         <h4>
-                                            <i class="icon fa fa-check-circle-o"></i> İş Yeriniz Yayındadır.
+                                            <i class="icon fa fa-check-circle-o"></i> Duyurunuz Yayındadır.
                                         </h4>
                                         <p>
                                             <b>Dikkat!</b> Duyurunuzu yeniden düzenlerseniz, otomatik olarak
