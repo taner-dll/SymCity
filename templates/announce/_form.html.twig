@@ -11,6 +11,10 @@
             {{ form_widget(form.place) }}
         </div>
         <div class="form-group">
+            {{ form_label(form.category, 'Kategori') }}
+            {{ form_widget(form.category) }}
+        </div>
+        <div class="form-group">
             {{ form_label(form.description, 'Açıklama') }}
             {{ form_widget(form.description) }}
         </div>
@@ -19,7 +23,7 @@
     <div class="col-md-6">
 
         <div class="form-group">
-            {{ form_label(form.image, 'Öne Çıkan Resim') }}
+            {{ form_label(form.image, 'Öne Çıkan Görsel') }}
             {{ form_widget(form.image) }}
             <input type="hidden" id="cropped_image" name="cropped_image" />
         </div>

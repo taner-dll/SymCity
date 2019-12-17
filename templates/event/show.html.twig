@@ -66,6 +66,10 @@
                             </td>
                         </tr>
                         <tr>
+                            <th>Kategori</th>
+                            <td>{{ event.category|trans({},'event') }}</td>
+                        </tr>
+                        <tr>
                             <th>Açıklama</th>
                             <td>{{ event.description[:500]|striptags }}&hellip;</td>
                         </tr>

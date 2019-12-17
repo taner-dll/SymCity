@@ -17,9 +17,9 @@
 
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-{#            <li class="header">#}
-{#                {{ dump(app.request.get('_route')) }}#}
-{#            </li>#}
+            <li class="header">
+                {#{{ dump(app.request.get('_route')) }}#}
+            </li>
             <li>
                 <a href="{{ path('homepage') }}">
                     <i class="fa fa-home"></i> <span>Siteye Git</span>
@@ -135,6 +135,20 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="treeview _ptv_category_menu">
+                            <a href="#">
+                                <span>Gezilecek Yer Kategorileri</span>
+                                <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{ path('p_t_v_category_new') }}"><i class="fa fa-circle-o"></i> Yeni
+                                        Ekle</a></li>
+                                <li><a href="{{ path('p_t_v_category_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
             {% endif %}
@@ -184,9 +198,9 @@
                 <a href="#">
 
                     {% if is_granted('ROLE_ADMIN') %}
-                        <i class="fa fa-microphone"></i> <span>Duyuru Yönetimi</span>
+                        <i class="fa fa-microphone"></i> <span>Duyuru (Anons) Yönetimi</span>
                     {% else %}
-                        <i class="fa fa-microphone"></i> <span>Duyurularım</span>
+                        <i class="fa fa-microphone"></i> <span>Duyurularım (Anons)</span>
                     {% endif %}
 
 
