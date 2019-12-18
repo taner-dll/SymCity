@@ -9,10 +9,12 @@ use App\Repository\AnnounceRepository;
 use App\Traits\File;
 use App\Traits\Util;
 use DateTime;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -32,10 +34,27 @@ class AnnounceController extends AbstractController
     /**
      * @Route("/", name="announce_index", methods={"GET"})
      * @param AnnounceRepository $announceRepository
+     * @param \Swift_Mailer $mailer
      * @return Response
      */
-    public function index(AnnounceRepository $announceRepository): Response
+    public function index(AnnounceRepository $announceRepository, \Swift_Mailer $mailer): Response
     {
+
+
+        $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('edremitkorfezi.iletisim@gmail.com')
+            ->setTo($this->getUser()->getEmail())
+            ->setBody(
+                $this->renderView(
+                '_email/announce_confirmed.html.twig'
+                ),
+                'text/html'
+            )
+        ;
+        $mailer->send($message);
+
+
+
 
         if($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             $announces = $announceRepository->findAll();
