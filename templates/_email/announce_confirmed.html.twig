@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Simple Transactional Email</title>
+    <title>Edremit Körfezi</title>
     <style>
         /* -------------------------------------
             GLOBAL RESETS
@@ -333,10 +333,9 @@
     </style>
 </head>
 <body class="">
-<span class="preheader">This is preheader text. Some clients will show this text as a preview.</span>
+<span class="preheader">Duyurunuz Onaylandı...</span>
 <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
     <tr>
-        <td>&nbsp;</td>
         <td class="container">
             <div class="content">
 
@@ -350,27 +349,15 @@
                                 <tr>
                                     <td>
                                         <p>Merhaba,</p>
-                                        <p>Duyurunuz moderatörler tarafından onaylandı ve yayına alındı.</p>
-                                        <table style="display: none" role="presentation" border="0" cellpadding="0"
-                                               cellspacing="0" class="btn btn-primary">
-                                            <tbody>
-                                            <tr>
-                                                <td align="left">
-                                                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                                                        <tbody>
-                                                        <tr>
-                                                            <td> <a href="http://htmlemail.io" target="_blank">Call To Action</a> </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                        <p>
+                                            <b>{{ baslik }}</b>
+                                            başlıklı duyurunuz moderatörler
+                                            tarafından onaylandı ve yayına alındı.
+                                        </p>
+
                                         <p>
                                             Edremit Körfez portalını kullandığınız için teşekkür ederiz.
                                         </p>
-                                        <p>edremitkorfezi.com ekibi</p>
                                     </td>
                                 </tr>
                             </table>
@@ -387,16 +374,15 @@
                         <tr>
                             <td class="content-block">
                                 <span class="apple-link">
-                                    Bu e-postayı edremitkorfezi.com'a üye olduğunuz için aldınız. Bu bir otomatik
-                                    onay mesajıdır, yanıtlamayınız.
+                                     Bu bir otomatik onay mesajıdır, yanıtlamayınız.
                                 </span>
-                                <br> Onay mesajlarını almak istemiyorsanız; sisteme giriş yaparak, ayarlar menüsünden
-                                kapatabilirsiniz. <a href="http://i.imgur.com/CScmqnj.gif">Unsubscribe</a>.
+                                <br> Onay mesajlarını almak istemiyorsanız:
+                                <a href="http://i.imgur.com/CScmqnj.gif">Unsubscribe</a>.
                             </td>
                         </tr>
                         <tr>
                             <td class="content-block powered-by">
-                                Powered by <a href="http://htmlemail.io">HTMLemail</a>.
+                                Yazılım geliştirme: <a href="http://epikod.com">epikod</a>.
                             </td>
                         </tr>
                     </table>
@@ -405,7 +391,7 @@
 
             </div>
         </td>
-        <td>&nbsp;</td>
+        <td></td>
     </tr>
 </table>
 </body>
