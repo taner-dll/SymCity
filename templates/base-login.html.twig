@@ -1,4 +1,4 @@
-{% spaceless %}
+{% apply spaceless %}
 <!DOCTYPE html>
 <html lang="en" style="height: 100%">
 <head>
@@ -40,7 +40,7 @@
     <div class="login-box-body">
 
 
-        <form class="form-signin" method="post" href="{{ path('login') }}" target="_self">
+        <form class="form-signin" method="post" href="{{ path('app_login') }}" target="_self">
             <p class="login-box-msg" style="color: red">
                 {% if error %}
             {{ error.messageKey|trans(error.messageData, 'security') }}
@@ -94,4 +94,4 @@
 {% endblock %}
 </body>
 </html>
-{% endspaceless %}
+{% endapply %}
