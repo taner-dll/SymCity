@@ -272,9 +272,11 @@ class AdvertController extends AbstractController
      * @param Request $request
      * @param $id
      * @param TranslatorInterface $translator
+     * @param \Swift_Mailer $mailer
      * @return mixed
      */
-    public function confirm(Request $request, $id, TranslatorInterface $translator): Response
+    public function confirm(Request $request, $id, TranslatorInterface $translator,
+                            \Swift_Mailer $mailer): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -288,7 +290,21 @@ class AdvertController extends AbstractController
             $advert->setConfirm(self::CONFIRM);
             $em->flush();
 
-            //TODO ilan onayında kullanıcıya bilgilendirme maili gönderilecek.
+            //yayına alındığına dair e-posta gönderimi
+            $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
+            $message = (new \Swift_Message('İlanınız Yayında!'))
+                ->setFrom($from)
+                ->setTo($this->getUser()->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        '_email/advert_confirmed.html.twig',
+                        array(
+                            'baslik'=>$advert->getTitle()
+                        )
+                    ),
+                    'text/html'
+                );
+            $mailer->send($message);
 
             $this->addFlash('success', $translator->trans('advert_confirmed'));
 

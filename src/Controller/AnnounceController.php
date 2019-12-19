@@ -9,10 +9,12 @@ use App\Repository\AnnounceRepository;
 use App\Traits\File;
 use App\Traits\Util;
 use DateTime;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -37,11 +39,10 @@ class AnnounceController extends AbstractController
     public function index(AnnounceRepository $announceRepository): Response
     {
 
-        if($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $announces = $announceRepository->findAll();
-        }
-        else{
-            $announces = $announceRepository->findBy(array('user'=>$this->getUser()));
+        } else {
+            $announces = $announceRepository->findBy(array('user' => $this->getUser()));
         }
 
         return $this->render('announce/index.html.twig', [
@@ -81,7 +82,7 @@ class AnnounceController extends AbstractController
             $file = $request->request->get('cropped_image');
 
             //cropped image
-            if(!empty($file)) {
+            if (!empty($file)) {
 
                 //dosya adı oluştur ve db güncelle
                 $fileName = $this->base64generateFileName($file);
@@ -92,7 +93,6 @@ class AnnounceController extends AbstractController
                 $dir = $this->getParameter('ann_directory');
                 $this->base64upload($file, $dir, $fileName);
             }
-
 
 
             return $this->redirectToRoute('announce_index');
@@ -111,12 +111,12 @@ class AnnounceController extends AbstractController
      */
     public function show(Announce $announce): Response
     {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-            if($announce->getUser()->getId() != $this->getUser()->getId()){
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            if ($announce->getUser()->getId() != $this->getUser()->getId()) {
                 return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
             }
         }
-        
+
         return $this->render('announce/show.html.twig', [
             'announce' => $announce,
         ]);
@@ -132,14 +132,14 @@ class AnnounceController extends AbstractController
      */
     public function edit(Request $request, Announce $announce, TranslatorInterface $translator): Response
     {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-            if($announce->getUser()->getId() != $this->getUser()->getId()){
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            if ($announce->getUser()->getId() != $this->getUser()->getId()) {
                 return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
             }
         }
 
         //eski resmi kaldırırken sorgu gerekti. product->getPicture() temp olarak gözüküyor?
-        $em = $this->getDoctrine()->getManager();   
+        $em = $this->getDoctrine()->getManager();
         $p = $em->getRepository(Announce::class)->find($announce->getId());
         $fileOldName = $p->getImage();
 
@@ -164,7 +164,7 @@ class AnnounceController extends AbstractController
 
 
             //cropped image
-            if(!empty($file)) {
+            if (!empty($file)) {
 
                 //dosya adı oluştur ve db güncelle
                 $fileName = $this->base64generateFileName($file);
@@ -198,13 +198,13 @@ class AnnounceController extends AbstractController
     public function delete(Request $request, Announce $announce, TranslatorInterface $translator): Response
     {
 
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-            if($announce->getUser()->getId() != $this->getUser()->getId()){
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            if ($announce->getUser()->getId() != $this->getUser()->getId()) {
                 return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
             }
         }
 
-        if ($this->isCsrfTokenValid('delete'.$announce->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $announce->getId(), $request->request->get('_token'))) {
 
             //öne çıkan resmi sil
             $dir = $this->getParameter('ann_directory');
@@ -226,24 +226,24 @@ class AnnounceController extends AbstractController
      * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function deleteFeatured(Request $request,$announce, TranslatorInterface $translator): Response
+    public function deleteFeatured(Request $request, $announce, TranslatorInterface $translator): Response
     {
-        
+
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('delete-featured-photo'.$announce  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('delete-featured-photo' . $announce, $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $photo = $em->getRepository(Announce::class)->find($announce);
 
-            if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-                if($photo->getUser()->getId() != $this->getUser()->getId()){
+            if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                if ($photo->getUser()->getId() != $this->getUser()->getId()) {
                     return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
                 }
             }
 
             $dir = $this->getParameter('ann_directory');
-            $this->deleteFile($dir,$photo->getImage());
+            $this->deleteFile($dir, $photo->getImage());
 
             $photo->setImage(null);
             $em->flush();
@@ -261,23 +261,42 @@ class AnnounceController extends AbstractController
      * @param Request $request
      * @param $id
      * @param TranslatorInterface $translator
+     * @param \Swift_Mailer $mailer
      * @return mixed
      */
-    public function confirm(Request $request, $id, TranslatorInterface $translator): Response
+    public function confirm(Request $request, $id,
+                            TranslatorInterface $translator, \Swift_Mailer $mailer): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('confirm'.$id  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('confirm' . $id, $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
+
             $announce = $em->getRepository(Announce::class)->find($id);
             $announce->setConfirm(self::CONFIRM);
             $em->flush();
 
-            //TODO iş yeri onayında kullanıcıya bilgilendirme maili gönderilecek.
+
+            //yayına alındığına dair e-posta gönderimi
+            $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
+            $message = (new \Swift_Message('Duyurunuz Yayında!'))
+                ->setFrom($from)
+                ->setTo($this->getUser()->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        '_email/announce_confirmed.html.twig',
+                        array(
+                            'baslik'=>$announce->getName()
+                        )
+                    ),
+                    'text/html'
+                );
+            $mailer->send($message);
+
 
             $this->addFlash('success', $translator->trans('announce_confirmed'));
 
@@ -301,7 +320,7 @@ class AnnounceController extends AbstractController
 
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('unconfirm'.$id  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('unconfirm' . $id, $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $announce = $em->getRepository(Announce::class)->find($id);
@@ -332,7 +351,7 @@ class AnnounceController extends AbstractController
 
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('announce_save_as_draft'.$id  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('announce_save_as_draft' . $id, $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $advert = $em->getRepository(Announce::class)->find($id);
@@ -360,7 +379,7 @@ class AnnounceController extends AbstractController
 
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('announce_send_confirmation_request'.$id  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('announce_send_confirmation_request' . $id, $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $advert = $em->getRepository(Announce::class)->find($id);

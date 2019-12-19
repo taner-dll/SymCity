@@ -226,9 +226,11 @@ class BusinessController extends AbstractController
      * @param Request $request
      * @param $id
      * @param TranslatorInterface $translator
+     * @param \Swift_Mailer $mailer
      * @return mixed
      */
-    public function confirm(Request $request, $id, TranslatorInterface $translator)
+    public function confirm(Request $request, $id, TranslatorInterface $translator,
+                            \Swift_Mailer $mailer)
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -242,7 +244,22 @@ class BusinessController extends AbstractController
             $business->setConfirm(self::CONFIRM);
             $em->flush();
 
-            //TODO iş yeri onayında kullanıcıya bilgilendirme maili gönderilecek.
+            //yayına alındığına dair e-posta gönderimi
+            $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
+            $message = (new \Swift_Message('İş Yeriniz Yayında!'))
+                ->setFrom($from)
+                ->setTo($this->getUser()->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        '_email/business_confirmed.html.twig',
+                        array(
+                            'baslik'=>$business->getName()
+                        )
+                    ),
+                    'text/html'
+                );
+            $mailer->send($message);
+
 
             $this->addFlash('success', $translator->trans('business_confirmed'));
 

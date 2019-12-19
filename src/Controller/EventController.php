@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Advert;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
@@ -258,9 +257,11 @@ class EventController extends AbstractController
      * @param Request $request
      * @param $id
      * @param TranslatorInterface $translator
+     * @param \Swift_Mailer $mailer
      * @return mixed
      */
-    public function confirm(Request $request, $id, TranslatorInterface $translator): Response
+    public function confirm(Request $request, $id, TranslatorInterface $translator,
+                            \Swift_Mailer $mailer): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -273,6 +274,22 @@ class EventController extends AbstractController
             $event = $em->getRepository(Event::class)->find($id);
             $event->setConfirm(self::CONFIRM);
             $em->flush();
+
+            //yayına alındığına dair e-posta gönderimi
+            $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
+            $message = (new \Swift_Message('Etkinliğiniz Yayında!'))
+                ->setFrom($from)
+                ->setTo($this->getUser()->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        '_email/event_confirmed.html.twig',
+                        array(
+                            'baslik'=>$event->getName()
+                        )
+                    ),
+                    'text/html'
+                );
+            $mailer->send($message);
 
             $this->addFlash('success', $translator->trans('event_confirmed'));
 
