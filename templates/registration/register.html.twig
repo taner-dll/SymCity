@@ -1,0 +1,99 @@
+{% extends 'base_login.html.twig' %}
+
+
+
+
+{% block title %}Kaydol | Edremit Körfezi{% endblock %}
+
+{% block body %}
+
+    <body class="hold-transition login-page"
+          style="background-image: url('../../assets/img/front_end/banner-1.jpg');
+          background-repeat: no-repeat;
+          background-size: 100% 100%;">
+
+    <div class="login-box">
+        <div class="login-logo">
+            <h2 style="color:#FFFFFF;">Edremit Körfezi</h2>
+            <h4 style="color:#FFFFFF;font-style: oblique">"Körfezin Kısayolu"</h4>
+
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            {{ form_start(registrationForm) }}
+
+            <p class="login-box-msg">Yeni Üye Kaydı</p>
+
+            <div class="form-group has-feedback">
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',
+                    'placeholder': 'E-Posta'}}) }}
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <p id="email_avaible" style="display: none" class="text-green">
+                    <i class="fa fa-check"></i> eposta adresi kullanıma uygun.</p>
+                <p id="email_in_use" style="display: none" class="text-red">
+                    <i class="fa fa-warning"></i> eposta adresi kullanımda.</p>
+            </div>
+
+            <div class="form-group has-feedback">
+                {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control',
+                    'placeholder': 'Şifre Giriniz'}}) }}
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                <small>{{ form_help(registrationForm.plainPassword) }}</small>
+            </div>
+
+            <div class="form-group has-feedback">
+                {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control',
+                    'placeholder': 'Şifre Tekrarı'}}) }}
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+
+            <p style="color: indianred">
+                {{ form_errors(registrationForm.plainPassword.first) }}
+            </p>
+
+            <div class="form-group has-feedback">
+                <div class="form-check">
+
+                    <!-- FormType hiddenType olarak değiştirildi -->
+                    <input type="checkbox"
+                       id="registration_form_agreeTerms"
+                       name="registration_form[agreeTerms]"
+                       required="required" class="form-check-input" value="1">
+                    <label class="form-check-label required" for="registration_form_agreeTerms"
+                    style="font-weight: normal;padding: 5px">
+                        Kullanım koşullarını <a href="#">okudum &raquo;</a>
+                        <!-- todo kullanım koşulları modal  -->
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-8">
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-success btn-block btn-flat">Kaydol</button>
+                </div>
+                <!-- /.col -->
+            </div>
+
+            <div class="row">
+                {{ form_errors(registrationForm) }}
+            </div>
+
+            {{ form_end(registrationForm) }}
+
+        </div>
+        <!-- /.login-box-body -->
+    </div>
+
+    </body>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    {{ encore_entry_script_tags('register') }}
+{% endblock %}

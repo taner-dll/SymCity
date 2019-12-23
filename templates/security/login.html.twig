@@ -1,1 +1,78 @@
-{% extends 'base-login.html.twig' %}
+{% extends 'base_login.html.twig' %}
+
+{% block title %}Giriş Yap | Edremit Körfezi{% endblock %}
+
+{% block body %}
+
+    <body class="hold-transition login-page"
+          style="background-image: url('../../assets/img/front_end/banner-1.jpg');
+          background-repeat: no-repeat;
+          background-size: 100% 100%;">
+
+    <div class="login-box">
+        <div class="login-logo">
+            <h2 style="color:#FFFFFF;">Edremit Körfezi</h2>
+            <h4 style="color:#FFFFFF;font-style: oblique">"Körfezin Kısayolu"</h4>
+
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            <form class="form-signin" method="post">
+
+
+                <p class="login-box-msg">
+
+                    Giriş Bilgileri<br>
+
+
+                    {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+                </p>
+
+
+                <div class="form-group has-feedback">
+                    <label for="username" class="sr-only">Username</label>
+                    <input type="text" name="username" id="inputUsername" value="{{ last_username }}"
+                           class="form-control" placeholder="Username" required autofocus>
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" name="password" id="inputPassword"
+                           class="form-control" placeholder="Password" required>
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" value="remember-me"> Remember me
+                            </label>
+                        </div>
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}">
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Giriş Yap</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+            <hr>
+            <a href="#">Şifremi Unuttum</a> | <a href="{{ path('app_register') }}">Yeni Hesap Oluştur</a>
+        </div>
+        <!-- /.login-box-body -->
+
+    </div>
+
+    </body>
+
+{% endblock %}

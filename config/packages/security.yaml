@@ -4,12 +4,18 @@ security:
             algorithm: auto
 
 
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         our_db_provider:
             entity:
                 class: App\Entity\User
-                property: username
+                property: email
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
                 # if you're using multiple entity managers
                 # manager_name: customer
 
@@ -21,15 +27,19 @@ security:
             anonymous: ~
             provider: our_db_provider
             form_login:
-                login_path: login
-                check_path: login
+                login_path: app_login
+                check_path: app_login
                 csrf_token_generator: security.csrf.token_manager
                 default_target_path: app_dashboard
             switch_user: true
 
             logout:
                 path:   app_logout
-                target: login
+                target: app_login
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+
 
             # activate different ways to authenticate
 
@@ -47,17 +57,15 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/security/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/security/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/security/list-users, roles: ROLE_ADMIN }
-        - { path: ^/app/dashboard, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/app/dashboard, roles: ROLE_USER } #if admin redirect to dashboard
         - { path: ^/advert/, roles: ROLE_USER }
         - { path: ^/ajax/, roles: ROLE_USER }
         - { path: ^/announce/, roles: ROLE_USER }
         - { path: ^/event/, roles: ROLE_USER }
-        - { path: ^/municipality/, roles: ROLE_USER }
-        - { path: ^/event/, roles: ROLE_USER }
-        - { path: ^/ptv/, roles: ROLE_USER }
+        - { path: ^/municipality/, roles: ROLE_ADMIN }
+        - { path: ^/ptv/, roles: ROLE_ADMIN }
         - { path: ^/places/to/visit/, roles: ROLE_ADMIN }
         - { path: ^/place/, roles: ROLE_ADMIN }
         - { path: ^/business/, roles: ROLE_USER }
