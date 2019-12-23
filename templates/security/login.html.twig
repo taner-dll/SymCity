@@ -1,35 +1,13 @@
-{% apply spaceless %}
-    <!DOCTYPE html>
-    <html lang="en" style="height: 100%">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{% block title %}Edremit Körfezi{% endblock %}</title>
+{% extends 'base_login.html.twig' %}
 
-        <!-- Tell the browser to be responsive to screen width -->
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+{% block title %}Giriş Yap | Edremit Körfezi{% endblock %}
 
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-
-        <!-- Google Font -->
-        <link rel="stylesheet"
-              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    </head>
-
+{% block body %}
 
     <body class="hold-transition login-page"
           style="background-image: url('../../assets/img/front_end/banner-1.jpg');
-       background-repeat: no-repeat;
-  background-size: 100% 100%;">
+          background-repeat: no-repeat;
+          background-size: 100% 100%;">
 
     <div class="login-box">
         <div class="login-logo">
@@ -40,7 +18,13 @@
         <!-- /.login-logo -->
         <div class="login-box-body">
             <form class="form-signin" method="post">
-                <p class="login-box-msg" style="color: red">
+
+
+                <p class="login-box-msg">
+
+                    Giriş Bilgileri<br>
+
+
                     {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
@@ -73,8 +57,7 @@
                             </label>
                         </div>
                         <input type="hidden" name="_csrf_token"
-                               value="{{ csrf_token('authenticate') }}"
-                        >
+                               value="{{ csrf_token('authenticate') }}">
                     </div>
                     <!-- /.col -->
                     <div class="col-xs-4">
@@ -83,14 +66,13 @@
                     <!-- /.col -->
                 </div>
             </form>
+            <hr>
+            <a href="#">Şifremi Unuttum</a> | <a href="{{ path('app_register') }}">Yeni Hesap Oluştur</a>
         </div>
         <!-- /.login-box-body -->
+
     </div>
-    <!-- /.login-box -->
-    <!-- ./wrapper -->
-    {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-    {% endblock %}
+
     </body>
-    </html>
-{% endapply %}
+
+{% endblock %}
