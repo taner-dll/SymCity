@@ -20,14 +20,9 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-
             {{ form_start(registrationForm) }}
 
-
-
-
             <p class="login-box-msg">Yeni Üye Kaydı</p>
-
 
             <div class="form-group has-feedback">
                 {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',
@@ -36,7 +31,7 @@
                 <p id="email_avaible" style="display: none" class="text-green">
                     <i class="fa fa-check"></i> eposta adresi kullanıma uygun.</p>
                 <p id="email_in_use" style="display: none" class="text-red">
-                    <i class="fa fa-warning"></i> eposta adresi zaten kullanımda.</p>
+                    <i class="fa fa-warning"></i> eposta adresi kullanımda.</p>
             </div>
 
             <div class="form-group has-feedback">
@@ -61,9 +56,9 @@
 
                     <!-- FormType hiddenType olarak değiştirildi -->
                     <input type="checkbox"
-                                               id="registration_form_agreeTerms"
-                                               name="registration_form[agreeTerms]"
-                                               required="required" class="form-check-input" value="1">
+                       id="registration_form_agreeTerms"
+                       name="registration_form[agreeTerms]"
+                       required="required" class="form-check-input" value="1">
                     <label class="form-check-label required" for="registration_form_agreeTerms"
                     style="font-weight: normal;padding: 5px">
                         Kullanım koşullarını <a href="#">okudum &raquo;</a>
@@ -71,7 +66,6 @@
                     </label>
                 </div>
             </div>
-
 
             <div class="row">
                 <div class="col-xs-8">

@@ -10,12 +10,13 @@ const Toast = Swal.mixin({
 
 $('#registration_form_email').on('change',function () {
     //console.log(this.value.length);
+    //console.log(Routing.generate('check_email'));
 
     $.ajax({
         url: Routing.generate('check_email'),
         type: "POST",
         dataType: "json",
-        data: {email: email},
+        data: {email: $('#registration_form_email').val()},
         statusCode: {
             /**
              * Response Manipulation
@@ -33,12 +34,16 @@ $('#registration_form_email').on('change',function () {
             },
             200: function (responseObject, textStatus, errorThrown) {
                 //console.log(responseObject + textStatus + errorThrown)
-
-                Toast.fire({
-                    title: 'Liste Başarıyla Güncellendi',
-                    type: 'success',
-                })
-
+                if (responseObject===1){
+                    console.log("kayitli eposta");
+                    $('#email_avaible').hide();
+                    $('#email_in_use').show();
+                }
+                else if (responseObject===0){
+                    console.log("eposta uygun");
+                    $('#email_avaible').show();
+                    $('#email_in_use').hide();
+                }
             }
         }
     }).done(function (data) {
@@ -47,7 +52,7 @@ $('#registration_form_email').on('change',function () {
     })
         .fail(function (jqXHR, textStatus) {
             //hata anında
-            console.log('Something went wrong: ' + textStatus);
+            //console.log('Something went wrong: ' + textStatus);
         })
         .always(function (jqXHR, textStatus) {
             //her koşulda çalışır

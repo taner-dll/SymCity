@@ -21,19 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class AjaxController extends AbstractController
 {
-    /**
-     * @Route("/check-email", name="check_email", methods={"GET"}, options={"expose"=true})
-     * @param Request $request
-     * @param TranslatorInterface $translator
-     * @return JsonResponse
-     */
-    public function checkEmail(Request $request, TranslatorInterface $translator)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $req = $request->query->get('email');
-        $user = $em->getRepository(User::class)->findOneBy(array('email' => $req));
-        return new JsonResponse(count($user));
-    }
+
 
     /**
      * @Route("/ad-subcategories", name="ajax_ad_subcategories", methods={"GET"}, options={"expose"=true})
