@@ -20,10 +20,7 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, [
-
-            ])
-
+            ->add('email', EmailType::class)
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -31,10 +28,9 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Kullanım koşularını kabul etmelisiniz.',
                     ]),
                 ]
-
             ])
             ->add('plainPassword', RepeatedType::class, [
-                'help' => 'En az 6 karakter',
+                /*'help' => 'En az 6 karakter',*/
                 'type' => PasswordType::class,
                 'invalid_message' => 'Şifreler aynı olmalıdır, tekrar deneyiniz.',
                 'mapped' => false,

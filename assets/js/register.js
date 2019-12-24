@@ -8,9 +8,16 @@ const Toast = Swal.mixin({
     timer: 3000
 });
 
+const email_input_loader = $('#email_input_loader');
+const email_input_icon = $('#email_input_icon');
+const email_form_group = $('#email_form_group');
+
 $('#registration_form_email').on('change',function () {
     //console.log(this.value.length);
     //console.log(Routing.generate('check_email'));
+
+    email_input_icon.hide();
+    email_input_loader.show();
 
     $.ajax({
         url: Routing.generate('check_email'),
@@ -36,19 +43,33 @@ $('#registration_form_email').on('change',function () {
                 //console.log(responseObject + textStatus + errorThrown)
                 if (responseObject===1){
                     console.log("kayitli eposta");
-                    $('#email_avaible').hide();
-                    $('#email_in_use').show();
+                    email_form_group.addClass('has-error');
+                    email_form_group.removeClass('has-success');
+
+                    let email = $('#registration_form_email').val();
+
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Kayıtlı E-Posta!',
+                        text: email+' adresi kullanımdadır, lütfen farklı bir adres deneyin.',
+                        confirmButtonText: 'Tamam',
+                        footer: '<a href="#">Bu e-posta adresi size ait ise giriş yapmayı deneyin</a>'
+                    })
+
                 }
                 else if (responseObject===0){
                     console.log("eposta uygun");
-                    $('#email_avaible').show();
-                    $('#email_in_use').hide();
+                    email_form_group.addClass('has-success');
+                    email_form_group.removeClass('has-error');
                 }
             }
         }
     }).done(function (data) {
         //response text
         //console.log(data);
+        email_input_loader.hide();
+        email_input_icon.show();
+
     })
         .fail(function (jqXHR, textStatus) {
             //hata anında

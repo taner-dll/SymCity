@@ -68,6 +68,16 @@ class User implements UserInterface
      */
     private $lastLogin;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $full_name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $user_name;
+
     public function __construct()
     {
         $this->pTVComments = new ArrayCollection();
@@ -320,6 +330,25 @@ class User implements UserInterface
     public function setLastLogin(\DateTimeInterface $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->full_name;
+    }
+
+    public function setFullName(string $full_name): self
+    {
+        $this->full_name = $full_name;
+
+        return $this;
+    }
+
+    public function setUserName(string $user_name): self
+    {
+        $this->user_name = $user_name;
 
         return $this;
     }
