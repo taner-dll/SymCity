@@ -23,8 +23,8 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
 
             ])
-            //fixme twig manual input için burayı hidden yapınca çalıştı :)
-            ->add('agreeTerms', HiddenType::class, [
+
+            ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([

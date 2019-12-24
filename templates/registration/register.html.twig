@@ -1,6 +1,6 @@
 {% extends 'base_login.html.twig' %}
 
-
+{% form_theme registrationForm '_override/form/register.html.twig' %}
 
 
 {% block title %}Kaydol | Edremit Körfezi{% endblock %}
@@ -52,19 +52,10 @@
             </p>
 
             <div class="form-group has-feedback">
-                <div class="form-check">
 
-                    <!-- FormType hiddenType olarak değiştirildi -->
-                    <input type="checkbox"
-                       id="registration_form_agreeTerms"
-                       name="registration_form[agreeTerms]"
-                       required="required" class="form-check-input" value="1">
-                    <label class="form-check-label required" for="registration_form_agreeTerms"
-                    style="font-weight: normal;padding: 5px">
-                        Kullanım koşullarını <a href="#">okudum &raquo;</a>
-                        <!-- todo kullanım koşulları modal  -->
-                    </label>
-                </div>
+                {{ form_widget(registrationForm.agreeTerms) }}
+
+
             </div>
 
             <div class="row">
