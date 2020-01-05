@@ -79,7 +79,12 @@
 
             {{ form_end(registrationForm) }}
             <hr>
-            <a id="login" href="{{ path('app_login') }}">Kayıtlı e-posta adresim var, giriş yap &raquo;</a>
+
+
+            <a id="login" class="btn btn-info btn-flat btn-block" href="{{ path('app_login') }}">
+                <i class="fa fa-user-circle"></i>
+                Kayıtlı bir hesabım var
+            </a>
 
         </div>
         <!-- /.login-box-body -->

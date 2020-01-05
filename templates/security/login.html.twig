@@ -2,6 +2,12 @@
 
 {% block title %}Giriş Yap | Edremit Körfezi{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('register') }}
+{% endblock %}
+
+
 {% block body %}
 
     <body class="hold-transition login-page"
@@ -54,7 +60,7 @@
                         <div class="checkbox mb-3">
                             <label>
                                 <input type="checkbox"
-                                       id="remember_me" name="_remember_me"> Remember me
+                                       id="remember_me" name="_remember_me"> Beni hatırla
                             </label>
                         </div>
                         <input type="hidden" name="_csrf_token"
@@ -62,18 +68,40 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Giriş Yap</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">
+                            <i class="fa fa-user-circle"></i> Giriş Yap
+                        </button>
                     </div>
                     <!-- /.col -->
                 </div>
             </form>
             <hr>
-            <a href="#">Şifremi Unuttum</a> | <a href="{{ path('app_register') }}">Yeni Hesap Oluştur</a>
+
+            <a class="btn btn-warning btn-flat btn-block" href="#">
+                <i class="fa fa-question-circle"></i>
+                Şifremi Unuttum
+            </a>
+
+            <br>
+
+            <a class="btn btn-success btn-flat btn-block" href="{{ path('app_register') }}">
+                <i class="fa fa-plus-circle"></i>
+                Yeni Hesap Oluştur
+            </a>
+
         </div>
-        <!-- /.login-box-body -->
+    </div>
+    <!-- /.login-box-body -->
 
     </div>
 
     </body>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    {{ encore_entry_script_tags('register') }}
 {% endblock %}
