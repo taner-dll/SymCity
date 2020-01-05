@@ -21,6 +21,7 @@ class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="app_register")
+     * @param \Swift_Mailer $mailer
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param GuardAuthenticatorHandler $guardHandler
@@ -28,7 +29,8 @@ class RegistrationController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,
+    public function register(\Swift_Mailer $mailer,
+                             Request $request, UserPasswordEncoderInterface $passwordEncoder,
                              GuardAuthenticatorHandler $guardHandler,
                              LoginFormAuthenticator $authenticator): Response
     {
@@ -69,6 +71,23 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
+            //yayına alındığına dair e-posta gönderimi
+            $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
+            $message = (new \Swift_Message('Aramıza Hoş Geldiniz!'))
+                ->setFrom($from)
+                ->setTo($request->request->get('registration_form')['email'])
+                ->setBody(
+                    $this->renderView(
+                        '_email/thank_you_new_user.html.twig',
+                        array(
+                            'email'=>$request->request->get('registration_form')['email']
+                        )
+                    ),
+                    'text/html'
+                );
+            $mailer->send($message);
+
+
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,

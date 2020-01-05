@@ -42,7 +42,7 @@ security:
                     - App\Security\LoginFormAuthenticator
 
             #remember me lifetime, session lifetime'dan farklıdır.
-            #session liftime -> framework.yaml
+            #session lifetime -> framework.yaml
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800 # 1 hafta. logout'a basılmadığı müddetçe geçerlidir.
