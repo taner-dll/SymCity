@@ -5,6 +5,12 @@
 
 {% block title %}Kaydol | Edremit Körfezi{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('register') }}
+{% endblock %}
+
+
 {% block body %}
 
     <body class="hold-transition login-page"

@@ -1,3 +1,5 @@
+import '../css/register.scss'
+
 import 'icheck/icheck.min';
 $('input').iCheck({
     checkboxClass: 'icheckbox_flat-grey',
