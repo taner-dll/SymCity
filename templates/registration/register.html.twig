@@ -22,7 +22,8 @@
         <div class="login-box-body">
             {{ form_start(registrationForm) }}
 
-            <p class="login-box-msg">Yeni Üye Kaydı</p>
+
+            <p class="login-box-msg">Yeni Kullanıcı Kayıt Formu</p>
 
             <div class="form-group has-feedback" id="email_form_group">
                 {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',
@@ -46,13 +47,15 @@
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
 
-            <p style="color: indianred">
+            <p>
                 {{ form_errors(registrationForm.plainPassword.first) }}
+                {{ form_errors(registrationForm) }}
             </p>
 
             <div class="form-group has-feedback">
 
                 {{ form_widget(registrationForm.agreeTerms) }}
+
 
             </div>
 
@@ -66,13 +69,11 @@
                 <!-- /.col -->
             </div>
 
-            <div class="row">
-                {{ form_errors(registrationForm) }}
-            </div>
+
 
             {{ form_end(registrationForm) }}
             <hr>
-            <a href="{{ path('app_login') }}">Kayıtlı e-posta adresim var, giriş yap &raquo;</a>
+            <a id="login" href="{{ path('app_login') }}">Kayıtlı e-posta adresim var, giriş yap &raquo;</a>
 
         </div>
         <!-- /.login-box-body -->

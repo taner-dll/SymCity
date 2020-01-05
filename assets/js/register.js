@@ -1,3 +1,9 @@
+import 'icheck/icheck.min';
+$('input').iCheck({
+    checkboxClass: 'icheckbox_flat-grey',
+    //increaseArea: '-10%' // optional
+});
+
 //sweetalert2
 import Swal from 'sweetalert2';
 
@@ -11,6 +17,7 @@ const Toast = Swal.mixin({
 const email_input_loader = $('#email_input_loader');
 const email_input_icon = $('#email_input_icon');
 const email_form_group = $('#email_form_group');
+const login_url = $('#login').attr('href');
 
 $('#registration_form_email').on('change',function () {
     //console.log(this.value.length);
@@ -53,9 +60,9 @@ $('#registration_form_email').on('change',function () {
                         title: 'Kayıtlı E-Posta!',
                         text: email+' adresi kullanımdadır, lütfen farklı bir adres deneyin.',
                         confirmButtonText: 'Tamam',
-                        footer: '<a href="#">Bu e-posta adresi size ait ise giriş yapmayı deneyin</a>'
+                        footer: '<a href="'+login_url+
+                            '">Bu e-posta adresi size ait ise giriş yapmayı deneyin</a>'
                     })
-
                 }
                 else if (responseObject===0){
                     console.log("eposta uygun");

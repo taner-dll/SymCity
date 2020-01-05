@@ -32,7 +32,7 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 /*'help' => 'En az 6 karakter',*/
                 'type' => PasswordType::class,
-                'invalid_message' => 'Şifreler aynı olmalıdır, tekrar deneyiniz.',
+                'invalid_message' => 'Şifreler uyuşmadı.',
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([

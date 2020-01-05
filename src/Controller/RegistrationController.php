@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Advert;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
@@ -31,14 +32,28 @@ class RegistrationController extends AbstractController
                              GuardAuthenticatorHandler $guardHandler,
                              LoginFormAuthenticator $authenticator): Response
     {
+
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
 
-            //todo check username!
-            $form->addError(new FormError('sdfsdfsdf'));
+        /**
+         * Check valide user
+         */
+        $em = $this->getDoctrine()->getManager();
+
+        $check_user = $em->getRepository(User::class)->findOneBy(array(
+            'email' => $request->request->get('registration_form')['email']
+        ));
+
+        if ($check_user):
+            $form->addError(new FormError('Kayıtlı bir e-posta adresi girdiniz.'));
+        endif;
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
 
             // encode the plain password
             $user->setPassword(
@@ -80,12 +95,25 @@ class RegistrationController extends AbstractController
         $req = $request->request->get('email');
         $user = $em->getRepository(User::class)->findOneBy(array('email' => $req));
 
-        if (!$user){
+        if (!$user) {
             return new JsonResponse(0);
-        }
-        else{
+        } else {
             return new JsonResponse(1);
         }
+
+
+    }
+
+    /**
+     * @Route("/check-username", name="check_username", methods={"POST"}, options={"expose"=true})
+     * @param Request $request
+     * @param TranslatorInterface $translator
+     * @return void
+     */
+    public function checkUsername(Request $request, TranslatorInterface $translator)
+    {
+
+        //todo username aktif olduğu zaman yapılacak.
 
 
     }

@@ -10,6 +10,7 @@ use App\Entity\Event;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/app")
@@ -23,24 +24,25 @@ class AppController extends AbstractController
     public function dashboard()
     {
 
-        $em = $this->getDoctrine()->getManager();
 
+
+        $em = $this->getDoctrine()->getManager();
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
 
             $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
             $adverts = $em->getRepository(Advert::class)
-                ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+                ->findBy(array('confirm' => 0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
 
             $events = $em->getRepository(Event::class)
-                ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+                ->findBy(array('confirm' => 0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
 
             $announces = $em->getRepository(Announce::class)
-                ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+                ->findBy(array('confirm' => 0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
 
             $businesses = $em->getRepository(Business::class)
-                ->findBy(array('confirm'=>0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+                ->findBy(array('confirm' => 0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
 
             $users = $em->getRepository(User::class)->findAll();
 
@@ -52,17 +54,12 @@ class AppController extends AbstractController
                 'users' => $users
             ]);
 
-        }
-        else{
+        } else {
 
             return $this->render('app/user-dashboard.html.twig');
 
 
         }
-
-
-
-
 
 
     }
