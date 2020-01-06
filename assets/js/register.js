@@ -16,6 +16,14 @@ const Toast = Swal.mixin({
     timer: 3000
 });
 
+if($('#success_message').val()){
+    Toast.fire({
+        title: $('#success_message').val(),
+        type: 'success',
+    })
+}
+//sweetalert2 end
+
 const email_input_loader = $('#email_input_loader');
 const email_input_icon = $('#email_input_icon');
 const email_form_group = $('#email_form_group');

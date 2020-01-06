@@ -87,6 +87,7 @@ class RegistrationController extends AbstractController
                 );
             $mailer->send($message);
 
+            $this->addFlash('success','Sayın '.$user->getFullName().', aramıza hoş geldiniz!');
 
 
             return $guardHandler->authenticateUserAndHandleSuccess(

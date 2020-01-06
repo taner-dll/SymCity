@@ -1,3 +1,21 @@
+//sweetalert2
+import Swal from 'sweetalert2';
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 8000
+});
+
+if($('#success_message').val()){
+    Toast.fire({
+        title: $('#success_message').val(),
+        type: 'success',
+    })
+}
+//sweetalert2 end
+
 /**
  * Kapalı kutular açıldığında slide çalışmıyordu. Bu şekilde düzeltildi.
  */
