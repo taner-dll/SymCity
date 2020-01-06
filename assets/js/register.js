@@ -21,6 +21,7 @@ const email_input_icon = $('#email_input_icon');
 const email_form_group = $('#email_form_group');
 const login_url = $('#login').attr('href');
 
+
 $('#registration_form_email').on('change',function () {
     //console.log(this.value.length);
     //console.log(Routing.generate('check_email'));

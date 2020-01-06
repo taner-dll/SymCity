@@ -248,7 +248,7 @@ class BusinessController extends AbstractController
             $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
             $message = (new \Swift_Message('İş Yeriniz Yayında!'))
                 ->setFrom($from)
-                ->setTo($this->getUser()->getEmail())
+                ->setTo($business->getUser()->getEmail())
                 ->setBody(
                     $this->renderView(
                         '_email/business_confirmed.html.twig',

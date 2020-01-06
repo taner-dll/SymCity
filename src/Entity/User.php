@@ -78,6 +78,16 @@ class User implements UserInterface
      */
     private $user_name;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $confirmed = 0;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $confirmation_code;
+
     public function __construct()
     {
         $this->pTVComments = new ArrayCollection();
@@ -349,6 +359,30 @@ class User implements UserInterface
     public function setUserName(string $user_name): self
     {
         $this->user_name = $user_name;
+
+        return $this;
+    }
+
+    public function getConfirmed(): ?int
+    {
+        return $this->confirmed;
+    }
+
+    public function setConfirmed(int $confirmed): self
+    {
+        $this->confirmed = $confirmed;
+
+        return $this;
+    }
+
+    public function getConfirmationCode(): ?string
+    {
+        return $this->confirmation_code;
+    }
+
+    public function setConfirmationCode(?string $confirmation_code): self
+    {
+        $this->confirmation_code = $confirmation_code;
 
         return $this;
     }
