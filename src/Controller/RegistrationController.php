@@ -2,11 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Advert;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
-use Doctrine\ORM\NonUniqueResultException;
+use App\Traits\Util;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,6 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
+    use Util;
     /**
      * @Route("/register", name="app_register")
      * @param \Swift_Mailer $mailer
@@ -64,13 +64,20 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+
+            //son giriş tarihini kayıt tarihi yap
             $user->setLastLogin(new \DateTime('now'));
+
+            //yeni hesap için doğrulama kodu oluştur
+            $confirmation_code = $this->generateEmailConfirmationCode(16);
+            $user->setConfirmationCode($confirmation_code);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // do anything else you need here, like send an email
+
             //yayına alındığına dair e-posta gönderimi
             $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
             $message = (new \Swift_Message('Aramıza Hoş Geldiniz!'))
@@ -80,13 +87,18 @@ class RegistrationController extends AbstractController
                     $this->renderView(
                         '_email/thank_you_new_user.html.twig',
                         array(
-                            'email'=>$request->request->get('registration_form')['email']
+                            'email'=>$request->request->get('registration_form')['email'],
+                            'full_name'=>$user->getFullName(),
+                            'confirmation_code'=>$confirmation_code
                         )
                     ),
                     'text/html'
                 );
             $mailer->send($message);
 
+
+
+            //hoş geldiniz toast message
             $this->addFlash('success','Sayın '.$user->getFullName().', aramıza hoş geldiniz!');
 
 

@@ -39,6 +39,7 @@ sidebar-mini">
 <div class="wrapper">
 
 
+
     {% include '_header.html.twig' %}
 
     <!-- =============================================== -->
@@ -50,6 +51,20 @@ sidebar-mini">
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+
+
+        {% if app.getUser.confirmed == 0 %}
+        <div class="callout callout-warning" style="margin: 2px 2px 0 2px">
+            <p>
+                <i class="fa fa-warning"></i>
+                Lütfen size gönderdiğimiz epostadaki doğrulama
+                linkine tıklayarak hesabınızı doğrulayınız. Link size ulaşmadıysa <a href="#" style="font-weight: bold">buraya</a>
+                tıklayarak yeniden gönderebilirsiniz.
+            </p>
+
+        </div>
+        {% endif %}
+
 
         {% block breadcrumb %}{% endblock %}
 

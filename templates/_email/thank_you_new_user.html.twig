@@ -371,24 +371,27 @@
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
-                                        <p>Merhaba,</p>
+                                        <p>Merhaba {{ full_name }},</p>
                                         <p>
                                             <b>{{ email }}</b>
                                             e-posta adresinizle, Edremit Körfez Portalına (edremitkorfezi.com)
-                                            kayıt oldunuz. Tüm servislerimizi ücretsiz kullanabilirsiniz.
+                                            kayıt oldunuz. Tüm servislerimizi ücretsiz olarak kullanabilirsiniz.
                                         </p>
+
 
                                         <p>
-                                            Servislerimizden bazıları:
+                                            Hesabınızı doğrulamak için aşağıdaki linke tıklayınız:
+                                            <br>
+                                            <a href="{{ path('confirm_email') }}">
+                                                {{ path('confirm_email',
+                                                    {
+                                                        'code':confirmation_code,
+                                                        'user_email':email
+                                                    }
+                                                ) }}
+                                            </a>
                                         </p>
 
-                                        <ul>
-                                            <li>Ücretsiz ilan ekle</li>
-                                            <li>Ücretsiz işletme ekle</li>
-                                            <li>Ücretsiz duyuru ekle</li>
-                                            <li>Ücretsiz etkinlik ekle</li>
-                                            <li>...</li>
-                                        </ul>
 
                                         <p>
                                             Edremit Körfez Portalını kullandığınız için teşekkür ederiz.

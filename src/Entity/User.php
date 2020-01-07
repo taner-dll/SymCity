@@ -39,27 +39,27 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PTVComment", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="App\Entity\PTVComment", mappedBy="owner", cascade={"remove"})
      */
     private $pTVComments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="user", cascade={"remove"})
      */
     private $event;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Announce", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Announce", mappedBy="user", cascade={"remove"})
      */
     private $announce;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="user", cascade={"remove"})
      */
     private $adverts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Business", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Business", mappedBy="user", cascade={"remove"})
      */
     private $businesses;
 
