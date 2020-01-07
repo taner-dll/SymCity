@@ -279,7 +279,7 @@ class EventController extends AbstractController
             $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
             $message = (new \Swift_Message('Etkinliğiniz Yayında!'))
                 ->setFrom($from)
-                ->setTo($this->getUser()->getEmail())
+                ->setTo($event->getUser()->getEmail())
                 ->setBody(
                     $this->renderView(
                         '_email/event_confirmed.html.twig',

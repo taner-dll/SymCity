@@ -116,6 +116,7 @@ class AdvertController extends AbstractController
      */
     public function show(Advert $advert): Response
     {
+        echo $advert->getUser()->getEmail(); exit;
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             if($advert->getUser()->getId() != $this->getUser()->getId()){
                 return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
@@ -294,7 +295,7 @@ class AdvertController extends AbstractController
             $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
             $message = (new \Swift_Message('İlanınız Yayında!'))
                 ->setFrom($from)
-                ->setTo($this->getUser()->getEmail())
+                ->setTo($advert->getUser()->getEmail())
                 ->setBody(
                     $this->renderView(
                         '_email/advert_confirmed.html.twig',

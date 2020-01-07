@@ -1,9 +1,15 @@
 {% extends 'base_login.html.twig' %}
 
-
+{% form_theme registrationForm '_override/form/register.html.twig' %}
 
 
 {% block title %}Kaydol | Edremit Körfezi{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('register') }}
+{% endblock %}
+
 
 {% block body %}
 
@@ -20,25 +26,31 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            {{ form_start(registrationForm) }}
+            {{ form_start(registrationForm, {'attr':{'autocomplete':'new-password'}}) }}
 
-            <p class="login-box-msg">Yeni Üye Kaydı</p>
+
+            <p class="login-box-msg">Yeni Kullanıcı Kayıt Formu</p>
 
             <div class="form-group has-feedback">
+                {{ form_widget(registrationForm.fullName, {'attr': {'class': 'form-control',
+                    'placeholder': 'Ad Soyad'}}) }}
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+
+            <div class="form-group has-feedback" id="email_form_group">
                 {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',
-                    'placeholder': 'E-Posta'}}) }}
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                <p id="email_avaible" style="display: none" class="text-green">
-                    <i class="fa fa-check"></i> eposta adresi kullanıma uygun.</p>
-                <p id="email_in_use" style="display: none" class="text-red">
-                    <i class="fa fa-warning"></i> eposta adresi kullanımda.</p>
+                    'placeholder': 'E-Posta','autocomplete': 'null'}}) }}
+                <span id="email_input_icon" class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <span id="email_input_loader" style="display: none"
+                      class="form-control-feedback"><img src="{{ asset('build/img/ajax-loader-form.gif') }}" alt=""></span>
+
             </div>
 
             <div class="form-group has-feedback">
                 {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control',
-                    'placeholder': 'Şifre Giriniz'}}) }}
+                    'placeholder': 'Şifre Giriniz (min. 6 karakter)','autocomplete':'new-password'}}) }}
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                <small>{{ form_help(registrationForm.plainPassword) }}</small>
+                {#<small>{{ form_help(registrationForm.plainPassword) }}</small>#}
             </div>
 
             <div class="form-group has-feedback">
@@ -47,24 +59,16 @@
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
 
-            <p style="color: indianred">
+            <p>
                 {{ form_errors(registrationForm.plainPassword.first) }}
+                {{ form_errors(registrationForm) }}
             </p>
 
             <div class="form-group has-feedback">
-                <div class="form-check">
 
-                    <!-- FormType hiddenType olarak değiştirildi -->
-                    <input type="checkbox"
-                       id="registration_form_agreeTerms"
-                       name="registration_form[agreeTerms]"
-                       required="required" class="form-check-input" value="1">
-                    <label class="form-check-label required" for="registration_form_agreeTerms"
-                    style="font-weight: normal;padding: 5px">
-                        Kullanım koşullarını <a href="#">okudum &raquo;</a>
-                        <!-- todo kullanım koşulları modal  -->
-                    </label>
-                </div>
+                {{ form_widget(registrationForm.agreeTerms) }}
+
+
             </div>
 
             <div class="row">
@@ -77,11 +81,16 @@
                 <!-- /.col -->
             </div>
 
-            <div class="row">
-                {{ form_errors(registrationForm) }}
-            </div>
+
 
             {{ form_end(registrationForm) }}
+            <hr>
+
+
+            <a id="login" class="btn btn-default btn-sm btn-block" href="{{ path('app_login') }}">
+                <i class="fa fa-user-circle"></i>
+                Kayıtlı bir hesabım var
+            </a>
 
         </div>
         <!-- /.login-box-body -->

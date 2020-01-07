@@ -36,9 +36,19 @@ security:
             logout:
                 path:   app_logout
                 target: app_login
+
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+
+            #remember me lifetime, session lifetime'dan farklıdır.
+            #session lifetime -> framework.yaml
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 hafta. logout'a basılmadığı müddetçe geçerlidir.
+                path: /
+                name: edro_cookie
+                token_provider: 'Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider'
 
 
             # activate different ways to authenticate

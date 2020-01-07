@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -20,23 +21,25 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, [
-
+            ->add('fullName', TextType::class, [
+                'required'=>true
             ])
-            //fixme twig manual input için burayı hidden yapınca çalıştı :)
-            ->add('agreeTerms', HiddenType::class, [
+            ->add('email', EmailType::class, [
+                'required'=>true,
+                'empty_data'=>''
+            ])
+            ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Kullanım koşularını kabul etmelisiniz.',
                     ]),
                 ]
-
             ])
             ->add('plainPassword', RepeatedType::class, [
-                'help' => 'En az 6 karakter',
+                /*'help' => 'En az 6 karakter',*/
                 'type' => PasswordType::class,
-                'invalid_message' => 'Şifreler aynı olmalıdır, tekrar deneyiniz.',
+                'invalid_message' => 'Şifreler uyuşmadı.',
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([

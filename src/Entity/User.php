@@ -39,27 +39,27 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PTVComment", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="App\Entity\PTVComment", mappedBy="owner", cascade={"remove"})
      */
     private $pTVComments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="user", cascade={"remove"})
      */
     private $event;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Announce", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Announce", mappedBy="user", cascade={"remove"})
      */
     private $announce;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="user", cascade={"remove"})
      */
     private $adverts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Business", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Business", mappedBy="user", cascade={"remove"})
      */
     private $businesses;
 
@@ -67,6 +67,26 @@ class User implements UserInterface
      * @ORM\Column(type="datetime")
      */
     private $lastLogin;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $full_name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $user_name;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $confirmed = 0;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $confirmation_code;
 
     public function __construct()
     {
@@ -320,6 +340,49 @@ class User implements UserInterface
     public function setLastLogin(\DateTimeInterface $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->full_name;
+    }
+
+    public function setFullName(string $full_name): self
+    {
+        $this->full_name = $full_name;
+
+        return $this;
+    }
+
+    public function setUserName(string $user_name): self
+    {
+        $this->user_name = $user_name;
+
+        return $this;
+    }
+
+    public function getConfirmed(): ?int
+    {
+        return $this->confirmed;
+    }
+
+    public function setConfirmed(int $confirmed): self
+    {
+        $this->confirmed = $confirmed;
+
+        return $this;
+    }
+
+    public function getConfirmationCode(): ?string
+    {
+        return $this->confirmation_code;
+    }
+
+    public function setConfirmationCode(?string $confirmation_code): self
+    {
+        $this->confirmation_code = $confirmation_code;
 
         return $this;
     }

@@ -285,7 +285,7 @@ class AnnounceController extends AbstractController
             $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
             $message = (new \Swift_Message('Duyurunuz Yayında!'))
                 ->setFrom($from)
-                ->setTo($this->getUser()->getEmail())
+                ->setTo($announce->getUser()->getEmail())
                 ->setBody(
                     $this->renderView(
                         '_email/announce_confirmed.html.twig',
