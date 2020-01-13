@@ -38,6 +38,15 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/forgot-email", name="forgot_email")
+     * @return Response
+     */
+    public function forgotEmail(): Response
+    {
+        return $this->render('security/forgot-email.html.twig', ['last_username' => "", 'error' => ""]);
+    }
+
+    /**
      * @Route("/logout", name="app_logout")
      * @throws \Exception
      */
@@ -58,7 +67,7 @@ class SecurityController extends AbstractController
         $confirmation_code=$request->query->get('code');
 
         /**
-         * Check valide user
+         * Check validate user
          * @var User[] $check_user
          */
         $em = $this->getDoctrine()->getManager();

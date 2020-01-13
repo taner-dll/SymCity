@@ -1,6 +1,6 @@
 {% extends 'base_login.html.twig' %}
 
-{% block title %}Giriş Yap | Edremit Körfezi{% endblock %}
+{% block title %}Şifremi Unuttum | Edremit Körfezi{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -28,7 +28,7 @@
 
                 <p class="login-box-msg">
 
-                    Giriş Bilgileri<br>
+                    Şifremi Unuttum<br>
 
 
                     {% if error %}
@@ -49,23 +49,9 @@
                            class="form-control" placeholder="Username" required autofocus>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
-                <div class="form-group has-feedback">
-                    <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" name="password" id="inputPassword"
-                           class="form-control" placeholder="Password" required>
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                </div>
+
                 <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox mb-3">
-                            <label>
-                                <input type="checkbox"
-                                       id="remember_me" name="_remember_me"> Beni hatırla
-                            </label>
-                        </div>
-                        <input type="hidden" name="_csrf_token"
-                               value="{{ csrf_token('authenticate') }}">
-                    </div>
+
                     <!-- /.col -->
                     <div class="col-xs-4">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">
@@ -77,13 +63,6 @@
             </form>
             <hr>
 
-
-            <a class="btn btn-sm btn-default btn-flat btn-block" href="{{ path('index') }}">
-                Siteye dön
-            </a>
-            <a class="btn btn-sm btn-default btn-flat btn-block" href="{{ path('forgot_email') }}">
-                Şifremi Unuttum
-            </a>
             <a class="btn btn-sm btn-success btn-flat btn-block" href="{{ path('app_register') }}">
                 Yeni Hesap Oluştur
             </a>
