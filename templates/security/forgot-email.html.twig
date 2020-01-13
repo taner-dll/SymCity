@@ -23,14 +23,23 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <form class="form-signin" method="post">
+            <form class="form-signin" method="post" action="{{ path('send_reset_link') }}">
 
 
-                <p class="login-box-msg">
+                <h4><i class="icon fa fa-info-circle"></i> Parola Sıfırlama</h4>
+                <p>
+                    Parolanızı sıfırlamak için size link göndereceğiz. Lütfen sistemimizde kayıtlı olan
+                    e-posta adresinizi giriniz.
+                </p>
 
-                    Şifremi Unuttum<br>
 
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-error">
+                        {{ message }}
+                    </div>
+                {% endfor %}
 
+                <p>
                     {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
@@ -44,32 +53,34 @@
 
 
                 <div class="form-group has-feedback">
-                    <label for="username" class="sr-only">Username</label>
-                    <input type="text" name="username" id="inputUsername" value="{{ last_username }}"
-                           class="form-control" placeholder="Username" required autofocus>
+                    <label for="username" class="sr-only">E-posta</label>
+                    <input type="text" name="email"
+                           class="form-control" placeholder="E-posta" required autofocus>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
 
                 <div class="row">
 
-                    <!-- /.col -->
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">
-                            <i class="fa fa-user-circle"></i> Giriş Yap
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-success btn-block btn-flat">
+                            <i class="fa fa-send-o"></i> Gönder
                         </button>
+
+                        <hr>
+
+
+                        <a class="btn btn-sm btn-default btn-flat btn-block" href="{{ path('app_login') }}">
+                            Geri Dön
+                        </a>
                     </div>
-                    <!-- /.col -->
+
                 </div>
             </form>
-            <hr>
 
-            <a class="btn btn-sm btn-success btn-flat btn-block" href="{{ path('app_register') }}">
-                Yeni Hesap Oluştur
-            </a>
+
         </div>
     </div>
     <!-- /.login-box-body -->
-
 
 
     </body>

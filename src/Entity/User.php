@@ -88,6 +88,16 @@ class User implements UserInterface
      */
     private $confirmation_code;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $passwd_reset_code;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $passwd_reset_due_date;
+
     public function __construct()
     {
         $this->pTVComments = new ArrayCollection();
@@ -383,6 +393,30 @@ class User implements UserInterface
     public function setConfirmationCode(?string $confirmation_code): self
     {
         $this->confirmation_code = $confirmation_code;
+
+        return $this;
+    }
+
+    public function getPasswdResetCode(): ?string
+    {
+        return $this->passwd_reset_code;
+    }
+
+    public function setPasswdResetCode(?string $passwd_reset_code): self
+    {
+        $this->passwd_reset_code = $passwd_reset_code;
+
+        return $this;
+    }
+
+    public function getPasswdResetDueDate(): ?\DateTimeInterface
+    {
+        return $this->passwd_reset_due_date;
+    }
+
+    public function setPasswdResetDueDate(?\DateTimeInterface $passwd_reset_due_date): self
+    {
+        $this->passwd_reset_due_date = $passwd_reset_due_date;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Traits\Util;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,6 +19,7 @@ use function Couchbase\passthruEncoder;
 class SecurityController extends AbstractController
 {
     use Util;
+
     /**
      * @Route("/login", name="app_login")
      * @param AuthenticationUtils $authenticationUtils
@@ -47,6 +49,80 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/send-reset-link", name="send_reset_link")
+     * @param Request $request
+     * @param \Swift_Mailer $mailer
+     * @return Response
+     * @throws \Exception
+     */
+    public function sendResetLink(Request $request, \Swift_Mailer $mailer): Response
+    {
+
+        //dump($request->request->get('email'));exit;
+        $email = $request->request->get('email');
+
+        /**
+         * Check valide user
+         */
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em->getRepository(User::class)->findOneBy(array(
+            'email' => $email
+        ));
+
+        if (!$user):
+            $this->addFlash('error', $email . ' adresi sistemde kayıtlı değildir.');
+            return $this->redirectToRoute('forgot_email');
+        endif;
+
+
+        //tODO zaten gönderilmiş kontrolü
+        //todo geçerlilik süresi kontolü
+
+
+        /**
+         * Reset kodu ve geçerlilik tarihini db'ye kaydet.
+         */
+        $passwd_reset_code = $this->generateEmailConfirmationCode(32);
+        $user->setPasswdResetCode($passwd_reset_code);
+
+        $now = new \DateTime('now');
+        $due = $now->modify('+30 minutes');
+        //$due->format('d.m.Y H:i:s');
+
+        $user->setPasswdResetDueDate($due);
+        $em->flush();
+
+
+        /**
+         * Linki gönder
+         */
+        $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
+        $message = (new \Swift_Message('Parolanızı Sıfırlayın'))
+            ->setFrom($from)
+            ->setTo($email)
+            ->setBody(
+                $this->renderView(
+                    '_email/password_reset_link.html.twig',
+                    array(
+                        'email'=>$email,
+                        'full_name'=>$user->getFullName(),
+                        'reset_code'=>$passwd_reset_code
+                    )
+                ),
+                'text/html'
+            );
+        $mailer->send($message);
+
+
+        $this->addFlash('success','Sayın '.$user->getFullName().', parola sıfırlama linki, 
+        e-posta adresinize gönderildi.');
+
+        return $this->redirectToRoute('forgot_email');
+
+    }
+
+    /**
      * @Route("/logout", name="app_logout")
      * @throws \Exception
      */
@@ -60,11 +136,12 @@ class SecurityController extends AbstractController
      * @Route("/confirm-email", name="confirm_email")
      * @return JsonResponse|RedirectResponse
      */
-    public function confirmEmail(Request $request){
+    public function confirmEmail(Request $request)
+    {
 
 
-        $user_email=$request->query->get('user_email');
-        $confirmation_code=$request->query->get('code');
+        $user_email = $request->query->get('user_email');
+        $confirmation_code = $request->query->get('code');
 
         /**
          * Check validate user
@@ -75,26 +152,24 @@ class SecurityController extends AbstractController
 
         $check_user = $em->getRepository(User::class)->findOneBy(
             array(
-                'email'=>$user_email,
-                'confirmation_code'=>$confirmation_code
+                'email' => $user_email,
+                'confirmation_code' => $confirmation_code
             )
         );
 
-        if ($check_user){
+        if ($check_user) {
             $check_user->setConfirmed(1);
             $check_user->setConfirmationCode(null);
 
             $em->flush();
 
-            $this->addFlash('success','Hesabınız başarılı bir şekilde doğrulandı.');
+            $this->addFlash('success', 'Hesabınız başarılı bir şekilde doğrulandı.');
 
             return $this->redirectToRoute('app_dashboard');
 
-        }
-        else{
+        } else {
             return new JsonResponse('bad request', Response::HTTP_BAD_REQUEST);
         }
-
 
 
     }
