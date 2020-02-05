@@ -45,7 +45,9 @@ class SecurityController extends AbstractController
      */
     public function forgotEmail(): Response
     {
-        return $this->render('security/forgot-email.html.twig', ['last_username' => "", 'error' => ""]);
+        return $this->render('security/forgot-email.html.twig',
+            ['last_username' => "", 'error' => ""]
+        );
     }
 
     /**
@@ -77,7 +79,38 @@ class SecurityController extends AbstractController
 
 
         //tODO zaten gönderilmiş kontrolü
-        //todo geçerlilik süresi kontolü
+        /**
+         * Sıfırlama linki yakın bir tarihte gönderilmiş mi?
+         * Eğer 10 dakikadan daha eski ise yeniden gönderilebilir.
+         * Bu kontrolü sürekli istek yapılmaması için yapıyoruz.
+         */
+
+        //eğer daha önceden gönderilmiş bir istek varsa kontrole yapıyoruz.
+        if ($user->getPasswdResetDueDate()) {
+
+            //modify +10 dk olarak eklenmişti.
+            $pass_reset_due_date = $user->getPasswdResetDueDate();
+            $now = new \DateTime('now');
+
+            //istek tarihi ile şimdiki tarih arasındaki farkı dk cinsinden hesaplıyoruz
+            $date_diff = $this->dateDiffGetInterval(
+                $now->format('Y-m-d H:i:s'),
+                $pass_reset_due_date->format('Y-m-d H:i:s'),
+                'M'
+            );
+
+
+
+            //henüz 10 dk dolmamışsa
+            if ($date_diff > 0) {
+                $this->addFlash('error', 'E-posta adresinize az önce yenileme linki gönderildi.
+            Bir sonraki istek için '.round($date_diff).' dakika daha beklemelisiniz.');
+                return $this->redirectToRoute('forgot_email');
+            }
+        }
+
+
+        //todo geçerlilik süresi kontrolü
 
 
         /**
@@ -87,7 +120,7 @@ class SecurityController extends AbstractController
         $user->setPasswdResetCode($passwd_reset_code);
 
         $now = new \DateTime('now');
-        $due = $now->modify('+30 minutes');
+        $due = $now->modify('+10 minutes');
         //$due->format('d.m.Y H:i:s');
 
         $user->setPasswdResetDueDate($due);
@@ -105,9 +138,9 @@ class SecurityController extends AbstractController
                 $this->renderView(
                     '_email/password_reset_link.html.twig',
                     array(
-                        'email'=>$email,
-                        'full_name'=>$user->getFullName(),
-                        'reset_code'=>$passwd_reset_code
+                        'email' => $email,
+                        'full_name' => $user->getFullName(),
+                        'reset_code' => $passwd_reset_code
                     )
                 ),
                 'text/html'
@@ -115,10 +148,24 @@ class SecurityController extends AbstractController
         $mailer->send($message);
 
 
-        $this->addFlash('success','Sayın '.$user->getFullName().', parola sıfırlama linki, 
-        e-posta adresinize gönderildi.');
+        $this->addFlash('success', 'Sayın ' . $user->getFullName() . ', parola sıfırlama linki 
+        e-posta adresinize gönderildi. Lütfen gelen kutunuzu kontrol ediniz.');
 
         return $this->redirectToRoute('forgot_email');
+
+    }
+
+    /**
+     * @Route("/reset-password", name="reset_password")
+     * @param Request $request
+     * @param \Swift_Mailer $mailer
+     * @return Response
+     * @throws \Exception
+     */
+    public function resetPassword(Request $request, \Swift_Mailer $mailer): Response
+    {
+
+        //todo
 
     }
 

@@ -41,6 +41,23 @@ trait Util
         return $d && $d->format($format) == $date;
     }
 
+    // tarih farkını hesaplar. (Y-m-d H:i:s) formatında string girilmeli.
+    // interval: aralık.
+    public function dateDiffGetInterval($sDate1, $sDate2, $sUnit='H') {
+        $nInterval = strtotime($sDate2) - strtotime($sDate1);
+        if ($sUnit=='D') { // days
+            $nInterval = $nInterval/60/60/24;
+        } else if ($sUnit=='H') { // hours
+            $nInterval = $nInterval/60/60;
+        } else if ($sUnit=='M') { // minutes
+            $nInterval = $nInterval/60;
+        } else if ($sUnit=='S') { // seconds
+
+        }
+        return $nInterval;
+    }
+
+
 
     public function fileUpload($file, $file_type, $file_size, $file_error, $temp, $upload_url)
     {

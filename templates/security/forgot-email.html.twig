@@ -34,14 +34,15 @@
 
 
                 {% for message in app.flashes('error') %}
-                    <div class="alert alert-error">
-                        {{ message }}
+                    <div class="alert alert-error alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <p>{{ message }}</p>
                     </div>
                 {% endfor %}
 
-                <p>
-                    {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
 
                 {% if app.user %}
@@ -49,7 +50,6 @@
                         You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
                     </div>
                 {% endif %}
-                </p>
 
 
                 <div class="form-group has-feedback">
@@ -81,6 +81,10 @@
         </div>
     </div>
     <!-- /.login-box-body -->
+
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
 
 
     </body>
