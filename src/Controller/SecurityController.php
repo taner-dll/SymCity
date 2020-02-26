@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use function Couchbase\passthruEncoder;
 
@@ -78,7 +80,6 @@ class SecurityController extends AbstractController
         endif;
 
 
-        //tODO zaten gönderilmiş kontrolü
         /**
          * Sıfırlama linki yakın bir tarihte gönderilmiş mi?
          * Eğer 10 dakikadan daha eski ise yeniden gönderilebilir.
@@ -100,18 +101,16 @@ class SecurityController extends AbstractController
             );
 
 
-
             //henüz 10 dk dolmamışsa
             if ($date_diff > 0) {
                 $this->addFlash('error', 'E-posta adresinize az önce yenileme linki gönderildi.
-            Bir sonraki istek için '.round($date_diff).' dakika daha beklemelisiniz.');
+            Bir sonraki istek için ' . round($date_diff) . ' dakika daha beklemelisiniz.');
                 return $this->redirectToRoute('forgot_email');
             }
         }
 
 
         //todo geçerlilik süresi kontrolü
-
 
         /**
          * Reset kodu ve geçerlilik tarihini db'ye kaydet.
@@ -165,9 +164,100 @@ class SecurityController extends AbstractController
     public function resetPassword(Request $request, \Swift_Mailer $mailer): Response
     {
 
-        //todo
+        $user_email = $request->query->get('user_email');
+        $code = $request->query->get('code');
+
+        /**
+         * Check valide user
+         */
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em->getRepository(User::class)->findOneBy(array(
+            'email' => $user_email,
+            'passwd_reset_code' => $code
+        ));
+
+        if (!$user):
+            return new JsonResponse('gecersiz istek!', Response::HTTP_BAD_REQUEST);
+        endif;
+
+        $full_name = $user->getFullName();
+
+        return $this->render('security/reset-password.html.twig', [
+            'full_name' => ' ' . $full_name,
+            'code' => $code,
+            'user_mail' => $user_email
+        ]);
+    }
+
+    /**
+     * @Route("/update-password", name="update_password")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return JsonResponse|RedirectResponse
+     */
+    public function updatePassword(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+
+
+        $code = $request->request->get('code');
+        $token = $request->request->get('token');
+        $password = $request->request->get('password');
+        $re_password = $request->request->get('re_password');
+        $user_mail = $request->request->get('user_mail');
+
+        if ($password !== $re_password) {
+            $this->addFlash('error', 'Girdiğiniz parolalar uyuşmamaktadır. Lütfen tekrar deneyiniz.');
+            return $this->redirectToRoute('reset_password', [
+                'code' => $code,
+                'user_email' => $user_mail
+            ]);
+        }
+
+        if (strlen($password) < 6) {
+            $this->addFlash('error', 'Parolanız en az 6 karakterden oluşmalıdır.');
+            return $this->redirectToRoute('reset_password', [
+                'code' => $code,
+                'user_email' => $user_mail
+            ]);
+        }
+
+
+
+        /**
+         * Check valide user
+         */
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em->getRepository(User::class)->findOneBy(array(
+            'email' => $user_mail,
+            'passwd_reset_code' => $code
+        ));
+
+        if (!$user):
+            return new JsonResponse('gecersiz istek!', Response::HTTP_BAD_REQUEST);
+        endif;
+
+
+        // encode the plain password
+        $user->setPassword(
+            $passwordEncoder->encodePassword(
+                $user,
+                $password
+            )
+        );
+
+        $user->setPasswdResetDueDate(null);
+        $user->setPasswdResetCode(null);
+
+        $em->flush();
+
+
+        $this->addFlash('success', 'Parolanız başarılı bir şekilde güncellendi. Yeni parolanızla giriş yapabilirsiniz.');
+        return $this->redirectToRoute('app_login');
 
     }
+
 
     /**
      * @Route("/logout", name="app_logout")

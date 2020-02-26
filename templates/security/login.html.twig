@@ -78,7 +78,7 @@
             <hr>
 
 
-            <a class="btn btn-sm btn-default btn-flat btn-block" href="{{ path('index') }}">
+            {#<a class="btn btn-sm btn-default btn-flat btn-block" href="{{ path('index') }}">
                 Siteye Dön
             </a>
             <a class="btn btn-sm btn-default btn-flat btn-block" href="{{ path('forgot_email') }}">
@@ -86,12 +86,18 @@
             </a>
             <a class="btn btn-sm btn-success btn-flat btn-block" href="{{ path('app_register') }}">
                 Yeni Hesap Oluştur
-            </a>
+            </a>#}
+            <a href="{{ path('index') }}">Siteye dön</a> -
+            <a href="{{ path('forgot_email') }}">Hesabını mı unuttun?</a> -
+            <a href="{{ path('app_register') }}">Yeni hesap oluştur</a>
+
         </div>
     </div>
     <!-- /.login-box-body -->
 
-
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
 
     </body>
 

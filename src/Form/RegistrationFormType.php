@@ -39,11 +39,11 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 /*'help' => 'En az 6 karakter',*/
                 'type' => PasswordType::class,
-                'invalid_message' => 'Şifreler uyuşmadı.',
+                'invalid_message' => 'Girdiğiniz parolalar uyuşmadı. Lütfen tekrar deneyiniz.',
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Lütfen şifre belirleyiniz.',
+                        'message' => 'Lütfen parola belirleyiniz.',
                     ]),
                     new Length([
                         'min' => 6,

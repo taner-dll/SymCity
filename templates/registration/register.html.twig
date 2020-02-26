@@ -48,14 +48,14 @@
 
             <div class="form-group has-feedback">
                 {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control',
-                    'placeholder': 'Şifre Giriniz (min. 6 karakter)','autocomplete':'new-password'}}) }}
+                    'placeholder': 'Parola Giriniz (min. 6 karakter)','autocomplete':'new-password'}}) }}
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 {#<small>{{ form_help(registrationForm.plainPassword) }}</small>#}
             </div>
 
             <div class="form-group has-feedback">
                 {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control',
-                    'placeholder': 'Şifre Tekrarı'}}) }}
+                    'placeholder': 'Parola Tekrarı'}}) }}
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
 
@@ -87,9 +87,8 @@
             <hr>
 
 
-            <a id="login" class="btn btn-default btn-sm btn-block" href="{{ path('app_login') }}">
-                <i class="fa fa-user-circle"></i>
-                Kayıtlı bir hesabım var
+            <a id="login" href="{{ path('app_login') }}">
+                Kayıtlı bir hesabım var, giriş yap
             </a>
 
         </div>
