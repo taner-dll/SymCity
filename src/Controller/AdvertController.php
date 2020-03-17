@@ -116,7 +116,7 @@ class AdvertController extends AbstractController
      */
     public function show(Advert $advert): Response
     {
-        echo $advert->getUser()->getEmail(); exit;
+
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             if($advert->getUser()->getId() != $this->getUser()->getId()){
                 return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);

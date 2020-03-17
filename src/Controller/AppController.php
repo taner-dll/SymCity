@@ -23,9 +23,6 @@ class AppController extends AbstractController
      */
     public function dashboard()
     {
-
-
-
         $em = $this->getDoctrine()->getManager();
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
@@ -56,13 +53,37 @@ class AppController extends AbstractController
 
         } else {
 
-            return $this->render('app/user-dashboard.html.twig');
+            $advert_total = $em->getRepository("App:Advert")->count(array('user'=>$this->getUser()));
+            $event_total = $em->getRepository("App:Event")->count(array('user'=>$this->getUser()));
+            $announce_total= $em->getRepository("App:Announce")->count(array('user'=>$this->getUser()));
+            $business_total = $em->getRepository("App:Business")->count(array('user'=>$this->getUser()));
 
-
+            return $this->render('app/user-dashboard.html.twig',
+                array(
+                    'advert_total'=>$advert_total,
+                    'event_total'=>$event_total,
+                    'announce_total'=>$announce_total,
+                    'business_total'=>$business_total
+                )
+            );
         }
 
+    }
+
+    /**
+     * @Route("/users", name="app_users", methods={"GET","POST"})
+     */
+    public function users(){
+
+        $em = $this->getDoctrine()->getManager();
+
+        $users = $em->getRepository("App:User")->findAll();
+        return $this->render('app/users.html.twig' ,array(
+            'users'=>$users
+        ));
 
     }
+
 
     /**
      * @Route("/test-em", name="test_em", methods={"GET","POST"})

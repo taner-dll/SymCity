@@ -19,23 +19,29 @@
                 <div class="box-body box-profile">
 
 
-                    <h3 class="profile-username text-center">{{ app.user.username }}</h3>
+                    <h3 class="profile-username text-center">{{app.user.fullName}}</h3>
 
-                    <p class="text-muted text-center">{{app.user.fullName}}</p>
+                    <p class="text-muted text-center">{{app.user.username}}</p>
 
                     <ul class="list-group list-group-unbordered">
                         <li class="list-group-item">
-                            <b>Followers</b> <a class="pull-right">1,322</a>
+                            <b>İlanlarım</b> <a href="{{ path('advert_index') }}"
+                                                class="pull-right">{{ advert_total }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Following</b> <a class="pull-right">543</a>
+                            <b>Duyurularım</b> <a href="{{ path('announce_index') }}"
+                                                  class="pull-right">{{ announce_total}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Friends</b> <a class="pull-right">13,287</a>
+                            <b>Etkinliklerim</b> <a href="{{ path('event_index') }}"
+                                                    class="pull-right">{{ event_total }}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>İş yeri / Hizmetlerim</b> <a href="{{ path('business_index') }}"
+                                                            class="pull-right">{{ business_total }}</a>
                         </li>
                     </ul>
 
-                    <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
                 </div>
                 <!-- /.box-body -->
             </div>

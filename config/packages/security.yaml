@@ -1,82 +1,85 @@
 security:
-    encoders:
-        App\Entity\User:
-            algorithm: auto
+  encoders:
+    App\Entity\User:
+      algorithm: auto
 
 
 
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    providers:
-        our_db_provider:
-            entity:
-                class: App\Entity\User
-                property: email
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
-                # if you're using multiple entity managers
-                # manager_name: customer
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  providers:
+    our_db_provider:
+      entity:
+        class: App\Entity\User
+        property: email
+    # used to reload user from session & other features (e.g. switch_user)
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
+        # if you're using multiple entity managers
+        # manager_name: customer
 
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            anonymous: ~
-            provider: our_db_provider
-            form_login:
-                login_path: app_login
-                check_path: app_login
-                csrf_token_generator: security.csrf.token_manager
-                default_target_path: app_dashboard
-            switch_user: true
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      anonymous: ~
+      provider: our_db_provider
+      form_login:
+        login_path: app_login
+        check_path: app_login
+        csrf_token_generator: security.csrf.token_manager
+        default_target_path: app_dashboard
+      switch_user: true
 
-            logout:
-                path:   app_logout
-                target: app_login
+      logout:
+        path:   app_logout
+        target: app_login
 
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
+      guard:
+        authenticators:
+          - App\Security\LoginFormAuthenticator
 
-            #remember me lifetime, session lifetime'dan farklıdır.
-            #session lifetime -> framework.yaml
-            remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800 # 1 hafta. logout'a basılmadığı müddetçe geçerlidir.
-                path: /
-                name: edro_cookie
-                token_provider: 'Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider'
-
-
-            # activate different ways to authenticate
-
-            # http_basic: true
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: true
-            # https://symfony.com/doc/current/security/form_login_setup.html
+      #remember me lifetime, session lifetime'dan farklıdır.
+      #session lifetime -> framework.yaml
+      remember_me:
+        secret: '%kernel.secret%'
+        lifetime: 604800 # 1 hafta. logout'a basılmadığı müddetçe geçerlidir.
+        path: /
+        name: edro_cookie
+        token_provider: 'Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider'
 
 
-    role_hierarchy:
-        ROLE_ADMIN:       [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+      # activate different ways to authenticate
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
-    access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/app/dashboard, roles: ROLE_USER } #if admin redirect to dashboard
-        - { path: ^/advert/, roles: ROLE_USER }
-        - { path: ^/ajax/, roles: ROLE_USER }
-        - { path: ^/announce/, roles: ROLE_USER }
-        - { path: ^/event/, roles: ROLE_USER }
-        - { path: ^/municipality/, roles: ROLE_ADMIN }
-        - { path: ^/ptv/, roles: ROLE_ADMIN }
-        - { path: ^/places/to/visit/, roles: ROLE_ADMIN }
-        - { path: ^/place/, roles: ROLE_ADMIN }
-        - { path: ^/business/, roles: ROLE_USER }
-        - { path: ^/business/category/, roles: ROLE_ADMIN }
+      # http_basic: true
+      # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+      # form_login: true
+      # https://symfony.com/doc/current/security/form_login_setup.html
+
+
+  role_hierarchy:
+    ROLE_ADMIN:       [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
+    ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+    - { path: ^/app/dashboard, roles: ROLE_USER } #if admin redirect to dashboard
+    - { path: ^/advert/, roles: ROLE_USER }
+    - { path: ^/ajax/, roles: ROLE_USER }
+    - { path: ^/announce/, roles: ROLE_USER }
+    - { path: ^/event/, roles: ROLE_USER }
+    - { path: ^/business/, roles: ROLE_USER }
+
+    - { path: ^/municipality/, roles: ROLE_ADMIN }
+    - { path: ^/ptv/, roles: ROLE_ADMIN }
+    - { path: ^/places/to/visit/, roles: ROLE_ADMIN }
+    - { path: ^/place/, roles: ROLE_ADMIN }
+    - { path: ^/business/category/, roles: ROLE_ADMIN }
+    - { path: ^/user/, roles: ROLE_ADMIN }
