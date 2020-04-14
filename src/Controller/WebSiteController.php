@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\AdCategory;
+use App\Entity\Advert;
 use App\Entity\Business;
 use App\Entity\Place;
 use App\Traits\Util;
@@ -20,6 +21,40 @@ class WebSiteController extends AbstractController
     use Util;
 
 
+    #İLANLAR BAŞLANGIÇ
+
+    /**
+     * @Route({
+     *     "en": "/adverts",
+     *     "tr": "/ilanlar"
+     * }, name="adverts",  methods={"GET"})
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function adverts(Request $request, PaginatorInterface $paginator): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //todo repository filter.
+        $adverts = $em->getRepository(Advert::class)->advertFilter($request);
+
+        $adverts = $paginator->paginate(
+            $adverts,
+            $request->query->getInt('page', 1), 5
+        );
+
+        return $this->render('web_site/pages/adverts.html.twig', [
+            'adverts' => $adverts,
+            'categories' => $em->getRepository(Advert::class)->advertCategoryList(),
+            'places' => $em->getRepository(Place::class)->findAll()
+        ]);
+    }
+    #İLANLAR SON
+
+
+
+    #İŞLETME BAŞLANGIÇ
     /**
      * @Route({
      *     "en": "/business-guide",
@@ -29,28 +64,22 @@ class WebSiteController extends AbstractController
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function business_guide(Request $request, PaginatorInterface $paginator)
+    public function business_guide(Request $request, PaginatorInterface $paginator): Response
     {
         $em = $this->getDoctrine()->getManager();
 
-        //$request->setLocale('en');
-
-
         $businesses = $em->getRepository(Business::class)->businessGuideFilter($request);
-
 
         $businesses = $paginator->paginate(
             $businesses,
             $request->query->getInt('page', 1), 5
         );
 
-
         return $this->render('web_site/pages/business_guide.html.twig', [
             'businesses' => $businesses,
             'categories' => $em->getRepository(Business::class)->businessCategoryList(),
             'places' => $em->getRepository(Place::class)->findAll()
         ]);
-
     }
 
 
@@ -64,7 +93,7 @@ class WebSiteController extends AbstractController
      * @param $id
      * @return Response
      */
-    public function business_detail(Request $request, PaginatorInterface $paginator, $id)
+    public function business_detail(Request $request, PaginatorInterface $paginator, $id): Response
     {
         $em = $this->getDoctrine()->getManager();
         $businesses_detail = $em->getRepository(Business::class)->findOneBy(
@@ -75,6 +104,7 @@ class WebSiteController extends AbstractController
         ]);
 
     }
+    #İŞLETME SON
 
 
     /**
@@ -82,7 +112,7 @@ class WebSiteController extends AbstractController
      * @param $slug
      * @return Response
      */
-    public function ptv_page($slug)
+    public function ptv_page($slug): Response
     {
         $em = $this->getDoctrine()->getManager();
         $ptv = $em->getRepository(PlacesToVisit::class)->findOneBy(array('slug' => $slug));
@@ -96,7 +126,7 @@ class WebSiteController extends AbstractController
      * @Route("/menu1", name="menu1")
      * header embed controller
      */
-    public function menu1()
+    public function menu1(): Response
     {
         $em = $this->getDoctrine()->getManager();
         $ptv = $em->getRepository(PlacesToVisit::class)->findBy(array(), array('name' => 'ASC'));
@@ -106,8 +136,9 @@ class WebSiteController extends AbstractController
     /**
      * @Route("/advert_menu", name="advert_menu")
      * header embed controller
+     * ilanlar menüsü
      */
-    public function advertMenu()
+    public function advertMenu(): Response
     {
         $em = $this->getDoctrine()->getManager();
         $ad_categories = $em->getRepository(AdCategory::class)->findBy(array('active' => 1), array('sort' => 'ASC'));
@@ -119,7 +150,7 @@ class WebSiteController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index()
+    public function index(): Response
     {
         $em = $this->getDoctrine()->getManager();
         $business = $em->getRepository(Business::class)

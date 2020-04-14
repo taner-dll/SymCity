@@ -27,7 +27,8 @@ class BusinessRepository extends ServiceEntityRepository
      * Business guide - right colum, category list.
      * @return Business[]
      */
-    public function businessCategoryList(){
+    public function businessCategoryList(): array
+    {
         $qb = $this->createQueryBuilder('b')
             ->select('b.id as id, count(c.id) as total, c.short_name as shortname')
             ->innerJoin('b.category', 'c')

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Advert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @method Advert|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +20,47 @@ class AdvertRepository extends ServiceEntityRepository
         parent::__construct($registry, Advert::class);
     }
 
-    // /**
-    //  * @return Advert[] Returns an array of Advert objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Adverts page - right colum, category list.
+     * @return Advert[]
+     */
+    public function advertCategoryList(): array
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $qb = $this->createQueryBuilder('a')
+            ->select('a.id as id, count(c.id) as total, c.short_name as shortname')
+            ->innerJoin('a.category', 'c')
+            ->where('a.confirm = :confirm')
+            ->setParameter('confirm',1)
+            ->groupBy('shortname')
+            ->orderBy('c.sort','asc')
+            ->getQuery();
+        return $qb->execute();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Advert
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+    public function advertFilter(Request $request){
+
+        $qb = $this->createQueryBuilder('a')
+            ->select('a')
+            ->leftJoin('a.category', 'c')
+            ->leftJoin('a.place', 'p')
+            ->where('a.confirm = :confirm')
+            ->setParameter('confirm',1);
+
+        if ($request->query->get('name')):
+            $qb->andWhere($qb->expr()->like('a.name',':bname'))
+                ->setParameter('bname','%'.$request->query->get('name').'%');
+        endif;
+
+        if ($request->query->get('cat')):
+            $qb->andWhere('c.short_name = :sname')
+                ->setParameter('sname',$request->query->get('cat'));
+        endif;
+
+        if ($request->query->get('place')):
+            $qb->andWhere('a.place = :pl_id')
+                ->setParameter('pl_id',$request->query->get('place'));
+        endif;
+
+        return $qb->getQuery()->execute();
     }
-    */
 }

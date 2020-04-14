@@ -1,17 +1,32 @@
+adverts:
+  title: İlanlar
+  category: Kategori
+  list: Listesi
+  advanced: Gelişmiş
+  searching: Arama
+  search: Ara
+  business_name: İlan Başlığında Ara
+  place: Bölge
+  reset_search: Aramayı Sıfırla
 
+advert_detail:
+  posted_by: Ekleyen
+  last_update: Son Güncelleme
 
 for_sale: Satılık
 for_rent: Kiralık
-
 other: Diğer
 
-vehicle: Vasıta İlanı
-real-estate: Emlak İlanı
-job: İş İlanı
-used-stuff: 2. El Eşya İlanı
-private-lesson: Özel Ders İlanı
-animals: Hayvanlar Alemi
+# ilanlar ana menüsü (MAIN)
+vehicle: Vasıta İlanları
+real-estate: Emlak İlanları
+job: İş İlanları
+used-stuff: İkinci El Eşya İlanları
+private-lesson: Özel Ders İlanları
+animals: Evcil Hayvan Sahiplendirme
+# ilanlar ana menüsü sonu (MAIN)
 
+# vehicle - alt kategorileri
 car: Otomobil
 suv-offroad-pickup: SUV, Arazi, Pickup
 motorcycle: Motosiklet
@@ -24,13 +39,17 @@ van: Panelvan - Minibus - Kamyonet
 commercial-vehicles: Ticari Araçlar (Kamyon - Tır)
 work-machines: İş Makineleri
 bicycle: Bisiklet
+# vehicle - alt kategorileri sonu
 
+# real estate - alt kategorileri
 house: Konut
 work-place: İş Yeri
 plot: Arsa
 timesharing: Devremülk
 plantation: Tarla
+# real estate - alt kategorileri sonu
 
+# jobs - alt kategorileri
 bank_insurance: Banka - Sigorta
 it: Bilişim
 education: Eğitim - Öğretim
@@ -58,7 +77,9 @@ office: Ofis Yönetimi
 entertainment: Eğlence ve Aktivite
 design_advertising: Tasarım - Reklam - Yaratıcılık
 unskilled_worker: Vasıfsız İşçi
+# jobs - alt kategorileri sonu
 
+# used stuff - alt kategorileri
 computer: Bilgisayar
 phone: Telefon
 photo_camera: Fotoğraf Makinesi - Kamera
@@ -77,7 +98,9 @@ collection: Koleksiyon
 music: Müzik
 farm_equipment: Tarım Aleti
 vehicle_accessories: Araç Aksesuarı
+# used stuff - alt kategorileri sonu
 
+# private lessons - alt kategorileri
 prepare: Lise - Üniversite Hazırlık
 elementary: İlköğretim
 foreign_lang: Yabancı Dil
@@ -92,7 +115,9 @@ special: Özel Eğitim
 child: Çocuk Gelişimi
 diction: Güzel Konuşma - Diksiyon
 photography: Fotoğrafçılık
+# private lessons - alt kategorileri sonu
 
+# animals - alt kategorileri
 pet-ownership: Evcil Hayvan Sahiplendirme
 fish: Akvaryum Balıkları
 animal_equipment: Ekipman - Aksesuar
@@ -104,3 +129,4 @@ sheep: Küçükbaş Hayvanlar
 sea_creatures: Deniz Canlıları
 reptile: Sürüngenler
 insects: Böcekler
+# animals - alt kategorileri sonu

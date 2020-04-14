@@ -1,7 +1,8 @@
-<li class="dropdown"><a href="#." class="dropdown-toggle" data-toggle="dropdown">İlanlar</a>
+<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">İlanlar</a>
     <ul class="dropdown-menu">
+        <li><a href="{{ path('adverts') }}">Tüm İlanlar</a></li>
         {% for a in ad_categories %}
-                <li><a href="#">{{ a.shortName| trans({}, 'advert') }}</a></li>
+                <li><a href="{{ path('adverts', {'cat':a.shortName}) }}">{{ a.shortName| trans({}, 'advert') }}</a></li>
         {% endfor %}
     </ul>
 </li>
