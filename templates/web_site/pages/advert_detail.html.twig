@@ -1,0 +1,94 @@
+{% extends 'web_site/base.html.twig' %}
+
+{% block title %}İlan Detayı - {{ advert_detail.title|title }}{% endblock %}
+
+{% block body %}
+
+    <!-- Blog -->
+    <section class="p_t30 bg_lightgry" id="blog">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-9 col-sm-9 col-xs-12">
+
+                    <div class="blog heading">
+
+                        {# @var advert_detail \\App\Entity\Advert #}
+
+                        <h2>{{ advert_detail.title|title }}</h2>
+
+                        {% if advert_detail.featuredImage|length > 10 %}
+                            <div class="blog-img" style="height: 470px; overflow: hidden;">
+                                <img alt="image" style="width: 870px; height: 470px;"
+                                     src="{{ asset('uploads/advert/'~advert_detail.featuredImage) }}">
+                            </div>
+                        {% endif %}
+                        
+                        <div class="blog-detail">
+
+                            <ul class="blog-admin">
+                                <li><i class="fa fa-user"></i>{{ 'advert_detail.posted_by'|trans({}, 'advert') }}:
+                                    <a href="#"> {{ advert_detail.user.username }}</a>
+                                </li>
+                                <li><i class="fa fa-clock-o"></i>
+                                    {{ 'advert_detail.last_update'|trans({}, 'advert') }}:
+                                    <a href="#"> {{ advert_detail.lastUpdate|date('d/m/Y') }}</a>
+                                </li>
+                            </ul>
+
+                            {{ advert_detail.description|raw }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="right-bar bg_white">
+                        <a href="javascript:history.back()"><i class="fa fa-caret-left"></i> Geri Dön</a>
+                    </div>
+
+                    <div class="right-bar bg_white">
+
+                        <h4>İlan Sahibi <span>iletişim bilgileri</span></h4>
+                        <div id="cd-google-map">
+
+                            <p><i class="fa fa-user" aria-hidden="true"></i>{{ advert_detail.owner }}</p>
+
+                            {# ilanda göster seçeneği aktifse #}
+                            {% if advert_detail.secretPrice == 1 %}
+                                <p><i class="fa fa-money" aria-hidden="true"></i>{{ advert_detail.price }} ₺</p>
+                            {% else %}
+                                <p>Fiyat bilgisi paylaşılmamış.</p>
+                            {% endif %}
+
+                            {# ilanda göster seçeneği aktifse #}
+                            {% if advert_detail.secretPhone == 1 %}
+                            <p><i class="fa fa-phone" aria-hidden="true"></i>{{ advert_detail.telephone }}</p>
+                            {% else %}
+                            <p>Telefon bilgisi paylaşılmamış.</p>
+                            {% endif %}
+
+                            {# ilanda göster seçeneği aktifse #}
+                            {% if advert_detail.secretEmail == 1 %}
+                                <p><i class="fa fa-envelope" aria-hidden="true"></i>{{ advert_detail.email }}</p>
+                            {% else %}
+                                <p>E-posta bilgisi paylaşılmamış.</p>
+                            {% endif %}
+
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- Blog -->
+
+{% endblock %}

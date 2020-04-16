@@ -50,6 +50,28 @@ class WebSiteController extends AbstractController
             'places' => $em->getRepository(Place::class)->findAll()
         ]);
     }
+
+    /**
+     * @Route({
+     *     "en": "/advert-detail/{id}/{slug}",
+     *     "tr": "/ilan-detay/{id}/{slug}"
+     * }, name="advert_detail",  methods={"GET"})
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @param $id
+     * @return Response
+     */
+    public function advert_detail(Request $request, PaginatorInterface $paginator, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $advertes_detail = $em->getRepository(Advert::class)->findOneBy(
+            array('confirm' => 1, 'id' => $id));
+
+        return $this->render('web_site/pages/advert_detail.html.twig', [
+            'advert_detail' => $advertes_detail,
+        ]);
+
+    }
     #İLANLAR SON
 
 

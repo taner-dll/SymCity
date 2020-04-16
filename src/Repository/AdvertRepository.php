@@ -47,7 +47,7 @@ class AdvertRepository extends ServiceEntityRepository
             ->setParameter('confirm',1);
 
         if ($request->query->get('name')):
-            $qb->andWhere($qb->expr()->like('a.name',':bname'))
+            $qb->andWhere($qb->expr()->like('a.title',':bname'))
                 ->setParameter('bname','%'.$request->query->get('name').'%');
         endif;
 

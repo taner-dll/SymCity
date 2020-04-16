@@ -63,7 +63,7 @@
                                                 </span>
 
 
-                                                <a href="{{ path('business_detail', {id:a.id,slug:a.slug}) }}"
+                                                <a href="{{ path('advert_detail', {id:a.id,slug:a.slug}) }}"
                                                    class="pull-right btn btn-default btn-xs">Göster</a>
                                             </div>
                                         </div>
@@ -171,8 +171,8 @@
 
 
                     <div class="right-bar bg_white">
-                        <h4>{{ 'business_guide.category'|trans({}, 'business') }}
-                            <span>{{ 'business_guide.list'|trans({}, 'business') }}</span></h4>
+                        <h4>{{ 'adverts.category'|trans({}, 'advert') }}
+                            <span>{{ 'adverts.list'|trans({}, 'advert') }}</span></h4>
                         <ul class="right-bar-listing">
                             {% for key, value in categories %}
 
