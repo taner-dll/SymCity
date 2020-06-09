@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\AdCategory;
 use App\Entity\Advert;
+use App\Entity\Announce;
 use App\Entity\Business;
+use App\Entity\Event;
 use App\Entity\Place;
 use App\Traits\Util;
 use Knp\Component\Pager\PaginatorInterface;
@@ -20,9 +22,127 @@ class WebSiteController extends AbstractController
 
     use Util;
 
+    /**
+     * @Route({
+     *     "en": "/add-to-lists-for-free",
+     *     "tr": "/ucretsiz-ekle"
+     * }, name="add_to_lists",  methods={"GET"})
+     * @return Response
+     */
+    public function addToLists()
+    {
+        return $this->render('web_site/pages/add_to_lists.html.twig');
+    }
+
+
+
+
+
+    #ETKİNLİKLER BAŞLANGIÇ
+
+    /**
+     * @Route({
+     *     "en": "/events",
+     *     "tr": "/etkinlikler"
+     * }, name="events",  methods={"GET"})
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function events(Request $request, PaginatorInterface $paginator): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+
+        $events = $em->getRepository(Event::class)->eventFilter($request);
+
+        $events = $paginator->paginate(
+            $events,
+            $request->query->getInt('page', 1), 5
+        );
+
+        return $this->render('web_site/pages/events.html.twig', [
+            'events' => $events,
+            /*'categories' => $em->getRepository(Event::class)->advertCategoryList(),*/
+            'places' => $em->getRepository(Place::class)->findAll()
+        ]);
+    }
+
+    /**
+     * @Route({
+     *     "en": "/event-detail/{id}/{slug}",
+     *     "tr": "/etkinlik-detay/{id}/{slug}"
+     * }, name="event_detail",  methods={"GET"})
+     * @param $id
+     * @return Response
+     */
+    public function event_detail($id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $events_detail = $em->getRepository(Event::class)->findOneBy(
+            array('confirm' => 1, 'id' => $id));
+
+        return $this->render('web_site/pages/event_detail.html.twig', [
+            'event_detail' => $events_detail,
+        ]);
+
+    }
+    #ETKİNLİKLER SON
+
+
+    #DUYURULAR BAŞLANGIÇ
+
+    /**
+     * @Route({
+     *     "en": "/announces",
+     *     "tr": "/duyurular"
+     * }, name="announces",  methods={"GET"})
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function announces(Request $request, PaginatorInterface $paginator): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $announces = $em->getRepository(Announce::class)->announceFilter($request);
+
+        $announces = $paginator->paginate(
+            $announces,
+            $request->query->getInt('page', 1), 5
+        );
+
+        return $this->render('web_site/pages/announces.html.twig', [
+            'announces' => $announces,
+            /*'categories' => $em->getRepository(Event::class)->advertCategoryList(),*/
+            'places' => $em->getRepository(Place::class)->findAll()
+        ]);
+    }
+
+    /**
+     * @Route({
+     *     "en": "/announce-detail/{id}/{slug}",
+     *     "tr": "/duyuru-detay/{id}/{slug}"
+     * }, name="announce_detail",  methods={"GET"})
+     * @param $id
+     * @return Response
+     */
+    public function announce_detail($id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $announce_detail = $em->getRepository(Announce::class)->findOneBy(
+            array('confirm' => 1, 'id' => $id));
+
+        return $this->render('web_site/pages/announce_detail.html.twig', [
+            'announce_detail' => $announce_detail,
+        ]);
+
+    }
+
+    #DUYURULAR SON
+
 
     #İLANLAR BAŞLANGIÇ
-
     /**
      * @Route({
      *     "en": "/adverts",
@@ -36,7 +156,6 @@ class WebSiteController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        //todo repository filter.
         $adverts = $em->getRepository(Advert::class)->advertFilter($request);
 
         $adverts = $paginator->paginate(
@@ -56,12 +175,10 @@ class WebSiteController extends AbstractController
      *     "en": "/advert-detail/{id}/{slug}",
      *     "tr": "/ilan-detay/{id}/{slug}"
      * }, name="advert_detail",  methods={"GET"})
-     * @param Request $request
-     * @param PaginatorInterface $paginator
      * @param $id
      * @return Response
      */
-    public function advert_detail(Request $request, PaginatorInterface $paginator, $id): Response
+    public function advert_detail($id): Response
     {
         $em = $this->getDoctrine()->getManager();
         $advertes_detail = $em->getRepository(Advert::class)->findOneBy(
@@ -73,7 +190,6 @@ class WebSiteController extends AbstractController
 
     }
     #İLANLAR SON
-
 
 
     #İŞLETME BAŞLANGIÇ
@@ -103,7 +219,6 @@ class WebSiteController extends AbstractController
             'places' => $em->getRepository(Place::class)->findAll()
         ]);
     }
-
 
     /**
      * @Route({

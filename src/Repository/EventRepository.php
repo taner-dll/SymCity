@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @method Event|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +20,26 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    // /**
-    //  * @return Event[] Returns an array of Event objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    public function eventFilter(Request $request){
 
-    /*
-    public function findOneBySomeField($value): ?Event
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb = $this->createQueryBuilder('e')
+            ->select('e')
+            ->leftJoin('e.place', 'p')
+            ->where('e.confirm = :confirm')
+            ->setParameter('confirm',1);
+
+        if ($request->query->get('name')):
+            $qb->andWhere($qb->expr()->like('e.title',':bname'))
+                ->setParameter('bname','%'.$request->query->get('name').'%');
+        endif;
+
+
+
+        if ($request->query->get('place')):
+            $qb->andWhere('e.place = :pl_id')
+                ->setParameter('pl_id',$request->query->get('place'));
+        endif;
+
+        return $qb->getQuery()->execute();
     }
-    */
 }

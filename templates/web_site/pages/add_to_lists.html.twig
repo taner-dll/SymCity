@@ -1,0 +1,73 @@
+{% extends 'web_site/base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+
+    <section class="p_t70 bg_blue">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+
+
+                    <a href="{{ path('business_new',{from:'business_new'}) }}">
+                        <div class="directory-category-box3">
+
+                            <span><i class="fa fa-home" aria-hidden="true"></i></span>
+                            <h3>İşinizi Ekleyin</h3>
+                            <p>daha çok kişiye ulaşın</p>
+                            <div class="directory-category-overlay"></div>
+
+                        </div>
+                    </a>
+
+                    <a href="{{ path('advert_new',{from:'advert_new'}) }}">
+                        <div class="directory-category-box3">
+                            <span><i class="fa fa-photo" aria-hidden="true"></i></span>
+                            <h3>İlan Verin</h3>
+                            <p>satın ya da kiralayın</p>
+                            <div class="directory-category-overlay"></div>
+                        </div>
+                    </a>
+
+                    <a href="{{ path('event_new',{from:'event_new'}) }}">
+                        <div class="directory-category-box3">
+                            <span><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                            <h3>Etkinlik Ekleyin</h3>
+                            <p>herkesi davet edin</p>
+                            <div class="directory-category-overlay"></div>
+                        </div>
+                    </a>
+
+                    <a href="{{ path('announce_new', {from:'announce_new'}) }}">
+                        <div class="directory-category-box3">
+                            <span><i class="fa fa-microphone" aria-hidden="true"></i></span>
+                            <h3>Duyuru Ekleyin</h3>
+                            <p>herkesi bilgilendirin</p>
+                            <div class="directory-category-overlay"></div>
+                        </div>
+                    </a>
+
+                    <a href="#">
+                        <div class="directory-category-box3">
+                            <span><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                            <h3>Yazı Gönderin</h3>
+                            <p>size ait yazar köşesi</p>
+                            <div class="directory-category-overlay"></div>
+                        </div>
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </section>
+
+
+{% endblock %}

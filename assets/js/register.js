@@ -1,5 +1,14 @@
 import '../css/register.scss'
 
+
+const email_input_loader = $('#email_input_loader');
+const email_input_icon = $('#email_input_icon');
+const email_form_group = $('#email_form_group');
+const login_url = $('#login').attr('href');
+const register_url = $('#app_register').val();
+
+
+
 import 'icheck/icheck.min';
 $('input').iCheck({
     checkboxClass: 'icheckbox_flat-grey',
@@ -22,12 +31,34 @@ if($('#success_message').val()){
         type: 'success',
     })
 }
+
+/**
+ yönlendirilen sayfada, nereden geldiğimizin bilgisi varsa
+ bu bilgiyi login form auth'a gönderiyoruz.
+ onAuthenticationSuccess anında kontrol ederek,
+ login sonrası yönlendirme işlemini gerçekleştiriyoruz.
+ */
+if($('#page_from').val()){
+    Swal.fire({
+        title: 'Giriş Uyarısı',
+        html: "<p>İşleminizi gerçekleştirebilmek için lütfen giriş yapınız.</p><hr>" +
+            "<p>Edremit Körfez Portalı'ndaki tüm hizmetler bölge halkı için ücretsizdir ve daima ücretsiz kalacaktır.</p>" +
+            "<p>İlanlarınızı, işletmenizi, etkinlik bildirimi ve duyurularınızı ücretsiz olarak listelerimize ekleyebilirsiniz.</p>" +
+            "<p>Yazar köşesi için oluşturduğunuz yazılarınız, editöryel onaydan geçtikten sonra yayına alınır. " +
+            "Yazılardaki tüm sorumluluk yazı sahibine aittir.</p>" +
+            "<hr><p><strong>Sponsorluk ve ana sayfalarda reklam vermek için lütfen iletişime geçiniz.</strong></p>",
+        type: 'warning',
+        confirmButtonText: 'Tamam',
+        footer: '<a href="'+register_url+
+            '">Henüz üye değilseniz, üye olmak için buraya tıklayınız</a>'
+    })
+}
+
+
+
 //sweetalert2 end
 
-const email_input_loader = $('#email_input_loader');
-const email_input_icon = $('#email_input_icon');
-const email_form_group = $('#email_form_group');
-const login_url = $('#login').attr('href');
+
 
 
 $('#registration_form_email').on('change',function () {

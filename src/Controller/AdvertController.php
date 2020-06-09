@@ -117,10 +117,10 @@ class AdvertController extends AbstractController
     public function show(Advert $advert): Response
     {
 
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-            if($advert->getUser()->getId() != $this->getUser()->getId()){
-                return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
-            }
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
+            $advert->getUser()->getId() !=
+            $this->getUser()->getId()) {
+            return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
         }
 
         return $this->render('advert/show.html.twig', [

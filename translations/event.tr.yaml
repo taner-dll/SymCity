@@ -10,3 +10,15 @@ fair: Fuar
 trip: Gezi
 conferance: Konferans
 other: Diğer
+
+
+events:
+  title: Etkinlikler
+  category: Kategori
+  list: Listesi
+  advanced: Gelişmiş
+  searching: Arama
+  search: Ara
+  event_name: Etkinlik Başlığında Ara
+  place: Bölge
+  reset_search: Aramayı Sıfırla

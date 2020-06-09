@@ -1,0 +1,91 @@
+{% extends 'web_site/base.html.twig' %}
+
+{% block title %}Etkinlik Detayı - {{ event_detail.name|title }}{% endblock %}
+
+{% block body %}
+
+    <!-- Blog -->
+    <section class="p_t30 bg_lightgry" id="blog">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-9 col-sm-9 col-xs-12">
+
+                    <div class="blog heading">
+
+                        {# @var event_detail \\App\Entity\Event #}
+
+                        <h2>{{ event_detail.name|title }}</h2>
+
+                        {% if event_detail.image|length > 10 %}
+                            <div class="blog-img" style="height: 470px; overflow: hidden;">
+                                <img alt="image" style="width: 870px; height: 470px;"
+                                     src="{{ asset('uploads/event/'~event_detail.image) }}">
+                            </div>
+                        {% endif %}
+                        
+                        <div class="blog-detail">
+
+                            <ul class="blog-admin">
+                                <li><i class="fa fa-user"></i>{{ 'advert_detail.posted_by'|trans({}, 'advert') }}:
+                                    <a href="#"> {{ event_detail.user.username }}</a>
+                                </li>
+                                <li><i class="fa fa-clock-o"></i>
+                                    {{ 'advert_detail.last_update'|trans({}, 'advert') }}:
+                                    <a href="#"> {{ event_detail.lastUpdate|date('d/m/Y') }}</a>
+                                </li>
+                            </ul>
+
+                            {{ event_detail.description|raw }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="right-bar bg_white">
+                        <a href="javascript:history.back()"><i class="fa fa-caret-left"></i> Geri Dön</a>
+                    </div>
+
+                    <div class="right-bar bg_white">
+
+                        <h4>Etkinlik Bilgileri<span></span></h4>
+                        <div id="cd-google-map">
+
+                            <table class="table">
+
+                                <tbody>
+                                <tr>
+                                    <th scope="col">Başlangıç</th>
+                                    <td>
+                                        {{ event_detail.start|date("d/m/Y H:i") }}
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="col">Bitiş</th>
+                                    <td>
+                                        {{ event_detail.end|date("d/m/Y H:i") }}
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- Blog -->
+
+{% endblock %}

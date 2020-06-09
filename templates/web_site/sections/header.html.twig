@@ -3,31 +3,42 @@
     <div id="header-top">
         <div class="container">
             <div class="row">
+
                 <div class="col-md-6 col-sm-5 col-xs-12">
+
                     <div class="top-contact">
                         <p>Whatsapp: <span>+90 542 791 07 30</span> eposta: <span>tnrdll@gmail.com</span>
                         </p>
                     </div>
+
                 </div>
+
                 <div class="col-md-6 col-sm-7 col-xs-12 top_right_links">
+
+
                     <ul class="top_links">
                         <li>
                             {% if app.user %}
-                            <a href="{{ path('app_dashboard') }}">
-                                <i class="fa fa-user-o" aria-hidden="true"></i>
-                                {{ app.user.email[:30] }}
-                            </a>
-                                {% else %}
-                            <a href="{{ path('app_login') }}">
-                                <i class="fa fa-lock" aria-hidden="true"></i>
-                                Giriş Yap
-                            </a>
+                                <a href="{{ path('app_dashboard') }}">
+                                    <i class="fa fa-user-o" aria-hidden="true"></i>
+                                    {{ app.user.email[:30] }}
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_login') }}">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                    Giriş Yap
+                                </a>
                             {% endif %}
                         </li>
-
                     </ul>
-                    <div class="add-listing"><a href="add-listing.html"><i class="fa fa-plus" aria-hidden="true"></i>
-                            Ücretsiz Ekle</a></div>
+
+
+                    <div class="add-listing"><a href="{{ path('add_to_lists') }}">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            Ücretsiz Ekle</a>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -60,19 +71,21 @@
 
                                 </ul>
                             </li>
-                        
 
-                            <li class="dropdown"><a href="#." class="dropdown-toggle" data-toggle="dropdown">Etkinlikler</a>
-                                <ul class="dropdown-menu">
 
-                                </ul>
+                            <li>
+                                <a href="{{ path('events') }}" class="dropdown-toggle" data-toggle="dropdown">Etkinlikler</a>
+                            </li>
+
+                            <li>
+                                <a href="{{ path('announces') }}" class="dropdown-toggle" data-toggle="dropdown">Duyurular</a>
                             </li>
 
 
 
+
+                            <! ilan menusu ->
                             {{ render(controller('App\\Controller\\WebSiteController::advertMenu')) }}
-
-
 
 
                             <li>

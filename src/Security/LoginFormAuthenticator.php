@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -96,11 +97,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
-        return new RedirectResponse($this->urlGenerator->generate('app_dashboard'));
+
+        if ($request->request->get('from')){
+            return new RedirectResponse($this->urlGenerator->generate($request->request->get('from')));
+        }
+        else{
+            return new RedirectResponse($this->urlGenerator->generate('app_dashboard'));
+        }
+
+
     }
 
     protected function getLoginUrl()
     {
+
         return $this->urlGenerator->generate('app_login');
     }
 }

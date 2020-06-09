@@ -5,3 +5,18 @@ missing: Kayıp Duyurusu
 death: Vefat Duyurusu
 discount: Kampanya / İndirim Duyurusu
 other: Diğer
+
+announces:
+  name: Duyurular
+  category: Kategori
+  list: Listesi
+  advanced: Gelişmiş
+  searching: Arama
+  search: Ara
+  announce_name: Başlığa Göre Ara
+  place: Bölge
+  reset_search: Aramayı Sıfırla
+
+announce_detail:
+  posted_by: Ekleyen
+  last_update: Son Güncelleme

@@ -110,10 +110,9 @@ class EventController extends AbstractController
      */
     public function show(Event $event): Response
     {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-              if($event->getUser()->getId() != $this->getUser()->getId()){
-                  return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
-              }
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
+            $event->getUser()->getId() != $this->getUser()->getId()) {
+            return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
         }
 
         return $this->render('event/show.html.twig', [

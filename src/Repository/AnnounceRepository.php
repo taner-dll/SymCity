@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Announce;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @method Announce|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +20,26 @@ class AnnounceRepository extends ServiceEntityRepository
         parent::__construct($registry, Announce::class);
     }
 
-    // /**
-    //  * @return Announce[] Returns an array of Announce objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    public function announceFilter(Request $request){
 
-    /*
-    public function findOneBySomeField($value): ?Announce
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb = $this->createQueryBuilder('a')
+            ->select('a')
+            ->leftJoin('a.place', 'p')
+            ->where('a.confirm = :confirm')
+            ->setParameter('confirm',1);
+
+        if ($request->query->get('name')):
+            $qb->andWhere($qb->expr()->like('a.name',':bname'))
+                ->setParameter('bname','%'.$request->query->get('name').'%');
+        endif;
+
+
+
+        if ($request->query->get('place')):
+            $qb->andWhere('a.place = :pl_id')
+                ->setParameter('pl_id',$request->query->get('place'));
+        endif;
+
+        return $qb->getQuery()->execute();
     }
-    */
 }

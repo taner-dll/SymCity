@@ -15,7 +15,7 @@ class LoginListener
         $this->em = $em;
     }
 
-    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+        public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
         // Get the User entity.
         $user = $event->getAuthenticationToken()->getUser();
