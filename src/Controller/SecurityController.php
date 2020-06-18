@@ -32,16 +32,16 @@ class SecurityController extends AbstractController
     {
 
         //farklı bir yönlendirme bilgisi var mı?
-        $target_page = null;
+        $from = null;
         $target_path = $request->getSession()->get('_security.main.target_path');
+        $target_page = explode('=', $target_path);
 
-        if ($target_path){
-            $target_page = explode('=',$target_path);//business_new, advert_new ...
+        if (isset($target_page[1])) {
+            $from  = $target_page[1];//business_new, advert_new ...
         }
 
 
         $request->getSession()->remove('_security.main.target_path');
-
 
 
         // get the login error if there is one
@@ -52,7 +52,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
-            'from'=>$target_page[1]
+            'from' => $from
         ]);
     }
 
@@ -236,7 +236,6 @@ class SecurityController extends AbstractController
                 'user_email' => $user_mail
             ]);
         }
-
 
 
         /**

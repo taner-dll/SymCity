@@ -2,108 +2,151 @@
 <section id="banner">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+
                 <div class="banner-search">
-                    <h1></h1>
-                    <p style="font-size: 12pt;"></p>
+                    <h1>asdasd</h1>
+                    <p style="font-size: 12pt;">e-Devlet Kapısı ile bilgi ve belgelerinize tek noktadan ulaşabilir,
+                        başvuru işlemlerinizi hızla gerçekleştirebilirsiniz</p>
                     <div class="advance-search">
-                        <div class="group-button-search">
-                            <a data-toggle="collapse" href=".search-propertie-filters" class="more-filter"> <i class="fa fa-bars" aria-hidden="true"></i> </a>
-                        </div>
-                        <div class="dir-search">
-                            <div class="single-query form-group">
-                                <input type="text" class="keyword-input" placeholder="Enter keyword..." required>
-                            </div>
-                            <div class="single-query form-group">
-                                <div class="intro">
-                                    <select>
-                                        <option selected="" value="any"> Location...</option>
-                                        <option>Location - 1</option>
-                                        <option>Location - 2</option>
-                                        <option>Location - 3</option>
-                                        <option>Location - 4</option>
-                                    </select>
+
+
+                        <form method="post" action="{{ path('search_router') }}">
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+
+
+                                        <select id="select_category" name="category" style="width: 100%" required>
+                                            <option></option>
+                                            <option value="business">İşletme aramak istiyorum</option>
+                                            <option value="advert">İlan aramak istiyorum</option>
+                                            <option value="event">Etkinlik aramak istiyorum</option>
+                                            <option value="announce">Duyuru aramak istiyorum</option>
+                                        </select>
+
+
+
+
+                                    </div>
+
                                 </div>
-                            </div>
-                            <div class="single-query form-group">
-                                <div class="intro">
-                                    <select>
-                                        <option class="active">Category...</option>
-                                        <option>Resturent</option>
-                                        <option>Real Estate</option>
-                                        <option>Sport</option>
-                                        <option>Beauty & Spa</option>
-                                        <option>Vehicles</option>
-                                        <option>Shoping</option>
-                                        <option>Industry</option>
-                                        <option>Dating</option>
-                                        <option>Jobs</option>
-                                    </select>
+
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+
+
+
+                                        <select id="select_location" name="location"  style="width: 100%">
+                                            <option></option>
+                                            <option value="all">Tüm Bölgelerde Ara</option>
+                                            {% for p in places %}
+                                                <option value="{{ p.id }}">{{ p.name }}</option>
+                                            {% endfor %}
+                                        </select>
+
+
+
+                                    </div>
+
                                 </div>
+
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+
+
+
+                                        <input type="text" name="word" class="form-control" placeholder="Kelime ile ara (opsiyonel)" />
+
+
+
+                                    </div>
+
+                                </div>
+
                             </div>
-                        </div>
-                        <div class="search-btn">
-                            <button>Search <i class="fa fa-search" aria-hidden="true"></i>
-                            </button>
-                        </div>
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+
+                                        <select id="select_business_category" name="business_category"  style="width: 100%">
+                                            <option></option>
+                                            <option value="all">Tüm İşletme Kategorilerinde Ara</option>
+                                            {% for bc in business_category %}
+                                                <option value="{{ bc.id }}">{{ bc.shortName|trans({},'business') }}</option>
+                                            {% endfor %}
+                                        </select>
+
+
+                                        <select id="select_advert_category" name="advert_category"  style="width: 100%">
+                                            <option></option>
+                                            <option value="all">Tüm İlan Kategorilerinde Ara</option>
+                                            {% for ac in advert_category %}
+                                                <option value="{{ ac.id }}">{{ ac.shortName|trans({},'advert') }}</option>
+                                            {% endfor %}
+                                        </select>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+
+
+                                        <select id="select_advert_subcategory" name="advert_subcategory"  style="width: 100%">
+                                            <!-- web_site.js ajax -->
+                                        </select>
+
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+
+                                        <button type="submit"
+                                                style="width: 50%; margin-top: -5px"
+                                                class="btn btn-primary btn-block pull-right">Ara</button>
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+                        </form>
+
+
                     </div>
                 </div>
-            </div>
+
         </div>
-        <div class="search-propertie-filters collapse">
-            <div class="container-2">
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="search-form-group white">
-                            <input type="checkbox" name="check-box" />
-                            <span>Wifi</span> </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="search-form-group white">
-                            <input type="checkbox" name="check-box" />
-                            <span>Park</span> </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="search-form-group white">
-                            <input type="checkbox" name="check-box" />
-                            <span>Schools</span> </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="search-form-group white">
-                            <input type="checkbox" name="check-box" />
-                            <span>Grounds</span> </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="search-form-group white">
-                            <input type="checkbox" name="check-box" />
-                            <span>Masque</span> </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="search-form-group white">
-                            <input type="checkbox" name="check-box" />
-                            <span>Hospitals</span> </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="search-form-group white">
-                            <input type="checkbox" name="check-box" />
-                            <span>Transport</span> </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="search-form-group white">
-                            <input type="checkbox" name="check-box" />
-                            <span>Security</span> </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
     <div class="banner-icons">
         <ul>
-            <li><a href="https://www.facebook.com/edremitkorfezrehberi/" target="_blank">
+            <li><a href="https://www.facebook.com/edremitkorfezportali/" target="_blank">
                     <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-            {#<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+            <li><a href="https://www.instagram.com/edremitkorfezportali/" target="_blank">
+                    <i class="fa fa-instagram" aria-hidden="true"></i></a> </li>
+            {#
             <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
             <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
             <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>

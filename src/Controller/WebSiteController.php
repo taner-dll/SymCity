@@ -3,15 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\AdCategory;
+use App\Entity\AdSubCategory;
 use App\Entity\Advert;
 use App\Entity\Announce;
 use App\Entity\Business;
+use App\Entity\BusinessCategory;
 use App\Entity\Event;
 use App\Entity\Place;
 use App\Traits\Util;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +23,145 @@ class WebSiteController extends AbstractController
 
     use Util;
 
+
     /**
+     * Ana Sayfa
+     * @Route("/", name="index")
+     */
+    public function index(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //yayındaki işletmeler
+        $business = $em->getRepository(Business::class)
+            ->findBy(array('confirm' => 1));
+
+        $business_category = $em->getRepository(BusinessCategory::class)->findAll();
+        $advert_category = $em->getRepository(AdCategory::class)->findAll();
+        $places = $em->getRepository(Place::class)->findAll();
+
+
+        return $this->render('web_site/pages/main.html.twig',
+            array(
+                'business_count' => $business,
+                'business_category' => $business_category,
+                'advert_category' => $advert_category,
+                'places' => $places
+            ));
+    }
+
+
+    /**
+     * Arama Sonuçları
+     * @Route({
+     *     "en": "/search-router",
+     *     "tr": "/arama-yonlendir"
+     * }, name="search_router",  methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function searchRouter(Request $request)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        //genel GET parametreler
+        $category = $request->request->get('category');
+        $word = $request->request->get('word');
+        $location = $request->request->get('location');
+
+        if ($location == 'all' || $location == ''):
+            $location = null;
+        endif;
+
+        if (!$word):
+            $word = null;
+        endif;
+
+
+        //spesifik GET parametereleri
+        $business_category = $request->request->get('business_category');
+        $advert_category = $request->request->get('advert_category');
+        $advert_subcategory = $request->request->get('advert_subcategory');
+
+
+        if ($category === 'business') {
+
+            if ($business_category) {
+                if ($business_category == 'all'):
+                    $cat = null;
+                else:
+                    $cat = $em->find(BusinessCategory::class, $business_category)->getShortName();
+                endif;
+            } else {
+                $cat = null;
+            }
+
+            return $this->redirect($this->generateUrl('business_guide', array(
+                'name' => $word,
+                'cat' => $cat,
+                'place' => $location
+            )));
+        }
+        # category == business end
+
+
+        if ($category === 'advert') {
+
+            if ($advert_category) {
+
+                if ($advert_category == 'all'):
+                    $cat = null;
+                else:
+                    $cat = $em->find(AdCategory::class, $advert_category)->getShortName();
+                endif;
+
+                if ($advert_subcategory == 'all'):
+                    $sub = null;
+                else:
+                    $sub = $advert_subcategory; //car, motorcycle...
+                endif;
+
+
+
+            } else {
+                $cat = null;
+                $sub = null;
+            }
+
+            return $this->redirect($this->generateUrl('adverts', array(
+                'name' => $word,
+                'cat' => $cat,
+                'place' => $location,
+                'sub'=> $sub
+            )));
+        }
+        # category == business end
+
+
+        if ($category === 'event') {
+            return $this->redirect($this->generateUrl('events', array(
+                'name' => $word,
+                'place' => $location
+            )));
+        }
+        # category == event end
+
+
+        if ($category === 'announce') {
+            return $this->redirect($this->generateUrl('announces', array(
+                'name' => $word,
+                'place' => $location
+            )));
+        }
+        # category == announce end
+
+
+    }
+
+
+    /**
+     * Ücretsiz Ekle
      * @Route({
      *     "en": "/add-to-lists-for-free",
      *     "tr": "/ucretsiz-ekle"
@@ -33,6 +172,40 @@ class WebSiteController extends AbstractController
     {
         return $this->render('web_site/pages/add_to_lists.html.twig');
     }
+
+
+    /**
+     * Gezi Rehberi
+     * @Route("/travel-guide-embedded-menu", name="travel_guide_embedded_menu")
+     * header embedded controller
+     */
+    public function travelGuideEmbeddedMenu(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ptv = $em->getRepository(PlacesToVisit::class)->findBy(array(), array('place' => 'ASC'));
+        return $this->render('web_site/embedded_controller/travel_guide_embedded_menu.html.twig', ['ptv' => $ptv]);
+    }
+
+    /**
+     * Gezilecek Yer - Detay Sayfası
+     * @Route({
+     *     "en": "{city}/places-to-visit/{district}/{slug}",
+     *     "tr": "{city}/gezilecek-yerler/{district}/{slug}"
+     * }, name="ptv_page",  methods={"GET"})
+     * @param $slug
+     * @return Response
+     */
+    public function ptv_page($slug): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ptv = $em->getRepository(PlacesToVisit::class)->findOneBy(array('slug' => $slug));
+        return $this->render('web_site/pages/ptv.html.twig', [
+            'ptv' => $ptv,
+        ]);
+    }
+
+
+
 
 
 
@@ -166,6 +339,7 @@ class WebSiteController extends AbstractController
         return $this->render('web_site/pages/adverts.html.twig', [
             'adverts' => $adverts,
             'categories' => $em->getRepository(Advert::class)->advertCategoryList(),
+            'sub_categories' => $em->getRepository(Advert::class)->advertSubCategoryList(),
             'places' => $em->getRepository(Place::class)->findAll()
         ]);
     }
@@ -225,12 +399,10 @@ class WebSiteController extends AbstractController
      *     "en": "/business-detail/{id}/{slug}",
      *     "tr": "/isletme-detay/{id}/{slug}"
      * }, name="business_detail",  methods={"GET"})
-     * @param Request $request
-     * @param PaginatorInterface $paginator
      * @param $id
      * @return Response
      */
-    public function business_detail(Request $request, PaginatorInterface $paginator, $id): Response
+    public function business_detail($id): Response
     {
         $em = $this->getDoctrine()->getManager();
         $businesses_detail = $em->getRepository(Business::class)->findOneBy(
@@ -245,32 +417,7 @@ class WebSiteController extends AbstractController
 
 
     /**
-     * @Route("/places-to-visit/{slug}", name="ptv_page",  methods={"GET"})
-     * @param $slug
-     * @return Response
-     */
-    public function ptv_page($slug): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $ptv = $em->getRepository(PlacesToVisit::class)->findOneBy(array('slug' => $slug));
-        return $this->render('web_site/pages/ptv.html.twig', [
-            'ptv' => $ptv,
-        ]);
-    }
-
-
-    /**
-     * @Route("/menu1", name="menu1")
-     * header embed controller
-     */
-    public function menu1(): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $ptv = $em->getRepository(PlacesToVisit::class)->findBy(array(), array('name' => 'ASC'));
-        return $this->render('web_site/embedded_controller/menu1.html.twig', ['ptv' => $ptv]);
-    }
-
-    /**
+     * İlanlar Dinamik Menüsü
      * @Route("/advert_menu", name="advert_menu")
      * header embed controller
      * ilanlar menüsü
@@ -284,18 +431,4 @@ class WebSiteController extends AbstractController
     }
 
 
-    /**
-     * @Route("/", name="index")
-     */
-    public function index(): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $business = $em->getRepository(Business::class)
-            ->findBy(array('confirm' => 1));
-
-        return $this->render('web_site/base.html.twig',
-            array(
-                'business_count' => $business,
-            ));
-    }
 }

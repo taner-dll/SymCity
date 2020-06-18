@@ -1,0 +1,18 @@
+{% extends 'web_site/base.html.twig' %}
+
+{% block title %}Edremit Körfezi ✈ Körfezin Kısayolu{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('web_site') }}
+{% endblock %}
+
+{% block body %}
+    {% include "web_site/sections/banner.html.twig" %}
+    {% include "web_site/sections/directory_category.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('web_site') }}
+{% endblock %}

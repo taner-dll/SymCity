@@ -141,6 +141,24 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="cat">{{ 'adverts.sub_category'|trans({}, 'advert') }}</label><br>
+                                <select name="sub" id="sub">
+                                    <option value="">Hepsi</option>
+                                    {% for key, value in sub_categories %}
+                                        <option
+                                                {% set selected = '' %}
+                                                {% if value['shortname'] == app.request.get('sub') %}
+                                                    {% set selected = 'selected' %}
+                                                {% endif %}
+
+                                                {{selected}}
+
+                                                value="{{ value['shortname'] }}">{{ value['shortname']| trans({}, 'advert') }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="place">{{ 'adverts.place'|trans({}, 'advert') }}</label><br>
                                 <select name="place" id="place">
                                     <option value="">Hepsi</option>

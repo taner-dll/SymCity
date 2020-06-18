@@ -14,6 +14,7 @@ parameters:
     plc_directory:  '%kernel.project_dir%/public/uploads/place'
     bus_directory:  '%kernel.project_dir%/public/uploads/business'
     locale: 'tr'
+    city: 'balikesir'
 
 services:
     # default configuration for services in *this* file

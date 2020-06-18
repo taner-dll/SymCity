@@ -29,7 +29,7 @@ class EventRepository extends ServiceEntityRepository
             ->setParameter('confirm',1);
 
         if ($request->query->get('name')):
-            $qb->andWhere($qb->expr()->like('e.title',':bname'))
+            $qb->andWhere($qb->expr()->like('e.name',':bname'))
                 ->setParameter('bname','%'.$request->query->get('name').'%');
         endif;
 

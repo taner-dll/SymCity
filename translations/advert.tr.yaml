@@ -1,6 +1,7 @@
 adverts:
   title: İlanlar
   category: Kategori
+  sub_category: Alt Kategori
   list: Listesi
   advanced: Gelişmiş
   searching: Arama

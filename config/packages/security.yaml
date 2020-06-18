@@ -72,7 +72,7 @@ security:
 
     - { path: ^/app/dashboard, roles: ROLE_USER } #if admin redirect to dashboard
     - { path: ^/advert/, roles: ROLE_USER }
-    - { path: ^/ajax/, roles: ROLE_USER }
+    #- { path: ^/ajax/, roles: ROLE_USER }
     - { path: ^/announce/, roles: ROLE_USER }
     - { path: ^/event/, roles: ROLE_USER }
     - { path: ^/business/, roles: ROLE_USER }

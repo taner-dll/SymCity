@@ -37,12 +37,30 @@ class AdvertRepository extends ServiceEntityRepository
         return $qb->execute();
     }
 
+    /**
+     * Adverts page - right colum, sub category list.
+     * @return Advert[]
+     */
+    public function advertSubCategoryList(): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a.id as id, count(sc.id) as total, sc.short_name as shortname')
+            ->innerJoin('a.sub_category', 'sc')
+            ->where('a.confirm = :confirm')
+            ->setParameter('confirm',1)
+            ->groupBy('shortname')
+            ->orderBy('sc.sort','asc')
+            ->getQuery();
+        return $qb->execute();
+    }
+
     public function advertFilter(Request $request){
 
         $qb = $this->createQueryBuilder('a')
             ->select('a')
             ->leftJoin('a.category', 'c')
             ->leftJoin('a.place', 'p')
+            ->leftJoin('a.sub_category', 'sc')
             ->where('a.confirm = :confirm')
             ->setParameter('confirm',1);
 
@@ -54,6 +72,11 @@ class AdvertRepository extends ServiceEntityRepository
         if ($request->query->get('cat')):
             $qb->andWhere('c.short_name = :sname')
                 ->setParameter('sname',$request->query->get('cat'));
+        endif;
+
+        if ($request->query->get('sub')):
+            $qb->andWhere('sc.short_name = :scname')
+                ->setParameter('scname',$request->query->get('sub'));
         endif;
 
         if ($request->query->get('place')):

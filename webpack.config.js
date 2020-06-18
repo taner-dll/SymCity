@@ -36,6 +36,9 @@ Encore
     .addEntry('register', './assets/js/register.js')
 
 
+    .addEntry('web_site', './assets/js/front_end/web_site.js')
+
+
     /*
      * FEATURE CONFIG
      *

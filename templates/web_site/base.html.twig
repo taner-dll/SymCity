@@ -7,11 +7,13 @@
         <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
         <meta name="description" lang="tr" content="Gezilecek Yerler, Tarihi Mekanlar, Sahil ve Plajlar, Turlar, Etkinlikler, Mekanlar ve dahası..." />
         <title>
-            {% block title %}Edremit Körfezi ✈ Körfezin Kısayolu{% endblock %}
+            {% block title %}{% endblock %}
         </title>
         
         <link href="http://127.0.0.1/edremitkorfezi.com/assets/css/front_end/master.css" rel="stylesheet" type="text/css">
         <link href="http://127.0.0.1/edremitkorfezi.com/assets/css/front_end/color-green.css" rel="stylesheet" type="text/css">
+
+
 
         <link
         href="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/short_icon.png" rel="shortcut icon">
@@ -31,17 +33,13 @@
         {% include "web_site/sections/header.html.twig" %}
 
 
-        {% block body %}
-
-            {% include "web_site/sections/banner.html.twig" %}
-            {% include "web_site/sections/directory_category.html.twig" %}
-        
-        {% endblock %}
+        {% block body %}{% endblock %}
 
 
         {% block footer %}
             {% include "web_site/sections/footer.html.twig" %}
         {% endblock %}
+
 
 
         <script src="http://127.0.0.1/edremitkorfezi.com/assets/js/front_end/jquery.2.2.3.min.js"></script>
@@ -51,16 +49,27 @@
         <script src="http://127.0.0.1/edremitkorfezi.com/assets/js/front_end/owl.carousel.min.js"></script>
         <script src="http://127.0.0.1/edremitkorfezi.com/assets/js/front_end/jquery.fancybox.min.js"></script>
         <script src="http://127.0.0.1/edremitkorfezi.com/assets/js/front_end/bootsnav.js"></script>
-        <script src="http://127.0.0.1/edremitkorfezi.com/assets/js/front_end/zelect.js"></script>
+
+
         <script src="http://127.0.0.1/edremitkorfezi.com/assets/js/front_end/parallax.min.js"></script>
         <script src="http://127.0.0.1/edremitkorfezi.com/assets/js/front_end/modernizr.custom.26633.js"></script>
         <script src="http://127.0.0.1/edremitkorfezi.com/assets/js/front_end/jquery.gridrotator.js"></script>
         <script src="http://127.0.0.1/edremitkorfezi.com/assets/js/front_end/functions.js"></script>
 
+
+        <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+
         <div id="fb-root"></div>
         <script async defer crossorigin="anonymous"
                 src="https://connect.facebook.net/tr_TR/sdk.js#xfbml=1&version=v7.0"></script>
-                  
-        {% block javascripts %}{% endblock %}
+
+
+
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('web_site') }}
+        {% endblock %}
     </body>
 </html>

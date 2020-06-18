@@ -23,6 +23,9 @@ class AjaxController extends AbstractController
 {
 
 
+
+
+
     /**
      * @Route("/ad-subcategories", name="ajax_ad_subcategories", methods={"GET"}, options={"expose"=true})
      * @param Request $request
@@ -34,6 +37,11 @@ class AjaxController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $req = $request->query->get('category');
         $sub_cat = $em->getRepository(AdSubCategory::class)->findBy(array('adCategory' => $req),array('sort'=>'ASC'));
+
+        if (!$sub_cat){
+            $sub_cat = $em->getRepository(AdSubCategory::class)->findBy(array('id' => $req),array('sort'=>'ASC'));
+        }
+
         $sub_categories = array();
         foreach ($sub_cat as $key => $sc) {
             $sub_categories[$key]['shortname_translated'] = $translator->trans($sc->getShortName()

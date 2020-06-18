@@ -5,13 +5,15 @@
             <div class="row">
 
                 <div class="col-menu col-md-3">
-                    <h6 class="title">Doğa & Gezilecek Yerler</h6>
+                    <h6 class="title">Doğa</h6>
                     <div class="content">
                         <ul class="menu-col">
 
                             {% for p in ptv %}
                                 {% if p.type == 'nature' %}
-                                    <li><a href="{{ path('ptv_page',{slug:p.slug}) }}">{{ p.name }}</a></li>
+                                    <li><a href="{{ path('ptv_page',{slug:p.slug,city:city,district:p.place.slug}) }}">
+                                            {{ p.name }} ({{ p.place.name }})
+                                        </a></li>
                                 {% endif %}
                             {% endfor %}
 
@@ -20,45 +22,50 @@
                     </div>
                 </div>
 
+
                 <div class="col-menu col-md-3">
-                    <h6 class="title">Tarihi Mekan & Müzeler</h6>
+                    <h6 class="title">Manzara</h6>
                     <div class="content">
                         <ul class="menu-col">
 
                             {% for p in ptv %}
-                                {% if p.type == 'history' %}
-                                    <li><a href="{{ path('ptv_page',{slug:p.slug}) }}">{{ p.name }}</a></li>
+                                {% if p.type == 'nature' %}
+                                    <li><a href="{{ path('ptv_page',{slug:p.slug,city:city,district:p.place.slug}) }}">
+                                            {{ p.name }} ({{ p.place.name }})
+                                        </a></li>
                                 {% endif %}
                             {% endfor %}
 
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="col-menu col-md-3">
-                    <h6 class="title">Sahil & Plajlar</h6>
-                    <div class="content">
-                        <ul class="menu-col">
-                            <li><a href="profile.html">Profile</a>
-                            </li>
-                            <li><a href="blog.html">Our Blog</a>
-                            </li>
-                            <li><a href="blog-detail.html">Blog Details</a>
-                            </li>
-                            <li><a href="contact.html">Contact Us</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
 
 
+
                 <div class="col-menu col-md-3">
-                    <h6 class="title">Kültür & Sanat</h6>
+                    <h6 class="title">Plajlar</h6>
                     <div class="content">
                         <ul class="menu-col">
-                            <li><a href="favorites.html">Seyit Onbaşı (Havranlı Koca Seyit)</a></li>
-                            <li><a href="favorites.html">Sarıkız Efsanesi</a></li>
-                            <li><a href="favorites.html">Hasan Boğuldu Efsanesi</a></li>
+
+                        </ul>
+                    </div>
+
+                    <h6 class="title">Sahiller</h6>
+                    <div class="content">
+                        <ul class="menu-col">
+
+                        </ul>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-menu col-md-3">
+                    <h6 class="title">Piknik Alanları</h6>
+                    <div class="content">
+                        <ul class="menu-col">
 
                         </ul>
                     </div>
