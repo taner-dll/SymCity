@@ -174,6 +174,8 @@ class WebSiteController extends AbstractController
     }
 
 
+
+
     /**
      * Gezi Rehberi
      * @Route("/travel-guide-embedded-menu", name="travel_guide_embedded_menu")
@@ -336,6 +338,7 @@ class WebSiteController extends AbstractController
             $request->query->getInt('page', 1), 5
         );
 
+
         return $this->render('web_site/pages/adverts.html.twig', [
             'adverts' => $adverts,
             'categories' => $em->getRepository(Advert::class)->advertCategoryList(),
@@ -346,8 +349,8 @@ class WebSiteController extends AbstractController
 
     /**
      * @Route({
-     *     "en": "/advert-detail/{id}/{slug}",
-     *     "tr": "/ilan-detay/{id}/{slug}"
+     *     "en": "/advert-detail/{id}/{cat}/{sub}/{slug}",
+     *     "tr": "/ilan-detay/{id}/{cat}/{sub}/{slug}"
      * }, name="advert_detail",  methods={"GET"})
      * @param $id
      * @return Response

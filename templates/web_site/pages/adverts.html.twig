@@ -19,65 +19,98 @@
 
     <section id="popular-listing" class="p_b30 p_t30">
         <div class="container">
+
             <div class="row">
 
-                <div class="col-md-9 col-sm-9 col-xs-12">
+                <div class="col-md-8 col-sm-8 col-xs-12">
 
                     <div class="row">
-                        <div class="col-md-12">
+
+                        {% for a in adverts %}
 
 
-                            {% for a in adverts %}
 
-                                <div class="popular-listing-box">
-                                    <div class="row">
-                                        <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <div class="popular-listing-img">
-                                                <figure class="effect-ming">
+                            <div class="popular-listing-box">
 
-                                                    {% if a.featuredImage is not null %}
-                                                        <img src="{{ asset('uploads/place_an_ad/')~a.featuredImage }}"
-                                                             alt="image">
-                                                    {% else %}
-                                                        <img src="{{ asset('build/img/no-image-800x432.png') }}"
-                                                             alt="image">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <div class="popular-listing-img">
+                                            <figure class="effect-ming">
 
-                                                    {% endif %}
-                                                </figure>
-                                            </div>
+                                                {% if a.featuredImage is not null %}
+                                                    <img src="{{ asset('uploads/place_an_ad/')~a.featuredImage }}"
+                                                         alt="image">
+                                                {% else %}
+                                                    <img src="{{ asset('build/img/no-image-800x432.png') }}"
+                                                         alt="image">
+
+                                                {% endif %}
+                                            </figure>
                                         </div>
-                                        <div class="col-md-8 col-sm-8 col-xs-12">
-                                            <div class="popular-listing-detail">
-                                                <h3><a href="{{ path('business_detail', {id:a.id,slug:a.slug}) }}">
-                                                        {{ a.title|title }}</a></h3>
-                                                <p>{{ (a.description|striptags)[:100] }}&hellip;</p>
-                                            </div>
-                                            <div class="popular-listing-add">
-                                                <span><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+
+                                        <div class="popular-listing-detail"
+                                        >
+                                            <h3><a href="{{ path('advert_detail', {
+                                                    id:a.id,
+                                                    cat:a.category.shortname,
+                                                    sub:a.subcategory.shortname,
+                                                    slug:a.slug
+                                                }) }}">
+                                                    {{ a.title|title }}</a></h3>
+                                            <p>{{ (a.description|striptags)[:100] }}&hellip;</p>
+                                        </div>
+
+                                        <div class="popular-listing-add">
+
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                                 <span style="margin-left: 5px; font-size: 11px">
+                                                     Yer:
                                                     {{ a.place.name }}
                                                 </span>
 
-                                                <span style="margin-left: 20px">
-                                                    <i class="fa fa-tag" aria-hidden="true"></i>
-                                                    {{ a.category.shortname|trans({}, 'advert') }}
+                                                    <span style="margin-left: 10px; font-size: 11px">
+                                                        Tarih:
+                                                    {{ a.lastUpdate|date('d/m/Y') }}
                                                 </span>
 
+                                                    <span style="margin-left: 10px; font-size: 11px;">
+                                                    Fiyat:
+                                                    <strong style="color: #9f191f">{{ a.price }}</strong>
+                                                   </span>
 
-                                                <a href="{{ path('advert_detail', {id:a.id,slug:a.slug}) }}"
-                                                   class="pull-right btn btn-default btn-xs">Göster</a>
+                                                </div>
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 col-xs-12 p_b20 p_t20">
+
+                                                    <a href="{{ path('advert_detail', {
+                                                        id:a.id,
+                                                        cat:a.category.shortname,
+                                                        sub:a.subcategory.shortname,
+                                                        slug:a.slug
+                                                    }) }}"
+                                                       class="pull-right btn btn-default btn-xs btn-info">Göster</a>
+
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                     </div>
-
                                 </div>
 
-                            {% endfor %}
+                            </div>
 
+                        {% endfor %}
 
-                        </div>
                     </div>
 
-                    
+
                     <div class="row">
                         <div class="col-md-12">
                             {# display navigation #}
@@ -90,17 +123,16 @@
                 </div>
 
 
-                <div class="col-md-3 col-sm-3 col-xs-12 listing-rightbar">
+                <div class="col-md-4 col-sm-4 col-xs-12 listing-rightbar">
 
                     {% if app.request.get('name') is not null or
                         app.request.get('cat') is not null or
-                        app.request.get('place') is not null
-                    %}
+                        app.request.get('place') is not null %}
 
-                    <div class="right-bar bg_white">
-                        Arama sonuçlarına göre,<br>
-                        toplam <b>{{ adverts|length }}</b> kayıt listelendi.
-                    </div>
+                        <div class="right-bar bg_white">
+                            Arama sonuçlarına göre,<br>
+                            toplam <b>{{ adverts|length }}</b> kayıt listelendi.
+                        </div>
 
                     {% endif %}
 
@@ -133,7 +165,7 @@
                                                     {% set selected = 'selected' %}
                                                 {% endif %}
 
-                                                {{selected}}
+                                                {{ selected }}
 
                                                 value="{{ value['shortname'] }}">{{ value['shortname']| trans({}, 'advert') }}</option>
                                     {% endfor %}
@@ -151,7 +183,7 @@
                                                     {% set selected = 'selected' %}
                                                 {% endif %}
 
-                                                {{selected}}
+                                                {{ selected }}
 
                                                 value="{{ value['shortname'] }}">{{ value['shortname']| trans({}, 'advert') }}</option>
                                     {% endfor %}
@@ -169,7 +201,7 @@
                                                     {% set selected = 'selected' %}
                                                 {% endif %}
 
-                                                {{selected}}
+                                                {{ selected }}
 
                                                 value="{{ p.id }}">{{ p.name }}</option>
                                     {% endfor %}
@@ -208,7 +240,6 @@
                         </ul>
 
 
-
                     </div>
 
                 </div>
@@ -229,13 +260,15 @@
         // URL: http://www.billerickson.net/code/hide-empty-fields-get-form/
 
         // Change 'form' to class or ID of your specific form
-        $("form").submit(function() {
-            $(this).find(":input").filter(function(){ return !this.value; }).attr("disabled", "disabled");
+        $("form").submit(function () {
+            $(this).find(":input").filter(function () {
+                return !this.value;
+            }).attr("disabled", "disabled");
             return true; // ensure form still submits
         });
 
         // Un-disable form fields when page loads, in case they click back after submission
-        $( "form" ).find( ":input" ).prop( "disabled", false );
+        $("form").find(":input").prop("disabled", false);
     </script>
 
 {% endblock %}

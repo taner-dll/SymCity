@@ -27,8 +27,9 @@ class AdvertRepository extends ServiceEntityRepository
     public function advertCategoryList(): array
     {
         $qb = $this->createQueryBuilder('a')
-            ->select('a.id as id, count(c.id) as total, c.short_name as shortname')
+            ->select('a.id as id, count(c.id) as total, c.short_name as shortname, sc.short_name as sc_shortname')
             ->innerJoin('a.category', 'c')
+            ->innerJoin('a.sub_category','sc')
             ->where('a.confirm = :confirm')
             ->setParameter('confirm',1)
             ->groupBy('shortname')
@@ -62,7 +63,8 @@ class AdvertRepository extends ServiceEntityRepository
             ->leftJoin('a.place', 'p')
             ->leftJoin('a.sub_category', 'sc')
             ->where('a.confirm = :confirm')
-            ->setParameter('confirm',1);
+            ->setParameter('confirm',1)
+            ->orderBy('a.id','desc');
 
         if ($request->query->get('name')):
             $qb->andWhere($qb->expr()->like('a.title',':bname'))

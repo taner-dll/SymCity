@@ -7,7 +7,8 @@
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="footer-about">
                     <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/logo.png" alt="image">
-                    <p>Lorem ipsum dolor amet consectur adipiscing elit sed do eiusmod tempor incididunt. Lorem ipsum dolor amet consectur adipiscing, Lorem ipsum dolor amet consectur adipiscing elit sed do eiusmod tempor incididunt...</p>
+                    <p>Lorem ipsum dolor amet consectur adipiscing elit sed do eiusmod tempor incididunt. Lorem ipsum dolor amet consectur adipiscing, Lorem
+                        ipsum dolor amet consectur adipiscing elit sed do eiusmod tempor incididunt...</p>
                     <a href="about.html">Read More <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
                 </div>
             </div>
@@ -42,7 +43,8 @@
                         </li>
                         <li><a href="#"><span><i class="fa fa-globe" aria-hidden="true"></i></span> <span>wwww.finddodirectory.com</span></a>
                         </li>
-                        <li><a href="#"><span><i class="fa fa-map-marker" aria-hidden="true"></i></span> <span>Find Do, 06 Highley St, Victoria, Australia.</span></a>
+                        <li><a href="#"><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                                <span>Find Do, 06 Highley St, Victoria, Australia.</span></a>
                         </li>
                     </ul>
                 </div>
@@ -52,7 +54,11 @@
                 <div class="footer-links">
                     <h3>Sayfamıza Katılın<span></span></h3>
                     <div class="footer-latest">
-                        <div class="fb-page" data-href="https://www.facebook.com/edremitkorfezrehberi/" data-tabs="" data-width="" data-height="" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/edremitkorfezrehberi/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/edremitkorfezrehberi/">Edremit Körfezi</a></blockquote></div>
+                        <div class="fb-page" data-href="https://www.facebook.com/edremitkorfezportali/" data-tabs="" data-width="" data-height=""
+                             data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                            <blockquote cite="https://www.facebook.com/edremitkorfezportali/" class="fb-xfbml-parse-ignore"><a
+                                        href="https://www.facebook.com/edremitkorfezportali/">Edremit Körfezi</a></blockquote>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -62,12 +68,20 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="footer-newsletter">
-                    <span>Subscribe</span>
-                    <h2>to our newsletter</h2>
-                    <div class="sub-newsletter">
-                        <input type="email" name="email" placeholder="Enter your email address....">
-                        <button>Subscribe</button>
-                    </div>
+                    <span>GELİŞMELERDEN HABERDAR OLMAK İÇİN</span>
+                    <h2>E-BÜLTENİMİZE ABONE OLUN</h2>
+
+                    <form method="post" action="{{ path('add_subscriber') }}">
+                        <div class="sub-newsletter">
+
+                            <input type="email" name="subscribe_email" required
+                                   autocomplete="off"
+                                   placeholder="E-posta adresinizi giriniz...">
+                            <input type="hidden" name="subscribe_token" value="{{ csrf_token('subscribe-item') }}"/>
+                            <button type="submit">Abone Ol</button>
+
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -85,3 +99,4 @@
     </div>
 </footer>
 <!-- Footer -->
+

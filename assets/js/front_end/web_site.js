@@ -1,9 +1,7 @@
 import '../../css/front_end/web_site.scss';
 import 'select2';
 import Routing from "../Routing";
-
-
-
+import Swal from 'sweetalert2';
 
 
 //select2 theme
@@ -16,8 +14,6 @@ const business_category = $('#select_business_category');
 const advert_category = $('#select_advert_category');
 const advert_sub_category = $('#select_advert_subcategory');
 const place = $('#select_location');
-
-
 
 
 /**
@@ -40,7 +36,6 @@ business_category.next(".select2-container").hide();
 //----------------------------------------------------------
 
 
-
 //----------------------------------------------------------
 advert_category.select2({
     theme: bootstrap_theme,
@@ -50,7 +45,6 @@ advert_category.select2({
 //hidden by default
 advert_category.next(".select2-container").hide();
 //----------------------------------------------------------
-
 
 
 //----------------------------------------------------------
@@ -108,7 +102,7 @@ advert_category.on('change', function (e) {
     /**
      * ilan kategorisi seçimi "tümü" değilse
      */
-    if (data[0].id!=='all' && (data[0].id).length>0){
+    if (data[0].id !== 'all' && (data[0].id).length > 0) {
 
         $.ajax({
             url: Routing.generate('ajax_ad_subcategories'),
@@ -120,10 +114,10 @@ advert_category.on('change', function (e) {
 
             success: function (categories) {
 
-                $.each(categories, function(item, value){
+                $.each(categories, function (item, value) {
 
                     //console.log(value.shortname);
-                    html += '<option value="'+value.shortname+'">'+value.shortname_translated+'</option>';
+                    html += '<option value="' + value.shortname + '">' + value.shortname_translated + '</option>';
 
                 });
                 advert_sub_category.html(html);
@@ -136,14 +130,34 @@ advert_category.on('change', function (e) {
     }
 
 
-
-
-
-
-
     advert_sub_category.next(".select2-container").show();
 
 
 });
+
+
+//###########################################################
+
+const success_message = $('#success_message');
+const warning_message = $('#warning_message');
+
+if (success_message.val()) {
+    Swal.fire({
+        title: 'Tebrikler!',
+        html: '<p>'+success_message.val()+'</p>',
+        type: 'success',
+        confirmButtonText: 'Tamam'
+    });
+}
+
+
+if (warning_message.val()) {
+    Swal.fire({
+        title: 'Uyarı!',
+        html: '<p>'+warning_message.val()+'</p>',
+        type: 'warning',
+        confirmButtonText: 'Tamam'
+    });
+}
 
 
