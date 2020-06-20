@@ -1,5 +1,14 @@
-//sweetalert2
 import Swal from 'sweetalert2';
+import InputMask from 'inputmask';
+
+let date_mask = new InputMask({ 'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'  });
+date_mask.mask($('#birthday'));
+
+let tel_mask = new InputMask("(999) 999-9999");
+tel_mask.mask($('#gsm'));
+
+
+
 
 const Toast = Swal.mixin({
     toast: true,

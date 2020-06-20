@@ -82,4 +82,3 @@ security:
     - { path: ^/places/to/visit/, roles: ROLE_ADMIN }
     - { path: ^/place/, roles: ROLE_ADMIN }
     - { path: ^/business/category/, roles: ROLE_ADMIN }
-    - { path: ^/user/, roles: ROLE_ADMIN }

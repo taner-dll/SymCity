@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -68,10 +67,6 @@ class User implements UserInterface
      */
     private $lastLogin;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $full_name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -97,6 +92,32 @@ class User implements UserInterface
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $passwd_reset_due_date;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $gender = 'none';
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $birthday;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $gsm;
 
     public function __construct()
     {
@@ -133,7 +154,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return $this->user_name;
     }
 
     /**
@@ -354,17 +375,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getFullName(): ?string
-    {
-        return $this->full_name;
-    }
-
-    public function setFullName(string $full_name): self
-    {
-        $this->full_name = $full_name;
-
-        return $this;
-    }
 
     public function setUserName(string $user_name): self
     {
@@ -417,6 +427,66 @@ class User implements UserInterface
     public function setPasswdResetDueDate(?\DateTimeInterface $passwd_reset_due_date): self
     {
         $this->passwd_reset_due_date = $passwd_reset_due_date;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(?string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(?string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getBirthday(): ?\DateTimeInterface
+    {
+        return $this->birthday;
+    }
+
+    public function setBirthday(?\DateTimeInterface $birthday): self
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getGsm(): ?string
+    {
+        return $this->gsm;
+    }
+
+    public function setGsm(?string $gsm): self
+    {
+        $this->gsm = $gsm;
 
         return $this;
     }

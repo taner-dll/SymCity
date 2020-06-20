@@ -53,19 +53,7 @@ class AppController extends AbstractController
 
         } else {
 
-            $advert_total = $em->getRepository("App:Advert")->count(array('user'=>$this->getUser()));
-            $event_total = $em->getRepository("App:Event")->count(array('user'=>$this->getUser()));
-            $announce_total= $em->getRepository("App:Announce")->count(array('user'=>$this->getUser()));
-            $business_total = $em->getRepository("App:Business")->count(array('user'=>$this->getUser()));
-
-            return $this->render('app/user-dashboard.html.twig',
-                array(
-                    'advert_total'=>$advert_total,
-                    'event_total'=>$event_total,
-                    'announce_total'=>$announce_total,
-                    'business_total'=>$business_total
-                )
-            );
+            return $this->render('app/user-dashboard.html.twig');
         }
 
     }
