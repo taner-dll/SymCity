@@ -23,6 +23,31 @@ class AjaxController extends AbstractController
 {
 
 
+    /**
+     * @Route("/check-username", name="ajax_check_username", methods={"POST"}, options={"expose"=true})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function ajaxCheckUsername(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user_name = $request->request->get('user_name');
+
+        $user = $em->getRepository(User::class)->findOneBy(
+            array(
+                'user_name'=>$user_name
+            )
+        );
+
+        if ($user){
+            return new JsonResponse("this user is already registered", Response::HTTP_CONFLICT);
+        }
+        else{
+            return new JsonResponse("this username is available", Response::HTTP_OK);
+        }
+
+    }
 
 
 
