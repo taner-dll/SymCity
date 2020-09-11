@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kullanıcılar{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('place') }}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            Kullanıcılar
+            <small>Liste</small>
+        </h1>
+
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li class="active"><a href="{{ path('app_users') }}">Kullanıcılar</a></li>
+        </ol>
+    </section>
+
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="box">
+                <!--
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+                </div>
+                -->
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="example1_wrapper"
+                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                                <table id="example1" class="table table-bordered table-striped
+                                table-hover table-condensed
+                                dataTable" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="sorting_desc">ID</th>
+                                        <th>E-Posta</th>
+                                        <th>Tam Adı</th>
+                                        <th>Onay Durumu</th>
+                                        <th>Rol</th>
+                                        <th>Son Giriş</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for user in users %}
+                                        <tr>
+                                            <td>{{ user.id }}</td>
+                                            <td>{{ user.email }}</td>
+
+                                            <td>{{ user.fullName }}</td>
+                                            <td>
+                                                {% if  user.confirmed == 0 %}
+                                                    <span class="label label-warning">
+                                                                    <i class="fa fa-clock-o"></i>
+                                                                    Onay Bekliyor</span>
+                                                {% elseif user.confirmed == 1 %}
+                                                    <span class="label label-success">
+                                                                    <i class="fa fa-check"></i>
+                                                                    Doğrulanmış Hesap</span>
+                                                {% endif %}
+
+                                            </td>
+                                            <td>{{ user.roles|json_encode(constant('JSON_PRETTY_PRINT')) }} </td>
+                                            <td>{{ user.lastLogin|date('d.m.Y H:i:s') }}</td>
+
+                                            <td>
+                                                <a href="#"
+                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="7">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+
+    </div>
+
+
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('place') }}
+{% endblock %}
