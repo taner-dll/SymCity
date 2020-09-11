@@ -21,21 +21,21 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fullName', TextType::class, [
+            ->add('firstname', TextType::class, [
+                'required'=>true
+            ])
+            ->add('lastname', TextType::class, [
                 'required'=>true
             ])
             ->add('email', EmailType::class, [
                 'required'=>true,
                 'empty_data'=>''
             ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'Kullanım koşularını kabul etmelisiniz.',
-                    ]),
-                ]
+
+            ->add('userName', TextType::class, [
+                'required'=>true
             ])
+
             ->add('plainPassword', RepeatedType::class, [
                 /*'help' => 'En az 6 karakter',*/
                 'type' => PasswordType::class,
@@ -52,7 +52,19 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ]);
+            ])
+
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Kullanım koşularını kabul etmelisiniz.',
+                    ]),
+                ]
+            ])
+
+
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -13,6 +13,7 @@ parameters:
     adv_directory:  '%kernel.project_dir%/public/uploads/place_an_ad'
     plc_directory:  '%kernel.project_dir%/public/uploads/place'
     bus_directory:  '%kernel.project_dir%/public/uploads/business'
+    upc_directory:  '%kernel.project_dir%/public/uploads/user/picture'
     locale: 'tr'
     city: 'balikesir'
 

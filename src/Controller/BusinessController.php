@@ -245,7 +245,7 @@ class BusinessController extends AbstractController
             $em->flush();
 
             //yayına alındığına dair e-posta gönderimi
-            $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
+            /*$from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
             $message = (new \Swift_Message('İş Yeriniz Yayında!'))
                 ->setFrom($from)
                 ->setTo($business->getUser()->getEmail())
@@ -258,7 +258,7 @@ class BusinessController extends AbstractController
                     ),
                     'text/html'
                 );
-            $mailer->send($message);
+            $mailer->send($message);*/
 
 
             $this->addFlash('success', $translator->trans('business_confirmed'));

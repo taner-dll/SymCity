@@ -25,7 +25,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
 
-
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      * @param UserInterface $user
@@ -42,6 +41,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newEncodedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+
+    public function findUsernameByNotCurrentUser($username, $user_id)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.user_name = :user_name')
+            ->setParameter('user_name', $username)
+            ->andWhere('u.id != :user_id')
+            ->setParameter('user_id', $user_id)
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

@@ -69,7 +69,7 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     private $user_name;
 
@@ -119,6 +119,11 @@ class User implements UserInterface
      */
     private $gsm;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $picture;
+
     public function __construct()
     {
         $this->pTVComments = new ArrayCollection();
@@ -154,6 +159,11 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
+
+        if ($this->user_name===null){
+            return "";
+        }
+
         return $this->user_name;
     }
 
@@ -378,7 +388,13 @@ class User implements UserInterface
 
     public function setUserName(string $user_name): self
     {
-        $this->user_name = $user_name;
+        if (!$user_name){
+            $this->user_name = $this->email;
+        }
+        else{
+            $this->user_name = $user_name;
+        }
+
 
         return $this;
     }
@@ -487,6 +503,18 @@ class User implements UserInterface
     public function setGsm(?string $gsm): self
     {
         $this->gsm = $gsm;
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }

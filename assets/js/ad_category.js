@@ -65,7 +65,7 @@ for (let i = 0; i < an_length; i++) {
             $(evt.item).parent().find('.list-group-item').each(function () {
 
                 //set data-sort-no value
-                $(this).attr('data-sort-no', count_index)
+                $(this).attr('data-sort-no', count_index);
 
                 //create multidimensional with 'shortname => no'
                 sort_list.push([$(this).attr('data-shortname'), $(this).attr('data-sort-no')]);

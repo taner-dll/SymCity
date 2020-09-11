@@ -25,13 +25,10 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <form class="form-signin" method="post">
+            <form class="form-signin" method="post" autocomplete="off">
 
 
                 <p class="login-box-msg">
-
-                    Giriş Bilgileri<br>
-
 
                     {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -42,20 +39,21 @@
                         You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
                     </div>
                 {% endif %}
+
                 </p>
 
 
                 <div class="form-group has-feedback">
-                    <label for="username" class="sr-only">Username</label>
-                    <input type="text" name="username" id="inputUsername" value="{{ last_username }}"
-                           class="form-control" placeholder="Username" required autofocus>
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <label for="inputUsername" class="sr-only">Eposta</label>
+                    <input type="email" name="username" id="inputUsername" value="{{ last_username }}"
+                           class="form-control" placeholder="Eposta" required autofocus/>
+                    {#<span class="glyphicon glyphicon-envelope form-control-feedback"></span>#}
                 </div>
                 <div class="form-group has-feedback">
                     <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" name="password" id="inputPassword"
-                           class="form-control" placeholder="Password" required>
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <input type="password" name="password" id="inputPassword" autocomplete="new-password"
+                           class="form-control" placeholder="Şifre" required/>
+                    {#<span class="glyphicon glyphicon-lock form-control-feedback"></span>#}
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
@@ -67,7 +65,6 @@
                         </div>
                         <input type="hidden" name="_csrf_token"
                                value="{{ csrf_token('authenticate') }}">
-
 
 
                     </div>
@@ -84,13 +81,13 @@
 
 
             <a class="btn btn-sm btn-default btn-flat btn-block" href="{{ path('index') }}">
-                Ana Sayfa
+                Ana sayfa
             </a>
             <a class="btn btn-sm btn-warning btn-flat btn-block" href="{{ path('forgot_email') }}">
-                <i class="fa fa-question-circle"></i> Şifremi Unuttum
+                <i class="fa fa-question-circle"></i> Hesabını mı unuttun?
             </a>
             <a class="btn btn-sm btn-success btn-flat btn-block" href="{{ path('app_register') }}">
-                <i class="fa fa-plus-circle"></i> Yeni Hesap Oluştur
+                <i class="fa fa-plus-circle"></i> Yeni hesap oluştur
             </a>
             {#<a href="{{ path('index') }}">Siteye dön</a> -
             <a href="{{ path('forgot_email') }}">Hesabını mı unuttun?</a> -

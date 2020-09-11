@@ -10,7 +10,6 @@ use App\Entity\Event;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/app")
@@ -68,6 +67,20 @@ class AppController extends AbstractController
         $users = $em->getRepository("App:User")->findAll();
         return $this->render('app/users.html.twig' ,array(
             'users'=>$users
+        ));
+
+    }
+
+    /**
+     * @Route("/feedback", name="app_feedback", methods={"GET","POST"})
+     */
+    public function feedback(){
+
+        $em = $this->getDoctrine()->getManager();
+
+
+        return $this->render('app/feedback.html.twig' ,array(
+            /*'users'=>$users*/
         ));
 
     }

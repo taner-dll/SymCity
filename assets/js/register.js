@@ -4,8 +4,12 @@ import '../css/register.scss'
 const email_input_loader = $('#email_input_loader');
 const email_input_icon = $('#email_input_icon');
 const email_form_group = $('#email_form_group');
-const login_url = $('#login').attr('href');
+const login_url = Routing.generate('app_login');
 const register_url = $('#app_register').val();
+
+const username_input_loader = $('#username_input_loader');
+const username_input_icon = $('#username_input_icon');
+const username_form_group = $('#username_form_group');
 
 
 
@@ -124,3 +128,73 @@ $('#registration_form_email').on('change',function () {
 
 });
 
+$('#registration_form_userName').on('change',function () {
+    //console.log(this.value.length);
+    //console.log(Routing.generate('check_email'));
+
+    username_input_icon.hide();
+    username_input_loader.show();
+
+    $.ajax({
+        url: Routing.generate('check_username'),
+        type: "POST",
+        dataType: "json",
+        data: {username: $('#registration_form_userName').val()},
+        statusCode: {
+            /**
+             * Response Manipulation
+             * @param responseObject
+             * @param textStatus
+             * @param jqXHR
+             */
+            404: function (responseObject, textStatus, jqXHR) {
+                // No content found (404)
+                // This code will be executed if the server returns a 404 response
+            },
+            503: function (responseObject, textStatus, errorThrown) {
+                // Service Unavailable (503)
+                // This code will be executed if the server returns a 503 response
+            },
+            200: function (responseObject, textStatus, errorThrown) {
+                //console.log(responseObject + textStatus + errorThrown)
+                if (responseObject===1){
+                    console.log("kayitli kullanıcı adı");
+                    username_form_group.addClass('has-error');
+                    username_form_group.removeClass('has-success');
+
+                    let user_name = $('#registration_form_userName').val();
+
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Kayıtlı Kullanıcı Adı!',
+                        text: user_name+' kullanımdadır, lütfen farklı bir kullanıcı adı deneyin.',
+                        confirmButtonText: 'Tamam',
+                        footer: '<a href="'+login_url+
+                            '">Bu kullanıcı adı  size ait ise giriş yapmayı deneyin</a>'
+                    })
+                }
+                else if (responseObject===0){
+                    console.log("kullanıcı adı uygun");
+                    username_form_group.addClass('has-success');
+                    username_form_group.removeClass('has-error');
+                }
+            }
+        }
+    }).done(function (data) {
+        //response text
+        //console.log(data);
+        username_input_loader.hide();
+        username_input_icon.show();
+
+    })
+        .fail(function (jqXHR, textStatus) {
+            //hata anında
+            //console.log('Something went wrong: ' + textStatus);
+        })
+        .always(function (jqXHR, textStatus) {
+            //her koşulda çalışır
+            //console.log('Ajax request was finished')
+        });
+
+
+});

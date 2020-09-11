@@ -12,145 +12,146 @@
 
     <div class="row">
 
-        <div class="col-md-4">
 
-            <div class="box box-widget widget-user-2">
-                <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header bg-blue-gradient">
-                    <div class="widget-user-image">
-                        {#<img class="img-circle" src="../dist/img/user7-128x128.jpg" alt="User Avatar">#}
-                    </div>
-                    <!-- /.widget-user-image -->
-                    <h3 class="widget-user-username">{{ app.user.firstName }} {{ app.user.lastName }}</h3>
-                    <h5 class="widget-user-desc">{{ app.user.username }}</h5>
-                </div>
-                <div class="box-footer no-padding">
-                    <ul class="nav nav-stacked">
-                        <li><a href="{{ path('advert_index') }}">İlanlarım
-                                <span class="pull-right badge bg-blue">{{ app.user.adverts.count }}</span></a></li>
-                        <li><a href="{{ path('announce_index') }}">Duyurularım
-                                <span class="pull-right badge bg-aqua">{{ app.user.announce.count }}</span></a></li>
-                        <li><a href="{{ path('event_index') }}">Etkinliklerim
-                                <span class="pull-right badge bg-green">{{ app.user.event.count }}</span></a></li>
-                        <li><a href="{{ path('business_index') }}">İş Yeri / Hizmetlerim
-                                <span class="pull-right badge bg-red">{{ app.user.businesses.count }}</span></a></li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    {#<li class="active"><a href="#timeline" data-toggle="tab" aria-expanded="true">Timeline</a></li>#}
-                    <li class="active"><a href="#user_info" data-toggle="tab" aria-expanded="false">Bilgiler</a></li>
-                    <li class=""><a href="#change_pass" data-toggle="tab" aria-expanded="false">Parola</a></li>
+                    <li class="active"><a href="#user_profile" data-toggle="tab"
+                                          aria-expanded="true"><span id="firstname_tab_text">{{ app.user.firstname }}</span></a></li>
+                    <li class=""><a href="#user_info" data-toggle="tab" aria-expanded="false">Bilgilerimi Değiştir</a>
+                    </li>
+                    <li class=""><a href="#change_pass" data-toggle="tab" aria-expanded="false">Parolamı Değiştir</a>
+                    </li>
+                    <li class=""><a href="#change_profile_picture" data-toggle="tab"
+                                    aria-expanded="false">Profil Resmimi Değiştir</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
 
 
-                    {#<div class="tab-pane active" id="timeline">
-                        <!-- The timeline -->
-                        <ul class="timeline timeline-inverse">
-                            <!-- timeline time label -->
-                            <li class="time-label">
-                        <span class="bg-red">
-                          10 Feb. 2014
-                        </span>
-                            </li>
-                            <!-- /.timeline-label -->
-                            <!-- timeline item -->
-                            <li>
-                                <i class="fa fa-envelope bg-blue"></i>
+                    <div class="tab-pane active" id="user_profile">
 
-                                <div class="timeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                        <div class="row">
 
-                                    <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+                            <div class="col-md-4">
+                                <div class="box box-widget widget-user-2">
+                                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                                    <div class="widget-user-header bg-gray-light">
+                                        <div class="widget-user-image">
 
-                                    <div class="timeline-body">
-                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                        quora plaxo ideeli hulu weebly balihoo...
+                                            {% if app.user.picture|length>0 %}
+
+                                                <img class="img-circle"
+                                                     src="{{ asset('uploads/user/picture/')~app.user.picture }}"
+                                                     alt="User Avatar">
+
+                                            {% else %}
+
+                                                <img class="img-circle" src="{{ asset('build/img/no-image.png') }}"
+                                                     alt="User Avatar">
+
+                                            {% endif %}
+
+
+                                        </div>
+                                        <!-- /.widget-user-image -->
+                                        <h4 id="user_title_text">{{ app.user.firstName }} {{ app.user.lastName }}</h4>
                                     </div>
-                                    <div class="timeline-footer">
-                                        <a class="btn btn-primary btn-xs">Read more</a>
-                                        <a class="btn btn-danger btn-xs">Delete</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- END timeline item -->
-                            <!-- timeline item -->
-                            <li>
-                                <i class="fa fa-user bg-aqua"></i>
-
-                                <div class="timeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
-
-                                    <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request
-                                    </h3>
-                                </div>
-                            </li>
-                            <!-- END timeline item -->
-                            <!-- timeline item -->
-                            <li>
-                                <i class="fa fa-comments bg-yellow"></i>
-
-                                <div class="timeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-
-                                    <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                                    <div class="timeline-body">
-                                        Take me to your leader!
-                                        Switzerland is small and neutral!
-                                        We are more like Germany, ambitious and misunderstood!
-                                    </div>
-                                    <div class="timeline-footer">
-                                        <a class="btn btn-warning btn-flat btn-xs">View comment</a>
+                                    <div class="box-footer no-padding">
+                                        <ul class="nav nav-stacked">
+                                            <li><a href="{{ path('advert_index') }}">İlanlarım
+                                                    <span class="pull-right badge bg-blue">{{ app.user.adverts.count }}</span></a>
+                                            </li>
+                                            <li><a href="{{ path('announce_index') }}">Duyurularım
+                                                    <span class="pull-right badge bg-aqua">{{ app.user.announce.count }}</span></a>
+                                            </li>
+                                            <li><a href="{{ path('event_index') }}">Etkinliklerim
+                                                    <span class="pull-right badge bg-green">{{ app.user.event.count }}</span></a>
+                                            </li>
+                                            <li><a href="{{ path('business_index') }}">İş Yeri / Hizmetlerim
+                                                    <span class="pull-right badge bg-red">{{ app.user.businesses.count }}</span></a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </li>
-                            <!-- END timeline item -->
-                            <!-- timeline time label -->
-                            <li class="time-label">
-                        <span class="bg-green">
-                          3 Jan. 2014
-                        </span>
-                            </li>
-                            <!-- /.timeline-label -->
-                            <!-- timeline item -->
-                            <li>
-                                <i class="fa fa-camera bg-purple"></i>
+                            </div>
 
-                                <div class="timeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
+                            <div class="col-md-8">
 
-                                    <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                                    <div class="timeline-body">
-                                        <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                        <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                        <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                        <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Hakkımda</h3>
                                     </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+
+                                        <strong><i class="fa fa-user margin-r-5"></i> Kullanıcı Adı: </strong>
+
+                                        <span id="username_text">{{ app.user.username }}</span>
+
+                                        <p class="text-muted">
+                                            Sayfalarda görünen "herkese açık" adınızdır. Gerçek ad ve soyadınız
+                                            gizlidir.
+                                        </p>
+
+                                        <hr>
+
+                                        <strong><i class="fa fa-envelope margin-r-5"></i> Eposta: </strong>
+                                        {{ app.user.email }}
+
+                                        <p class="text-muted">
+                                            Hesabınıza ait e-posta adresidir, değiştirilemez.
+                                        </p>
+
+                                        <hr>
+
+                                        <strong><i class="fa fa-phone margin-r-5"></i> Telefon: </strong>
+
+                                        <span id="gsm_text">{{ app.user.gsm }}</span>
+
+                                        <p class="text-muted">
+                                            Telefon numaranız, ilan yayınlarken paylaşılmadığı sürece gizlidir.
+                                            Sadece siz görebilirsiniz.
+                                        </p>
+                                        <hr>
+
+
+                                        <strong><i class="fa fa-calendar margin-r-5"></i> Doğum Tarihiniz: </strong>
+
+                                        <span id="birthday_text">{{ app.user.birthday|date('d/m/Y') }}</span>
+
+
+                                        <hr>
+
+
+                                        <strong><i class="fa fa-phone margin-r-5"></i> Cinsiyetiniz: </strong>
+
+                                        <span id="gender_text">{{ ('gender.' ~ app.user.gender)|trans({},'dashboard') }}</span>
+
+
+
+
+                                        <hr>
+
+
+                                    </div>
+                                    <!-- /.box-body -->
                                 </div>
-                            </li>
-                            <!-- END timeline item -->
-                            <li>
-                                <i class="fa fa-clock-o bg-gray"></i>
-                            </li>
-                        </ul>
-                    </div>#}
+
+                            </div>
 
 
-                    <div class="tab-pane active" id="user_info">
+                        </div>
+
+                    </div>
+
+
+                    <div class="tab-pane" id="user_info">
 
                         {#<h3 class="box-title"></h3>#}
 
-                        <form class="form-horizontal" method="post" action="{{ path('user_update_info') }}">
+                        <form class="form-horizontal" method="post" action="{{ path('user_update_info') }}"
+                              id="update_user_info_form">
 
                             <div class="form-group">
                                 <div class="col-sm-6">
@@ -166,30 +167,32 @@
                             </div>
 
 
-
-
                             <div class="form-group">
                                 <div class="col-sm-6">
                                     <label for="birthday">Doğum Tarihi:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input id="birthday" name="birthday" required value="{{ app.user.birthday|date('d/m/Y') }}"
-                                               data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'"
-                                               type="text" class="form-control">
-                                    </div>
+                                    <input id="birthday" type="text" name="birthday" class="form-control"
+                                           value="{{ app.user.birthday|date('d/m/Y') }}">
+
+
                                 </div>
 
                                 <div class="col-sm-6">
 
-                                        <label for="gender">Cinsiyet</label>
-                                        <select class="form-control" id="gender" name="gender">
-                                            <option value="none" {% if app.user.gender == 'none' %}selected{% endif %}>Belirtmek İstemiyorum</option>
-                                            <option value="female" {% if app.user.gender == 'female' %}selected{% endif %}>Kadın</option>
-                                            <option value="male" {% if app.user.gender == 'male' %}selected{% endif %}>Erkek</option>
-                                            <option value="other" {% if app.user.gender == 'other' %}selected{% endif %}>Özel</option>
-                                        </select>
+                                    <label for="gender">Cinsiyet</label>
+                                    <select class="form-control" id="gender" name="gender">
+                                        <option value="none" {% if app.user.gender == 'none' %}selected{% endif %}>
+                                            Belirtmek İstemiyorum
+                                        </option>
+                                        <option value="female" {% if app.user.gender == 'female' %}selected{% endif %}>
+                                            Kadın
+                                        </option>
+                                        <option value="male" {% if app.user.gender == 'male' %}selected{% endif %}>
+                                            Erkek
+                                        </option>
+                                        <option value="other" {% if app.user.gender == 'other' %}selected{% endif %}>
+                                            Özel
+                                        </option>
+                                    </select>
 
                                 </div>
 
@@ -202,46 +205,214 @@
                                            class="form-control" id="gsm" name="gsm" placeholder="Cep Telefonu">
                                 </div>
 
-                            </div>
-
-
-                            <div class="form-group">
-                                <div class="col-sm-6">
-                                    <label for="username">Kullanıcı Adı:</label>
-                                    <input type="text" disabled required value="{{ app.user.username }}"
-                                           class="form-control" id="username" name="username" placeholder="Kullanıcı Adınız">
-                                </div>
                                 <div class="col-sm-6">
                                     <label for="email">E-Posta:</label>
                                     <input type="email" disabled required value="{{ app.user.email }}"
                                            class="form-control" id="email" name="email" placeholder="E-posta">
                                 </div>
+
                             </div>
 
+
+                            <div class="form-group has-feedback" id="username_form_group">
+                                <div class="col-sm-6">
+                                    <label for="username">Kullanıcı Adı:</label>
+                                    <input type="text" required value="{{ app.user.username }}"
+                                           class="form-control" id="username" name="username"
+                                           placeholder="Kullanıcı Adınız">
+                                    <span id="username_input_loader" style="display: none"
+                                          class="form-control-feedback">
+                                        <img src="{{ asset('build/img/ajax-loader-form.gif') }}"
+                                             alt="">
+                                    </span>
+                                </div>
+
+                            </div>
 
 
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <p class="text-muted well well-sm no-shadow">
-                                        6698 Sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca,
-                                        kişisel bilgileriniz üçüncü kişilerle paylaşılmamaktadır.
-                                    </p>
-                                    <button type="submit"
+
+                                    <button type="button" id="update_user_info_btn"
                                             class="btn btn-success">Bilgilerimi Güncelle
                                     </button>
+                                </div>
+                            </div>
+
+                            <p class="text-muted well well-sm no-shadow">
+                                6698 Sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca,
+                                kişisel bilgileriniz üçüncü kişilerle paylaşılmamaktadır.
+                            </p>
+
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="change_pass">
+
+                        <form class="form-horizontal" method="post" action="{{ path('user_update_password') }}">
+
+                            <div class="form-group">
+                                <div class="col-sm-6">
+
+
+                                    <input type="password" required
+                                           class="form-control" id="password" autocomplete="new-password" minlength="6"
+                                           name="password" placeholder="Yeni Parolanız">
+
+
+                                </div>
+
+                                <span id="password_strength"></span>
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6">
+
+
+                                    <input type="password" required
+                                           class="form-control" id="re_password" autocomplete="new-password"
+                                           minlength="6"
+                                           name="re_password" placeholder="Yeni Parola Tekrarı">
+
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+
+                                    <button type="button" id="update_password_btn"
+                                            class="btn btn-success">Parolamı Güncelle
+                                    </button>
+
                                 </div>
                             </div>
 
                         </form>
                     </div>
 
-                    <div class="tab-pane active" id="change_pass">
+                    <div class="tab-pane" id="change_profile_picture">
 
-                        {#<h3 class="box-title"></h3>#}
+
+                        <form class="form-horizontal" method="post"
+                              action="{{ path('user_update_profile_picture') }}" id="profile_picture_form">
+
+
+                            <div class="form-group">
+
+                                <div class="col-sm-6">
+
+                                    <label for="profile_picture">Yeni profil resmi seçiniz:</label>
+                                    <input type="file" id="profile_picture"
+                                           name="profile_picture" class="custom-file-input">
+
+
+                                    <input type="hidden" id="cropped_image" name="cropped_image"/>
+
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                         aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close"><span
+                                                                aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel">Resim Düzenle</h4>
+                                                </div>
+                                                <div class="modal-body" style="overflow: hidden">
+                                                    <img alt="" src="" id="selected_image"
+                                                         style="max-width: 600px; max-height: 600px;"/>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-default"
+                                                                data-method="zoom"
+                                                                data-option="0.1"
+                                                                title="Zoom In"
+                                                                onclick="$('#selected_image').cropper('zoom', 0.1)">
+
+                                                            <span class="fa fa-search-plus"></span>
+
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                data-method="zoom"
+                                                                data-option="-0.1"
+                                                                title="Zoom Out"
+                                                                onclick="$('#selected_image').cropper('zoom', -0.1)">
+
+                                                            <span class="fa fa-search-minus"></span>
+
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button id="crop_image"
+                                                            onclick="$('#image_demo').cropper('crop')"
+                                                            type="button" class="btn btn-default"
+                                                            data-dismiss="modal">
+                                                        Seç
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <div class="col-sm-12">
+
+                                    {% if app.user.picture|length > 0 %}
+
+                                        <img id="preview" src="{{ asset('uploads/user/picture/')~app.user.picture }}"
+                                             width="200"
+                                             height="200" alt="" class="img-responsive img-bordered"/>
+
+                                        <hr>
+
+                                        <a class="btn btn-danger"
+                                           href="{{ path('delete_profile_picture',
+                                               {picture:app.user.picture,
+                                                   _token:csrf_token('delete-profile-picture'~app.user.picture)}) }}"
+                                           target="_self" style="margin-right: 10px"
+                                           onclick="return confirm('Profil resmi silinecek, onaylıyor musunuz?');">
+                                            Mevcut Resmi Sil</a>
+
+                                    {% else %}
+
+                                        <img id="preview" src="{{ asset('build/img/no-image.png') }}"
+                                             class="img-responsive img-bordered" width="200" height="200" alt=""/>
+
+                                        <hr>
+
+                                    {% endif %}
+
+                                    <button type="button" id="profile_picture_submit_btn" class="btn btn-success">
+                                        Yeni Resmi Kaydet
+                                    </button>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </form>
 
                     </div>
 
+
                 </div>
+
+
                 <!-- /.tab-content -->
             </div>
             <!-- /.nav-tabs-custom -->

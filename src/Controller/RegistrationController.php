@@ -36,9 +36,11 @@ class RegistrationController extends AbstractController
     {
 
 
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+
 
 
         /**
@@ -73,6 +75,8 @@ class RegistrationController extends AbstractController
             $confirmation_code = $this->generateEmailConfirmationCode(16);
             $user->setConfirmationCode($confirmation_code);
 
+
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -88,7 +92,7 @@ class RegistrationController extends AbstractController
                         '_email/thank_you_new_user.html.twig',
                         array(
                             'email'=>$request->request->get('registration_form')['email'],
-                            'full_name'=>$user->getFullName(),
+                            'full_name'=>$user->getFirstname().' '.$user->getLastname(),
                             'confirmation_code'=>$confirmation_code
                         )
                     ),
@@ -99,7 +103,8 @@ class RegistrationController extends AbstractController
 
 
             //hoş geldiniz toast message
-            $this->addFlash('success','Sayın '.$user->getFullName().', aramıza hoş geldiniz!');
+            $this->addFlash('success','Sayın '.$user->getFirstname().' '.$user->getLastname().
+                ', aramıza hoş geldiniz!');
 
 
             return $guardHandler->authenticateUserAndHandleSuccess(
@@ -133,20 +138,23 @@ class RegistrationController extends AbstractController
             return new JsonResponse(1);
         }
 
-
     }
 
     /**
      * @Route("/check-username", name="check_username", methods={"POST"}, options={"expose"=true})
      * @param Request $request
      * @param TranslatorInterface $translator
-     * @return void
+     * @return JsonResponse
      */
     public function checkUsername(Request $request, TranslatorInterface $translator)
     {
-
-        //todo username aktif olduğu zaman yapılacak.
-
-
+        $em = $this->getDoctrine()->getManager();
+        $req = $request->request->get('username');
+        $user = $em->getRepository(User::class)->findOneBy(array('user_name' => $req));
+        if (!$user) {
+            return new JsonResponse(0);
+        } else {
+            return new JsonResponse(1);
+        }
     }
 }

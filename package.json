@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "bootstrap": "3.4.1",
+    "bootstrap-datepicker": "^1.9.0",
     "core-js": "^3.1.4",
     "cropper": "^4.0.0",
     "cropperjs": "^1.5.5",

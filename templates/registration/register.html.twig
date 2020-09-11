@@ -21,42 +21,55 @@
     <div class="login-box">
         <div class="login-logo">
             <h2 style="color:#FFFFFF;">Edremit Körfezi</h2>
-            <h4 style="color:#FFFFFF;font-style: oblique">"Körfezin Kısayolu"</h4>
-
+            <h4 style="color:#FFFFFF;font-style: oblique">Yeni Kullanıcı</h4>
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
             {{ form_start(registrationForm, {'attr':{'autocomplete':'new-password'}}) }}
 
-
-            <p class="login-box-msg">Yeni Kullanıcı Kayıt Formu</p>
+            <p class="login-box-msg"></p>
 
             <div class="form-group has-feedback">
-                {{ form_widget(registrationForm.fullName, {'attr': {'class': 'form-control',
-                    'placeholder': 'Ad Soyad'}}) }}
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                {{ form_widget(registrationForm.firstname, {'attr': {'class': 'form-control',
+                    'placeholder': 'Ad'}}) }}
+                {#<span class="glyphicon glyphicon-user form-control-feedback"></span>#}
+            </div>
+
+            <div class="form-group has-feedback">
+                {{ form_widget(registrationForm.lastname, {'attr': {'class': 'form-control',
+                    'placeholder': 'Soyad'}}) }}
+                {#<span class="glyphicon glyphicon-user form-control-feedback"></span>#}
             </div>
 
             <div class="form-group has-feedback" id="email_form_group">
                 {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',
                     'placeholder': 'E-Posta','autocomplete': 'null'}}) }}
-                <span id="email_input_icon" class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                {#<span id="email_input_icon" class="glyphicon glyphicon-envelope form-control-feedback"></span>#}
                 <span id="email_input_loader" style="display: none"
-                      class="form-control-feedback"><img src="{{ asset('build/img/ajax-loader-form.gif') }}" alt=""></span>
+                      class="form-control-feedback"><img src="{{ asset('build/img/ajax-loader-form.gif') }}"
+                                                         alt=""></span>
+            </div>
 
+            <div class="form-group has-feedback" id="username_form_group">
+                {{ form_widget(registrationForm.userName, {'attr': {'class': 'form-control',
+                    'placeholder': 'Kullanıcı adı'}}) }}
+
+                <span id="username_input_loader" style="display: none"
+                      class="form-control-feedback"><img src="{{ asset('build/img/ajax-loader-form.gif') }}"
+                                                         alt=""></span>
             </div>
 
             <div class="form-group has-feedback">
                 {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control',
                     'placeholder': 'Parola Giriniz (min. 6 karakter)','autocomplete':'new-password'}}) }}
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                {#<span class="glyphicon glyphicon-lock form-control-feedback"></span>#}
                 {#<small>{{ form_help(registrationForm.plainPassword) }}</small>#}
             </div>
 
             <div class="form-group has-feedback">
                 {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control',
                     'placeholder': 'Parola Tekrarı'}}) }}
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                {#<span class="glyphicon glyphicon-lock form-control-feedback"></span>#}
             </div>
 
             <p>
@@ -65,10 +78,7 @@
             </p>
 
             <div class="form-group has-feedback">
-
                 {{ form_widget(registrationForm.agreeTerms) }}
-
-
             </div>
 
             <div class="row">
@@ -81,16 +91,13 @@
                 <!-- /.col -->
             </div>
 
-
-
             {{ form_end(registrationForm) }}
             <hr>
-
 
             {#<a id="login" href="{{ path('app_login') }}">
                 Kayıtlı bir hesabım var, giriş yap
             </a>#}
-            <a class="btn btn-sm btn-info btn-flat btn-block" href="{{ path('app_login') }}">
+            <a href="{{ path('app_login') }}" style="text-decoration: underline">
                 Kayıtlı bir hesabım var
             </a>
 

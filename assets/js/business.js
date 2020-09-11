@@ -54,7 +54,7 @@ $input.change(function () {
         Swal.fire({
             type: 'error',
             title: 'Geçersiz Dosya Formatı',
-            text: 'Yalnızca JPEG, PNG formatında görsel yükleyiniz.',
+            text: 'Yalnızca jpg, png formatında görsel yükleyiniz.',
             confirmButtonText: 'Tamam',
         });
         // Destroy the old cropper instance

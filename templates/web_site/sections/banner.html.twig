@@ -4,9 +4,18 @@
         <div class="row">
 
                 <div class="banner-search">
-                    <h1>asdasd</h1>
-                    <p style="font-size: 12pt;">e-Devlet Kapısı ile bilgi ve belgelerinize tek noktadan ulaşabilir,
-                        başvuru işlemlerinizi hızla gerçekleştirebilirsiniz</p>
+
+
+                    {% if app.user %}
+                        <h1>HOŞ GELDİN <a href="{{ path('app_dashboard') }}">{{ app.user.firstname }}</a></h1>
+                    {% else %}
+                        <h1>HOŞ GELDİNİZ</h1>
+                    {% endif %}
+
+                    <p style="font-size: 12pt;">
+                        Edremit Körfez Portalındaki tüm hizmetler kayıtlı üyelerimiz için ücretsizdir ve daima ücretsiz kalacaktır.
+                        Kayıt olmak için <a href="{{ path('app_register') }}" style="text-decoration: underline">tıklayınız</a>
+                    </p>
                     <div class="advance-search">
 
 
@@ -120,7 +129,7 @@
 
                                         <button type="submit"
                                                 style="width: 50%; margin-top: -5px"
-                                                class="btn btn-primary btn-block pull-right">Ara</button>
+                                                class="btn btn-primary btn-block pull-right">Hızlı Ara</button>
 
 
 

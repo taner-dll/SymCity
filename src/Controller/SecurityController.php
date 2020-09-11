@@ -23,7 +23,7 @@ class SecurityController extends AbstractController
     use Util;
 
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/login", name="app_login", options={"expose"=true})
      * @param AuthenticationUtils $authenticationUtils
      * @param Request $request
      * @return Response

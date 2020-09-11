@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Kullanıcılar{% endblock %}
+{% block title %}Geri Bildirim{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,13 +11,13 @@
 
     <section class="content-header">
         <h1>
-            Kullanıcılar
-            <small>Liste</small>
+            Geri Bildirim
+            <small></small>
         </h1>
 
         <ol class="breadcrumb">
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
-            <li class="active"><a href="{{ path('app_users') }}">Kullanıcılar</a></li>
+            <li class="active"><a href="{{ path('app_feedback') }}">Geri Bildirim</a></li>
         </ol>
     </section>
 
@@ -35,64 +35,85 @@
                 -->
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div id="example1_wrapper"
-                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
-                                <table id="example1" class="table table-bordered table-striped
-                                table-hover table-condensed
-                                dataTable" role="grid" aria-describedby="example1_info">
-                                    <thead>
-                                    <tr role="row">
-                                        <th class="sorting_desc">ID</th>
-                                        <th>E-Posta</th>
-                                        <th>Tam Adı</th>
-                                        <th>Onay Durumu</th>
-                                        <th>Rol</th>
-                                        <th>Son Giriş</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for user in users %}
-                                        <tr>
-                                            <td>{{ user.id }}</td>
-                                            <td>{{ user.email }}</td>
+                    <form method="post" action="#">
 
-                                            <td>{{ user.fullName }}</td>
-                                            <td>
-                                                {% if  user.confirmed == 0 %}
-                                                    <span class="label label-warning">
-                                                                    <i class="fa fa-clock-o"></i>
-                                                                    Onay Bekliyor</span>
-                                                {% elseif user.confirmed == 1 %}
-                                                    <span class="label label-success">
-                                                                    <i class="fa fa-check"></i>
-                                                                    Doğrulanmış Hesap</span>
-                                                {% endif %}
+                        <div class="col-md-6">
 
-                                            </td>
-                                            <td>{{ user.roles|json_encode(constant('JSON_PRETTY_PRINT')) }} </td>
-                                            <td>{{ user.lastLogin|date('d.m.Y H:i:s') }}</td>
+                            <div class="row">
 
-                                            <td>
-                                                <a href="#"
-                                                   class="btn btn-xs btn-primary pull-left">Göster</a>
-                                            </td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="7">no records found</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+                                <div class="col-md-12">
+
+
+                                    <div class="form-group">
+
+                                        <select id="business_category" name="konu" required="required"
+                                                class="form-control">
+                                            <option value="" selected="selected">Mesaj Konusunu Seçiniz</option>
+                                            <option value="tavsiye">Yeni Özellik Tavsiyesi</option>
+                                            <option value="hata">Yazılımsal Hata Bildirimi</option>
+                                            <option value="other">Diğer</option>
+                                        </select>
+
+
+                                    </div>
+
+                                </div>
+
+
 
                             </div>
 
+                            <div class="row">
+
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label>Mesajınız <span>*</span>
+                                        </label>
+                                        <textarea rows="10" class="form-control" name="description" required
+                                                  placeholder="Bize iletmek istediğiniz mesajınızı buraya yazınız"></textarea>
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-12">
+
+                                    <div class="form-group">
+
+                                        <button type="submit" id="update_password_btn"
+                                                class="btn btn-success">Mesaj Gönder
+                                        </button>
+
+                                    </div>
+                                </div>
+
+                            </div>
 
                         </div>
-                    </div>
+
+                        <div class="col-md-6">
+
+                            <div class="callout callout-success">
+                                <p>
+                                    Geri bildirimleriniz, sistemin geliştirilmesi hususunda bizim için çok değerlidir.
+                                    Mesajlarınız mutlaka okunup dikkate alınacaktır.
+                                </p>
+                                <p>
+                                    Bize ayırdığınız zaman için çok teşekkür ederiz...
+                                </p>
+                            </div>
+
+                        </div>
+
+
+
+                    </form>
                 </div>
                 <!-- /.box-body -->
             </div>

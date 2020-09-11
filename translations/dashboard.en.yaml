@@ -1,1 +1,5 @@
-gender: Cinsiyet
+gender:
+  male: Male
+  female: Female
+  other: Other
+  none: Undefined

@@ -1,0 +1,5 @@
+gender:
+  male: Erkek
+  female: Kadın
+  other: Özel
+  none: Belirtmek İstemiyorum
