@@ -124,6 +124,16 @@ class User implements UserInterface
      */
     private $picture;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $registration_date;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\FeedBack", mappedBy="user", orphanRemoval=true)
+     */
+    private $feedBacks;
+
     public function __construct()
     {
         $this->pTVComments = new ArrayCollection();
@@ -132,6 +142,7 @@ class User implements UserInterface
         $this->adverts = new ArrayCollection();
         $this->businesses = new ArrayCollection();
         $this->roles = array('ROLE_USER');
+        $this->feedBacks = new ArrayCollection();
     }
 
 
@@ -515,6 +526,49 @@ class User implements UserInterface
     public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function getRegistrationDate(): ?\DateTimeInterface
+    {
+        return $this->registration_date;
+    }
+
+    public function setRegistrationDate(\DateTimeInterface $registration_date): self
+    {
+        $this->registration_date = $registration_date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FeedBack[]
+     */
+    public function getFeedBacks(): Collection
+    {
+        return $this->feedBacks;
+    }
+
+    public function addFeedBack(FeedBack $feedBack): self
+    {
+        if (!$this->feedBacks->contains($feedBack)) {
+            $this->feedBacks[] = $feedBack;
+            $feedBack->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeedBack(FeedBack $feedBack): self
+    {
+        if ($this->feedBacks->contains($feedBack)) {
+            $this->feedBacks->removeElement($feedBack);
+            // set the owning side to null (unless already changed)
+            if ($feedBack->getUser() === $this) {
+                $feedBack->setUser(null);
+            }
+        }
 
         return $this;
     }

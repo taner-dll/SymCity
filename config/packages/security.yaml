@@ -70,8 +70,10 @@ security:
     - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
-    - { path: ^/app/dashboard, roles: ROLE_USER } #if admin redirect to dashboard
-    - { path: ^/app/feedback, roles: ROLE_USER } #if admin redirect to dashboard
+    - { path: ^/app/dashboard, roles: ROLE_USER } #if admin, redirect to dashboard
+    - { path: ^/app/feedback/, roles: ROLE_USER } #if admin, redirect to dashboard
+    - { path: ^/app/feedback-read, roles: ROLE_ADMIN }
+
     - { path: ^/advert/, roles: ROLE_USER }
     #- { path: ^/ajax/, roles: ROLE_USER }
     - { path: ^/announce/, roles: ROLE_USER }
@@ -83,4 +85,5 @@ security:
     - { path: ^/places/to/visit/, roles: ROLE_ADMIN }
     - { path: ^/place/, roles: ROLE_ADMIN }
     - { path: ^/business/category/, roles: ROLE_ADMIN }
+
 

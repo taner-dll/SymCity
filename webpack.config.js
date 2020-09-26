@@ -34,9 +34,16 @@ Encore
     .addEntry('ad_category', './assets/js/ad_category.js')
     .addEntry('business_category', './assets/js/business_category.js')
     .addEntry('register', './assets/js/register.js')
+    .addEntry('feedback', './assets/js/feedback.js')
 
 
-    .addEntry('web_site', './assets/js/front_end/web_site.js')
+    /**
+     * web site js
+     */
+
+    .addEntry('app_main', './assets/js/web_site/app_main.js')
+    .addEntry('main_page', './assets/js/web_site/main_page.js')
+    .addEntry('business_guide', './assets/js/web_site/business_guide.js')
 
 
     /*

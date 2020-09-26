@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Kontrol Merkezi{% endblock %}
+{% block title %}Profilim{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -55,9 +55,9 @@
 
                                         </div>
                                         <!-- /.widget-user-image -->
-                                        <h4 id="user_title_text">{{ app.user.firstName }} {{ app.user.lastName }}</h4>
+                                        <h4 id="user_title_text">&nbsp;{{ app.user.firstName }} {{ app.user.lastName }}</h4>
                                     </div>
-                                    <div class="box-footer no-padding">
+                                    <div class="box-footer {#no-padding#}">
                                         <ul class="nav nav-stacked">
                                             <li><a href="{{ path('advert_index') }}">İlanlarım
                                                     <span class="pull-right badge bg-blue">{{ app.user.adverts.count }}</span></a>
@@ -129,8 +129,6 @@
                                         <span id="gender_text">{{ ('gender.' ~ app.user.gender)|trans({},'dashboard') }}</span>
 
 
-
-
                                         <hr>
 
 
@@ -165,6 +163,8 @@
                                            class="form-control" id="lastname" name="lastname" placeholder="Soyad">
                                 </div>
                             </div>
+
+
 
 
                             <div class="form-group">

@@ -18,9 +18,7 @@
     <div class="login-box">
         <div class="login-logo">
             <h2 style="color:#FFFFFF;">Edremit Körfez Portalı</h2>
-            <h4 style="color:#FFFFFF;font-style: oblique">
-                <a style="color: #00a7d0" href="#">#EdremitKörfezi</a>
-            </h4>
+            <h4 style="color:#FFFFFF;font-style: oblique">"Körfezin Kısayolu"</h4>
 
         </div>
         <!-- /.login-logo -->
@@ -46,6 +44,7 @@
                 <div class="form-group has-feedback">
                     <label for="inputUsername" class="sr-only">Eposta</label>
                     <input type="email" name="username" id="inputUsername" value="{{ last_username }}"
+                           autocomplete="null"
                            class="form-control" placeholder="Eposta" required autofocus/>
                     {#<span class="glyphicon glyphicon-envelope form-control-feedback"></span>#}
                 </div>
@@ -81,13 +80,13 @@
 
 
             <a class="btn btn-sm btn-default btn-flat btn-block" href="{{ path('index') }}">
-                Ana sayfa
+                <i class="fa fa-home"></i> Ana Sayfa
             </a>
             <a class="btn btn-sm btn-warning btn-flat btn-block" href="{{ path('forgot_email') }}">
-                <i class="fa fa-question-circle"></i> Hesabını mı unuttun?
+                <i class="fa fa-question-circle"></i> Hesabını Mı Unuttun?
             </a>
             <a class="btn btn-sm btn-success btn-flat btn-block" href="{{ path('app_register') }}">
-                <i class="fa fa-plus-circle"></i> Yeni hesap oluştur
+                <i class="fa fa-plus-circle"></i> Yeni Hesap Oluştur
             </a>
             {#<a href="{{ path('index') }}">Siteye dön</a> -
             <a href="{{ path('forgot_email') }}">Hesabını mı unuttun?</a> -

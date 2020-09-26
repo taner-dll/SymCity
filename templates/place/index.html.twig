@@ -50,6 +50,7 @@
                                         <th>Harita</th>
                                         <th>Öne Çıkan Görsel</th>
                                         <th>İlçe / Mahalle</th>
+                                        <th>Bağlı Ol. İlçe</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -61,6 +62,11 @@
                                             <td>{{ place.map }}</td>
                                             <td>{{ place.featuredImage }}</td>
                                             <td>{{ place.type }}</td>
+                                            <td>
+                                                {% if place.parent is not null %}
+                                                    {{ place.parent.name }}
+                                                {% endif %}
+                                            </td>
                                             <td>
                                                 <a href="{{ path('place_show', {'id': place.id}) }}"
                                                    class="btn btn-xs btn-primary pull-left">Göster</a>

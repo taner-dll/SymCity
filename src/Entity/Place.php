@@ -78,6 +78,16 @@ class Place
      */
     private $businesses;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="places")
+     */
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Place", mappedBy="parent")
+     */
+    private $places;
+
     public function __construct()
     {
         $this->ptv = new ArrayCollection();
@@ -86,6 +96,7 @@ class Place
         $this->announces = new ArrayCollection();
         $this->adverts = new ArrayCollection();
         $this->businesses = new ArrayCollection();
+        $this->places = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -345,6 +356,49 @@ class Place
             // set the owning side to null (unless already changed)
             if ($business->getPlace() === $this) {
                 $business->setPlace(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function addPlace(self $place): self
+    {
+        if (!$this->places->contains($place)) {
+            $this->places[] = $place;
+            $place->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlace(self $place): self
+    {
+        if ($this->places->contains($place)) {
+            $this->places->removeElement($place);
+            // set the owning side to null (unless already changed)
+            if ($place->getParent() === $this) {
+                $place->setParent(null);
             }
         }
 

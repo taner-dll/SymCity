@@ -7,6 +7,8 @@ namespace App\Controller;
 use App\Entity\AdCategory;
 use App\Entity\AdSubCategory;
 use App\Entity\BusinessCategory;
+use App\Entity\FeedBack;
+use App\Entity\Place;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +24,59 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class AjaxController extends AbstractController
 {
 
+    /**
+     * @Route("/ajax-send-feedback", name="ajax_send_feedback", methods={"POST"}, options={"expose"=true})
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function ajaxSendFeedBack(Request $request)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $subject = $request->request->get('subject');
+        $message = $request->request->get('message');
+
+        $feedback = new FeedBack();
+        $feedback->setTopic($subject);
+        $feedback->setMessage($message);
+        $feedback->setStatus(false);
+        $feedback->setCreatedAt(new \DateTime('now'));
+        $feedback->setUser($this->getUser());
+
+
+        $em->persist($feedback);
+        $em->flush();
+
+        return new JsonResponse('feedback has been successfully sent', Response::HTTP_OK);
+
+
+    }
+
+    /**
+     * @Route("/get-place-neighborhoods", name="ajax_get_place_neighborhoods", methods={"GET"}, options={"expose"=true})
+     * @param Request $request
+     * @param TranslatorInterface $translator
+     * @return JsonResponse
+     */
+    public function ajaxGetPlaceNeighborhoods(Request $request, TranslatorInterface $translator)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $req = $request->query->get('place_id');
+        $sub_places = $em->getRepository(Place::class)->findBy(array('parent' => $em->find(Place::class, $req)), array('name' => 'ASC'));
+
+        $sub_places_arr = [];
+
+        foreach ($sub_places as $key => $value) {
+
+            $sub_places_arr[$key]['id'] = $value->getId();
+            $sub_places_arr[$key]['name'] = $value->getName();
+        }
+
+        return new JsonResponse($sub_places_arr);
+    }
+
 
     /**
      * @Route("/ad-subcategories", name="ajax_ad_subcategories", methods={"GET"}, options={"expose"=true})
@@ -33,10 +88,10 @@ class AjaxController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $req = $request->query->get('category');
-        $sub_cat = $em->getRepository(AdSubCategory::class)->findBy(array('adCategory' => $req),array('sort'=>'ASC'));
+        $sub_cat = $em->getRepository(AdSubCategory::class)->findBy(array('adCategory' => $req), array('sort' => 'ASC'));
 
-        if (!$sub_cat){
-            $sub_cat = $em->getRepository(AdSubCategory::class)->findBy(array('id' => $req),array('sort'=>'ASC'));
+        if (!$sub_cat) {
+            $sub_cat = $em->getRepository(AdSubCategory::class)->findBy(array('id' => $req), array('sort' => 'ASC'));
         }
 
         $sub_categories = array();

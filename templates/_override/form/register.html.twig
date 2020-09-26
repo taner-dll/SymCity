@@ -91,7 +91,7 @@
 {%- block checkbox_widget -%}
     <label style="cursor: pointer;font-weight: normal">
     <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
-    Kullanım <a href="#">koşullarını</a> kabul ediyorum.
+    Kullanım <a data-toggle="modal" data-target="#terms" href="#">koşullarını</a> okudum ve kabul ediyorum.
     </label>
 {%- endblock checkbox_widget -%}
 

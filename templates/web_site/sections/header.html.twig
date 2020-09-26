@@ -7,7 +7,7 @@
                 <div class="col-md-6 col-sm-5 col-xs-12">
 
                     <div class="top-contact">
-                        <p>Whatsapp: <span>+90 542 791 07 30</span> eposta: <span>tnrdll@gmail.com</span>
+                        <p>Whatsapp: <span>0542 791 07 30</span> eposta: <span>edremitkorfezportali@gmail.com</span>
                         </p>
                     </div>
 
@@ -17,19 +17,42 @@
 
 
                     <ul class="top_links">
-                        <li>
-                            {% if app.user %}
+
+                        {% if app.user %}
+
+                            <li>
                                 <a href="{{ path('app_dashboard') }}">
                                     <i class="fa fa-user-o" aria-hidden="true"></i>
                                     {{ app.user.email[:30] }}
                                 </a>
-                            {% else %}
+                            </li>
+
+                            <li>
+                                <a href="{{ path('app_logout') }}">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                    Çıkış Yap
+                                </a>
+                            </li>
+
+
+                        {% else %}
+
+                            <li>
                                 <a href="{{ path('app_login') }}">
-                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                    <i class="fa fa-sign-in" aria-hidden="true"></i>
                                     Giriş Yap
                                 </a>
-                            {% endif %}
-                        </li>
+                            </li>
+
+                            <li>
+                                <a href="{{ path('app_register') }}">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                    Üye Ol
+                                </a>
+                            </li>
+
+                        {% endif %}
+
                     </ul>
 
 
@@ -67,8 +90,6 @@
                             {{ render(controller('App\\Controller\\WebSiteController::travelGuideEmbeddedMenu')) }}
 
 
-
-
                             <li>
                                 <a href="{{ path('events') }}" class="dropdown-toggle" data-toggle="dropdown">Etkinlikler</a>
                             </li>
@@ -76,8 +97,6 @@
                             <li>
                                 <a href="{{ path('announces') }}" class="dropdown-toggle" data-toggle="dropdown">Duyurular</a>
                             </li>
-
-
 
 
                             <! ilan menusu ->

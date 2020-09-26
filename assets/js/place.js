@@ -1,5 +1,9 @@
 import '../css/place.scss'
 
+
+
+
+
 //trumbowyg
 import 'trumbowyg/dist/trumbowyg.min';
 import icons from 'trumbowyg/dist/ui/icons.svg';
@@ -70,4 +74,11 @@ $('#crop_image').on('click', function () {
 
     $('#preview').attr('src', imageData);
     $('#cropped_image').val(imageData);
+});
+
+
+$('#place_type').on('change', function () {
+
+    console.log(this.value);
+
 });

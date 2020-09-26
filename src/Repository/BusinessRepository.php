@@ -47,6 +47,7 @@ class BusinessRepository extends ServiceEntityRepository
             ->select('b')
             ->leftJoin('b.category', 'c')
             ->leftJoin('b.place', 'p')
+            ->leftJoin('p.parent','pr')
             ->where('b.confirm = :confirm')
             ->setParameter('confirm',1);
 
@@ -61,9 +62,16 @@ class BusinessRepository extends ServiceEntityRepository
         endif;
 
         if ($request->query->get('place')):
-            $qb->andWhere('b.place = :pl_id')
-                ->setParameter('pl_id',$request->query->get('place'));
+            $qb->andWhere('pr.id = :pr_id')
+                ->setParameter('pr_id',$request->query->get('place'));
         endif;
+
+        if ($request->query->get('sub_place')):
+            $qb->andWhere('b.place = :pl_id')
+                ->setParameter('pl_id',$request->query->get('sub_place'));
+        endif;
+
+
 
         return $qb->getQuery()->execute();
     }

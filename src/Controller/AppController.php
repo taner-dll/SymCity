@@ -7,8 +7,11 @@ use App\Entity\Advert;
 use App\Entity\Announce;
 use App\Entity\Business;
 use App\Entity\Event;
+use App\Entity\FeedBack;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -72,16 +75,31 @@ class AppController extends AbstractController
     }
 
     /**
-     * @Route("/feedback", name="app_feedback", methods={"GET","POST"})
+     * @Route("/feedback", name="app_feedback", methods={"GET"})
+     * @return Response
      */
     public function feedback(){
-
-        $em = $this->getDoctrine()->getManager();
-
-
         return $this->render('app/feedback.html.twig' ,array(
             /*'users'=>$users*/
         ));
+    }
+
+    /**
+     * @Route("/feedback-read", name="app_feedback_read", methods={"GET"})
+     * @return Response
+     */
+    public function feedbackRead(){
+
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+
+            return $this->render('app/feedback_read.html.twig' ,array(
+                /*'users'=>$users*/
+            ));
+
+        }else{
+            return new Response('You don’t have permission to access', Response::HTTP_FORBIDDEN);
+        }
+
 
     }
 

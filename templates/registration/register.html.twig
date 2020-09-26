@@ -20,56 +20,76 @@
 
     <div class="login-box">
         <div class="login-logo">
-            <h2 style="color:#FFFFFF;">Edremit Körfezi</h2>
-            <h4 style="color:#FFFFFF;font-style: oblique">Yeni Kullanıcı</h4>
+            <h2 style="color:#FFFFFF;">Edremit Körfez Portalı</h2>
+            <h4 style="color:#FFFFFF;font-style: oblique">Yeni Üye Kayıt Formu</h4>
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            {{ form_start(registrationForm, {'attr':{'autocomplete':'new-password'}}) }}
+            {{ form_start(registrationForm, {'attr':{'autocomplete':'off'}}) }}
 
             <p class="login-box-msg"></p>
 
             <div class="form-group has-feedback">
                 {{ form_widget(registrationForm.firstname, {'attr': {'class': 'form-control',
-                    'placeholder': 'Ad'}}) }}
+                    'placeholder': 'Adınız',
+                    'autocomplete': 'null'
+                }}) }}
                 {#<span class="glyphicon glyphicon-user form-control-feedback"></span>#}
             </div>
 
             <div class="form-group has-feedback">
                 {{ form_widget(registrationForm.lastname, {'attr': {'class': 'form-control',
-                    'placeholder': 'Soyad'}}) }}
+                    'placeholder': 'Soyadınız',
+                    'autocomplete': 'null'
+                }}) }}
                 {#<span class="glyphicon glyphicon-user form-control-feedback"></span>#}
             </div>
 
             <div class="form-group has-feedback" id="email_form_group">
                 {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',
-                    'placeholder': 'E-Posta','autocomplete': 'null'}}) }}
-                {#<span id="email_input_icon" class="glyphicon glyphicon-envelope form-control-feedback"></span>#}
+                    'placeholder': 'E-Posta Adresiniz','autocomplete': 'off'}}) }}
+                <span id="email_input_icon" class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 <span id="email_input_loader" style="display: none"
                       class="form-control-feedback"><img src="{{ asset('build/img/ajax-loader-form.gif') }}"
                                                          alt=""></span>
+
+                <small>Sisteme giriş yapmak için gerekli, aktif e-posta adresiniz.</small>
             </div>
 
             <div class="form-group has-feedback" id="username_form_group">
                 {{ form_widget(registrationForm.userName, {'attr': {'class': 'form-control',
-                    'placeholder': 'Kullanıcı adı'}}) }}
+                    'placeholder': 'Kullanıcı Adınız',
+                    'minlength':'5',
+                    'autocomplete':'null'
+                }}) }}
+
+                {#<span class="glyphicon glyphicon-registration-mark form-control-feedback"></span>#}
 
                 <span id="username_input_loader" style="display: none"
                       class="form-control-feedback"><img src="{{ asset('build/img/ajax-loader-form.gif') }}"
                                                          alt=""></span>
+                <small>Sistemde görünecek kullanıcı adınız.</small>
             </div>
 
             <div class="form-group has-feedback">
-                {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control',
-                    'placeholder': 'Parola Giriniz (min. 6 karakter)','autocomplete':'new-password'}}) }}
-                {#<span class="glyphicon glyphicon-lock form-control-feedback"></span>#}
-                {#<small>{{ form_help(registrationForm.plainPassword) }}</small>#}
+                {{ form_widget(registrationForm.plainPassword.first, {'attr':
+                    {'class': 'form-control',
+                        'placeholder': 'Parola Giriniz',
+                        'autocomplete':'new-password',
+                        'minlength':'6'
+                    }
+                }) }}
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                <small id="password_strength">Lütfen en az 6 karakterden oluşan bir şifre belirleyiniz.</small>
             </div>
 
             <div class="form-group has-feedback">
                 {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control',
-                    'placeholder': 'Parola Tekrarı'}}) }}
-                {#<span class="glyphicon glyphicon-lock form-control-feedback"></span>#}
+                    'placeholder': 'Parola Tekrarı',
+                    'autocomplete':'null',
+                    'minlength':'6'
+                }}) }}
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
 
             <p>
@@ -97,12 +117,97 @@
             {#<a id="login" href="{{ path('app_login') }}">
                 Kayıtlı bir hesabım var, giriş yap
             </a>#}
-            <a href="{{ path('app_login') }}" style="text-decoration: underline">
-                Kayıtlı bir hesabım var
+
+
+            <a class="btn btn-sm btn-info btn-flat btn-block" href="{{ path('app_login') }}">
+                <i class="fa fa-user-circle"></i> Kayıtlı Bir Hesabım Var
+            </a>
+
+            <a class="btn btn-sm btn-default btn-flat btn-block" href="{{ path('index') }}">
+                <i class="fa fa-home"></i> Ana Sayfa
             </a>
 
         </div>
         <!-- /.login-box-body -->
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="terms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">GİZLİLİK VE KİŞİSEL VERİLERİN KORUNMASI</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <h4>GİZLİLİK SÖZLEŞMESİ/POLİTİKASI</h4>
+
+                    <p>
+                        Kullanıcının sisteme girdiği bilgiler, sadece kullanıcıya aittir.
+                        Bu verilerin güvenliğinin sağlanması için endüstri standardı önlemler uygulanır.
+                        Sitede yer alan bilgiler 256 bit'lik SSL kullanılarak şifrelenir ve veri güvenliği maksimum düzeyde tutulur.
+                        Tüm sunuculardaki veriler belirli sürelerde yedeklenmektedir.
+                        Site üzerinde yapılan sayfa gezinme işlemleri istatistiki olarak kayıt altına alınmaktadır.
+                        Bu bilgiler kullanıcı ayırt edici olmayıp sitenin geliştirilmesi ve daha iyi hizmet vermesi amacıyla toplanmaktadır.
+
+                        Olası kötü niyetli kullanımı önlemek için siteye giriş ve çıkış işlemlerinin yapıldığı tarih,
+                        saat ve IP (internet) adresi kaydedilmektedir.
+                        Ortaya çıkabilecek kötü niyetli kullanımda, bu bilgiler olası bir hukuki süreçte delil olarak kullanılabilecektir.
+                    </p>
+
+                    <hr>
+
+                    <h4>KİŞİSEL VERİLERİN KORUNMASI</h4>
+
+                    <h5>Kişisel Verilerin Toplanması, İşlenmesi ve İşleme Amaçları</h5>
+
+                    <p>Kişisel verileriniz, şirketimiz tarafından verilen hizmet, ürün ya da ticari faaliyete bağlı olarak değişkenlik gösterebilmekle; otomatik ya da otomatik
+                        olmayan
+                        yöntemlerle, Şirketimizin ve bayiler, çağrı merkezi, internet sitesi, sosyal medya mecraları, mobil uygulamalar ve benzeri vasıtalarla sözlü, yazılı ya da
+                        elektronik olarak toplanabilecektir.
+                        Toplanan kişisel verileriniz, şirketimiz tarafından sunulan ürün ve hizmetlerden sizleri faydalandırmak için gerekli çalışmaların iş birimlerimiz tarafından
+                        yapılması, şirketimiz tarafından sunulan ürün ve hizmetlerin sizlerin beğeni, kullanım alışkanlıkları ve ihtiyaçlarına göre özelleştirilerek sizlere
+                        önerilmesi,
+                        müşteri memnuniyeti programlarına üye şirketler tarafından analiz edilerek size özel reklam, kampanya ve diğer faydaların sunulması, izin tercihleriniz
+                        doğrultusunda ticari elektronik ileti gönderilebilmesi, posta iletilmesi, alışveriş verilerinizin raporlanması ve değerlendirilmesi, istatistiki analizler
+                        yapılması, şirketimizin hukuki ve ticari güvenliğinin, şirketimizin ticari ve iş stratejilerinin belirlenmesi ve uygulanması ve şirketimizin insan
+                        kaynakları
+                        politikalarının yürütülmesinin temini amaçlarıyla KVK Kanunu’nun 5. ve 6. maddelerinde belirtilen kişisel veri işleme şartları ve amaçları dahilinde
+                        işlenecektir.</p>
+
+                    <p>Kişisel Veri Toplamanın Yöntemi ve Hukuki Sebebi
+                        Kişisel verileriniz, her türlü sözlü, yazılı ya da elektronik ortamda, yukarıda yer verilen amaçlar doğrultusunda şirketçe sunduğumuz ürün ve hizmetlerin
+                        belirlenen yasal çerçevede sunulabilmesi ve bu kapsamda şirketimizin sözleşme ve yasadan doğan mesuliyetlerini eksiksiz ve doğru bir şekilde yerine
+                        getirebilmesi gayesi ile edinilir. Bu hukuki sebeple toplanan kişisel verileriniz KVK Kanunu’nun 5. ve 6. maddelerinde belirtilen kişisel veri işleme
+                        şartları
+                        ve amaçları kapsamında belirtilen amaçlarla da işlenebilmekte ve aktarılabilmektedir.</p>
+
+                    <p>Kişisel Veri Sahibinin KVK Kanunu’nun 11. Maddesinde Sayılan Hakları
+                        Kişisel veri sahipleri olarak, haklarınıza ilişkin taleplerinizi bu metinde aşağıda düzenlenen yöntemlerle şirketimize iletmeniz durumunda talebin
+                        niteliğine
+                        göre talebi en geç otuz gün içinde ücretsiz olarak sonuçlandıracaktır. Bu kapsamda kişisel veri sahipleri;</p>
+
+                    <p>Kişisel veri işlenip işlenmediğini öğrenme,
+                        Kişisel verileri işlenmişse buna ilişkin bilgi talep etme,
+                        Kişisel verilerin işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme,
+                        Yurt içinde veya yurt dışında kişisel verilerin aktarıldığı üçüncü kişileri bilme,
+                        Kişisel verilerin eksik veya yanlış işlenmiş olması hâlinde bunların düzeltilmesini isteme ve bu kapsamda yapılan işlemin kişisel verilerin aktarıldığı
+                        üçüncü
+                        kişilere bildirilmesini isteme,
+                        KVK Kanunu’nun ve ilgili diğer kanun hükümlerine uygun olarak işlenmiş olmasına rağmen, işlenmesini gerektiren sebeplerin ortadan kalkması hâlinde kişisel
+                        verilerin silinmesini veya yok edilmesini isteme ve bu kapsamda yapılan işlemin kişisel verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme,
+                        İşlenen verilerin münhasıran otomatik sistemler vasıtasıyla analiz edilmesi suretiyle kişinin kendisi aleyhine bir sonucun ortaya çıkmasına itiraz etme,
+                        Kişisel verilerin kanuna aykırı olarak işlenmesi sebebiyle zarara uğraması hâlinde zararın giderilmesini talep etme haklarına sahiptir.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Anladım</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     </body>

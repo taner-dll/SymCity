@@ -4,7 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('place') }}
+    {{ encore_entry_link_tags('feedback') }}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -35,100 +35,74 @@
                 -->
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form method="post" action="#">
+                    <form id="fb-form" method="post" action="{{ path('ajax_send_feedback') }}">
 
                         <div class="col-md-6">
 
                             <div class="row">
-
                                 <div class="col-md-12">
-
-
                                     <div class="form-group">
-
-                                        <select id="business_category" name="konu" required="required"
-                                                class="form-control">
+                                        <label for="fb-subject"></label>
+                                        <select id="fb-subject" required="required" class="form-control">
                                             <option value="" selected="selected">Mesaj Konusunu Seçiniz</option>
-                                            <option value="tavsiye">Yeni Özellik Tavsiyesi</option>
-                                            <option value="hata">Yazılımsal Hata Bildirimi</option>
+                                            <option value="suggestion">Yeni Özellik Tavsiyesi</option>
+                                            <option value="error">Yazılımsal Hata Bildirimi</option>
                                             <option value="other">Diğer</option>
                                         </select>
-
-
                                     </div>
-
                                 </div>
-
-
 
                             </div>
 
                             <div class="row">
-
                                 <div class="col-md-12">
-
                                     <div class="form-group">
-                                        <label>Mesajınız <span>*</span>
-                                        </label>
-                                        <textarea rows="10" class="form-control" name="description" required
+                                        <label for="fb-message">Mesajınız <span>*</span></label>
+                                        <textarea id="fb-message" rows="10" class="form-control" name="description" required
                                                   placeholder="Bize iletmek istediğiniz mesajınızı buraya yazınız"></textarea>
                                     </div>
-
                                 </div>
-
-
-
                             </div>
 
                             <div class="row">
-
                                 <div class="col-sm-12">
-
                                     <div class="form-group">
-
-                                        <button type="submit" id="update_password_btn"
+                                        <button type="button" id="fb_submit_btn"
                                                 class="btn btn-success">Mesaj Gönder
                                         </button>
-
                                     </div>
                                 </div>
-
                             </div>
 
                         </div>
 
                         <div class="col-md-6">
-
-                            <div class="callout callout-success">
+                            <div class="callout">
                                 <p>
                                     Geri bildirimleriniz, sistemin geliştirilmesi hususunda bizim için çok değerlidir.
                                     Mesajlarınız mutlaka okunup dikkate alınacaktır.
                                 </p>
-                                <p>
-                                    Bize ayırdığınız zaman için çok teşekkür ederiz...
-                                </p>
                             </div>
-
                         </div>
 
-
-
                     </form>
+
                 </div>
                 <!-- /.box-body -->
+
+                <div class="overlay" id="fb-overlay" style="display: none">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
             </div>
         </div>
 
     </div>
 
 
-    {% for message in app.flashes('success') %}
-        <input type="hidden" id="success_message" value="{{ message }}"/>
-    {% endfor %}
 
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('place') }}
+    {{ encore_entry_script_tags('feedback') }}
 {% endblock %}

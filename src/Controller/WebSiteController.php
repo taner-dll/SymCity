@@ -393,7 +393,8 @@ class WebSiteController extends AbstractController
         return $this->render('web_site/pages/business_guide.html.twig', [
             'businesses' => $businesses,
             'categories' => $em->getRepository(Business::class)->businessCategoryList(),
-            'places' => $em->getRepository(Place::class)->findAll()
+            'places' => $em->getRepository(Place::class)->getDistricts(),
+            'sub_places' => $em->getRepository(Place::class)->getNeighborhoods()
         ]);
     }
 

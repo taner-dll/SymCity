@@ -12,6 +12,12 @@ const username_input_icon = $('#username_input_icon');
 const username_form_group = $('#username_form_group');
 
 
+import {scorePassword} from './utils/password_strength_checker';
+$('#registration_form_plainPassword_first').on('keyup', function () {
+    //check password strength
+    scorePassword(this.value);
+});
+
 
 import 'icheck/icheck.min';
 $('input').iCheck({
@@ -103,8 +109,8 @@ $('#registration_form_email').on('change',function () {
                     })
                 }
                 else if (responseObject===0){
-                    console.log("eposta uygun");
-                    email_form_group.addClass('has-success');
+                    //console.log("eposta uygun");
+                    //email_form_group.addClass('has-success');
                     email_form_group.removeClass('has-error');
                 }
             }
@@ -132,8 +138,16 @@ $('#registration_form_userName').on('change',function () {
     //console.log(this.value.length);
     //console.log(Routing.generate('check_email'));
 
+
+    //console.log(this.value.length);
+    if (this.value.length < 5){
+        return false;
+    }
+
     username_input_icon.hide();
     username_input_loader.show();
+
+
 
     $.ajax({
         url: Routing.generate('check_username'),

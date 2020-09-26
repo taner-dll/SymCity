@@ -22,19 +22,29 @@ class PlaceRepository extends ServiceEntityRepository
     // /**
     //  * @return Place[] Returns an array of Place objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function getDistricts()
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('p.type = :val')
+            ->setParameter('val', 'district')
+            ->orderBy('p.name', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
+    public function getNeighborhoods()
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.type = :val')
+            ->setParameter('val', 'neighborhood')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Place

@@ -59,6 +59,10 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
+
+
+
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
@@ -75,15 +79,18 @@ class RegistrationController extends AbstractController
             $confirmation_code = $this->generateEmailConfirmationCode(16);
             $user->setConfirmationCode($confirmation_code);
 
+            //kayıt tarihi
+            $user->setRegistrationDate(new \DateTime("now"));
+
+            //doğum tarihi ilk kayıt esnasında boş olmalı
+            $user->setBirthday(null);
 
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+
 
 
             //yayına alındığına dair e-posta gönderimi
-            $from = array('edremitkorfezi.iletisim@gmail.com' => 'Edremit Körfezi');
+            $from = array('edremitkorfezportali@gmail.com' => 'Edremit Körfez Portalı');
             $message = (new \Swift_Message('Aramıza Hoş Geldiniz!'))
                 ->setFrom($from)
                 ->setTo($request->request->get('registration_form')['email'])
@@ -99,6 +106,18 @@ class RegistrationController extends AbstractController
                     'text/html'
                 );
             $mailer->send($message);
+
+
+
+
+
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+
+
 
 
 

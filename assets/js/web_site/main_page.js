@@ -1,4 +1,4 @@
-import '../../css/front_end/web_site.scss';
+import '../../css/web_site/main_page.scss';
 import 'select2';
 import Routing from "../Routing";
 import Swal from 'sweetalert2';
@@ -159,5 +159,3 @@ if (warning_message.val()) {
         confirmButtonText: 'Tamam'
     });
 }
-
-
