@@ -61,6 +61,7 @@ class AdvertRepository extends ServiceEntityRepository
             ->select('a')
             ->leftJoin('a.category', 'c')
             ->leftJoin('a.place', 'p')
+            ->leftJoin('p.parent', 'pr')
             ->leftJoin('a.sub_category', 'sc')
             ->where('a.confirm = :confirm')
             ->setParameter('confirm',1)
@@ -81,10 +82,18 @@ class AdvertRepository extends ServiceEntityRepository
                 ->setParameter('scname',$request->query->get('sub'));
         endif;
 
+        //gelen istek: place (parent olmalı)
         if ($request->query->get('place')):
-            $qb->andWhere('a.place = :pl_id')
-                ->setParameter('pl_id',$request->query->get('place'));
+            $qb->andWhere('pr.id = :pr_id')
+                ->setParameter('pr_id',$request->query->get('place'));
         endif;
+
+        //neighborhood (sub place, children)
+        if ($request->query->get('sub_place')):
+            $qb->andWhere('p.id = :pl_id')
+                ->setParameter('pl_id',$request->query->get('sub_place'));
+        endif;
+
 
         return $qb->getQuery()->execute();
     }

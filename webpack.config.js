@@ -44,6 +44,7 @@ Encore
     .addEntry('app_main', './assets/js/web_site/app_main.js')
     .addEntry('main_page', './assets/js/web_site/main_page.js')
     .addEntry('business_guide', './assets/js/web_site/business_guide.js')
+    .addEntry('ad_guide', './assets/js/web_site/ad_guide.js')
 
 
     /*

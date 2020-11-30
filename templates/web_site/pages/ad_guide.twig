@@ -1,0 +1,350 @@
+{% extends 'web_site/base.html.twig' %}
+
+{% block title %}{{ 'adverts.title'|trans({}, 'advert') }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('ad_guide') }}
+
+    <style>
+
+        .ilan-link:visited {
+            color: #800080;
+        }
+
+        .ilan-link:active {
+            color: #EE0000;
+        }
+
+        .ilan-link {
+            color: #0000EE;
+        }
+
+        .ilan-link:hover {
+            text-decoration: underline;
+        }
+
+        .ilan-row:hover {
+            cursor: pointer;
+        }
+
+        .ilan-row{
+            font-size: 14px;
+
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block body %}
+
+    <section id="inner-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="inner_banner_detail">
+                        <h2>{{ 'adverts.title'|trans({}, 'advert') }}</h2>
+
+                        {#{% if app.request.get('name') is not null or
+                            app.request.get('cat') is not null or
+                            app.request.get('place') is not null %}
+
+
+                            Arama sonuçlarına göre,
+                            toplam <b>{{ adverts|length }}</b> kayıt listelendi.
+
+                        {% endif %}#}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="popular-listing" class="p_b20 p_t20">
+        <div class="container">
+            <div class="row">
+
+
+
+
+
+                <div class="col-md-3 col-sm-3 col-xs-12">
+
+                    <div class="right-bar bg_white">
+                        <h4>{{ 'adverts.advanced'|trans({}, 'advert') }}
+                            <span>{{ 'adverts.searching'|trans({}, 'advert') }}</span></h4>
+                        <form class="form-right" method="get"
+                              action="{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}">
+
+
+                            <div class="form-group">
+                                <label for="name">{{ 'adverts.business_name'|trans({}, 'advert') }}</label>
+
+                                {% set bname = "" %}
+                                {% if app.request.get('name') is not null %}
+                                    {% set bname = app.request.get('name') %}
+                                {% endif %}
+                                <label for="name"></label><input class="form-control" id="name" minlength="3"
+                                                                 name="name" value="{{ bname }}" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cat">{{ 'adverts.category'|trans({}, 'advert') }}</label><br>
+                                <select name="cat" id="cat" class="form-control">
+                                    <option value="">Tümü</option>
+                                    {% for key, value in categories %}
+                                        <option
+                                                {% set selected = '' %}
+                                                {% if value.shortName == app.request.get('cat') %}
+                                                    {% set selected = 'selected' %}
+                                                {% endif %}
+
+                                                {{ selected }}
+
+                                                value="{{ value.id }}">{{ value.shortName| trans({}, 'advert') }}</option>
+                                    {% endfor %}
+                                </select>
+                                <img id="opt_loader_cat"
+                                     style="height: 16px;width: 16px;margin-top: -4px;display: none"
+                                     src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
+                            </div>
+
+                            <div class="form-group" id="sub_cat_form_group" style="display: none">
+                                <label for="sub_cat" id="sub_cat_lbl"></label><br>
+                                <select name="sub_cat" id="sub_cat" style="width: 100%;" class="form-control"></select>
+
+
+                                <input type="hidden" id="sub_cat_id" value="{{ app.request.get('sub_cat') }}">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="place">{{ 'adverts.place'|trans({}, 'advert') }}</label><br>
+                                <select name="place" id="place" class="form-control">
+                                    <option value="">Tümü</option>
+                                    {% for p in places %}
+                                        <option
+                                                {% set selected = '' %}
+                                                {% if p.id == app.request.get('place') %}
+                                                    {% set selected = 'selected' %}
+                                                {% endif %}
+
+                                                {{ selected }}
+
+                                                value="{{ p.id }}">{{ p.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <img id="opt_loader"
+                                     style="height: 16px;width: 16px;margin-top: -4px;display: none"
+                                     src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
+                                <input type="hidden" id="place_id" value="{{ app.request.get('place') }}">
+                            </div>
+
+                            <div class="form-group" id="sub_place_form_group" style="display: none">
+                                <label for="sub_place">Semt / Mahalle</label><br>
+                                <select name="sub_place" id="sub_place" style="width: 100%;" class="form-control"></select>
+                                <input type="hidden" id="sub_place_id" value="{{ app.request.get('sub_place') }}">
+                            </div>
+
+                            <div class="form-group">
+                                <button>{{ 'adverts.search'|trans({}, 'advert') }}</button>
+                            </div>
+
+                        </form>
+
+
+                        <a href="{{ path('adverts') }}" style="text-decoration: underline">
+                            Aramayı Sıfırla
+                        </a>
+                    </div>
+
+
+
+                </div>
+
+                <div class="col-md-9 col-sm-9 col-xs-12">
+
+
+                    <div class="row">
+
+                            <table class="table table-hover table-condensed table-striped" id="ilan_table">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th>Kategori</th>
+                                    <th></th>
+                                    <th style="width: 25%">Başlık</th>
+                                    <th>Durum</th>
+                                    <th>Fiyat</th>
+                                    <th>Tarih</th>
+                                    <th>Bölge</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {# @var a \App\Entity\Advert #}
+                                {% for a in adverts %}
+
+                                    <tr class="ilan-row"
+                                        data-id="{{ a.id }}"
+                                        data-cat="{{ a.category.shortname }}"
+                                        data-sub="{{ a.subcategory.shortname }}"
+                                        data-slug="{{ a.slug }}"
+                                    >
+                                        <th scope="row">
+
+                                            {% if a.featuredImage is not null %}
+                                                <img style="width: 59px; height: 32px" src="{{ asset('uploads/place_an_ad/')~a.featuredImage }}"
+                                                     alt="image">
+                                            {% else %}
+                                                <img style="width: 59px; height: 32px" src="{{ asset('build/img/no-image-800x432.png') }}"
+                                                     alt="image">
+
+                                            {% endif %}
+
+                                        </th>
+                                        <td>{{ a.category.shortname|trans({}, 'advert') }}</td>
+                                        <td>{{ a.subCategory.shortname|trans({}, 'advert') }}</td>
+                                        <td>
+                                            <a href="{{ path('advert_detail', {
+                                                id:a.id,
+                                                cat:a.category.shortname,
+                                                sub:a.subcategory.shortname,
+                                                slug:a.slug
+                                            }) }}"
+                                                    class="ilan-link">
+
+                                                {{ a.title }}</a></td>
+                                        <td>Kiralık</td>
+                                        <td style="color: #910000">2.500 TL</td>
+                                        <td>10 Ekim 2020</td>
+                                        <td>
+                                            {% if a.place.parent %}
+                                                {{ a.place.parent.name }} {{ a.place.name }}
+                                            {% endif %}
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+
+
+
+                                </tbody>
+                            </table>
+
+                            {#{% for a in adverts %}#}
+
+                                {#<div class="popular-listing-box">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <div class="popular-listing-img">
+                                                <figure class="effect-ming">
+
+                                                    {% if a.featuredImage is not null %}
+                                                        <img src="{{ asset('uploads/place_an_ad/')~a.featuredImage }}"
+                                                             alt="image">
+                                                    {% else %}
+                                                        <img src="{{ asset('build/img/no-image-800x432.png') }}"
+                                                             alt="image">
+
+                                                    {% endif %}
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+
+                                            <div class="popular-listing-detail"
+                                            >
+                                                <h3><a href="{{ path('advert_detail', {
+                                                        id:a.id,
+                                                        cat:a.category.shortname,
+                                                        sub:a.subcategory.shortname,
+                                                        slug:a.slug
+                                                    }) }}">
+                                                        {{ a.title|title }}</a></h3>
+                                                <p>{{ (a.description|striptags)[:100] }}&hellip;</p>
+                                            </div>
+
+                                            <div class="popular-listing-add">
+
+                                                <div class="row">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                                        <span style="margin-left: 5px; font-size: 11px">
+                                                             Yer:
+                                                            {{ a.place.name }}
+                                                        </span>
+
+                                                        <span style="margin-left: 10px; font-size: 11px">
+                                                            Tarih:
+                                                        {{ a.lastUpdate|date('d/m/Y') }}
+                                                        </span>
+
+                                                        <span style="margin-left: 10px; font-size: 11px;">
+                                                            Fiyat:
+                                                            <strong style="color: #9f191f">{{ a.price }}</strong>
+                                                         </span>
+
+                                                        <a href="{{ path('advert_detail', {
+                                                            id:a.id,
+                                                            cat:a.category.shortname,
+                                                            sub:a.subcategory.shortname,
+                                                            slug:a.slug
+                                                        }) }}"
+                                                           class="pull-right btn btn-default btn-xs">Göster</a>
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>#}
+
+                            {#{% endfor %}#}
+
+
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            {# display navigation #}
+                            <div class="navigation">
+                                {{ knp_pagination_render(adverts) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    {{ encore_entry_script_tags('ad_guide') }}
+
+
+
+{% endblock %}

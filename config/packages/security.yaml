@@ -10,7 +10,7 @@ security:
     our_db_provider:
       entity:
         class: App\Entity\User
-        property: email
+        property: user_name
     # used to reload user from session & other features (e.g. switch_user)
     app_user_provider:
       entity:
@@ -56,8 +56,6 @@ security:
       # http_basic: true
       # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
 
-      # form_login: true
-      # https://symfony.com/doc/current/security/form_login_setup.html
 
 
   role_hierarchy:
@@ -72,7 +70,7 @@ security:
 
     - { path: ^/app/dashboard, roles: ROLE_USER } #if admin, redirect to dashboard
     - { path: ^/app/feedback/, roles: ROLE_USER } #if admin, redirect to dashboard
-    - { path: ^/app/feedback-read, roles: ROLE_ADMIN }
+    - { path: ^/app/feedback-list, roles: ROLE_ADMIN }
 
     - { path: ^/advert/, roles: ROLE_USER }
     #- { path: ^/ajax/, roles: ROLE_USER }

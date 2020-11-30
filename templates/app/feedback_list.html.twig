@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Geri Bildirim{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('feedback') }}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            Geri Bildirim
+            <small></small>
+        </h1>
+
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li class="active"><a href="{{ path('app_feedback') }}">Geri Bildirim</a></li>
+        </ol>
+    </section>
+
+{% endblock %}
+
+{% block body %}
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="box">
+                <!--
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+                </div>
+                -->
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="example1_wrapper"
+                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                                <table id="example1" class="table table-bordered table-striped
+                                table-hover table-condensed
+                                dataTable" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+
+                                        <th>ID</th>
+                                        <th>Başlık</th>
+                                        <th>Mesaj</th>
+                                        <th>Kullanıcı</th>
+                                        <th>Tarih</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {# @var f \App\Entity\FeedBack #}
+
+                                    {% for f in feedbacks %}
+                                        <tr>
+                                            <td>{{ f.id }}</td>
+                                            <td>{{ f.topic }}</td>
+                                            <td>{{ f.message }}</td>
+                                            <td>{{ f.user.email }}</td>
+                                            <td>{{ f.createdAt|date('d.m.Y H:i:s') }}</td>
+                                            <td>
+                                                {% if f.status == 0 %}
+                                                    <label class="label label-warning">Okunmadı</label>
+                                                {% else %}
+                                                    <label class="label label-success">Okundu</label>
+                                                {% endif %}
+                                            </td>
+                                            <td><a onclick="return confirm('{{ f.id }} nolu geribildirim silinecek, onaylıyor musunuz?');"
+                                                   href="{{ path('app_feedback_list', {id:f.id, process:'delete' }) }}" class="btn btn-danger btn-xs">
+                                                    <i class="fa fa-trash"></i> Sil
+                                                </a></td>
+                                            <td>
+
+
+
+                                                {% if f.status == 0 %}
+                                                    <a onclick="return confirm('{{ f.id }} nolu geribildirim okundu olarak işaretlenecek, onaylıyor musunuz?');"
+                                                       href="{{ path('app_feedback_list', {id:f.id, process:'read' }) }}" class="btn btn-default btn-xs">
+                                                        Okundu Olarak İşaretle
+                                                    </a>
+                                                {% else %}
+                                                    <a onclick="return confirm('{{ f.id }} nolu geribildirim okunmadı olarak işaretlenecek, onaylıyor musunuz?');"
+                                                       href="{{ path('app_feedback_list', {id:f.id, process:'unread' }) }}" class="btn btn-default btn-xs">
+                                                        Okunmadı Olarak İşaretle
+                                                    </a>
+                                                {% endif %}
+
+                                            </td>
+
+
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="7">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {# display navigation #}
+                            <div class="navigation">
+                                {{ knp_pagination_render(feedbacks) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('feedback') }}
+{% endblock %}

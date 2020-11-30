@@ -107,6 +107,11 @@ class Advert
      */
     private $secret_email;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place")
+     */
+    private $sub_place;
+
 
 
     public function getId(): ?int
@@ -327,6 +332,18 @@ class Advert
     public function setSecretEmail(bool $secret_email): self
     {
         $this->secret_email = $secret_email;
+
+        return $this;
+    }
+
+    public function getSubPlace(): ?Place
+    {
+        return $this->sub_place;
+    }
+
+    public function setSubPlace(?Place $sub_place): self
+    {
+        $this->sub_place = $sub_place;
 
         return $this;
     }

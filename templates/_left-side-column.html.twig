@@ -15,16 +15,11 @@
 {#        </form>#}
         <!-- /.search form -->
 
+        {#{{ dump(app.request.attributes.get('_route')) }}#}
+
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
 
-
-
-            <li>
-                <a href="{{ path('homepage') }}">
-                    <i class="fa fa-home"></i> <span>Siteye Git</span>
-                </a>
-            </li>
 
             <li class="_dashboad_menu">
                 <a href="{{ path('app_dashboard') }}">
@@ -238,9 +233,15 @@
 
 
 
-            <li>
+            <li class="_feedback_menu">
                 <a href="{{ path('app_feedback') }}">
                     <i class="fa fa-commenting"></i> <span>Geri Bildirim</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ path('homepage') }}">
+                    <i class="fa fa-home"></i> <span>Siteye Git</span>
                 </a>
             </li>
 

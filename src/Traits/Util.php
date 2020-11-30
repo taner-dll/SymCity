@@ -35,7 +35,7 @@ trait Util
     }
 
     // tarih formatı doğrula
-    public function validateDate($date, $format = 'd-m-Y')
+    public function validateDate($date, $format = 'd-m-Y'): bool
     {
         $d = \DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
@@ -59,7 +59,7 @@ trait Util
 
 
 
-    public function fileUpload($file, $file_type, $file_size, $file_error, $temp, $upload_url)
+    public function fileUpload($file, $file_type, $file_size, $file_error, $temp, $upload_url): ?Response
     {
         //Kabul edilen uzantılar.
         $allowed_extensions = array(

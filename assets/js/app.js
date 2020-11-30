@@ -24,4 +24,14 @@ import 'fastclick';
 import '../js/theme';
 import '../js/demo';
 
+/**
+ * Mobile Device SideBar collapse sorunu çözümü
+ */
+$(document).on('click', '.sidebar-toggle', function () {
+    if ($('body').hasClass("sidebar-collapse") && $('body').hasClass("sidebar-open")) {
+        $('body').removeClass("sidebar-collapse");
+    }
+});
+
+
 

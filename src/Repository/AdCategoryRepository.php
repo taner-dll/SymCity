@@ -25,7 +25,8 @@ class AdCategoryRepository extends ServiceEntityRepository
      * Business guide - right colum, category list.
      * @return AdCategory[]
      */
-    public function adCategorySort(){
+    public function adCategorySort(): array
+    {
         $qb = $this->createQueryBuilder('a')
             ->select('a')
             ->where('a.active = :active')

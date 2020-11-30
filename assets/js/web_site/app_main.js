@@ -1,4 +1,8 @@
 
+/**
+ * @author Taner Deliloglu <tnrdll@gmail.com>
+ */
+
 /*const warningTitleCSS = 'color:red; font-size:60px; font-weight: bold; -webkit-text-stroke: 1px black;';
 const warningDescCSS = 'font-size: 24px;';
 
@@ -26,6 +30,9 @@ $("form").submit(function () {
 $("form").find(":input").prop("disabled", false);
 
 
+
+
+//ilçelere ait mahalle ve semtler.
 export function getPlaceNeighborhoods(place_id) {
     $('#opt_loader').css('display','inline');
     $.ajax({
@@ -34,39 +41,51 @@ export function getPlaceNeighborhoods(place_id) {
         dataType: "json",
         data: {place_id: place_id},
         statusCode: {
-
             200: function (responseObject, textStatus, errorThrown) {
                 //console.log(responseObject + textStatus + errorThrown)
-
                 let html = '<option value="">Tümü</option>';
 
                 $.each(responseObject, function (key, value) {
 
                     //console.log(value.name);
                     html += '<option value="' + value.id + '">' + value.name + '</option>';
-
                 });
                 $('#sub_place').html(html);
                 $('#opt_loader').css('display','none');
-
-
-
-
             }
         }
-    })
-        .done(function (data) {
-            //response text
-            //console.log(data);
-
-
-        })
-        .fail(function (jqXHR, textStatus) {
-            //hata anında
-            console.log('Something went wrong: ' + textStatus);
-        })
-        .always(function (jqXHR, textStatus) {
-            //her koşulda çalışır
-            //console.log('Ajax request was finished')
-        });
+    });
 }
+
+
+//ilçelere ait mahalle ve semtler.
+export function getSubCategories(cat_id) {
+    $('#opt_loader_cat').css('display','inline');
+    $.ajax({
+        url: Routing.generate('ajax_get_sub_categories'),
+        type: "GET",
+        dataType: "json",
+        data: {cat_id: cat_id},
+        statusCode: {
+            200: function (responseObject, textStatus, errorThrown) {
+                //console.log(responseObject + textStatus + errorThrown)
+                let html = '<option value="">Tümü</option>';
+
+                $.each(responseObject, function (key, value) {
+
+                    //console.log(value.name);
+                    html += '<option value="' + value.id + '">' + value.name + '</option>';
+                });
+                $('#sub_cat').html(html);
+                $('#opt_loader_cat').css('display','none');
+            }
+        }
+    });
+}
+
+
+
+
+
+
+

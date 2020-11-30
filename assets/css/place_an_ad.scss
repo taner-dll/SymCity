@@ -1,14 +1,22 @@
+@import "../../node_modules/select2/dist/css/select2.min.css";
+@import "../../node_modules/select2-bootstrap-theme/dist/select2-bootstrap.min.css";
 @import "~trumbowyg/dist/ui/trumbowyg.min.css";
 @import "~cropper/dist/cropper.min.css";
 @import "~sweetalert2/dist/sweetalert2.min.css";
 @import "~icheck/skins/all.css";
+
 
 .trumbowyg-box, .trumbowyg-editor {
   margin: 0 auto !important;
 }
 
 
-label.required:before {
+/*label.required:before {
   content: "* ";
   color:red;
+}*/
+
+.select2-container {
+
+  margin-top: 0 !important;
 }

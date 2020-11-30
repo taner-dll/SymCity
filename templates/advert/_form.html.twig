@@ -3,10 +3,10 @@
     {{ form_start(form) }}
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
 
             <div class="form-group">
-                {{ form_label(form.title, 'İlan Başlığı') }}
+                {{ form_label(form.title, 'Başlık') }}
                 {{ form_widget(form.title) }}
             </div>
 
@@ -16,85 +16,101 @@
             </div>
 
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
+            <div class="form-group">
 
-                        {{ form_label(form.category, 'İlan Kategorisi') }}
-                        {{ form_widget(form.category) }}
+                {{ form_label(form.category, 'İlan Kategorisi') }}
+                {{ form_widget(form.category) }}
 
-
-                    </div>
-
-                    <div class="form-group" id="messages">
-
-                        <div id="job_ad_msg" class="ad_msg"
-                             style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
-                            <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                                <i class="fa fa-user-plus"></i> Şu anda
-                                <b>iş ilanı</b> eklemektesiniz.
-                            </p>
-                        </div>
-                        <div id="used_stuff_ad_msg" class="ad_msg"
-                             style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
-                            <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                                <i class="fa fa-laptop"></i> Şu anda
-                                <b>2. el eşya ilanı</b> eklemektesiniz.
-                            </p>
-                        </div>
-                        <div id="real_estate_ad_msg" class="ad_msg"
-                             style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
-                            <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                                <i class="fa fa-home"></i> Şu anda
-                                <b style="text-decoration: underline">emlak ilanı</b> eklemektesiniz.
-                            </p>
-                        </div>
-                        <div id="vehicle_ad_msg" class="ad_msg"
-                             style="display: none;background: #ded9ff;color: black;border-radius: 10px">
-                            <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                                <i class="fa fa-car"></i> Şu anda
-                                <b style="text-decoration: underline">vasıta ilanı</b> eklemektesiniz.
-                            </p>
-                        </div>
-                        <div id="private_lesson_ad_msg" class="ad_msg"
-                             style="display: none;background: #ded9ff;color: black;border-radius: 10px">
-                            <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                                <i class="fa fa-graduation-cap"></i> Şu anda
-                                <b style="text-decoration: underline">özel ders ilanı</b> eklemektesiniz.
-                            </p>
-                        </div>
-                        <div id="pet_ownership_ad_msg" class="ad_msg"
-                             style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
-                            <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                                <i class="fa fa-paw"></i> Şu anda
-                                <b style="text-decoration: underline">hayvanlar alemi ilanı</b> eklemektesiniz.
-                            </p>
-                        </div>
-
-                    </div>
-
-
-                    <div style="display: none" class="form-group" id="ajax-loader">
-                        <img src="{{ asset('build/img/ajax-loader.gif') }}"  alt=""/>
-                    </div>
-
-                    <div class="form-group" id="sub_category">
-                        {{ form_label(form.sub_category, 'İlan Alt Kategorisi') }}
-                        {{ form_widget(form.sub_category) }}
-                    </div>
-
-                </div>
+                <img id="opt_loader_cat"
+                     style="height: 16px;width: 16px;margin-top: -4px;display: none"
+                     src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
             </div>
+
+            <div class="form-group" id="messages">
+
+                <div id="job_ad_msg" class="ad_msg"
+                     style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
+                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                        <i class="fa fa-user-plus"></i> Şu anda
+                        <b>iş ilanı</b> eklemektesiniz.
+                    </p>
+                </div>
+                <div id="used_stuff_ad_msg" class="ad_msg"
+                     style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
+                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                        <i class="fa fa-laptop"></i> Şu anda
+                        <b>2. el eşya ilanı</b> eklemektesiniz.
+                    </p>
+                </div>
+                <div id="real_estate_ad_msg" class="ad_msg"
+                     style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
+                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                        <i class="fa fa-home"></i> Şu anda
+                        <b style="text-decoration: underline">emlak ilanı</b> eklemektesiniz.
+                    </p>
+                </div>
+                <div id="vehicle_ad_msg" class="ad_msg"
+                     style="display: none;background: #ded9ff;color: black;border-radius: 10px">
+                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                        <i class="fa fa-car"></i> Şu anda
+                        <b style="text-decoration: underline">vasıta ilanı</b> eklemektesiniz.
+                    </p>
+                </div>
+                <div id="private_lesson_ad_msg" class="ad_msg"
+                     style="display: none;background: #ded9ff;color: black;border-radius: 10px">
+                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                        <i class="fa fa-graduation-cap"></i> Şu anda
+                        <b style="text-decoration: underline">özel ders ilanı</b> eklemektesiniz.
+                    </p>
+                </div>
+                <div id="pet_ownership_ad_msg" class="ad_msg"
+                     style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
+                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
+                        <i class="fa fa-paw"></i> Şu anda
+                        <b style="text-decoration: underline">hayvanlar alemi ilanı</b> eklemektesiniz.
+                    </p>
+                </div>
+
+            </div>
+
+            {#<div style="display: none" class="form-group" id="ajax-loader">
+                <img src="{{ asset('build/img/ajax-loader.gif') }}" alt=""/>
+            </div>#}
+
+
+
+
+            <div class="form-group" id="sub_cat_form_group" style="display: none">
+                <label for="sub_cat" id="sub_cat_lbl">Alt Kategori</label><br>
+                <select name="sub_cat" id="sub_cat" class="form-control" required></select>
+            </div>
+
+
+
+            <div class="form-group">
+                {{ form_label(form.place, 'Bölge') }}
+                {{ form_widget(form.place) }}
+
+                <img id="opt_loader"
+                     style="height: 16px;width: 16px;margin-top: -4px;display: none"
+                     src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
+
+
+            </div>
+
+
+            <div class="form-group" id="sub_place_form_group" style="display: none">
+                <label for="sub_place">Semt / Mahalle</label><br>
+                <select name="sub_place" id="sub_place" style="width: 100%;" class="form-control" required></select>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
 
             <div class="form-group" id="div_advert_status">
                 {{ form_label(form.status, 'İlan Durumu') }}
                 {{ form_widget(form.status) }}
-            </div>
-
-
-            <div class="form-group">
-                {{ form_label(form.place, 'İlan Bölgesi') }}
-                {{ form_widget(form.place) }}
             </div>
 
 
@@ -120,29 +136,21 @@
 
             <div class="form-group">
 
-                {{ form_label(form.email, 'Eposta') }}
+                {{ form_label(form.email, 'E-posta') }}
                 {{ form_widget(form.email) }}
                 {{ form_widget(form.secretEmail) }}
 
             </div>
 
 
-
-
-
         </div>
 
+        <div class="col-md-4">
 
-
-        <div class="col-md-6">
-            <div class="form-group">
-                {{ form_label(form.description, 'İlan Açıklaması') }}
-                {{ form_widget(form.description) }}
-            </div>
 
 
             <div class="form-group">
-                {{ form_label(form.featured_image, 'İlan Görseli') }}
+                {{ form_label(form.featured_image, 'Öne Çıkan Görsel') }}
                 {{ form_widget(form.featured_image) }}
                 <input type="hidden" id="cropped_image" name="cropped_image"/>
             </div>
@@ -155,62 +163,57 @@
                          class="img-responsive img-bordered" width="400" height="216" alt=""/>
                 {% endif %}
             </div>
-
-
-            <!-- Modal -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                        aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Resim Düzenle</h4>
-                        </div>
-                        <div class="modal-body" style="overflow: hidden">
-                            <img alt="" src="" id="selected_image" style="max-width: 800px; max-height: 500px;"/>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default" data-method="zoom" data-option="0.1"
-                                        title="Zoom In" onclick="$('#selected_image').cropper('zoom', 0.1)">
-
-                                    <span class="fa fa-search-plus"></span>
-
-                                </button>
-                                <button type="button" class="btn btn-default" data-method="zoom" data-option="-0.1"
-                                        title="Zoom Out" onclick="$('#selected_image').cropper('zoom', -0.1)">
-
-                                    <span class="fa fa-search-minus"></span>
-
-                                </button>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button id="crop_image" onclick="$('#image_demo').cropper('crop')"
-                                    type="button" class="btn btn-default" data-dismiss="modal">Seç
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
     <div class="row">
 
+        <div class="col-md-12">
+
+            <div class="form-group">
+                {{ form_label(form.description, 'İlan Açıklaması') }}
+                {{ form_widget(form.description) }}
+            </div>
+
+        </div>
+
+
     </div>
 
 
+</div>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Resim Düzenle</h4>
+            </div>
+            <div class="modal-body" style="overflow: hidden">
+                <img alt="" src="" id="selected_image" style="max-width: 800px; max-height: 500px;"/>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-method="zoom" data-option="0.1"
+                            title="Zoom In" onclick="$('#selected_image').cropper('zoom', 0.1)">
 
-{#    <div class="col-md-3">#}
-{#        <div class="form-group pull-right">#}
-{#            <button class="btn btn-lg btn-success" data-toggle="tooltip" data-placement="bottom"#}
-{#                    title="İlanınız kaydedildikten sonra ön izleme aşamasına geçilecektir.#}
-{#                            Bu aşamada son kontrollerinizi yapabilir, fotoğraf galerisi ekleyebilirsiniz.#}
-{#                            Her şey hazır olduğunda ise ilanı onaya gönderebilirsiniz.">#}
-{#                <i class="fa fa-save"></i> {{ button_label|default('Kaydet & Ön İzle') }}</button>#}
-{#        </div>#}
+                        <span class="fa fa-search-plus"></span>
 
+                    </button>
+                    <button type="button" class="btn btn-default" data-method="zoom" data-option="-0.1"
+                            title="Zoom Out" onclick="$('#selected_image').cropper('zoom', -0.1)">
 
-{#    </div>#}
+                        <span class="fa fa-search-minus"></span>
+
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="crop_image" onclick="$('#image_demo').cropper('crop')"
+                        type="button" class="btn btn-default" data-dismiss="modal">Seç
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

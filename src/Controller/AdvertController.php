@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 
+use App\Entity\AdSubCategory;
 use App\Entity\Advert;
+use App\Entity\Place;
 use App\Form\AdvertType;
 use App\Repository\AdvertRepository;
 use App\Traits\File;
@@ -37,11 +39,10 @@ class AdvertController extends AbstractController
     public function index(AdvertRepository $advertRepository): Response
     {
 
-        if($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $adverts = $advertRepository->findAll();
-        }
-        else{
-            $adverts = $advertRepository->findBy(array('user'=>$this->getUser()));
+        } else {
+            $adverts = $advertRepository->findBy(array('user' => $this->getUser()));
         }
 
         return $this->render('advert/index.html.twig', [
@@ -60,7 +61,8 @@ class AdvertController extends AbstractController
     {
 
 
-        /*dump($request->request->all());exit;*/
+        /*dump($request->request->all());
+        exit;*/
 
         $advert = new Advert();
         $form = $this->createForm(AdvertType::class, $advert);
@@ -72,6 +74,20 @@ class AdvertController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
+
+
+            $sub_category = $request->request->get('sub_cat');
+            $sub_place = $request->request->get('sub_place');
+
+            if ($sub_category):
+                $advert->setSubCategory($entityManager->find(AdSubCategory::class,$sub_category));
+            endif;
+
+
+            if ($sub_place):
+                $advert->setSubPlace($entityManager->find(Place::class, $sub_place));
+            endif;
+
 
             //url slug
             $advert->setSlug($this->slugify($request->request->get('advert')['title']));
@@ -88,7 +104,7 @@ class AdvertController extends AbstractController
             $file = $request->request->get('cropped_image');
 
             //cropped image
-            if(!empty($file)) {
+            if (!empty($file)) {
 
                 //dosya adı oluştur ve db güncelle
                 $fileName = $this->base64generateFileName($file);
@@ -100,7 +116,7 @@ class AdvertController extends AbstractController
                 $this->base64upload($file, $dir, $fileName);
             }
 
-            return $this->redirectToRoute('advert_show',array('id'=>$advert->getId()));
+            return $this->redirectToRoute('advert_show', array('id' => $advert->getId()));
         }
 
         return $this->render('advert/new.html.twig', [
@@ -117,7 +133,7 @@ class AdvertController extends AbstractController
     public function show(Advert $advert): Response
     {
 
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
             $advert->getUser()->getId() !=
             $this->getUser()->getId()) {
             return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
@@ -140,10 +156,10 @@ class AdvertController extends AbstractController
     {
 
 
-/*        dump($request->request->all());exit;*/
+        /*        dump($request->request->all());exit;*/
 
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-            if($advert->getUser()->getId() != $this->getUser()->getId()){
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            if ($advert->getUser()->getId() != $this->getUser()->getId()) {
                 return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
             }
         }
@@ -169,13 +185,13 @@ class AdvertController extends AbstractController
             $em->flush();
             $this->addFlash('success', $translator->trans('advert_updated'));
 
-            
+
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
 
 
             //cropped image
-            if(!empty($file)) {
+            if (!empty($file)) {
 
                 //dosya adı oluştur ve db güncelle
                 $fileName = $this->base64generateFileName($file);
@@ -209,13 +225,13 @@ class AdvertController extends AbstractController
     public function delete(Request $request, Advert $advert, TranslatorInterface $translator): Response
     {
 
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-            if($advert->getUser()->getId() != $this->getUser()->getId()){
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            if ($advert->getUser()->getId() != $this->getUser()->getId()) {
                 return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
             }
         }
 
-        if ($this->isCsrfTokenValid('delete'.$advert->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $advert->getId(), $request->request->get('_token'))) {
 
             //öne çıkan resmi sil
             $dir = $this->getParameter('adv_directory');
@@ -237,25 +253,25 @@ class AdvertController extends AbstractController
      * @param TranslatorInterface $translator
      * @return mixed
      */
-    public function deleteFeatured(Request $request,$advert, TranslatorInterface $translator): Response
+    public function deleteFeatured(Request $request, $advert, TranslatorInterface $translator): Response
     {
 
 
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('delete-featured-photo'.$advert  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('delete-featured-photo' . $advert, $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $photo = $em->getRepository(Advert::class)->find($advert);
 
-            if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-                if($photo->getUser()->getId() != $this->getUser()->getId()){
+            if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                if ($photo->getUser()->getId() != $this->getUser()->getId()) {
                     return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
                 }
             }
 
             $dir = $this->getParameter('adv_directory');
-            $this->deleteFile($dir,$photo->getFeaturedImage());
+            $this->deleteFile($dir, $photo->getFeaturedImage());
 
             $photo->setFeaturedImage(null);
             $em->flush();
@@ -284,7 +300,7 @@ class AdvertController extends AbstractController
 
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('confirm'.$id  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('confirm' . $id, $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $advert = $em->getRepository(Advert::class)->find($id);
@@ -300,7 +316,7 @@ class AdvertController extends AbstractController
                     $this->renderView(
                         '_email/advert_confirmed.html.twig',
                         array(
-                            'baslik'=>$advert->getTitle()
+                            'baslik' => $advert->getTitle()
                         )
                     ),
                     'text/html'
@@ -329,7 +345,7 @@ class AdvertController extends AbstractController
 
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('unconfirm'.$id  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('unconfirm' . $id, $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $advert = $em->getRepository(Advert::class)->find($id);
@@ -360,7 +376,7 @@ class AdvertController extends AbstractController
 
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('advert_save_as_draft'.$id  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('advert_save_as_draft' . $id, $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $advert = $em->getRepository(Advert::class)->find($id);
@@ -388,7 +404,7 @@ class AdvertController extends AbstractController
 
         $submittedToken = $request->query->get('_token');
 
-        if ($this->isCsrfTokenValid('advert_send_confirmation_request'.$id  , $submittedToken)) {
+        if ($this->isCsrfTokenValid('advert_send_confirmation_request' . $id, $submittedToken)) {
 
             $em = $this->getDoctrine()->getManager();
             $advert = $em->getRepository(Advert::class)->find($id);

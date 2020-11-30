@@ -34,7 +34,7 @@
   {% else %}
   skin-blue-light layout-boxed
   {% endif %}
-sidebar-mini">
+sidebar-mini sidebar-collapse">
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -55,11 +55,13 @@ sidebar-mini">
 
         {% if app.getUser.confirmed == 0 %}
         <div class="callout callout-warning" style="margin: 2px 2px 0 2px">
-            <p>
-                <i class="fa fa-warning"></i>
-                Lütfen size gönderdiğimiz epostadaki doğrulama
-                linkine tıklayarak hesabınızı doğrulayınız. Link size ulaşmadıysa <a href="#" style="font-weight: bold">buraya</a>
-                tıklayarak yeniden gönderebilirsiniz.
+            <p style="font-size: 14px">
+
+                Lütfen <b>{{ app.user.email }}</b> adresinize gelen
+                linke tıklayarak hesabınızı doğrulayınız.
+                Link size ulaşmadıysa <a href="#" style="font-weight: bold">buraya</a>
+                tıklayarak yeniden gönderebilirsiniz.<br>
+                Doğrulama linki gelen kutunuza ulaşmamışsa <b>spam</b> klasörüne göz atmayı deneyiniz.
             </p>
 
         </div>

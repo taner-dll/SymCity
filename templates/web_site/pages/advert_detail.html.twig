@@ -2,6 +2,7 @@
 
 {% block title %}İlan Detayı - {{ advert_detail.title|title }}{% endblock %}
 
+
 {% block body %}
 
     <!-- Blog -->
@@ -16,7 +17,15 @@
 
                         {# @var advert_detail \\App\Entity\Advert #}
 
-                        <h2>{{ advert_detail.title|title }}</h2>
+                        <h4>{{ advert_detail.title|title }}</h4>
+                        <ul class="blog-admin">
+
+                            <li><i class="fa fa-clock-o"></i>
+                                {{ 'advert_detail.last_update'|trans({}, 'advert') }}:
+                                <a href="#"> {{ advert_detail.lastUpdate|date('d/m/Y') }}</a>
+                            </li>
+                        </ul>
+
 
                         {% if advert_detail.featuredImage|length > 10 %}
                             <div class="blog-img" style="height: 470px; overflow: hidden;">
@@ -24,70 +33,77 @@
                                      src="{{ asset('uploads/advert/'~advert_detail.featuredImage) }}">
                             </div>
                         {% endif %}
-                        
+
                         <div class="blog-detail">
-
-                            <ul class="blog-admin">
-                                <li><i class="fa fa-user"></i>{{ 'advert_detail.posted_by'|trans({}, 'advert') }}:
-                                    <a href="#"> {{ advert_detail.user.username }}</a>
-                                </li>
-                                <li><i class="fa fa-clock-o"></i>
-                                    {{ 'advert_detail.last_update'|trans({}, 'advert') }}:
-                                    <a href="#"> {{ advert_detail.lastUpdate|date('d/m/Y') }}</a>
-                                </li>
-                            </ul>
-
                             {{ advert_detail.description|raw }}
-
                         </div>
 
                     </div>
 
                 </div>
 
+
                 <div class="col-md-3 col-sm-3 col-xs-12">
-                    <div class="right-bar bg_white">
+                    {#<div class="right-bar bg_white">
                         <a href="javascript:history.back()"><i class="fa fa-caret-left"></i> Geri Dön</a>
-                    </div>
+                    </div>#}
 
                     <div class="right-bar bg_white">
 
-                        <h4>İlan Sahibi <span>iletişim bilgileri</span></h4>
-                        <div id="cd-google-map">
+                        <h4 style="font-size: 24px; padding-bottom: 10px">
+                            <span>
+                                {# ilanda göster seçeneği aktifse #}
+                                {% if advert_detail.secretPrice == 1 %}
+                                    <p>{{ advert_detail.price|number_format(0, '.', '.') }} ₺</p>
+                                {% else %}
+                                    <p>Fiyat bilgisi paylaşılmamış.</p>
+                                {% endif %}
+                            </span>
 
-                            <p><i class="fa fa-user" aria-hidden="true"></i>{{ advert_detail.owner }}</p>
+                            <p style="font-size: 14px;color: #626e80">
+                                {{ advert_detail.place.parent.name }} / {{ advert_detail.place.name }}
+                            </p>
 
-                            {# ilanda göster seçeneği aktifse #}
-                            {% if advert_detail.secretPrice == 1 %}
-                                <p><i class="fa fa-money" aria-hidden="true"></i>{{ advert_detail.price }} ₺</p>
-                            {% else %}
-                                <p>Fiyat bilgisi paylaşılmamış.</p>
-                            {% endif %}
+                        </h4>
 
-                            {# ilanda göster seçeneği aktifse #}
+                        <hr style="margin: 0 0 0 0">
+
+                        <p style="padding: 10px 0 2px 0; color: #000000;">
+                            {{ advert_detail.owner }}
+                        </p>
+                        <p style="padding: 2px 0 10px 0; color: #626e80;font-size: 12px">
+                            {{ advert_detail.user.registrationDate|date('d/m/Y') }} tarihinden beri üye
+                        </p>
+
+
+                        {# ilanda göster seçeneği aktifse #}
+                        <div style="background:#F6F6F6; border-radius: 5px; padding-left: 5px">
                             {% if advert_detail.secretPhone == 1 %}
-                            <p><i class="fa fa-phone" aria-hidden="true"></i>{{ advert_detail.telephone }}</p>
+                                <p style="padding: 10px 0 10px 0">{{ advert_detail.telephone }}</p>
                             {% else %}
-                            <p>Telefon bilgisi paylaşılmamış.</p>
+                                <p>Telefon bilgisi paylaşılmamış.</p>
                             {% endif %}
+                        </div>
 
-                            {# ilanda göster seçeneği aktifse #}
-                            {% if advert_detail.secretEmail == 1 %}
-                                <p><i class="fa fa-envelope" aria-hidden="true"></i>{{ advert_detail.email }}</p>
-                            {% else %}
-                                <p>E-posta bilgisi paylaşılmamış.</p>
-                            {% endif %}
+                        <hr>
+
+                        <button type="button" class="btn btn-block btn-default btn-lg">
+                            <i class="fa fa-paper-plane-o"></i> Mesaj Gönder
+                        </button>
+
+                        {# ilanda göster seçeneği aktifse #}
+                        {#{% if advert_detail.secretEmail == 1 %}
+                            <p style="padding: 10px 0 10px 0">{{ advert_detail.email }}</p>
+                        {% else %}
+                            <p>E-posta bilgisi paylaşılmamış.</p>
+                        {% endif %}#}
 
 
                     </div>
-
-
 
                 </div>
 
             </div>
-
-        </div>
     </section>
     <!-- Blog -->
 

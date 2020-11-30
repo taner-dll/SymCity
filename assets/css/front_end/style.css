@@ -2695,7 +2695,7 @@ footer#footer::after {
 /* ------- Inner Banner Css  ------- */
 /* ================================= */
 #inner-banner {
-    padding: 25px 0;
+    padding: 10px 0;
     position: relative;
     z-index: 1;
 }

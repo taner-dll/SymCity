@@ -22,7 +22,7 @@ trait File
      * @return JsonResponse
      * @author Taner Deliloğlu <tnrdll@gmail.com>
      */
-    public function base64upload($file, $dir, $fileName)
+    public function base64upload($file, $dir, $fileName): ?JsonResponse
     {
         $fs = new Filesystem();
 
@@ -49,7 +49,7 @@ trait File
         }
     }
 
-    public function base64update($file, $dir, $fileName, $fileOldName)
+    public function base64update($file, $dir, $fileName, $fileOldName): ?JsonResponse
     {
         $fs = new Filesystem();
 
@@ -96,7 +96,7 @@ trait File
      * @param $fileName
      * @return JsonResponse
      */
-    public function deleteFile($dir, $fileName)
+    public function deleteFile($dir, $fileName): ?JsonResponse
     {
         $fs = new Filesystem();
         try{

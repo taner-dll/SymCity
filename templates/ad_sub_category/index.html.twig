@@ -49,8 +49,10 @@
                             <div class="col-md-4">
 
 
+                                <h3 class="title">{{ cn.shortName|trans({}, 'advert') }}</h3>
+
                                 <div id="sort_list_{{ cn.shortName }}" class="list-group"
-                                     style="max-height: 300px;min-height:300px;overflow:auto;background: #eeeeee">
+                                     style="max-height: 500px;min-height:500px;overflow:auto;background: #eeeeee">
 
 
                                     {% for cn_sub in cn.sub %}
@@ -64,21 +66,21 @@
 
 
                                             <div class="row">
-                                                <div class="col-md-7">
+                                                <div class="col-md-6">
                                                     {{ cn_sub.shortName|trans({}, 'advert') }}
                                                 </div>
                                                 <div class="col-md-3">
                                                     {% if cn_sub.active == 1 %}
-                                                        <label class="label label-success">A</label>
+                                                        <label class="label label-success">Aktif</label>
                                                     {% else %}
-                                                        <label class="label label-danger">P</label>
+                                                        <label class="label label-danger">Pasif</label>
                                                     {% endif %}
 
 
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <a href="{{ path('ad_sub_category_show', {'id': cn_sub.id}) }}"
-                                                       class="btn btn-xs btn-default pull-right">Göster</a>
+                                                       class="btn btn-xs btn-default pull-right"><i class="fa fa-pencil"></i> Düzenle</a>
                                                 </div>
 
                                             </div>

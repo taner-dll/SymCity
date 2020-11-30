@@ -19,6 +19,13 @@ import Routing from './Routing';
 import 'cropper/dist/cropper.min';
 import 'jquery-cropper/dist/jquery-cropper.min';
 
+
+import 'select2';
+import 'select2/dist/js/i18n/tr';
+
+
+import {getPlaceNeighborhoods, getSubCategories} from "./web_site/app_main";
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const Toast = Swal.mixin({
@@ -30,7 +37,7 @@ const Toast = Swal.mixin({
 
 
 $('input').iCheck({
-    checkboxClass: 'icheckbox_flat-grey',
+    checkboxClass: 'icheckbox_minimal-grey',
     //increaseArea: '-10%' // optional
 });
 
@@ -42,6 +49,87 @@ $('[data-toggle="tooltip"]').tooltip();
 
 let tel_mask = new InputMask("(999) 999-9999");
 tel_mask.mask($('#advert_telephone'));
+
+
+//select2 theme
+const bootstrap_theme = 'bootstrap';
+
+
+//select2 uygula
+$('#advert_category').select2({
+    theme: bootstrap_theme,
+    placeholder: "Seçiniz...",
+    language: "tr",
+    allowClear: true
+});
+
+//select2 uygula
+$('#sub_cat').select2({
+    theme: bootstrap_theme,
+    placeholder: "Seçiniz...",
+    language: "tr",
+    allowClear: true
+});
+
+//select2 uygula
+$('#advert_place').select2({
+    theme: bootstrap_theme,
+    placeholder: "Seçiniz...",
+    language: "tr",
+    allowClear: true
+});
+
+//select2 uygula
+$('#sub_place').select2({
+    theme: bootstrap_theme,
+    placeholder: "Seçiniz...",
+    language: "tr",
+    allowClear: true
+});
+
+/////////////////////////////////////////////////////
+
+
+//category selector
+//category tıklandığında, category'e ait sub categories getirilir.
+//emlak ilanları->konut, dükkan... gibi
+$('#advert_category').on('change', function () {
+    if (this.value === "") {
+        $('#sub_cat_form_group').css('display', 'none');
+    } else {
+        $('#sub_cat_form_group').css('display', 'block');
+        getSubCategories(this.value);
+
+    }
+});
+
+//district/neighborhood selector
+//place tıklandığında, place'e ait neighborhoods getirilir.
+//edremit->akçay, zeytinli... gibi
+$('#advert_place').on('change', function () {
+
+
+    if (this.value === "") {
+        $('#sub_place_form_group').css('display', 'none');
+    } else {
+        $('#sub_place_form_group').css('display', 'block');
+        getPlaceNeighborhoods(this.value);
+    }
+});
+
+
+
+//TODO Gerekirse js baştan yaz...
+
+
+
+
+
+
+
+
+
+
 
 
 let ajax_post = function (select, edit_mode = 0) {
@@ -102,8 +190,6 @@ if ($('#current_page').val() === 'edit') {
 
 $('#advert_category').on('change', function () {
 
-    // console.clear();
-    // console.log(1111);
 
     let select = $(this);
 
@@ -111,48 +197,39 @@ $('#advert_category').on('change', function () {
     $('#ajax-loader').show();
     $('#messages').hide();
 
-
-    /*let delayInMilliseconds = 100;*/
-    // setTimeout(function () {
-    //     ajax_post(select,0);
-    // }, delayInMilliseconds);
-
     ajax_post(select, 0);
-
 
     $('.ad_msg').hide();
     $('#advert_price').prop('disabled', false);
     $('#advert_secretPrice').prop('disabled', false);
 
-
     $('#div_advert_status').show();
-
 
     switch (this.value) {
 
-        case '4':
+        case '3':
             $('#job_ad_msg').show();
             $('#div_advert_status').hide();
             break;
 
-        case '5':
+        case '4':
             $('#used_stuff_ad_msg').show();
             break;
 
-        case '3':
+        case '2':
             $('#real_estate_ad_msg').show();
             break;
 
-        case '2':
+        case '1':
             $('#vehicle_ad_msg').show();
             break;
 
-        case '6':
+        case '5':
             $('#private_lesson_ad_msg').show();
             $('#div_advert_status').hide();
             break;
 
-        case '7':
+        case '6':
             $('#pet_ownership_ad_msg').show();
             break;
 

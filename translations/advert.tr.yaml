@@ -6,7 +6,7 @@ adverts:
   advanced: Detaylı
   searching: Arama
   search: Ara
-  business_name: İlan Başlığında Ara
+  business_name: Başlık
   place: Bölge
   reset_search: Aramayı Sıfırla
 
@@ -18,112 +18,177 @@ for_sale: Satılık
 for_rent: Kiralık
 other: Diğer
 
+
 # ilanlar ana menüsü (MAIN)
 vehicle: Taşıt İlanları
 real-estate: Emlak İlanları
 job: İş İlanları
-used-stuff: İkinci El Eşya İlanları
-private-lesson: Özel Ders İlanları
-animals: Evcil Hayvan Sahiplendirme
+shopping: İkinci El / Sıfır Eşya
+private_lesson: Özel Ders İlanları
+animals: Evcil Hayvanlar
 # ilanlar ana menüsü sonu (MAIN)
+
 
 # vehicle - alt kategorileri
 car: Otomobil
-suv-offroad-pickup: SUV, Arazi, Pickup
+suv-offroad-pickup: SUV / Arazi / Pickup
+van: Minivan / Panelvan
 motorcycle: Motosiklet
+bicycle: Bisiklet
+atv-utv: ATV / UTV
+electric-vehicles: Elektrikli Araçlar
+caravan: Karavan
+classic-vehicles: Klasik Araçlar
+damaged-vehicles: Hasarlı Araçlar
 sea-vehicle: Deniz Taşıtı
 aircraft: Hava Taşıtı
-atv-utv: ATV - UTV
-caravan: Karavan
 bus: Otobüs
-van: Panelvan - Minibus - Kamyonet
-commercial-vehicles: Ticari Araçlar (Kamyon - Tır)
+minibus: Minibüs / Midibüs
+truck: Kamyon / Kamyonet
+truck_trailer: Çekici
+trailer: Dorse / Römork / Karoser
 work-machines: İş Makineleri
-bicycle: Bisiklet
+farm-machines: Tarım Makineleri
+auto_rescuer: Oto Kurtarıcı / Taşıyıcı
+commercial-vehicles: Ticari Hat / Plaka
+other_vehicles: Diğer Araç İlanları
 # vehicle - alt kategorileri sonu
 
 # real estate - alt kategorileri
 house: Konut
 work-place: İş Yeri
 plot: Arsa
-timesharing: Devremülk
 plantation: Tarla
+timesharing: Devremülk
+projects: Projeler
+touristic_facility: Turistik Tesis
+other_real_estate: Diğer Emlak İlanları
 # real estate - alt kategorileri sonu
 
 # jobs - alt kategorileri
-bank_insurance: Banka - Sigorta
-it: Bilişim
-education: Eğitim - Öğretim
+food_and_service: Gıda / Hizmet
+tourism_and_hotel: Turizm / Otelcilik
+repair_maintenance: Tamir / Bakım
+store_retail: Mağaza / Perakende
+real_estate: Emlak / Gayrimenkul
+building: Yapı / İnşaat / Mimarlık
+part_time: Part Time / Ek Gelir
+
+bank_insure_finance: Banka / Sigorta / Finans
+it_telecom: Bilişim / Bilgisayar / Telekom
+education: Eğitim / Öğretim / Özel Ders
 security: Güvenlik
-law: Hukuk - Avukat
-hr_management: İnsan Kaynakları - Yönetim
-logistics: Lojistik - Taşımacılık - Depo
-store_retail: Mağaza - Perakende
-accounting: Muhasebe - Mali Müşavir
-sales_marketing: Satış - Pazarlama
-secretary_assistant: Sekreter - Asistan
-intern_new_graduate: Stajyer - Yeni Mezun
-textile: Tekstil - Konfeksiyon
-tourism_food_service: Turizm - Gıda - Hizmet
-production: Üretim ve İmalat
-building: Yapı - İnşaat - Mimarlık
-communication: Gazete - Haber
-telecommunication: Telekomünikasyon
-health: Sağlık
-repair_maintenance: Tamir - Bakım
-beauty: Güzellik - Bakım - Estetik
-farming: Tarım - Hayvancılık - Ziraat
-part_time: Part Time - Ek Gelir
-office: Ofis Yönetimi
-entertainment: Eğlence ve Aktivite
-design_advertising: Tasarım - Reklam - Yaratıcılık
-unskilled_worker: Vasıfsız İşçi
+law: Hukuk / Avukat
+accounting: Muhasebe / Mali Müşavir
+hr_management: İnsan Kaynakları / Yönetim
+sporting_jobs: Sportif Faaliyetler / Spor Salonu / Spor Sahası
+
+health: Sağlık / Tıp / Eczacılık
+beauty: Estetik / Güzellik / Cilt Bakımı
+barber_hairdresser: Berber / Kuaför
+
+media: Gazetecilik / Yayıncılık / Medya
+marketing_promotion: Pazarlama / Tanıtım / Reklam
+selling: Satış / Tele Satış
+printing: Matbaacılık / Baskı
+
+logistics: Lojistik / Taşımacılık / Nakliyat / Depo
+farming: Tarım / Ziraat / Hayvancılık
+
+secretary_assistant: Sekreter / Yönetici Asistanı
+intern_new_graduate: Stajyer / Yeni Mezun
+
+textile: Tekstil / Konfeksiyon / Terzilik
+production: Üretim / İmalat / Endüstriyel Ürünler
+automotive: Otomotiv
+government: Kamu / Devlet İş İlanları
+other_jobs: Diğer İş İlanları
 # jobs - alt kategorileri sonu
 
-# used stuff - alt kategorileri
-computer: Bilgisayar
-phone: Telefon
-photo_camera: Fotoğraf Makinesi - Kamera
+
+
+# shopping - alt kategorileri
+phone: Cep Telefonu / Akıllı Telefon
+phone_parts_and_accessories: Telefon Yedek Parça ve Aksesuarları
+
+computer: Bilgisayarlar (Masaüstü / Dizüstü / Tablet)
+computer_peripheral_devices: Bilgisayar Çevre Birimleri
+computer_parts_and_accessories: Bilgisayar Yedek Parça ve Aksesuarları
+monitors: Monitör
+wearable_technology: Giyilebilir Teknoloji / VR Gözlük / Akıllı Bileklik - Saat
+photo_camera: Fotoğraf Makinesi / Kamera / Optik Cihazlar
+
+major_appliance: Beyaz Eşya
+small_appliance: Küçük Ev Aletleri
+television: Televizyon
+satellite: Uydu Alıcısı ve Ekipmanları
+game_console: Oyun Konsolu / Oyun
+sound_systems: Taşınabilir Ses Sistemleri
+home_theatre: Ev Sinema ve Müzik Sistemleri
+security_systems: Güvenlik Sistemleri
+smart_home_systems: Akıllı Ev Sistemleri
+air_condition: İklimlendirme (Soğutma / Isıtma / Havalandırma Cihazları)
 home_decoration: Ev Dekorasyonu
-home_electronics: Ev Elektroniği
-clothing: Giyim - Aksesuar
+
+vehicle_parts: Araç Yedek Parçaları
+vehicle_electronics: Araç Elektroniği
+vehicle_accessories: Araç Aksesuarları
+
+clothing: Giyim
 watch: Saat
-mom_baby: Anne - Bebek
-cosmetics: Kozmetik - Bakım
-hobby_toy: Hobi - Oyuncak
-game_console: Oyun Konsolu
-book_movie: Kitap - Dergi - Oyuncak
-electronics: Elektronik
-sport: Spor
-collection: Koleksiyon
-music: Müzik
-farm_equipment: Tarım Aleti
-vehicle_accessories: Araç Aksesuarı
-# used stuff - alt kategorileri sonu
+shoes: Ayakkabı
+accessories: Aksesuar / Takı
+
+mom_baby: Anne / Bebek
+cosmetics: Kozmetik / Kişisel Bakım
+hobby_toy: Hobi / Oyuncak
+book_movie: Kitap / Dergi / Film
+
+musical_instruments: Müzik Aletleri
+sports_equipment: Spor Ekipmanları
+hunting_equipment: Av Malzemeleri
+camping_equipment: Kamp Malzemeleri
+
+collections: Koleksiyon
+antique: Antika
+
+gardening_equipment: Bahçe Malzemeleri
+construction_materials: Yapı Malzemeleri
+office: Ofis / Kırtasiye
+technical_equipmant: Teknik / Elektronik Ekipman
+farming_equipment: Tarım Ekipman ve Makineleri
+food_and_drink: Yiyecek / İçecek
+other_products: Diğer Ürünler
+# shopping - alt kategorileri sonu
 
 # private lessons - alt kategorileri
 prepare: Lise - Üniversite Hazırlık
 elementary: İlköğretim
+secondary_education: Ortaöğretim
 foreign_lang: Yabancı Dil
 driving: Direksiyon
 dance: Dans
-art: Sanat
-music_instrument: Müzik - Enstrüman
-theater_acting: Tiyatro - Oyunculuk
+painting: Resim
+music_instrument: Müzik / Enstrüman
+theater_acting: Tiyatro / Oyunculuk
 personal_evo: Kişisel Gelişim
 vocational: Mesleki Ders
 special: Özel Eğitim
 child: Çocuk Gelişimi
-diction: Güzel Konuşma - Diksiyon
+diction: Güzel Konuşma / Diksiyon
 photography: Fotoğrafçılık
+computer_lessons: Bilgisayar Kullanımı
+programming: Programlama - Web / Mobil / Robotik / Oyun / Gömülü Sistemler
+graphical_design: Grafik Tasarım
+other_lessons: Diğer Dersler
 # private lessons - alt kategorileri sonu
 
 # animals - alt kategorileri
-pet-ownership: Evcil Hayvan Sahiplendirme
+pet_ownership: Evcil Hayvan Sahiplendirme
 fish: Akvaryum Balıkları
-animal_equipment: Ekipman - Aksesuar
+animal_equipment: Ekipman / Aksesuar
 care: Bakım Ürünleri
-feed: Yem - Mama
+feed: Yem / Mama
 hencoop: Kümes Hayvanları
 cattle: Büyükbaş Hayvanlar
 sheep: Küçükbaş Hayvanlar

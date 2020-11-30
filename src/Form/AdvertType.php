@@ -6,6 +6,7 @@ use App\Entity\AdCategory;
 use App\Entity\AdSubCategory;
 use App\Entity\Advert;
 use App\Entity\Place;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -22,30 +23,41 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class AdvertType extends AbstractType
 {
     private $em;
+    /**
+     * @var Security
+     */
+    private $security;
 
     /**
      * The Type requires the EntityManager as argument in the constructor. It is autowired
      * in Symfony 3.
      *
      * @param EntityManagerInterface $em
+     * @param Security $security
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, Security $security)
     {
         $this->em = $em;
+        $this->security = $security;
     }
 
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $user_name = (String)$this->security->getUser()->getUsername();
+        $user = $this->em->getRepository(User::class)->findOneBy(array('user_name' => $user_name));
+
         $builder
             ->add('title', TextType::class,
                 array(
                     'attr' => array(
-                        'placeholder' => 'İlanınızı özetleyen başlık giriniz...'
+                        'placeholder' => 'İlanınızı özetleyen kısa başlık giriniz...'
                     ),
                     'required' => true
 
@@ -55,27 +67,29 @@ class AdvertType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'İlanda gösterilecek, ilan sahibine ait isim giriniz...'
                 ),
-                'required' => true
+                'required' => true,
+                'data' => $user->getFirstname() . ' ' . $user->getLastname()
             ))
             ->add('price', IntegerType::class)
-            ->add('place', EntityType::class, array(
-                'class' => Place::class,
-                'choice_label' => function (Place $place) {
-                    return $place->getName();
-                },
-                'required' => true,
-                'placeholder' => 'Seçiniz',
-            ))
-            ->add('secretEmail', CheckboxType::class, array('required' => false,
-                'label' => 'İlanda Göster', 'label_attr' => array('style' => 'margin-left:5px;')))
-            ->add('secretPhone', CheckboxType::class, array('required' => false,
-                'label' => 'İlanda Göster', 'label_attr' => array('style' => 'margin-left:5px;')))
+
+
             ->add('secretPrice', CheckboxType::class, array('required' => false,
-                'label' => 'İlanda Göster', 'label_attr' => array('style' => 'margin-left:5px;')))
+                'label' => ' ', 'label_attr' => array('style' => 'margin-left:5px;')))
+            ->add('secretPhone', CheckboxType::class, array('required' => false,
+                'label' => ' ', 'label_attr' => array('style' => 'margin-left:5px;')))
+            ->add('secretEmail', CheckboxType::class, array('required' => false,
+                'label' => ' ', 'label_attr' => array('style' => 'margin-left:5px;')))
+
+
+
+
             ->add('featured_image', FileType::class, array('data_class' => null, 'required' => false))
             ->add('description')
             ->add('telephone', TelType::class, array('required' => true))
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, array(
+                'required' => true,
+                'data' => $user->getEmail()
+            ))
             ->add('status', ChoiceType::class, array(
                 'choices' => [
                     'Satılık' => 'for_sale',
@@ -85,16 +99,20 @@ class AdvertType extends AbstractType
                 'placeholder' => 'Seçiniz'
             ))
             ->add('category', EntityType::class, array(
-                'required' => true,
-                'placeholder' => 'Seçiniz',
-                'class' => AdCategory::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('ac')
-                        ->orderBy('ac.sort', 'asc');
-                },
-                'choice_value' => 'id',
-                'choice_translation_domain' => 'advert'))
-            ->add('sub_category', EntityType::class, array(
+
+                    'required' => true,
+                    'placeholder' => 'Seçiniz',
+                    'class' => AdCategory::class,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('ac')
+                            ->orderBy('ac.sort', 'asc');
+                    },
+                    'choice_value' => 'id',
+                    'choice_translation_domain' => 'advert')
+
+
+            )
+            /*->add('sub_category', EntityType::class, array(
                     'required' => true,
                     'placeholder' => 'Seçiniz',
                     'class' => AdSubCategory::class,
@@ -105,7 +123,22 @@ class AdvertType extends AbstractType
                     'choice_value' => 'id',
                     'choice_translation_domain' => 'advert')
 
-            );
+            )*/
+            ->add('place', EntityType::class, array(
+                'class' => Place::class,
+                'choice_label' => function (Place $place) {
+                    return $place->getName();
+                },
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->where('p.type = :dst')
+                        ->setParameter('dst','district')
+                        ->orderBy('p.name', 'asc');
+                },
+                'required' => true,
+                'placeholder' => 'Seçiniz',
+            ))
+        ;
 
 
     }

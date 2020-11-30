@@ -30,7 +30,7 @@ class AjaxController extends AbstractController
      * @return JsonResponse
      * @throws \Exception
      */
-    public function ajaxSendFeedBack(Request $request)
+    public function ajaxSendFeedBack(Request $request): JsonResponse
     {
 
         $em = $this->getDoctrine()->getManager();
@@ -60,7 +60,7 @@ class AjaxController extends AbstractController
      * @param TranslatorInterface $translator
      * @return JsonResponse
      */
-    public function ajaxGetPlaceNeighborhoods(Request $request, TranslatorInterface $translator)
+    public function ajaxGetPlaceNeighborhoods(Request $request, TranslatorInterface $translator): JsonResponse
     {
         $em = $this->getDoctrine()->getManager();
         $req = $request->query->get('place_id');
@@ -77,6 +77,39 @@ class AjaxController extends AbstractController
         return new JsonResponse($sub_places_arr);
     }
 
+    /**
+     * @Route("/get-sub-categories", name="ajax_get_sub_categories", methods={"GET"}, options={"expose"=true})
+     * @param Request $request
+     * @param TranslatorInterface $translator
+     * @return JsonResponse
+     */
+    public function ajaxGetSubCategories(Request $request, TranslatorInterface $translator): JsonResponse
+    {
+        $em = $this->getDoctrine()->getManager();
+        $req = $request->query->get('cat_id');
+
+
+        $sub_categories = $em->getRepository(AdSubCategory::class)
+            ->findBy(
+                array(
+                    'adCategory' => $em->find(AdCategory::class, $req),
+                    'active'=>true
+                ),
+                array('sort' => 'ASC'));
+
+        //dump($sub_categories);exit;
+
+        $sub_cats_arr = [];
+
+        foreach ($sub_categories as $key => $value) {
+
+            $sub_cats_arr[$key]['id'] = $value->getId();
+            $sub_cats_arr[$key]['name'] = $translator->trans($value->getShortName(), [], 'advert');
+        }
+
+        return new JsonResponse($sub_cats_arr);
+    }
+
 
     /**
      * @Route("/ad-subcategories", name="ajax_ad_subcategories", methods={"GET"}, options={"expose"=true})
@@ -84,7 +117,7 @@ class AjaxController extends AbstractController
      * @param TranslatorInterface $translator
      * @return JsonResponse
      */
-    public function ajaxListSubCategories(Request $request, TranslatorInterface $translator)
+    public function ajaxListSubCategories(Request $request, TranslatorInterface $translator): JsonResponse
     {
         $em = $this->getDoctrine()->getManager();
         $req = $request->query->get('category');
@@ -111,7 +144,7 @@ class AjaxController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function ajaxAdSubCategoriesSort(Request $request, TranslatorInterface $translator)
+    public function ajaxAdSubCategoriesSort(Request $request, TranslatorInterface $translator): Response
     {
         $em = $this->getDoctrine()->getManager();
         $sort_list = $request->request->get('sortlist');
@@ -141,7 +174,7 @@ class AjaxController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function ajaxAdCategoriesSort(Request $request, TranslatorInterface $translator)
+    public function ajaxAdCategoriesSort(Request $request, TranslatorInterface $translator): Response
     {
         $em = $this->getDoctrine()->getManager();
         $sort_list = $request->request->get('sortlist');
@@ -163,7 +196,7 @@ class AjaxController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function ajaxBusinessCategoriesSort(Request $request, TranslatorInterface $translator)
+    public function ajaxBusinessCategoriesSort(Request $request, TranslatorInterface $translator): Response
     {
         $em = $this->getDoctrine()->getManager();
         $sort_list = $request->request->get('sortlist');

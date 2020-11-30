@@ -36,10 +36,9 @@ class WebSiteController extends AbstractController
         $business = $em->getRepository(Business::class)
             ->findBy(array('confirm' => 1));
 
-        $business_category = $em->getRepository(BusinessCategory::class)->findAll();
-        $advert_category = $em->getRepository(AdCategory::class)->findAll();
+        $business_category = $em->getRepository(BusinessCategory::class)->businessCategorySort();
+        $advert_category = $em->getRepository(AdCategory::class)->adCategorySort();
         $places = $em->getRepository(Place::class)->findAll();
-
 
         return $this->render('web_site/pages/main.html.twig',
             array(
@@ -60,7 +59,7 @@ class WebSiteController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function searchRouter(Request $request)
+    public function searchRouter(Request $request): ?Response
     {
 
         $em = $this->getDoctrine()->getManager();
@@ -168,7 +167,7 @@ class WebSiteController extends AbstractController
      * }, name="add_to_lists",  methods={"GET"})
      * @return Response
      */
-    public function addToLists()
+    public function addToLists(): Response
     {
         return $this->render('web_site/pages/add_to_lists.html.twig');
     }
@@ -339,11 +338,10 @@ class WebSiteController extends AbstractController
         );
 
 
-        return $this->render('web_site/pages/adverts.html.twig', [
+        return $this->render('web_site/pages/ad_guide.twig', [
             'adverts' => $adverts,
-            'categories' => $em->getRepository(Advert::class)->advertCategoryList(),
-            'sub_categories' => $em->getRepository(Advert::class)->advertSubCategoryList(),
-            'places' => $em->getRepository(Place::class)->findAll()
+            'categories' => $em->getRepository(AdCategory::class)->findBy(array('active'=>true),array('sort'=>'ASC')),
+            'places' => $em->getRepository(Place::class)->getDistricts()
         ]);
     }
 
@@ -351,7 +349,7 @@ class WebSiteController extends AbstractController
      * @Route({
      *     "en": "/advert-detail/{id}/{cat}/{sub}/{slug}",
      *     "tr": "/ilan-detay/{id}/{cat}/{sub}/{slug}"
-     * }, name="advert_detail",  methods={"GET"})
+     * }, name="advert_detail",  methods={"GET"}, options={"expose"=true})
      * @param $id
      * @return Response
      */

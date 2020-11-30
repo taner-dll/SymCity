@@ -55,7 +55,13 @@
 
                                         </div>
                                         <!-- /.widget-user-image -->
-                                        <h4 id="user_title_text">&nbsp;{{ app.user.firstName }} {{ app.user.lastName }}</h4>
+                                        <h4 id="user_title_text">&nbsp;
+                                            {{ app.user.firstName }} {{ app.user.lastName }}
+
+                                            {% if app.getUser.confirmed == 1 %}
+                                            <i class="fa fa-check-circle-o" rel="tooltip" title="Doğrulanmış Hesap"></i>
+                                            {% endif %}
+                                        </h4>
                                     </div>
                                     <div class="box-footer {#no-padding#}">
                                         <ul class="nav nav-stacked">

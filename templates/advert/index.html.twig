@@ -54,79 +54,96 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div id="example1_wrapper"
-                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
-                                <table id="example1" class="table table-bordered table-striped
+
+
+                            {% if adverts|length > 0 %}
+
+                                <div id="example1_wrapper"
+                                     class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                                    <table id="example1" class="table table-bordered table-striped
                                 table-hover table-condensed
                                 dataTable" role="grid" aria-describedby="example1_info">
-                                    <thead>
-                                    <tr role="row">
-                                        <th>Onay Durumu</th>
-                                        <th>İlan Başlığı</th>
-                                        <th>Bölge</th>
-                                        <th>Kategori</th>
-                                        <th>Alt Kategori</th>
-                                        <th>Durumu</th>
+                                        <thead>
+                                        <tr role="row">
+                                            <th>Onay Durumu</th>
+                                            <th>İlan Başlığı</th>
+                                            <th>Bölge</th>
+                                            <th>Kategori</th>
+                                            <th>Alt Kategori</th>
+                                            <th>Durumu</th>
 
-
-
-                                        {% if is_granted('ROLE_ADMIN') %}
-                                            <th>Ekleyen</th>
-
-                                        {% endif %}
-
-                                        <th>İşlem</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for advert in adverts %}
-                                        <tr>
-                                            <td>
-                                                {% if  advert.confirm == 0 %}
-                                                    <span class="label label-warning">
-                                                        <i class="fa fa-clock-o"></i>
-                                                        Onay Bekliyor</span>
-                                                {% elseif advert.confirm == 1 %}
-                                                    <span class="label label-success">
-                                                        <i class="fa fa-check"></i>
-                                                        Yayında</span>
-                                                {% elseif advert.confirm == 2 %}
-                                                    <span class="label label-info">
-                                                        <i class="fa fa-save"></i>
-                                                        Taslak</span>
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ advert.title[:20]|striptags }}&hellip;</td>
-                                            <td>{{ advert.place ? advert.place.name : '' }}</td>
-                                            <td>{{ advert.category.shortName|trans({},'advert') }}</td>
-                                            <td>{{ advert.subCategory.shortName|trans({},'advert') }}</td>
-                                            <td>{{ advert.status|trans({},'advert') }}</td>
 
 
                                             {% if is_granted('ROLE_ADMIN') %}
-
-                                                <td>
-                                                    {{advert.user.username}}
-                                                </td>
+                                                <th>Ekleyen</th>
 
                                             {% endif %}
 
-
-
-
-                                            <td>
-                                                <a class="btn btn-xs btn-primary pull-left"
-                                                   href="{{ path('advert_show', {'id': advert.id}) }}">Detaylı Göster</a>
-                                            </td>
+                                            <th>İşlem</th>
                                         </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="11">Kayıtlı ilanınız bulunmamaktadır.</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
+                                        <tbody>
+                                        {% for advert in adverts %}
+                                            <tr>
+                                                <td>
+                                                    {% if  advert.confirm == 0 %}
+                                                        <span class="label label-warning">
+                                                        <i class="fa fa-clock-o"></i>
+                                                        Onay Bekliyor</span>
+                                                    {% elseif advert.confirm == 1 %}
+                                                        <span class="label label-success">
+                                                        <i class="fa fa-check"></i>
+                                                        Yayında</span>
+                                                    {% elseif advert.confirm == 2 %}
+                                                        <span class="label label-info">
+                                                        <i class="fa fa-save"></i>
+                                                        Taslak</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ advert.title[:20]|striptags }}&hellip;</td>
+                                                <td>{{ advert.place ? advert.place.name : '' }}</td>
+                                                <td>{{ advert.category.shortName|trans({},'advert') }}</td>
+                                                <td>{{ advert.subCategory.shortName|trans({},'advert') }}</td>
+                                                <td>{{ advert.status|trans({},'advert') }}</td>
+
+
+                                                {% if is_granted('ROLE_ADMIN') %}
+
+                                                    <td>
+                                                        {{advert.user.username}}
+                                                    </td>
+
+                                                {% endif %}
+
+
+
+
+                                                <td>
+                                                    <a class="btn btn-xs btn-primary pull-left"
+                                                       href="{{ path('advert_show', {'id': advert.id}) }}">Detaylı Göster</a>
+                                                </td>
+                                            </tr>
+
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            {% else %}
+
+                                <p>
+                                    Kayıtlı ilanının bulunmamaktadır. Yeni ilan eklemek için <a href="{{ path('advert_new') }}">tıklayınız</a>
+
+                                </p>
+
+                            {% endif %}
+
+
+
+
+
+
+
 
                         </div>
                     </div>

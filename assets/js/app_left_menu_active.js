@@ -7,6 +7,7 @@ let current_route = $('#current_route').val();
 let active = {'font-weight': 'bold'};
 //console.log(current_route);
 
+
 /**
  * Dashboard Menu
  */
@@ -204,5 +205,13 @@ if (category_routes.includes(current_route)) {
         });
     }
 
+}
 
+
+
+/**
+ * Feedback Menu
+ */
+if (current_route === 'app_feedback') {
+    $('._feedback_menu').children('a').css(active);
 }
