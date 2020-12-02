@@ -165,16 +165,19 @@ class AdvertController extends AbstractController
         }
 
         //eski resmi kaldırırken sorgu gerekti. product->getPicture() temp olarak gözüküyor?
-        $em = $this->getDoctrine()->getManager();
+/*        $em = $this->getDoctrine()->getManager();
         $p = $em->getRepository(Advert::class)->find($advert->getId());
-        $fileOldName = $p->getFeaturedImage();
+        $fileOldName = $p->getFeaturedImage();*/
 
         $form = $this->createForm(AdvertType::class, $advert);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $advert->setFeaturedImage($fileOldName);
+            $em = $this->getDoctrine()->getManager();
+
+            $advert->setFeaturedImage($advert->getFeaturedImage());
             $advert->setConfirm(2);//guncellenince taslak olarak kaydedilmeli
             $advert->setLastUpdate(new DateTime('now'));
 

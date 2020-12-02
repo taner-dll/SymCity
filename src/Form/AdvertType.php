@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -53,6 +54,11 @@ class AdvertType extends AbstractType
         $user_name = (String)$this->security->getUser()->getUsername();
         $user = $this->em->getRepository(User::class)->findOneBy(array('user_name' => $user_name));
 
+        /*
+        $sub_category_id = $builder->getData()->getSubCategory()->getId();*/
+        //dump($category_id, $sub_category_id);exit;
+
+
         $builder
             ->add('title', TextType::class,
                 array(
@@ -74,27 +80,32 @@ class AdvertType extends AbstractType
 
 
             ->add('secretPrice', CheckboxType::class, array('required' => false,
-                'label' => ' ', 'label_attr' => array('style' => 'margin-left:5px;')))
+                'label' => ' ',
+                'label_attr' => array('style' => 'margin-left:5px;'),
+                'help'=>'Fiyat bilgisi ilanda gösterilsin mi?'
+            ))
             ->add('secretPhone', CheckboxType::class, array('required' => false,
-                'label' => ' ', 'label_attr' => array('style' => 'margin-left:5px;')))
-            ->add('secretEmail', CheckboxType::class, array('required' => false,
-                'label' => ' ', 'label_attr' => array('style' => 'margin-left:5px;')))
-
-
+                'label' => ' ', 'label_attr' => array('style' => 'margin-left:5px;'),
+                'help'=>'Telefon numarası ilanda gösterilsin mi?'
+            ))
+            /*->add('secretEmail', CheckboxType::class, array('required' => false,
+                'label' => ' ', 'label_attr' => array('style' => 'margin-left:5px;'),
+                'help'=>'Fiyat bilgisi ilanda gösterilsin mi?'
+            ))*/
 
 
             ->add('featured_image', FileType::class, array('data_class' => null, 'required' => false))
             ->add('description')
             ->add('telephone', TelType::class, array('required' => true))
-            ->add('email', EmailType::class, array(
-                'required' => true,
-                'data' => $user->getEmail()
+            ->add('email', HiddenType::class, array(
+                'required' => false,
+                'data' => $user->getEmail(),
+                'disabled'=>true
             ))
             ->add('status', ChoiceType::class, array(
                 'choices' => [
                     'Satılık' => 'for_sale',
                     'Kiralık' => 'for_rent',
-
                 ],
                 'placeholder' => 'Seçiniz'
             ))
@@ -104,26 +115,16 @@ class AdvertType extends AbstractType
                     'placeholder' => 'Seçiniz',
                     'class' => AdCategory::class,
                     'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('ac')
-                            ->orderBy('ac.sort', 'asc');
+                        return $er->createQueryBuilder('c')
+
+                            ->orderBy('c.sort', 'asc');
                     },
                     'choice_value' => 'id',
                     'choice_translation_domain' => 'advert')
 
 
             )
-            /*->add('sub_category', EntityType::class, array(
-                    'required' => true,
-                    'placeholder' => 'Seçiniz',
-                    'class' => AdSubCategory::class,
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('s')
-                            ->orderBy('s.sort', 'asc');
-                    },
-                    'choice_value' => 'id',
-                    'choice_translation_domain' => 'advert')
 
-            )*/
             ->add('place', EntityType::class, array(
                 'class' => Place::class,
                 'choice_label' => function (Place $place) {
@@ -138,7 +139,49 @@ class AdvertType extends AbstractType
                 'required' => true,
                 'placeholder' => 'Seçiniz',
             ))
+            ->add('sub_place', EntityType::class, array(
+                'class' => Place::class,
+                'choice_label' => function (Place $place) {
+                    return $place->getName();
+                },
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->where('p.type = :nb')
+                        ->setParameter('nb','neighborhood')
+                        ->orderBy('p.name', 'asc');
+                },
+                'required' => true,
+                'placeholder' => 'Seçiniz',
+            ))
         ;
+
+            $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event){
+
+
+                $form = $event->getForm();
+                $entity = $event->getData();
+
+                $category = $entity->getCategory();
+
+                $form->add('sub_category', EntityType::class, array(
+
+                        'required' => true,
+                        'placeholder' => 'Seçiniz',
+                        'class' => AdSubCategory::class,
+                        'query_builder' => function (EntityRepository $er) use ($category) {
+                            return $er->createQueryBuilder('sub')
+                                ->where('sub.adCategory = :cat')
+                                ->setParameter('cat',$category->getId())
+                                ->orderBy('sub.sort', 'asc');
+                        },
+                        'choice_value' => 'id',
+                        'choice_translation_domain' => 'advert')
+
+                );
+
+
+
+            });
 
 
     }

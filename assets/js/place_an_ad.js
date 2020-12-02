@@ -64,7 +64,7 @@ $('#advert_category').select2({
 });
 
 //select2 uygula
-$('#sub_cat').select2({
+$('#advert_sub_category').select2({
     theme: bootstrap_theme,
     placeholder: "Seçiniz...",
     language: "tr",
@@ -80,7 +80,7 @@ $('#advert_place').select2({
 });
 
 //select2 uygula
-$('#sub_place').select2({
+$('#advert_sub_place').select2({
     theme: bootstrap_theme,
     placeholder: "Seçiniz...",
     language: "tr",
@@ -93,22 +93,46 @@ $('#sub_place').select2({
 //category selector
 //category tıklandığında, category'e ait sub categories getirilir.
 //emlak ilanları->konut, dükkan... gibi
-$('#advert_category').on('change', function () {
-    if (this.value === "") {
-        $('#sub_cat_form_group').css('display', 'none');
-    } else {
-        $('#sub_cat_form_group').css('display', 'block');
-        getSubCategories(this.value);
+/*$('#advert_category').on('change', function () {
 
-    }
-});
+    //kategori değişince alt kategoriyi temizle
+    $('#advert_sub_category').val(null).trigger('change');
+
+    $.ajax({
+        url: Routing.generate('ajax_get_place_neighborhoods'),
+        type: "GET",
+        dataType: "json",
+        data: {place_id: place_id},
+        statusCode: {
+            200: function (responseObject, textStatus, errorThrown) {
+                //console.log(responseObject + textStatus + errorThrown)
+                let html = '<option value="">Tümü</option>';
+
+                $.each(responseObject, function (key, value) {
+
+                    //console.log(value.name);
+                    html += '<option value="' + value.id + '">' + value.name + '</option>';
+                });
+                $('#sub_place').html(html);
+                $('#opt_loader').css('display','none');
+            }
+        }
+    });
+
+
+
+});*/
+
+
+
+
+
+
 
 //district/neighborhood selector
 //place tıklandığında, place'e ait neighborhoods getirilir.
 //edremit->akçay, zeytinli... gibi
 $('#advert_place').on('change', function () {
-
-
     if (this.value === "") {
         $('#sub_place_form_group').css('display', 'none');
     } else {
@@ -119,73 +143,16 @@ $('#advert_place').on('change', function () {
 
 
 
-//TODO Gerekirse js baştan yaz...
+/*
+$('#advert_secretPrice').iCheck('check');
+$('#advert_secretPhone').iCheck('check');
+$('#advert_secretEmail').iCheck('check');*/
 
 
 
 
 
 
-
-
-
-
-
-
-let ajax_post = function (select, edit_mode = 0) {
-
-    $.ajax({
-        url: Routing.generate('ajax_ad_subcategories'),
-        type: "GET",
-        dataType: "json",
-        data: {category: select.val()},
-
-        success: function (subcategories) {
-            let subCategorySelect = $("#advert_sub_category");
-            subCategorySelect.html('');
-            subCategorySelect.append('<option>Seçiniz</option>');
-
-            $.each(subcategories, function (key, subcategory) {
-
-                subCategorySelect.append('<option value="' + subcategory.id + '">'
-                    + subcategory.shortname_translated + '</option>');
-
-            });
-
-            /**
-             * düzenleme sayfasında option selected yapıyoruz.
-             */
-            if (edit_mode === 1) {
-                let selected = $('#selected_sub_category').val();
-                subCategorySelect.val(selected);
-            }
-
-            $('#ajax-loader').hide();
-            $('#sub_category').show();
-            $('#messages').show();
-        },
-        error: function (err) {
-            console.log(err);
-        }
-    });
-
-};
-
-/**
- * Sub category, düzenleme sayfasında görünür olarak
- * gelmelidir.
- */
-
-if ($('#current_page').val() === 'edit') {
-    $('#sub_category').show();
-
-    ajax_post($('#advert_category'), 1);
-} else {
-    $('#sub_category').hide();
-    $('#advert_secretPrice').iCheck('check');
-    $('#advert_secretPhone').iCheck('check');
-    $('#advert_secretEmail').iCheck('check');
-}
 
 
 $('#advert_category').on('change', function () {
@@ -312,6 +279,7 @@ $('#advert_secretEmail').on('ifUnchecked', function (event) {
 //trumbowyg
 import 'trumbowyg/dist/trumbowyg.min';
 import icons from 'trumbowyg/dist/ui/icons.svg';
+import $ from "jquery";
 
 $.trumbowyg.svgPath = icons;
 $('#advert_description').trumbowyg();

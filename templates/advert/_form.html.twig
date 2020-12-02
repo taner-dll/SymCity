@@ -6,20 +6,30 @@
         <div class="col-md-4">
 
             <div class="form-group">
-                {{ form_label(form.title, 'Başlık') }}
+                {{ form_label(form.title, 'İlanı Tanıtan Kısa Başlık') }}
                 {{ form_widget(form.title) }}
             </div>
 
             <div class="form-group">
-                {{ form_label(form.owner, 'İlan Sahibi') }}
+                {{ form_label(form.owner, 'İlanda Görülecek İsim') }}
                 {{ form_widget(form.owner) }}
             </div>
 
 
             <div class="form-group">
 
-                {{ form_label(form.category, 'İlan Kategorisi') }}
+                {{ form_label(form.category, 'Kategori') }}
                 {{ form_widget(form.category) }}
+
+                <img id="opt_loader_cat"
+                     style="height: 16px;width: 16px;margin-top: -4px;display: none"
+                     src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
+            </div>
+
+            <div class="form-group">
+
+                {{ form_label(form.sub_category, 'Alt Kategori') }}
+                {{ form_widget(form.sub_category) }}
 
                 <img id="opt_loader_cat"
                      style="height: 16px;width: 16px;margin-top: -4px;display: none"
@@ -78,32 +88,6 @@
             </div>#}
 
 
-
-
-            <div class="form-group" id="sub_cat_form_group" style="display: none">
-                <label for="sub_cat" id="sub_cat_lbl">Alt Kategori</label><br>
-                <select name="sub_cat" id="sub_cat" class="form-control" required></select>
-            </div>
-
-
-
-            <div class="form-group">
-                {{ form_label(form.place, 'Bölge') }}
-                {{ form_widget(form.place) }}
-
-                <img id="opt_loader"
-                     style="height: 16px;width: 16px;margin-top: -4px;display: none"
-                     src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
-
-
-            </div>
-
-
-            <div class="form-group" id="sub_place_form_group" style="display: none">
-                <label for="sub_place">Semt / Mahalle</label><br>
-                <select name="sub_place" id="sub_place" style="width: 100%;" class="form-control" required></select>
-            </div>
-
         </div>
 
         <div class="col-md-4">
@@ -119,7 +103,10 @@
                 {{ form_label(form.price, 'Fiyat / Ücret (TL)') }}
                 {{ form_widget(form.price) }}
 
+
+                {{ form_help(form.secretPrice) }}
                 {{ form_widget(form.secretPrice) }}
+
 
             </div>
 
@@ -128,24 +115,47 @@
                 {{ form_label(form.telephone, 'Telefon') }}
                 {{ form_widget(form.telephone) }}
 
+                {{ form_help(form.secretPhone) }}
                 {{ form_widget(form.secretPhone) }}
 
 
             </div>
 
 
-            <div class="form-group">
+            {#<div class="form-group">
 
                 {{ form_label(form.email, 'E-posta') }}
                 {{ form_widget(form.email) }}
                 {{ form_widget(form.secretEmail) }}
 
-            </div>
+            </div>#}
 
 
         </div>
 
         <div class="col-md-4">
+
+            <div class="form-group">
+                {{ form_label(form.place, 'Bölge') }}
+                {{ form_widget(form.place) }}
+
+                <img id="opt_loader"
+                     style="height: 16px;width: 16px;display: none"
+                     src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
+
+            </div>
+
+
+            <div class="form-group">
+                {{ form_label(form.sub_place, 'Semt / Mah.') }}
+                {{ form_widget(form.sub_place) }}
+
+                <img id="opt_loader"
+                     style="height: 16px;width: 16px;display: none"
+                     src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
+
+            </div>
+
 
 
 

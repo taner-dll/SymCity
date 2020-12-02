@@ -28,9 +28,13 @@
             cursor: pointer;
         }
 
-        .ilan-row{
+        .ilan-row {
             font-size: 14px;
 
+        }
+
+        .ilan-table > tbody > tr > td {
+            vertical-align: middle;
         }
 
     </style>
@@ -65,10 +69,6 @@
     <section id="popular-listing" class="p_b20 p_t20">
         <div class="container">
             <div class="row">
-
-
-
-
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
 
@@ -108,7 +108,7 @@
                                 </select>
                                 <img id="opt_loader_cat"
                                      style="height: 16px;width: 16px;margin-top: -4px;display: none"
-                                     src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
+                                     src="{{ asset('build/img/front_end/loading.gif') }}" alt=""/>
                             </div>
 
                             <div class="form-group" id="sub_cat_form_group" style="display: none">
@@ -138,7 +138,7 @@
                                 </select>
                                 <img id="opt_loader"
                                      style="height: 16px;width: 16px;margin-top: -4px;display: none"
-                                     src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
+                                     src="{{ asset('build/img/front_end/loading.gif') }}" alt=""/>
                                 <input type="hidden" id="place_id" value="{{ app.request.get('place') }}">
                             </div>
 
@@ -161,15 +161,14 @@
                     </div>
 
 
-
                 </div>
 
                 <div class="col-md-9 col-sm-9 col-xs-12">
 
-
                     <div class="row">
+                        <div class="table-responsive no-padding">
 
-                            <table class="table table-hover table-condensed table-striped" id="ilan_table">
+                            <table class="table table-hover ilan-table" id="ilan_table">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -180,7 +179,6 @@
                                     <th>Fiyat</th>
                                     <th>Tarih</th>
                                     <th>Bölge</th>
-
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -194,7 +192,7 @@
                                         data-sub="{{ a.subcategory.shortname }}"
                                         data-slug="{{ a.slug }}"
                                     >
-                                        <th scope="row">
+                                        <td>
 
                                             {% if a.featuredImage is not null %}
                                                 <img style="width: 59px; height: 32px" src="{{ asset('uploads/place_an_ad/')~a.featuredImage }}"
@@ -205,7 +203,7 @@
 
                                             {% endif %}
 
-                                        </th>
+                                        </td>
                                         <td>{{ a.category.shortname|trans({}, 'advert') }}</td>
                                         <td>{{ a.subCategory.shortname|trans({}, 'advert') }}</td>
                                         <td>
@@ -215,7 +213,7 @@
                                                 sub:a.subcategory.shortname,
                                                 slug:a.slug
                                             }) }}"
-                                                    class="ilan-link">
+                                               class="ilan-link">
 
                                                 {{ a.title }}</a></td>
                                         <td>Kiralık</td>
@@ -233,84 +231,10 @@
                                 {% endfor %}
 
 
-
-
                                 </tbody>
                             </table>
 
-                            {#{% for a in adverts %}#}
-
-                                {#<div class="popular-listing-box">
-                                    <div class="row">
-                                        <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <div class="popular-listing-img">
-                                                <figure class="effect-ming">
-
-                                                    {% if a.featuredImage is not null %}
-                                                        <img src="{{ asset('uploads/place_an_ad/')~a.featuredImage }}"
-                                                             alt="image">
-                                                    {% else %}
-                                                        <img src="{{ asset('build/img/no-image-800x432.png') }}"
-                                                             alt="image">
-
-                                                    {% endif %}
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8 col-sm-8 col-xs-12">
-
-                                            <div class="popular-listing-detail"
-                                            >
-                                                <h3><a href="{{ path('advert_detail', {
-                                                        id:a.id,
-                                                        cat:a.category.shortname,
-                                                        sub:a.subcategory.shortname,
-                                                        slug:a.slug
-                                                    }) }}">
-                                                        {{ a.title|title }}</a></h3>
-                                                <p>{{ (a.description|striptags)[:100] }}&hellip;</p>
-                                            </div>
-
-                                            <div class="popular-listing-add">
-
-                                                <div class="row">
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-
-                                                        <span style="margin-left: 5px; font-size: 11px">
-                                                             Yer:
-                                                            {{ a.place.name }}
-                                                        </span>
-
-                                                        <span style="margin-left: 10px; font-size: 11px">
-                                                            Tarih:
-                                                        {{ a.lastUpdate|date('d/m/Y') }}
-                                                        </span>
-
-                                                        <span style="margin-left: 10px; font-size: 11px;">
-                                                            Fiyat:
-                                                            <strong style="color: #9f191f">{{ a.price }}</strong>
-                                                         </span>
-
-                                                        <a href="{{ path('advert_detail', {
-                                                            id:a.id,
-                                                            cat:a.category.shortname,
-                                                            sub:a.subcategory.shortname,
-                                                            slug:a.slug
-                                                        }) }}"
-                                                           class="pull-right btn btn-default btn-xs">Göster</a>
-
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>#}
-
-                            {#{% endfor %}#}
-
+                        </div>
 
 
                     </div>
@@ -333,6 +257,8 @@
 
 
             </div>
+
+
         </div>
     </section>
 

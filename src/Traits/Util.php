@@ -8,8 +8,6 @@ use http\Env\Response;
 
 trait Util
 {
-
-
     public function generateEmailConfirmationCode($length)
     {
 
@@ -17,7 +15,6 @@ trait Util
         return substr(md5(uniqid(rand(), true)), 0, $length);
 
     }
-
 
     public function slugify($text)
     {
@@ -42,7 +39,6 @@ trait Util
     }
 
     // tarih farkını hesaplar. (Y-m-d H:i:s) formatında string girilmeli.
-    // interval: aralık.
     public function dateDiffGetInterval($sDate1, $sDate2, $sUnit='H') {
         $nInterval = strtotime($sDate2) - strtotime($sDate1);
         if ($sUnit=='D') { // days
@@ -56,8 +52,6 @@ trait Util
         }
         return $nInterval;
     }
-
-
 
     public function fileUpload($file, $file_type, $file_size, $file_error, $temp, $upload_url): ?Response
     {
@@ -263,7 +257,7 @@ trait Util
         return $bytes;
     }
 
-    function convertToBytes($from)
+    public function convertToBytes($from)
     {
         $number = substr($from, 0, -2);
         switch (strtoupper(substr($from, -2))) {
@@ -281,6 +275,5 @@ trait Util
                 return $from;
         }
     }
-
 
 }

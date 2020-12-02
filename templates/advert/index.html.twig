@@ -103,7 +103,13 @@
                                                 <td>{{ advert.title[:20]|striptags }}&hellip;</td>
                                                 <td>{{ advert.place ? advert.place.name : '' }}</td>
                                                 <td>{{ advert.category.shortName|trans({},'advert') }}</td>
-                                                <td>{{ advert.subCategory.shortName|trans({},'advert') }}</td>
+                                                <td>
+
+                                                    {% if advert.subCategory  %}
+                                                    {{ advert.subCategory.shortName|trans({},'advert') }}
+                                                    {% endif %}
+
+                                                </td>
                                                 <td>{{ advert.status|trans({},'advert') }}</td>
 
 
