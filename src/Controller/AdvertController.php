@@ -155,9 +155,6 @@ class AdvertController extends AbstractController
     public function edit(Request $request, Advert $advert, TranslatorInterface $translator): Response
     {
 
-
-        /*        dump($request->request->all());exit;*/
-
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             if ($advert->getUser()->getId() != $this->getUser()->getId()) {
                 return new JsonResponse('Bad Request.', Response::HTTP_FORBIDDEN);
@@ -165,15 +162,19 @@ class AdvertController extends AbstractController
         }
 
         //eski resmi kaldırırken sorgu gerekti. product->getPicture() temp olarak gözüküyor?
-/*        $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $p = $em->getRepository(Advert::class)->find($advert->getId());
-        $fileOldName = $p->getFeaturedImage();*/
+        $fileOldName = $p->getFeaturedImage();
 
         $form = $this->createForm(AdvertType::class, $advert);
         $form->handleRequest($request);
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        //dump($request->request->all());exit;
+        //dump($form);exit;
+        if ($form->isSubmitted()/* && $form->isValid()*/) {
+
+
 
             $em = $this->getDoctrine()->getManager();
 
@@ -184,6 +185,13 @@ class AdvertController extends AbstractController
             //url slug
             $advert->setSlug($this->slugify($advert->getTitle()));
 
+
+            //dump($request->request->all());exit;
+
+            if (isset($request->request->get('advert')['sub_category'])):
+                $sub_cat_id = $request->request->get('advert')['sub_category'];
+                $advert->setSubCategory($em->find(AdSubCategory::class, $sub_cat_id));
+            endif;
 
             $em->flush();
             $this->addFlash('success', $translator->trans('advert_updated'));

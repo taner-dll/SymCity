@@ -86,13 +86,15 @@ class AjaxController extends AbstractController
     public function ajaxGetSubCategories(Request $request, TranslatorInterface $translator): JsonResponse
     {
         $em = $this->getDoctrine()->getManager();
-        $req = $request->query->get('cat_id');
+        $req = $request->query->get('id');
 
+
+        $categories = $em->getRepository(AdCategory::class)->findOneBy(array('short_name'=>$req));
 
         $sub_categories = $em->getRepository(AdSubCategory::class)
             ->findBy(
                 array(
-                    'adCategory' => $em->find(AdCategory::class, $req),
+                    'adCategory' => $em->find(AdCategory::class, $categories->getId()),
                     'active'=>true
                 ),
                 array('sort' => 'ASC'));

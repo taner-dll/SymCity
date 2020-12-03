@@ -24,8 +24,6 @@ import 'select2';
 import 'select2/dist/js/i18n/tr';
 
 
-import {getPlaceNeighborhoods, getSubCategories} from "./web_site/app_main";
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const Toast = Swal.mixin({
@@ -93,120 +91,85 @@ $('#advert_sub_place').select2({
 //category selector
 //category tıklandığında, category'e ait sub categories getirilir.
 //emlak ilanları->konut, dükkan... gibi
-/*$('#advert_category').on('change', function () {
-
-    //kategori değişince alt kategoriyi temizle
-    $('#advert_sub_category').val(null).trigger('change');
-
-    $.ajax({
-        url: Routing.generate('ajax_get_place_neighborhoods'),
-        type: "GET",
-        dataType: "json",
-        data: {place_id: place_id},
-        statusCode: {
-            200: function (responseObject, textStatus, errorThrown) {
-                //console.log(responseObject + textStatus + errorThrown)
-                let html = '<option value="">Tümü</option>';
-
-                $.each(responseObject, function (key, value) {
-
-                    //console.log(value.name);
-                    html += '<option value="' + value.id + '">' + value.name + '</option>';
-                });
-                $('#sub_place').html(html);
-                $('#opt_loader').css('display','none');
-            }
-        }
-    });
-
-
-
-});*/
-
-
-
-
-
-
-
-//district/neighborhood selector
-//place tıklandığında, place'e ait neighborhoods getirilir.
-//edremit->akçay, zeytinli... gibi
-$('#advert_place').on('change', function () {
-    if (this.value === "") {
-        $('#sub_place_form_group').css('display', 'none');
-    } else {
-        $('#sub_place_form_group').css('display', 'block');
-        getPlaceNeighborhoods(this.value);
-    }
-});
-
-
-
-/*
-$('#advert_secretPrice').iCheck('check');
-$('#advert_secretPhone').iCheck('check');
-$('#advert_secretEmail').iCheck('check');*/
-
-
-
-
-
-
-
-
 $('#advert_category').on('change', function () {
 
+    //seçili durumu iptal et
+    $('#advert_sub_category').val(null).trigger('change');
+    getAdvertSubCategories(this.value);
 
-    let select = $(this);
-
-    $('#sub_category').hide();
-    $('#ajax-loader').show();
-    $('#messages').hide();
-
-    ajax_post(select, 0);
-
-    $('.ad_msg').hide();
     $('#advert_price').prop('disabled', false);
+    //fiyat gösterilsin mi (Checkbox)
     $('#advert_secretPrice').prop('disabled', false);
+    $('#div_advert_status').css('display', 'none');//kiralık-satılık
+    //eski mesaj varsa kaldırır.
+    $('#ad_msg_div').css('display', 'none');
 
-    $('#div_advert_status').show();
-
+    console.log(this.value);
+    let cat_change_msg;
+    let msg = '';
     switch (this.value) {
 
-        case '3':
-            $('#job_ad_msg').show();
-            $('#div_advert_status').hide();
+        case 'shopping':
+            msg = 'İkinci El / Sıfır Eşya';
             break;
 
-        case '4':
-            $('#used_stuff_ad_msg').show();
+        case 'real-estate':
+            msg = 'Emlak';
             break;
 
-        case '2':
-            $('#real_estate_ad_msg').show();
+        case 'vehicle':
+            msg = 'Taşıt';
             break;
 
-        case '1':
-            $('#vehicle_ad_msg').show();
+        case 'job':
+            msg = 'İş';
             break;
 
-        case '5':
-            $('#private_lesson_ad_msg').show();
-            $('#div_advert_status').hide();
+        case 'private_lesson':
+            msg = 'Özel Ders';
             break;
 
-        case '6':
-            $('#pet_ownership_ad_msg').show();
+        case 'animals':
+            msg = 'Evcil Hayvan';
             break;
 
         default:
-            $('.callout').hide();
-            $('#ajax-loader').hide();
+            msg = false;
+            break;
     }
+    cat_change_msg = '<p style="font-size: 14px;background: #ded9ff;color: black;border-radius: 10px;' +
+        'padding-left: 12px;padding-bottom: 2px;padding-top: 2px">\n' +
+        'Şu anda\n' + '<b>' + msg + '</b> ilanı eklemektesiniz.\n' +
+        '</p>';
 
-
+    if (msg===false){
+        cat_change_msg = '';
+    }
+    $('#cat_change_msg').html(cat_change_msg);
 });
+
+function getAdvertSubCategories(id) {
+    $('#sub_cat_loader').css('display', 'inline');
+    $.ajax({
+        url: Routing.generate('ajax_get_sub_categories'),
+        type: "GET",
+        dataType: "json",
+        data: {id: id},
+        statusCode: {
+            200: function (responseObject, /*textStatus, errorThrown*/) {
+                $('#advert_sub_category').empty();
+                $.each(responseObject, function (key, value) {
+                    //select2 add dynamically
+                    let newOption = new Option(value.name, value.id, false, false);
+                    $('#advert_sub_category').append(newOption).trigger('change');
+                });
+                $('#sub_cat_loader').css('display', 'none');
+                //seçili durumu iptal et
+                $('#advert_sub_category').val(null).trigger('change');
+            }
+        }
+    });
+}
 
 
 $('#advert_sub_category').on('change', function () {
@@ -234,13 +197,13 @@ $('#advert_sub_category').on('change', function () {
 /**
  * iCheck için kullanılan özel yöntemler: ifChecked, ifUnchecked
  */
-$('#advert_secretPrice').on('ifChecked', function (event) {
+$('#advert_secretPrice').on('ifChecked', function (/*event*/) {
     Toast.fire({
         title: 'Fiyat Bilgisi İlanda Gösterilecek',
         type: 'success',
     })
 });
-$('#advert_secretPrice').on('ifUnchecked', function (event) {
+$('#advert_secretPrice').on('ifUnchecked', function (/*event*/) {
     Toast.fire({
         title: 'Fiyat Bilgisi İlanda Gösterilmeyecek',
         type: 'warning',
@@ -248,13 +211,13 @@ $('#advert_secretPrice').on('ifUnchecked', function (event) {
 });
 
 
-$('#advert_secretPhone').on('ifChecked', function (event) {
+$('#advert_secretPhone').on('ifChecked', function (/*event*/) {
     Toast.fire({
         title: 'Telefon Bilgisi İlanda Gösterilecek',
         type: 'success',
     })
 });
-$('#advert_secretPhone').on('ifUnchecked', function (event) {
+$('#advert_secretPhone').on('ifUnchecked', function (/*event*/) {
     Toast.fire({
         title: 'Telefon Bilgisi İlanda Gösterilmeyecek',
         type: 'warning',
@@ -262,13 +225,13 @@ $('#advert_secretPhone').on('ifUnchecked', function (event) {
 });
 
 
-$('#advert_secretEmail').on('ifChecked', function (event) {
+$('#advert_secretEmail').on('ifChecked', function (/*event*/) {
     Toast.fire({
         title: 'Eposta Bilgisi İlanda Gösterilecek',
         type: 'success',
     })
 });
-$('#advert_secretEmail').on('ifUnchecked', function (event) {
+$('#advert_secretEmail').on('ifUnchecked', function (/*event*/) {
     Toast.fire({
         title: 'Eposta Bilgisi İlanda Gösterilmeyecek',
         type: 'warning',
@@ -280,6 +243,7 @@ $('#advert_secretEmail').on('ifUnchecked', function (event) {
 import 'trumbowyg/dist/trumbowyg.min';
 import icons from 'trumbowyg/dist/ui/icons.svg';
 import $ from "jquery";
+
 
 $.trumbowyg.svgPath = icons;
 $('#advert_description').trumbowyg();
@@ -296,7 +260,7 @@ if ($('#success_message').val()) {
 const $image = $("#selected_image");
 const $input = $('#advert_featured_image');
 
-$input.change(function () {
+$input.on('change', function () {
 
     /**
      * Dosya uzantı kontrolü.
@@ -362,4 +326,9 @@ $('#myModal').on('hidden.bs.modal', function () {
     // Replace url
     $image.val('');
     $input.val('');
+});
+
+
+$('#img_preview_div').on('click', function () {
+    $('#preview').removeAttr('src');
 });

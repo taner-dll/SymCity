@@ -58,6 +58,7 @@ class AdvertType extends AbstractType
         $sub_category_id = $builder->getData()->getSubCategory()->getId();*/
         //dump($category_id, $sub_category_id);exit;
 
+        $data = $builder->getData();
 
         $builder
             ->add('title', TextType::class,
@@ -77,22 +78,19 @@ class AdvertType extends AbstractType
                 'data' => $user->getFirstname() . ' ' . $user->getLastname()
             ))
             ->add('price', IntegerType::class)
-
-
             ->add('secretPrice', CheckboxType::class, array('required' => false,
                 'label' => ' ',
                 'label_attr' => array('style' => 'margin-left:5px;'),
-                'help'=>'Fiyat bilgisi ilanda gösterilsin mi?'
+                'help' => 'Fiyat bilgisi ilanda gösterilsin mi?'
             ))
             ->add('secretPhone', CheckboxType::class, array('required' => false,
                 'label' => ' ', 'label_attr' => array('style' => 'margin-left:5px;'),
-                'help'=>'Telefon numarası ilanda gösterilsin mi?'
+                'help' => 'Telefon numarası ilanda gösterilsin mi?'
             ))
             /*->add('secretEmail', CheckboxType::class, array('required' => false,
                 'label' => ' ', 'label_attr' => array('style' => 'margin-left:5px;'),
                 'help'=>'Fiyat bilgisi ilanda gösterilsin mi?'
             ))*/
-
 
             ->add('featured_image', FileType::class, array('data_class' => null, 'required' => false))
             ->add('description')
@@ -100,7 +98,7 @@ class AdvertType extends AbstractType
             ->add('email', HiddenType::class, array(
                 'required' => false,
                 'data' => $user->getEmail(),
-                'disabled'=>true
+                'disabled' => true
             ))
             ->add('status', ChoiceType::class, array(
                 'choices' => [
@@ -116,13 +114,29 @@ class AdvertType extends AbstractType
                     'class' => AdCategory::class,
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('c')
-
                             ->orderBy('c.sort', 'asc');
+                    },
+                    'choice_value' => 'short_name',
+                    'choice_translation_domain' => 'advert')
+            )
+
+            ->add('sub_category', EntityType::class, array(
+
+                    'required' => true,
+                    'placeholder' => 'Seçiniz',
+                    'class' => AdSubCategory::class,
+                    'query_builder' => function (EntityRepository $er) use ($data) {
+
+                        if ($data->getSubCategory()){
+                            return $er->createQueryBuilder('c')
+                                ->where('c.adCategory = :c_id')
+                                ->setParameter('c_id',$data->getCategory())
+                                ->orderBy('c.sort', 'asc');
+                        }
+
                     },
                     'choice_value' => 'id',
                     'choice_translation_domain' => 'advert')
-
-
             )
 
             ->add('place', EntityType::class, array(
@@ -133,12 +147,14 @@ class AdvertType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('p')
                         ->where('p.type = :dst')
-                        ->setParameter('dst','district')
+                        ->setParameter('dst', 'district')
                         ->orderBy('p.name', 'asc');
                 },
                 'required' => true,
                 'placeholder' => 'Seçiniz',
             ))
+
+
             ->add('sub_place', EntityType::class, array(
                 'class' => Place::class,
                 'choice_label' => function (Place $place) {
@@ -147,41 +163,39 @@ class AdvertType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('p')
                         ->where('p.type = :nb')
-                        ->setParameter('nb','neighborhood')
+                        ->setParameter('nb', 'neighborhood')
                         ->orderBy('p.name', 'asc');
                 },
                 'required' => true,
                 'placeholder' => 'Seçiniz',
-            ))
-        ;
+            ));
 
-            $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event){
-
-
-                $form = $event->getForm();
-                $entity = $event->getData();
-
-                $category = $entity->getCategory();
-
-                $form->add('sub_category', EntityType::class, array(
-
-                        'required' => true,
-                        'placeholder' => 'Seçiniz',
-                        'class' => AdSubCategory::class,
-                        'query_builder' => function (EntityRepository $er) use ($category) {
-                            return $er->createQueryBuilder('sub')
-                                ->where('sub.adCategory = :cat')
-                                ->setParameter('cat',$category->getId())
-                                ->orderBy('sub.sort', 'asc');
-                        },
-                        'choice_value' => 'id',
-                        'choice_translation_domain' => 'advert')
-
-                );
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
 
 
+            $form = $event->getForm();
+            $entity = $event->getData();
 
-            });
+/*
+            $form->add('sub_category', EntityType::class, array(
+
+                    'required' => true,
+                    'placeholder' => 'Seçiniz',
+                    'class' => AdSubCategory::class,
+                    'query_builder' => function (EntityRepository $er) use ($entity) {
+                        return $er->createQueryBuilder('c')
+                            ->where('c.adCategory = :cat')
+                            ->setParameter('cat',$entity->getCategory())
+                            ->orderBy('c.sort', 'asc');
+                    },
+                    'choice_value' => 'id',
+                    'choice_translation_domain' => 'advert')
+            );*/
+
+
+        });
+
+
 
 
     }

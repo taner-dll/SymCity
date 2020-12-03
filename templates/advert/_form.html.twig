@@ -21,81 +21,41 @@
                 {{ form_label(form.category, 'Kategori') }}
                 {{ form_widget(form.category) }}
 
-                <img id="opt_loader_cat"
-                     style="height: 16px;width: 16px;margin-top: -4px;display: none"
-                     src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
             </div>
+
+            <div class="form-group" id="cat_change_msg"></div>
 
             <div class="form-group">
 
                 {{ form_label(form.sub_category, 'Alt Kategori') }}
                 {{ form_widget(form.sub_category) }}
 
-                <img id="opt_loader_cat"
+                <img id="sub_cat_loader"
                      style="height: 16px;width: 16px;margin-top: -4px;display: none"
                      src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
             </div>
 
-            <div class="form-group" id="messages">
-
-                <div id="job_ad_msg" class="ad_msg"
-                     style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
-                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                        <i class="fa fa-user-plus"></i> Şu anda
-                        <b>iş ilanı</b> eklemektesiniz.
-                    </p>
-                </div>
-                <div id="used_stuff_ad_msg" class="ad_msg"
-                     style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
-                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                        <i class="fa fa-laptop"></i> Şu anda
-                        <b>2. el eşya ilanı</b> eklemektesiniz.
-                    </p>
-                </div>
-                <div id="real_estate_ad_msg" class="ad_msg"
-                     style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
-                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                        <i class="fa fa-home"></i> Şu anda
-                        <b style="text-decoration: underline">emlak ilanı</b> eklemektesiniz.
-                    </p>
-                </div>
-                <div id="vehicle_ad_msg" class="ad_msg"
-                     style="display: none;background: #ded9ff;color: black;border-radius: 10px">
-                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                        <i class="fa fa-car"></i> Şu anda
-                        <b style="text-decoration: underline">vasıta ilanı</b> eklemektesiniz.
-                    </p>
-                </div>
-                <div id="private_lesson_ad_msg" class="ad_msg"
-                     style="display: none;background: #ded9ff;color: black;border-radius: 10px">
-                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                        <i class="fa fa-graduation-cap"></i> Şu anda
-                        <b style="text-decoration: underline">özel ders ilanı</b> eklemektesiniz.
-                    </p>
-                </div>
-                <div id="pet_ownership_ad_msg" class="ad_msg"
-                     style="display: none;background: #ded9ff;color: #000000;border-radius: 10px">
-                    <p style="font-size: 14px;padding-left: 12px;padding-bottom: 2px;padding-top: 2px">
-                        <i class="fa fa-paw"></i> Şu anda
-                        <b style="text-decoration: underline">hayvanlar alemi ilanı</b> eklemektesiniz.
-                    </p>
-                </div>
-
+            <div class="form-group" id="div_advert_status">
+                {{ form_label(form.status, 'İlan Durumu') }}
+                {{ form_widget(form.status) }}
             </div>
+
+
+
+
+
 
             {#<div style="display: none" class="form-group" id="ajax-loader">
                 <img src="{{ asset('build/img/ajax-loader.gif') }}" alt=""/>
             </div>#}
 
 
+
         </div>
 
         <div class="col-md-4">
 
-            <div class="form-group" id="div_advert_status">
-                {{ form_label(form.status, 'İlan Durumu') }}
-                {{ form_widget(form.status) }}
-            </div>
+
 
 
             <div class="form-group">
@@ -130,11 +90,6 @@
 
             </div>#}
 
-
-        </div>
-
-        <div class="col-md-4">
-
             <div class="form-group">
                 {{ form_label(form.place, 'Bölge') }}
                 {{ form_widget(form.place) }}
@@ -157,6 +112,13 @@
             </div>
 
 
+        </div>
+
+        <div class="col-md-4">
+
+
+
+
 
 
             <div class="form-group">
@@ -164,8 +126,10 @@
                 {{ form_widget(form.featured_image) }}
                 <input type="hidden" id="cropped_image" name="cropped_image"/>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="img_preview_div">
+
                 {% if app.request.get('_route') == 'announce_edit' %}
+
                     <img id="preview" src="{{ asset('uploads/announce/')~announce.image }}"
                          class="img-responsive img-bordered" width="400" height="216" alt=""/>
                 {% else %}
@@ -173,6 +137,14 @@
                          class="img-responsive img-bordered" width="400" height="216" alt=""/>
                 {% endif %}
             </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-block btn-success">
+                    {{ button_label|default('İlanı Kaydet') }}
+                </button>
+            </div>
+
+
         </div>
     </div>
 
