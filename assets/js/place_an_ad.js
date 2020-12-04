@@ -100,9 +100,11 @@ $('#advert_category').on('change', function () {
     $('#advert_price').prop('disabled', false);
     //fiyat gösterilsin mi (Checkbox)
     $('#advert_secretPrice').prop('disabled', false);
-    $('#div_advert_status').css('display', 'none');//kiralık-satılık
-    //eski mesaj varsa kaldırır.
+
+    //gösterilen mesaj varsa kaldırır.
     $('#ad_msg_div').css('display', 'none');
+
+    $('#div_advert_status').css('display', 'block');//kiralık-satılık
 
     console.log(this.value);
     let cat_change_msg;
@@ -123,10 +125,12 @@ $('#advert_category').on('change', function () {
 
         case 'job':
             msg = 'İş';
+            $('#div_advert_status').css('display', 'none');
             break;
 
         case 'private_lesson':
             msg = 'Özel Ders';
+            $('#div_advert_status').css('display', 'block');
             break;
 
         case 'animals':

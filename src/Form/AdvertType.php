@@ -105,7 +105,8 @@ class AdvertType extends AbstractType
                     'Satılık' => 'for_sale',
                     'Kiralık' => 'for_rent',
                 ],
-                'placeholder' => 'Seçiniz'
+                'placeholder' => 'Seçiniz',
+                'required'=>false
             ))
             ->add('category', EntityType::class, array(
 

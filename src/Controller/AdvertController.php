@@ -174,8 +174,6 @@ class AdvertController extends AbstractController
         //dump($form);exit;
         if ($form->isSubmitted()/* && $form->isValid()*/) {
 
-
-
             $em = $this->getDoctrine()->getManager();
 
             $advert->setFeaturedImage($advert->getFeaturedImage());

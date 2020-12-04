@@ -52,9 +52,9 @@ class Advert
     private $confirm = 0;
 
     /**
-     * @ORM\Column(type="string", length=55)
+     * @ORM\Column(type="string", length=55, nullable=true)
      */
-    private $status;
+    private $status = null;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
