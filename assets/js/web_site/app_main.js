@@ -31,27 +31,25 @@ $("form").find(":input").prop("disabled", false);
 
 
 
-
 //ilçelere ait mahalle ve semtler.
-export function getPlaceNeighborhoods(place_id) {
-    $('#opt_loader').css('display','inline');
+export function getPlaceNeighborhoods(place) {
+    $('#opt_loader_place').css('display','inline');
     $.ajax({
         url: Routing.generate('ajax_get_place_neighborhoods'),
         type: "GET",
         dataType: "json",
-        data: {place_id: place_id},
+        data: {place: place},
         statusCode: {
             200: function (responseObject, textStatus, errorThrown) {
-                //console.log(responseObject + textStatus + errorThrown)
-                let html = '<option value="">Tümü</option>';
-
+                $('#sub_place').empty();
                 $.each(responseObject, function (key, value) {
-
-                    //console.log(value.name);
-                    html += '<option value="' + value.id + '">' + value.name + '</option>';
+                    let newOption = new Option(value.name, value.short_name, false, false);
+                    $('#sub_place').append(newOption);
                 });
-                $('#sub_place').html(html);
-                $('#opt_loader').css('display','none');
+                $('#opt_loader_place').css('display','none');
+                if ($('#sub_place').val()){
+                    $('#sub_place').val($('#sub_place_id').val()).trigger("change");
+                }
             }
         }
     });
@@ -65,27 +63,21 @@ export function getSubCategories(cat_id) {
         url: Routing.generate('ajax_get_sub_categories'),
         type: "GET",
         dataType: "json",
-        data: {cat_id: cat_id},
+        data: {id: cat_id},
         statusCode: {
             200: function (responseObject, textStatus, errorThrown) {
-                //console.log(responseObject + textStatus + errorThrown)
-                let html = '<option value="">Tümü</option>';
-
+                $('#sub_cat').empty();
                 $.each(responseObject, function (key, value) {
-
-                    //console.log(value.name);
-                    html += '<option value="' + value.id + '">' + value.name + '</option>';
+                    //select2 add dynamically
+                    let newOption = new Option(value.name, value.short_name, false, false);
+                    $('#sub_cat').append(newOption);
                 });
-                $('#sub_cat').html(html);
+                //$('#sub_cat').html(html);
                 $('#opt_loader_cat').css('display','none');
+                if ($('#sub_cat').val()){
+                    $('#sub_cat').val($('#sub_cat_id').val()).trigger("change");
+                }
             }
         }
     });
 }
-
-
-
-
-
-
-

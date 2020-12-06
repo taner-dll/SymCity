@@ -1,10 +1,12 @@
 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">İlanlar</a>
     <ul class="dropdown-menu">
-
-        {% for a in ad_categories %}
-                <li><a href="{{ path('adverts', {'cat':a.shortName}) }}">{{ a.shortName| trans({}, 'advert') }}</a></li>
+        <li><a href="{{ path('adverts') }}">Tümü</a></li>
+        {% for cat in ad_categories %}
+            <li>
+                <a href="{{ path('adverts_cat',{'cat':cat.translated_url_parameter}) }}">
+                    {{ cat.short_name| trans({}, 'advert') }}
+                </a>
+            </li>
         {% endfor %}
-
-        <li><a href="{{ path('adverts') }}">Tüm İlanlar</a></li>
     </ul>
 </li>

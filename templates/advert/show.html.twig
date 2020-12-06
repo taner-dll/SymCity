@@ -57,6 +57,23 @@
                             <th>İlan Başlığı</th>
                             <td>{{ advert.title }}</td>
                         </tr>
+
+                        <tr>
+                            <th>Fiyat (TL)</th>
+                            <td>{{ advert.price|number_format(2, ',', '.') }} ₺</td>
+                        </tr>
+
+                        <tr>
+                            <th>Kategori</th>
+                            <td>{{ advert.category.shortName|trans({}, 'advert') }}
+
+                                {% if advert.subCategory %}
+                                    ({{ advert.subCategory.shortName|trans({}, 'advert') }})
+                                {% endif %}
+
+                            </td>
+                        </tr>
+
                         <tr>
                             <th>İlan Sahibi</th>
                             <td>{{ advert.owner }}</td>
@@ -71,20 +88,26 @@
                             </td>
                         </tr>
 
+                        <tr>
+                            <th>Semt / Mahalle</th>
+                            <td>
+                                {% if advert.subPlace %}
+                                    {{ advert.subPlace.name }}
+                                {% endif %}
+                            </td>
+                        </tr>
+
                         
 
-                        <tr>
-                            <th>Fiyat (TL)</th>
-                            <td>{{ advert.price }}</td>
-                        </tr>
+
                         <tr>
                             <th>Telefon</th>
                             <td>{{ advert.telephone }}</td>
                         </tr>
-                        <tr>
+                        {#<tr>
                             <th>Eposta</th>
                             <td>{{ advert.email }}</td>
-                        </tr>
+                        </tr>#}
                         <tr>
                             <th>İlan Durumu</th>
                             <td>{{ advert.status|trans({},'advert') }}</td>

@@ -80,7 +80,7 @@ class AdvertController extends AbstractController
             $sub_place = $request->request->get('sub_place');
 
             if ($sub_category):
-                $advert->setSubCategory($entityManager->find(AdSubCategory::class,$sub_category));
+                $advert->setSubCategory($entityManager->find(AdSubCategory::class, $sub_category));
             endif;
 
 
@@ -170,6 +170,7 @@ class AdvertController extends AbstractController
         $form->handleRequest($request);
 
 
+
         //dump($request->request->all());exit;
         //dump($form);exit;
         if ($form->isSubmitted()/* && $form->isValid()*/) {
@@ -187,9 +188,27 @@ class AdvertController extends AbstractController
             //dump($request->request->all());exit;
 
             if (isset($request->request->get('advert')['sub_category'])):
-                $sub_cat_id = $request->request->get('advert')['sub_category'];
-                $advert->setSubCategory($em->find(AdSubCategory::class, $sub_cat_id));
+                $sub_cat_short_name = $request->request->get('advert')['sub_category'];
+                $sub_cat = $em->getRepository(AdSubCategory::class)->findOneBy(
+                    ['short_name'=>$sub_cat_short_name]);
+
+                $advert->setSubCategory($sub_cat);
             endif;
+
+            if (isset($request->request->get('advert')['sub_place'])):
+                $sub_place_id = $request->request->get('advert')['sub_place'];
+                $advert->setSubPlace($em->find(Place::class, $sub_place_id));
+            endif;
+
+            //money unformat to float 55.000,70 -> 55000.70
+            if (isset($request->request->get('advert')['price'])):
+                $money = $request->request->get('advert')['price'];
+                $money = str_replace('.','',$money);
+                $money = str_replace(',','.',$money);
+                $advert->setPrice($money);
+            endif;
+
+
 
             $em->flush();
             $this->addFlash('success', $translator->trans('advert_updated'));
@@ -198,12 +217,16 @@ class AdvertController extends AbstractController
             //jquery-cropper (cropped image hidden input)
             $file = $request->request->get('cropped_image');
 
+            //dump($file);exit;
+
 
             //cropped image
             if (!empty($file)) {
 
                 //dosya adı oluştur ve db güncelle
                 $fileName = $this->base64generateFileName($file);
+                //dump($fileName);exit;
+
                 $advert->setFeaturedImage($fileName);
                 $em->flush();
 

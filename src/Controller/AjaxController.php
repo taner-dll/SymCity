@@ -63,8 +63,20 @@ class AjaxController extends AbstractController
     public function ajaxGetPlaceNeighborhoods(Request $request, TranslatorInterface $translator): JsonResponse
     {
         $em = $this->getDoctrine()->getManager();
-        $req = $request->query->get('place_id');
-        $sub_places = $em->getRepository(Place::class)->findBy(array('parent' => $em->find(Place::class, $req)), array('name' => 'ASC'));
+        $req_id = $request->query->get('place_id');
+        if ($req_id){
+            $sub_places = $em->getRepository(Place::class)
+                ->findBy(array('parent' => $em->find(Place::class, $req_id)), array('name' => 'ASC'));
+        }
+        else{
+            $place = $em->getRepository(Place::class)->findOneBy(array('slug'=> $request->query->get('place')));
+
+            //echo $place->getId();exit;
+            $sub_places = $em->getRepository(Place::class)
+                ->findBy(array(
+                    'parent' => $place->getId()) ,
+                    array('name' => 'ASC'));
+        }
 
         $sub_places_arr = [];
 
@@ -72,6 +84,7 @@ class AjaxController extends AbstractController
 
             $sub_places_arr[$key]['id'] = $value->getId();
             $sub_places_arr[$key]['name'] = $value->getName();
+            $sub_places_arr[$key]['short_name'] = $value->getSlug();
         }
 
         return new JsonResponse($sub_places_arr);
@@ -107,6 +120,7 @@ class AjaxController extends AbstractController
 
             $sub_cats_arr[$key]['id'] = $value->getId();
             $sub_cats_arr[$key]['name'] = $translator->trans($value->getShortName(), [], 'advert');
+            $sub_cats_arr[$key]['short_name']=$value->getShortName();
         }
 
         return new JsonResponse($sub_cats_arr);

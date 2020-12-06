@@ -19,13 +19,11 @@ import Routing from './Routing';
 import 'cropper/dist/cropper.min';
 import 'jquery-cropper/dist/jquery-cropper.min';
 
-
+//select2
 import 'select2';
 import 'select2/dist/js/i18n/tr';
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//toast oluştur.
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -39,14 +37,27 @@ $('input').iCheck({
     //increaseArea: '-10%' // optional
 });
 
-/**
- * Tooltip aktif
- */
+//tooltip aktif hale getir
 $('[data-toggle="tooltip"]').tooltip();
 
-
+//telefon için maske oluştur
 let tel_mask = new InputMask("(999) 999-9999");
 tel_mask.mask($('#advert_telephone'));
+
+let money_mask = new InputMask({
+    'alias': 'numeric',
+    'groupSeparator': '.',
+    'autoGroup': true,
+    'digits': 2,
+    'radixPoint': ",",
+    'digitsOptional': true,
+    'allowMinus': false,
+    /*'prefix': 'R$ ',*/
+
+
+});
+money_mask.mask($("#advert_price"))
+
 
 
 //select2 theme
@@ -85,28 +96,126 @@ $('#advert_sub_place').select2({
     allowClear: true
 });
 
-/////////////////////////////////////////////////////
 
 
-//category selector
-//category tıklandığında, category'e ait sub categories getirilir.
-//emlak ilanları->konut, dükkan... gibi
+
+//döküman hazır olduğunda yapılacak işlemler
+$(function () {
+
+    //alt kategori pet_ownership ise satılık/kiralık seçimini sakla
+    if ($('#advert_sub_category').val()==='pet_ownership'){
+        $('#div_advert_status').css('display', 'none');
+    }
+
+    //iş ilanları ve özel derste satılık/kiralık seçimini sakla
+    if ($('#advert_category').val()===('job'||'private_lesson')){
+        $('#div_advert_status').css('display', 'none');
+    }
+
+
+});
+
+/**
+ * İlan alt kategorilerini getiren fonksiyon.
+ * @param id
+ */
+function getAdvertSubCategories(id) {
+    $('#sub_cat_loader').css('display', 'inline');
+    $.ajax({
+        url: Routing.generate('ajax_get_sub_categories'),
+        type: "GET",
+        dataType: "json",
+        data: {id: id},
+        statusCode: {
+            200: function (responseObject, /*textStatus, errorThrown*/) {
+                $('#advert_sub_category').empty();
+                $.each(responseObject, function (key, value) {
+                    //select2 add dynamically
+                    let newOption = new Option(value.name, value.short_name, false, false);
+                    $('#advert_sub_category').append(newOption);
+
+                });
+                $('#sub_cat_loader').css('display', 'none');
+                //seçilmedi olarak işaretle
+                $('#advert_sub_category').val(null).trigger('change');
+            }
+        }
+    });
+}
+
+
+/**
+ * İlan alt kategorilerini getiren fonksiyon.
+ * @param id
+ */
+function getSubPlaces(id) {
+    $('#sub_place_loader').css('display', 'inline');
+    $.ajax({
+        url: Routing.generate('ajax_get_place_neighborhoods'),
+        type: "GET",
+        dataType: "json",
+        data: {place_id: id},
+        statusCode: {
+            200: function (responseObject, /*textStatus, errorThrown*/) {
+                $('#advert_sub_place').empty();
+                $.each(responseObject, function (key, value) {
+                    //select2 add dynamically
+                    let newOption = new Option(value.name, value.id, false, false);
+                    $('#advert_sub_place').append(newOption);
+
+                });
+                $('#sub_place_loader').css('display', 'none');
+                //seçilmedi olarak işaretle
+                $('#advert_sub_place').val(null).trigger('change');
+            }
+        }
+    });
+}
+
+
+
+$('#advert_place').on('change', function () {
+
+    console.log("asdads");
+    getSubPlaces(this.value);
+
+});
+
+//emlak ilanları ->konut, dükkan...
 $('#advert_category').on('change', function () {
 
-    //seçili durumu iptal et
-    $('#advert_sub_category').val(null).trigger('change');
-    getAdvertSubCategories(this.value);
+    //advert_category her değişimde seçilmedi olarak işaretle
+    //$('#advert_sub_category').val(null).trigger('change');
 
-    $('#advert_price').prop('disabled', false);
-    //fiyat gösterilsin mi (Checkbox)
-    $('#advert_secretPrice').prop('disabled', false);
+    if (this.value !== ''){
+        //advert_category her değişimde alt kategoriler getirilir.
+        getAdvertSubCategories(this.value);
+    }
+    else{
+        $('#advert_sub_category').val(null).trigger('change');
+        $('#advert_sub_category').empty().trigger("change");
+    }
 
-    //gösterilen mesaj varsa kaldırır.
+
+    //advert_category her değişimde fiyat aktif hale getirilir.
+    //çünkü bazı kategorilerde fiyat bilgisi olmamalıdır. bkz. evcil hayvan sahiplendirme.
+    /*$('#advert_price').prop('disabled', false);
+    $('#advert_secretPrice').prop('disabled', false);*/
+
+    //advert_category her değişimde gösterilen mesaj varsa kaldırır.
     $('#ad_msg_div').css('display', 'none');
 
-    $('#div_advert_status').css('display', 'block');//kiralık-satılık
+    //advert_category her değişimde kiralık-satılık bilgisi yeniden açılır.
+    //çünkü bazı kat. için satılık-kiralık bilgisi olmaz. bkz: iş ilanları.
+    $('#div_advert_status').css('display', 'block');
 
-    console.log(this.value);
+    //advert_category her değişimde fiyat/ücret aktif hale gelir.
+    $('#advert_price').prop('disabled', false);
+    $('#advert_secretPrice').prop('disabled', false);
+    $('#advert_secretPrice').iCheck('check');
+    $('#advert_secretPrice').attr('checked');
+    $('#advert_secretPrice').prop('disabled', false);
+
     let cat_change_msg;
     let msg = '';
     switch (this.value) {
@@ -130,7 +239,7 @@ $('#advert_category').on('change', function () {
 
         case 'private_lesson':
             msg = 'Özel Ders';
-            $('#div_advert_status').css('display', 'block');
+            $('#div_advert_status').css('display', 'none');
             break;
 
         case 'animals':
@@ -152,48 +261,37 @@ $('#advert_category').on('change', function () {
     $('#cat_change_msg').html(cat_change_msg);
 });
 
-function getAdvertSubCategories(id) {
-    $('#sub_cat_loader').css('display', 'inline');
-    $.ajax({
-        url: Routing.generate('ajax_get_sub_categories'),
-        type: "GET",
-        dataType: "json",
-        data: {id: id},
-        statusCode: {
-            200: function (responseObject, /*textStatus, errorThrown*/) {
-                $('#advert_sub_category').empty();
-                $.each(responseObject, function (key, value) {
-                    //select2 add dynamically
-                    let newOption = new Option(value.name, value.id, false, false);
-                    $('#advert_sub_category').append(newOption).trigger('change');
-                });
-                $('#sub_cat_loader').css('display', 'none');
-                //seçili durumu iptal et
-                $('#advert_sub_category').val(null).trigger('change');
-            }
-        }
-    });
-}
 
 
 $('#advert_sub_category').on('change', function () {
 
-    $('#advert_price').prop('disabled', false);
-    $('#advert_secretPrice').prop('disabled', false);
 
-    //87: pet-ownership
-    if (this.value === '87') {
+
+    if (this.value === 'pet_ownership') {
         $('#advert_price').val(0);
         $('#advert_price').prop('disabled', true);
         $('#advert_secretPrice').iCheck('unCheck');
         $('#advert_secretPrice').removeAttr('checked');
         $('#advert_secretPrice').prop('disabled', true);
 
+        $('#div_advert_status').css('display', 'none');
+
         Swal.fire(
             'Bilgilendirme',
-            'Evcil Hayvan İlanlarında Yasalar Gereği Fiyat Bilgisi Girilemez.',
+            'Evcil hayvan sahiplendirme ilanlarına, yasalar gereği fiyat bilgisi girilemez.',
             'info'
         );
+    }
+    else if ($('#advert_category').val()==='animals' && this.value !== 'pet_ownership'){
+
+        $('#advert_price').prop('disabled', false);
+        $('#advert_secretPrice').prop('disabled', false);
+
+        $('#advert_secretPrice').iCheck('check');
+        $('#advert_secretPrice').attr('checked');
+        $('#advert_secretPrice').prop('disabled', false);
+
+        $('#div_advert_status').css('display', 'block');
     }
 });
 

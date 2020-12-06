@@ -43,14 +43,6 @@
 
 
 
-
-
-            {#<div style="display: none" class="form-group" id="ajax-loader">
-                <img src="{{ asset('build/img/ajax-loader.gif') }}" alt=""/>
-            </div>#}
-
-
-
         </div>
 
         <div class="col-md-4">
@@ -60,7 +52,7 @@
 
             <div class="form-group">
 
-                {{ form_label(form.price, 'Fiyat / Ücret (TL)') }}
+                {{ form_label(form.price, 'Fiyat / Ücret (TL)  örnek: 1.000,00') }}
                 {{ form_widget(form.price) }}
 
 
@@ -105,8 +97,8 @@
                 {{ form_label(form.sub_place, 'Semt / Mah.') }}
                 {{ form_widget(form.sub_place) }}
 
-                <img id="opt_loader"
-                     style="height: 16px;width: 16px;display: none"
+                <img id="sub_place_loader"
+                     style="height: 16px;width: 16px;margin-top: -4px;display: none"
                      src="{{ asset('build/img/front_end/loading.gif') }}"  alt=""/>
 
             </div>

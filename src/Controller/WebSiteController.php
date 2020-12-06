@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\PlacesToVisit;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WebSiteController extends AbstractController
 {
@@ -51,115 +52,6 @@ class WebSiteController extends AbstractController
 
 
     /**
-     * Arama Sonuçları
-     * @Route({
-     *     "en": "/search-router",
-     *     "tr": "/arama-yonlendir"
-     * }, name="search_router",  methods={"GET","POST"})
-     * @param Request $request
-     * @return Response
-     */
-    public function searchRouter(Request $request): ?Response
-    {
-
-        $em = $this->getDoctrine()->getManager();
-
-        //genel GET parametreler
-        $category = $request->request->get('category');
-        $word = $request->request->get('word');
-        $location = $request->request->get('location');
-
-        if ($location == 'all' || $location == ''):
-            $location = null;
-        endif;
-
-        if (!$word):
-            $word = null;
-        endif;
-
-
-        //spesifik GET parametereleri
-        $business_category = $request->request->get('business_category');
-        $advert_category = $request->request->get('advert_category');
-        $advert_subcategory = $request->request->get('advert_subcategory');
-
-
-        if ($category === 'business') {
-
-            if ($business_category) {
-                if ($business_category == 'all'):
-                    $cat = null;
-                else:
-                    $cat = $em->find(BusinessCategory::class, $business_category)->getShortName();
-                endif;
-            } else {
-                $cat = null;
-            }
-
-            return $this->redirect($this->generateUrl('business_guide', array(
-                'name' => $word,
-                'cat' => $cat,
-                'place' => $location
-            )));
-        }
-        # category == business end
-
-
-        if ($category === 'advert') {
-
-            if ($advert_category) {
-
-                if ($advert_category == 'all'):
-                    $cat = null;
-                else:
-                    $cat = $em->find(AdCategory::class, $advert_category)->getShortName();
-                endif;
-
-                if ($advert_subcategory == 'all'):
-                    $sub = null;
-                else:
-                    $sub = $advert_subcategory; //car, motorcycle...
-                endif;
-
-
-
-            } else {
-                $cat = null;
-                $sub = null;
-            }
-
-            return $this->redirect($this->generateUrl('adverts', array(
-                'name' => $word,
-                'cat' => $cat,
-                'place' => $location,
-                'sub'=> $sub
-            )));
-        }
-        # category == business end
-
-
-        if ($category === 'event') {
-            return $this->redirect($this->generateUrl('events', array(
-                'name' => $word,
-                'place' => $location
-            )));
-        }
-        # category == event end
-
-
-        if ($category === 'announce') {
-            return $this->redirect($this->generateUrl('announces', array(
-                'name' => $word,
-                'place' => $location
-            )));
-        }
-        # category == announce end
-
-
-    }
-
-
-    /**
      * Ücretsiz Ekle
      * @Route({
      *     "en": "/add-to-lists-for-free",
@@ -171,8 +63,6 @@ class WebSiteController extends AbstractController
     {
         return $this->render('web_site/pages/add_to_lists.html.twig');
     }
-
-
 
 
     /**
@@ -318,29 +208,72 @@ class WebSiteController extends AbstractController
 
     #İLANLAR BAŞLANGIÇ
     /**
-     * @Route({
-     *     "en": "/adverts",
-     *     "tr": "/ilanlar"
-     * }, name="adverts",  methods={"GET"})
+     * @Route({"en": "adverts","tr": "ilanlar"},
+     *     name="adverts",  methods={"GET"})
+     * )
+     * @Route({"en": "adverts/category/{cat}","tr": "ilanlar/kategori/{cat}"},
+     *     name="adverts_cat",  methods={"GET"})
+     * )
+     * @Route({"en": "adverts/category/{cat}/{sub_cat}","tr": "ilanlar/kategori/{cat}/{sub_cat}"},
+     *     name="adverts_sub_cat",  methods={"GET"})
+     * )
+     * @Route({"en": "adverts/place/{place}/category/{cat}/{sub_cat}","tr": "ilanlar/bolge/{place}/kategori/{cat}/{sub_cat}"},
+     *     name="adverts_sub_cat_place",  methods={"GET"})
+     * )
+     * @Route({"en": "adverts/place/{place}","tr": "ilanlar/bolge/{place}"},
+     *     name="adverts_place",  methods={"GET"})
+     * )
+     * @Route({"en": "adverts/place/{place}/{sub_place}","tr": "ilanlar/bolge/{place}/{sub_place}"},
+     *     name="adverts_sub_place",  methods={"GET"})
+     * )
      * @param Request $request
      * @param PaginatorInterface $paginator
+     * @param null $cat
+     * @param null $sub_cat
+     * @param null $place
+     * @param null $sub_place
+     * @param null $title
      * @return Response
+     *
+     * Parametreler boş gelebileceğinden, null olarak tanımladık.
      */
-    public function adverts(Request $request, PaginatorInterface $paginator): Response
+    public function adverts(Request $request, PaginatorInterface $paginator,
+                            $cat = null, $sub_cat = null, $place = null, $sub_place = null,
+                            $title = null
+
+    ): Response
     {
+
+        $route = $request->get('_route');
+
+        //route adverts ise search form ile GET olarak gelmektedir.
+        if ($route === 'adverts'):
+            $title = $request->query->get('title');
+            $cat = $request->query->get('cat');
+            $sub_cat = $request->query->get('sub_cat');
+            $place = $request->query->get('place');
+            $sub_place = $request->query->get('sub_place');
+        endif;
+
+        $url_parameters = [
+            'cat' => $cat, 'sub_cat' => $sub_cat, 'place' => $place,
+            'sub_place' => $sub_place, 'title' => $title
+        ];
+
         $em = $this->getDoctrine()->getManager();
 
-        $adverts = $em->getRepository(Advert::class)->advertFilter($request);
+        //gelen parametrelere göre ilanları filtrele
+        $adverts = $em->getRepository(Advert::class)
+            ->advertFilter($url_parameters, $request);
 
         $adverts = $paginator->paginate(
             $adverts,
             $request->query->getInt('page', 1), 5
         );
 
-
         return $this->render('web_site/pages/ad_guide.twig', [
             'adverts' => $adverts,
-            'categories' => $em->getRepository(AdCategory::class)->findBy(array('active'=>true),array('sort'=>'ASC')),
+            'categories' => $em->getRepository(AdCategory::class)->findBy(array('active' => true), array('sort' => 'ASC')),
             'places' => $em->getRepository(Place::class)->getDistricts()
         ]);
     }
@@ -423,13 +356,42 @@ class WebSiteController extends AbstractController
      * @Route("/advert_menu", name="advert_menu")
      * header embed controller
      * ilanlar menüsü
+     * @param TranslatorInterface $translator
+     * @param Request $request
+     * @return Response
      */
-    public function advertMenu(): Response
+    public function advertMenu(TranslatorInterface $translator, Request $request): Response
     {
+
+        //$request->setLocale('en');
         $em = $this->getDoctrine()->getManager();
         $ad_categories = $em->getRepository(AdCategory::class)->findBy(array('active' => 1), array('sort' => 'ASC'));
+
+
+        $ad_cats = [];
+
+        //en değilse translate'den getir ve slug yap. Emlak İlanları -> emlak-ilanlari
+        if ($request->getLocale() !== 'en') {
+            foreach ($ad_categories as $key => $value) {
+                $name = $translator->trans($value->getShortName(), [], 'advert', $request->getLocale());
+                $name = $this->slugify($name);
+                $ad_cats[$key]['translated_url_parameter'] = $name;
+                $ad_cats[$key]['short_name'] = $value->getShortName();
+            }
+        } else {
+            foreach ($ad_categories as $key => $value) {
+                $ad_cats[$key]['translated_url_parameter'] = $value->getShortName();
+                $ad_cats[$key]['short_name'] = $value->getShortName();
+            }
+        }
+
+        //dump($ad_cats);exit;
+
+        //dump($request->getLocale());exit;
+
+
         return $this->render('web_site/embedded_controller/advert_menu.html.twig',
-            ['ad_categories' => $ad_categories]);
+            ['ad_categories' => $ad_cats]);
     }
 
 

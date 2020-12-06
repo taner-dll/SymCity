@@ -11,6 +11,7 @@ namespace App\Traits;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 trait File
 {
@@ -74,6 +75,7 @@ trait File
                 //file_put_contents ile dosya oluşturulmalıdır.
                 //move_uploaded_file($file, $dir);
                 file_put_contents($dir . '/' . $fileName, $file);
+                return new JsonResponse('ok', Response::HTTP_OK);
 
             } catch (FileException $e) {
                 return new JsonResponse($e->getMessage());

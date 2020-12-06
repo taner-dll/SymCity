@@ -49,16 +49,6 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="inner_banner_detail">
                         <h2>{{ 'adverts.title'|trans({}, 'advert') }}</h2>
-
-                        {#{% if app.request.get('name') is not null or
-                            app.request.get('cat') is not null or
-                            app.request.get('place') is not null %}
-
-
-                            Arama sonuçlarına göre,
-                            toplam <b>{{ adverts|length }}</b> kayıt listelendi.
-
-                        {% endif %}#}
                     </div>
                 </div>
 
@@ -71,24 +61,22 @@
             <div class="row">
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
-
                     <div class="right-bar bg_white">
                         <h4>{{ 'adverts.advanced'|trans({}, 'advert') }}
                             <span>{{ 'adverts.searching'|trans({}, 'advert') }}</span></h4>
-                        <form class="form-right" method="get"
-                              action="{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}">
+
+                        <form class="form-right" method="get" action="{{ path('adverts') }}">
 
 
                             <div class="form-group">
-                                <label for="name">{{ 'adverts.business_name'|trans({}, 'advert') }}</label>
-
-                                {% set bname = "" %}
-                                {% if app.request.get('name') is not null %}
-                                    {% set bname = app.request.get('name') %}
-                                {% endif %}
-                                <label for="name"></label><input class="form-control" id="name" minlength="3"
-                                                                 name="name" value="{{ bname }}" type="text">
+                                {# BAŞLIK #}
+                                <label for="title">
+                                    {{ 'adverts.business_name'|trans({}, 'advert') }}
+                                </label>
+                                <input class="form-control" id="title" minlength="3"
+                                       name="title" value="{{ app.request.get('title') }}" type="text">
                             </div>
+
 
                             <div class="form-group">
                                 <label for="cat">{{ 'adverts.category'|trans({}, 'advert') }}</label><br>
@@ -100,10 +88,11 @@
                                                 {% if value.shortName == app.request.get('cat') %}
                                                     {% set selected = 'selected' %}
                                                 {% endif %}
-
                                                 {{ selected }}
+                                                value="{{ value.shortName }}">
+                                            {{ value.shortName| trans({}, 'advert') }}
 
-                                                value="{{ value.id }}">{{ value.shortName| trans({}, 'advert') }}</option>
+                                        </option>
                                     {% endfor %}
                                 </select>
                                 <img id="opt_loader_cat"
@@ -111,11 +100,9 @@
                                      src="{{ asset('build/img/front_end/loading.gif') }}" alt=""/>
                             </div>
 
-                            <div class="form-group" id="sub_cat_form_group" style="display: none">
-                                <label for="sub_cat" id="sub_cat_lbl"></label><br>
+                            <div class="form-group">
+                                <label for="sub_cat">Alt Kategori</label><br>
                                 <select name="sub_cat" id="sub_cat" style="width: 100%;" class="form-control"></select>
-
-
                                 <input type="hidden" id="sub_cat_id" value="{{ app.request.get('sub_cat') }}">
                             </div>
 
@@ -123,39 +110,41 @@
                             <div class="form-group">
                                 <label for="place">{{ 'adverts.place'|trans({}, 'advert') }}</label><br>
                                 <select name="place" id="place" class="form-control">
-                                    <option value="">Tümü</option>
+                                    <option value=""></option>
                                     {% for p in places %}
                                         <option
                                                 {% set selected = '' %}
-                                                {% if p.id == app.request.get('place') %}
+                                                {% if p.slug == app.request.get('place') %}
                                                     {% set selected = 'selected' %}
+
                                                 {% endif %}
 
                                                 {{ selected }}
 
-                                                value="{{ p.id }}">{{ p.name }}</option>
+                                                value="{{ p.slug }}">{{ p.name }}</option>
                                     {% endfor %}
                                 </select>
-                                <img id="opt_loader"
+                                <img id="opt_loader_place"
                                      style="height: 16px;width: 16px;margin-top: -4px;display: none"
                                      src="{{ asset('build/img/front_end/loading.gif') }}" alt=""/>
-                                <input type="hidden" id="place_id" value="{{ app.request.get('place') }}">
-                            </div>
-
-                            <div class="form-group" id="sub_place_form_group" style="display: none">
-                                <label for="sub_place">Semt / Mahalle</label><br>
-                                <select name="sub_place" id="sub_place" style="width: 100%;" class="form-control"></select>
-                                <input type="hidden" id="sub_place_id" value="{{ app.request.get('sub_place') }}">
                             </div>
 
                             <div class="form-group">
-                                <button>{{ 'adverts.search'|trans({}, 'advert') }}</button>
+                                <label for="sub_place">Semt / Mahalle</label><br>
+                                <select name="sub_place" id="sub_place" style="width: 100%;" class="form-control">
+                                </select>
+                                <input type="hidden" id="sub_place_id" value="{{ app.request.get('sub_place') }}">
+
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit">{{ 'adverts.search'|trans({}, 'advert') }}</button>
                             </div>
 
                         </form>
 
 
-                        <a href="{{ path('adverts') }}" style="text-decoration: underline">
+                        <a href="{{ path('adverts') }}"  class="btn btn-block btn-default">
                             Aramayı Sıfırla
                         </a>
                     </div>
@@ -173,7 +162,6 @@
                                 <tr>
                                     <th scope="col"></th>
                                     <th>Kategori</th>
-                                    <th></th>
                                     <th style="width: 25%">Başlık</th>
                                     <th>Durum</th>
                                     <th>Fiyat</th>
@@ -204,7 +192,6 @@
                                             {% endif %}
 
                                         </td>
-                                        <td>{{ a.category.shortname|trans({}, 'advert') }}</td>
                                         <td>{{ a.subCategory.shortname|trans({}, 'advert') }}</td>
                                         <td>
                                             <a href="{{ path('advert_detail', {
@@ -217,13 +204,12 @@
 
                                                 {{ a.title }}</a></td>
                                         <td>Kiralık</td>
-                                        <td style="color: #910000">2.500 TL</td>
-                                        <td>10 Ekim 2020</td>
+                                        <td style="color: #910000">{{ a.price|number_format(2, ',', '.') }} ₺</td>
                                         <td>
-                                            {% if a.place.parent %}
-                                                {{ a.place.parent.name }} {{ a.place.name }}
-                                            {% endif %}
-
+                                            {{ a.lastUpdate|date('d/m/Y') }}
+                                        </td>
+                                        <td>
+                                            {{ a.place.name }}
                                         </td>
 
                                     </tr>
@@ -233,6 +219,9 @@
 
                                 </tbody>
                             </table>
+
+
+
 
                         </div>
 
@@ -250,6 +239,18 @@
                     </div>
 
                     <div class="row">
+
+                       <div class="col-md-12 text-center">
+                           {% if app.request.get('name') is not null or
+                               app.request.get('cat') is not null or
+                               app.request.get('place') is not null %}
+
+
+                               arama sonuçlarına göre,
+                               toplam <b>{{ adverts|length }}</b> kayıt listelendi.
+
+                           {% endif %}
+                       </div>
 
                     </div>
 

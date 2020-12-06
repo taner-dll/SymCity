@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -59,6 +60,7 @@ class AdvertType extends AbstractType
         //dump($category_id, $sub_category_id);exit;
 
         $data = $builder->getData();
+        //dump($data);exit;
 
         $builder
             ->add('title', TextType::class,
@@ -77,7 +79,9 @@ class AdvertType extends AbstractType
                 'required' => true,
                 'data' => $user->getFirstname() . ' ' . $user->getLastname()
             ))
-            ->add('price', IntegerType::class)
+            ->add('price', MoneyType::class, [
+                'currency'=>false, //hide curerncy. TRY, USD, EUR ISO 4217
+            ])
             ->add('secretPrice', CheckboxType::class, array('required' => false,
                 'label' => ' ',
                 'label_attr' => array('style' => 'margin-left:5px;'),
@@ -136,7 +140,7 @@ class AdvertType extends AbstractType
                         }
 
                     },
-                    'choice_value' => 'id',
+                    'choice_value' => 'short_name',
                     'choice_translation_domain' => 'advert')
             )
 
@@ -161,9 +165,11 @@ class AdvertType extends AbstractType
                 'choice_label' => function (Place $place) {
                     return $place->getName();
                 },
-                'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) use ($data){
                     return $er->createQueryBuilder('p')
                         ->where('p.type = :nb')
+                        ->andWhere('p.parent = :parent')
+                        ->setParameter('parent',$data->getPlace())
                         ->setParameter('nb', 'neighborhood')
                         ->orderBy('p.name', 'asc');
                 },
