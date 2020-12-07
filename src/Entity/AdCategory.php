@@ -44,6 +44,21 @@ class AdCategory
      */
     private $adverts;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $total;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $icon;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $color;
+
     public function __toString() {
         return $this->short_name;
     }
@@ -154,6 +169,42 @@ class AdCategory
                 $advert->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotal(): ?int
+    {
+        return $this->total;
+    }
+
+    public function setTotal(int $total): self
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(?string $icon): self
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

@@ -5,19 +5,20 @@
 
             <div class="banner-search">
 
-                {#{% if app.user %}
+                {% if app.user %}
                     <h1>HOŞ GELDİN <a href="{{ path('app_dashboard') }}">{{ app.user.firstname }}</a></h1>
                 {% else %}
-                    #}{#<h1>HOŞ GELDİNİZ</h1>#}{#
-                {% endif %}#}
+                    <h1>HOŞ GELDİNİZ</h1>
+                {% endif %}
 
-                <p style="font-size: 12pt;">
+                <p style="font-size: 12pt;padding-bottom: 10px;">
                     Edremit körfezindeki tüm işletmeleri, ilanları, etkinlik ve duyuruları tek noktada buluşturuyoruz...
                     {#Kayıt olmak için <a href="{{ path('app_register') }}" style="text-decoration: underline">tıklayınız</a>#}
                 </p>
+
+
+
                 <div class="advance-search">
-
-
                     <form method="post" action="{{ path('search_router') }}">
 
                         <div class="row">
@@ -103,8 +104,11 @@
                     </form>
 
                 </div>
+
             </div>
         </div>
+
+
     </div>
     <div class="banner-icons">
         <ul>

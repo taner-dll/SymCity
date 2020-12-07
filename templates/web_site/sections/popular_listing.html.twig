@@ -1,438 +1,120 @@
 <!-- Popular Listing -->
-<section id="popular-listing" class="p_b70 p_t70">
+<section id="popular-listing" class="p_b70 p_t30">
     <div class="container">
-        <div class="row">
-            <div class="col-md-12 heading">
-                <h2>Popular <span>Listings</span></h2>
-            </div>
-        </div>
+
         <div class="row">
             <div class="col-md-9 col-sm-9 col-xs-12">
 
-                <div class="sort-by">
-                    <div class="sort-category"> <span>Sort by</span>
-                        <div class="single-query form-group">
-                            <div class="intro">
-                                <select>
-                                    <option class="active">Most Popular</option>
-                                    <option>Most Recent</option>
-                                    <option>The Latest</option>
-                                    <option>The Best Rating</option>
-                                </select>
-                            </div>
-                        </div>
-                        <ul class="nav nav-tabs sort-listing" role="tablist">
-                            <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-th" aria-hidden="true"></i></a>
-                            </li>
-                            <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-th-large" aria-hidden="true"></i></a>
-                            </li>
-                            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-th-list" aria-hidden="true"></i></a>
-                            </li>
-                        </ul>
+                <div class="row">
+                    <div class="col-md-12 heading">
+                        <h2>Öne Çıkan <span>İşletmeler</span></h2>
                     </div>
                 </div>
 
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="profile">
-                        <div class="row">
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="popular-listing-box">
-                                    <div class="popular-listing-img">
-                                        <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-1.jpg" alt="image">
-                                            <figcaption>
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                </ul>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
-                                    <div class="popular-listing-detail">
-                                        <h3><a href="restaurant.html">Restaurant</a></h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
+                <div class="row">
+
+
+                    {% for b in business %}
+
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="popular-listing-box">
+                                <div class="popular-listing-img">
+                                    <figure class="effect-ming">
+                                        {% if b.featuredPicture %}
+
+                                            <img src="{{ asset('uploads/business/') }}/{{ b.featuredPicture }}" alt="image">
+                                        {% else %}
+                                            <img src="{{ asset('build/img/no-image.png') }}" alt="image">
+                                        {% endif %}
+                                    </figure>
                                 </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="popular-listing-box">
-                                    <div class="popular-listing-img">
-                                        <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-2.jpg" alt="image">
-                                            <figcaption>
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                </ul>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
-                                    <div class="popular-listing-detail">
-                                        <h3><a href="real-estate.html">Real Estate</a></h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
+                                <div class="popular-listing-detail">
+                                    <h3><a href="#">{{ b.name }}</a></h3>
                                 </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="popular-listing-box">
-                                    <div class="popular-listing-img">
-                                        <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-3.jpg" alt="image">
-                                            <figcaption>
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                </ul>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
-                                    <div class="popular-listing-detail">
-                                        <h3><a href="sport.html">Sport</a></h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="popular-listing-box">
-                                    <div class="popular-listing-img">
-                                        <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-4.jpg" alt="image">
-                                            <figcaption>
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                </ul>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
-                                    <div class="popular-listing-detail">
-                                        <h3><a href="beauty-spa.html">Beauty & Spa</a></h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="popular-listing-box">
-                                    <div class="popular-listing-img">
-                                        <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-5.jpg" alt="image">
-                                            <figcaption>
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                </ul>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
-                                    <div class="popular-listing-detail">
-                                        <h3><a href="shoping.html">Shoping</a></h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="popular-listing-box">
-                                    <div class="popular-listing-img">
-                                        <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-6.jpg" alt="image">
-                                            <figcaption>
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                </ul>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
-                                    <div class="popular-listing-detail">
-                                        <h3><a href="dating.html">Dating</a></h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
+                                <div class="popular-listing-add">
+                                    {#<span><i class="fa fa-map-marker" aria-hidden="true"></i>{{ b.place.parent.name }}-{{ b.place.name }}</span>
+                                    <span><i class="fa fa-tag" aria-hidden="true"></i>{{ b.category.shortName|trans({}, 'business') }}</span>#}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade" id="home">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="popular-listing-box">
-                                    <div class="popular-listing-img">
-                                        <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-3-1.jpg" alt="image">
-                                            <figcaption>
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                </ul>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
-                                    <div class="popular-listing-detail">
-                                        <h3><a href="restaurant.html">Restaurant</a></h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="popular-listing-box">
-                                    <div class="popular-listing-img">
-                                        <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-3-2.jpg" alt="image">
-                                            <figcaption>
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                </ul>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
-                                    <div class="popular-listing-detail">
-                                        <h3><a href="sport.html">Sport</a></h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="popular-listing-box">
-                                    <div class="popular-listing-img">
-                                        <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-3-3.jpg" alt="image">
-                                            <figcaption>
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                </ul>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
-                                    <div class="popular-listing-detail">
-                                        <h3><a href="shoping.html">Shoping</a></h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="popular-listing-box">
-                                    <div class="popular-listing-img">
-                                        <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-3-4.jpg" alt="image">
-                                            <figcaption>
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                    <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                </ul>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
-                                    <div class="popular-listing-detail">
-                                        <h3><a href="real-estate.html">Real Estate</a></h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade" id="messages">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="popular-listing-box">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <div class="popular-listing-img">
-                                                <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-3-1.jpg" alt="image">
-                                                    <figcaption>
-                                                        <ul>
-                                                            <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                            <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                            <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                        </ul>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7 col-sm-7 col-xs-12">
-                                            <div class="popular-listing-detail">
-                                                <h3><a href="restaurant.html">Restaurant</a></h3>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                            </div>
-                                            <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="popular-listing-box">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <div class="popular-listing-img">
-                                                <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-3-2.jpg" alt="image">
-                                                    <figcaption>
-                                                        <ul>
-                                                            <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                            <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                            <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                        </ul>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7 col-sm-7 col-xs-12">
-                                            <div class="popular-listing-detail">
-                                                <h3><a href="sport.html">Sport</a></h3>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                            </div>
-                                            <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="popular-listing-box">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <div class="popular-listing-img">
-                                                <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-3-3.jpg" alt="image">
-                                                    <figcaption>
-                                                        <ul>
-                                                            <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                            <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                            <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                        </ul>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7 col-sm-7 col-xs-12">
-                                            <div class="popular-listing-detail">
-                                                <h3><a href="shoping.html">Shoping</a></h3>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                            </div>
-                                            <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="popular-listing-box">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <div class="popular-listing-img">
-                                                <figure class="effect-ming"> <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/popular-3-4.jpg" alt="image">
-                                                    <figcaption>
-                                                        <ul>
-                                                            <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a> </li>
-                                                            <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> </li>
-                                                            <li><a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a> </li>
-                                                        </ul>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7 col-sm-7 col-xs-12">
-                                            <div class="popular-listing-detail">
-                                                <h3><a href="real-estate.html">Real Estate</a></h3>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                            </div>
-                                            <div class="popular-listing-add"> <span><i class="fa fa-map-marker" aria-hidden="true"></i> New York City</span> <span><img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/stars.png" alt="image"></span> </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                    {% endfor %}
+
+
                 </div>
+
+
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <div class="right-bar">
-                    <h4>Signup <span>Now</span></h4>
-                    <form class="form-right">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name" name="name">
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control" placeholder="E-mail" name="email">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Password" name="password">
-                        </div>
-                        <div class="form-group">
-                            <label>
-                                <input type="checkbox" name="name"> I am agree with term and conditions</label>
-                        </div>
-                        <div class="form-group">
-                            <button>Sign up Now</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="right-bar">
-                    <h4>Recent add <span>Listing</span></h4>
-                    <div id="recent-listing" class="owl-carousel owl-theme">
-                        <div class="item">
-                            <div class="recent-listing-img">
-                                <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/recent-1.jpg" alt="image">
-                                <div class="recent-listing-links">
-                                    <a href="job.html" class="recent-jobs">Jobs</a>
-                                    <a href="listing-details.html" class="recent-readmore">Read More</a>
-                                </div>
+                    <h4><span>Yazar</span> Köşesi</h4>
+
+                    <div class="places-list">
+                        <h5><a href="#">Four Seasons Hotel</a></h5>
+                        <p> 57 East 57th Street, New York 10022</p>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="images/footer-latest-1.jpg" alt="image">
+                                </a>
                             </div>
-                            <div class="recent-listing-img">
-                                <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/recent-2.jpg" alt="image">
-                                <div class="recent-listing-links">
-                                    <a href="real-estate.html" class="recent-jobs">Real Estate</a>
-                                    <a href="listing-details.html" class="recent-readmore">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="recent-listing-img">
-                                <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/recent-1.jpg" alt="image">
-                                <div class="recent-listing-links">
-                                    <a href="job.html" class="recent-jobs">Jobs</a>
-                                    <a href="listing-details.html" class="recent-readmore">Read More</a>
-                                </div>
-                            </div>
-                            <div class="recent-listing-img">
-                                <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/recent-2.jpg" alt="image">
-                                <div class="recent-listing-links">
-                                    <a href="real-estate.html" class="recent-jobs">Real Estate</a>
-                                    <a href="listing-details.html" class="recent-readmore">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="recent-listing-img">
-                                <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/recent-1.jpg" alt="image">
-                                <div class="recent-listing-links">
-                                    <a href="job.html" class="recent-jobs">Jobs</a>
-                                    <a href="listing-details.html" class="recent-readmore">Read More</a>
-                                </div>
-                            </div>
-                            <div class="recent-listing-img">
-                                <img src="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/recent-2.jpg" alt="image">
-                                <div class="recent-listing-links">
-                                    <a href="real-estate.html" class="recent-jobs">Real Estate</a>
-                                    <a href="listing-details.html" class="recent-readmore">Read More</a>
-                                </div>
+                            <div class="media-body">
+                                <h6 class="media-heading"><i class="fa fa-glass" aria-hidden="true"></i> Restaurant</h6>
+                                <img src="images/stars.png">
                             </div>
                         </div>
                     </div>
+
+                    <div class="places-list">
+                        <h5><a href="#">Real Estate</a></h5>
+                        <p> 57 East 57th Street, New York 10022</p>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="images/footer-latest-2.jpg" alt="image">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h6 class="media-heading"><i class="fa fa-glass" aria-hidden="true"></i> Real Estate</h6>
+                                <img src="images/stars.png" alt="image">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="places-list">
+                        <h5><a href="#">Beauty &amp; Spa</a></h5>
+                        <p> 57 East 57th Street, New York 10022</p>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="images/footer-latest-3.jpg" alt="image">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h6 class="media-heading"><i class="fa fa-glass" aria-hidden="true"></i> Beauty &amp; Spa</h6>
+                                <img src="images/stars.png" alt="image">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="places-list">
+                        <h5><a href="#">Shoping</a></h5>
+                        <p> 57 East 57th Street, New York 10022</p>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="images/footer-latest-4.jpg" alt="image">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h6 class="media-heading"><i class="fa fa-glass" aria-hidden="true"></i> Shoping</h6>
+                                <img src="images/stars.png" alt="image">
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
         </div>
     </div>

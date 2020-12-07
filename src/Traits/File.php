@@ -43,6 +43,7 @@ trait File
                 //file_put_contents ile dosya oluşturulmalıdır.
                 //move_uploaded_file($file, $dir);
                 file_put_contents($dir . '/' . $fileName, $file);
+                return new JsonResponse('ok', Response::HTTP_OK);
 
             } catch (FileException $e) {
                 return new JsonResponse($e->getMessage());
@@ -104,7 +105,9 @@ trait File
         try{
             if (strlen($fileName) > 0 && is_file($dir . '/' . $fileName)) {
                 $fs->remove($dir . '/' . $fileName);
+
             }
+            return new JsonResponse('ok', Response::HTTP_OK);
 
         }catch (FileException $e){
             return new JsonResponse($e->getMessage());

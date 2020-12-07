@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\AdCategory;
 use App\Entity\Advert;
 use App\Entity\Announce;
 use App\Entity\Business;
@@ -11,6 +12,7 @@ use App\Entity\FeedBack;
 use App\Entity\User;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AppController extends AbstractController
 {
+    //FIXME admin sayfaları arama motorlarında indexlenmemeli
 
     /**
      * @Route("/dashboard", name="app_dashboard", methods={"GET","POST"})
@@ -55,7 +58,7 @@ class AppController extends AbstractController
                 'announces' => $announces,
                 'businesses' => $businesses,
                 'users' => $users,
-                'feedbacks'=>$feedbacks
+                'feedbacks' => $feedbacks
             ]);
 
         }
@@ -65,15 +68,54 @@ class AppController extends AbstractController
     }
 
     /**
+     * @Route("/calculate-total-stats", name="app_calculate_total_stats", methods={"POST", "GET"})
+     */
+    public function adm_calculateTotalStats()
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+
+        //her ilan kategorisi için döngü başlat.
+        //her ilanın, kategorisine ait toplam ilan adedini hesapla
+        //toplamı total alanına yazdır.
+        $ad_categories = $em->getRepository(AdCategory::class)->findAll();
+        //her ilan kategorisi için döngü başlat.
+        foreach ($ad_categories as $value):
+            //her ilanın, kategorisine ait toplam ilan adedini hesapla
+            $adverts_count = $em->getRepository(Advert::class)->count(array('category'=>$value));
+            //toplamı total alanına yazdır.
+            $value->setTotal($adverts_count);
+        endforeach;
+
+        $em->flush();
+
+        return new JsonResponse('calculation has been completed', Response::HTTP_OK);
+
+
+
+
+    }
+
+
+    /**
      * @Route("/users", name="app_users", methods={"GET","POST"})
      */
-    public function users(){
+    public function users()
+    {
+
+
+        throw new \Exception("dur yoolcu");
 
         $em = $this->getDoctrine()->getManager();
 
         $users = $em->getRepository("App:User")->findAll();
-        return $this->render('app/users.html.twig' ,array(
-            'users'=>$users
+
+        //dump($users);exit;
+        //return new JsonResponse($users, Response::HTTP_OK);
+
+        return $this->render('app/users.html.twig', array(
+            'users' => $users
         ));
 
     }
@@ -84,8 +126,6 @@ class AppController extends AbstractController
      */
     public function feedback(): Response
     {
-
-
         return $this->render('app/feedback.html.twig', [
 
         ]);
@@ -105,38 +145,35 @@ class AppController extends AbstractController
             $em = $this->getDoctrine()->getManager();
 
 
-            if ($request->query->get('process')==='delete'){
+            if ($request->query->get('process') === 'delete') {
 
                 $fb = $em->find(FeedBack::class, $request->query->get('id'));
                 $em->remove($fb);
                 $em->flush();
 
-                $this->addFlash('success','Geri bildirim başarıyla silindi.');
+                $this->addFlash('success', 'Geri bildirim başarıyla silindi.');
                 return $this->redirectToRoute('app_feedback_list');
             }
 
-            if ($request->query->get('process')==='read'){
+            if ($request->query->get('process') === 'read') {
 
                 $fb = $em->find(FeedBack::class, $request->query->get('id'));
                 $fb->setStatus(true);
                 $em->flush();
 
-                $this->addFlash('success','Geri bildirim "okundu" olarak işaretlendi.');
+                $this->addFlash('success', 'Geri bildirim "okundu" olarak işaretlendi.');
                 return $this->redirectToRoute('app_feedback_list');
             }
 
-            if ($request->query->get('process')==='unread'){
+            if ($request->query->get('process') === 'unread') {
 
                 $fb = $em->find(FeedBack::class, $request->query->get('id'));
                 $fb->setStatus(false);
                 $em->flush();
 
-                $this->addFlash('success','Geri bildirim "okunmadı" olarak işaretlendi.');
+                $this->addFlash('success', 'Geri bildirim "okunmadı" olarak işaretlendi.');
                 return $this->redirectToRoute('app_feedback_list');
             }
-
-                
-
 
 
             $feedbacks = $em->getRepository(FeedBack::class)
@@ -148,8 +185,8 @@ class AppController extends AbstractController
                 10 /*limit per page*/
             );
 
-            return $this->render('app/feedback_list.html.twig' ,array(
-                'feedbacks'=>$feedbacks
+            return $this->render('app/feedback_list.html.twig', array(
+                'feedbacks' => $feedbacks
             ));
 
         }

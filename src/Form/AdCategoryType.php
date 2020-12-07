@@ -15,6 +15,8 @@ class AdCategoryType extends AbstractType
             ->add('short_name')
             ->add('active')
             ->add('sort')
+            ->add('icon')
+            ->add('color')
         ;
     }
 

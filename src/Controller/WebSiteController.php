@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\AdCategory;
-use App\Entity\AdSubCategory;
 use App\Entity\Advert;
 use App\Entity\Announce;
 use App\Entity\Business;
@@ -41,12 +40,15 @@ class WebSiteController extends AbstractController
         $advert_category = $em->getRepository(AdCategory::class)->adCategorySort();
         $places = $em->getRepository(Place::class)->findAll();
 
+
+
         return $this->render('web_site/pages/main.html.twig',
             array(
                 'business_count' => $business,
                 'business_category' => $business_category,
                 'advert_category' => $advert_category,
-                'places' => $places
+                'places' => $places,
+                'business'=> $business
             ));
     }
 
@@ -393,6 +395,10 @@ class WebSiteController extends AbstractController
         return $this->render('web_site/embedded_controller/advert_menu.html.twig',
             ['ad_categories' => $ad_cats]);
     }
+
+
+
+
 
 
 }

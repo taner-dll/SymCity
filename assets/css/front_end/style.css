@@ -1,42 +1,4 @@
-/* CSS Document 
-Author Name: 99_Design
-Author E-mail: logicsforest@gmail.com
-Creation Date: 08th Oct, 2017
-Description: A default stylesheet for Find Do Directory Template, Developed By 99_Design.
 
------------- TABLE OF CONTENT ------------
-
--GENERRAL CSS
--LOADER CSS
--HEADERS CSS 
--BANNAERS CSS
--DIRECTORY CATEGORY CSS
--POPULAR LISTING CSS
--CALL TO ACTION CSS
--HOW TO FIND CSS
--BEST THINGS CSS
--COUNTER CSS
--OUR BLOG CSS
--FOOTER CSS
--OUR USER CSS
--INNER BANNER
--LISTING PAGES CSS
--LOGIN / REGISTRATION PAGE CSS
--PROFILE PAGE CSS
--ADD LISTING PAGE CSS
--LISTING DETAILS PAGE CSS
--ABOUT US PAGE CSS
--OUR BLOG CSS
--OUR BLOG DETAILS CSS
--PRICE TABLE PAGE CSS
--ERROR PAGE CSS
--CONTACT PAGE CSS
--RESPONSIVE CSS
-
-*/
-/* ================================= */
-/* ---------- GENERRAL CSS --------- */
-/* ================================= */
 /*FONTS*/
 @import url('https://fonts.googleapis.com/css?family=Exo+2:300,400,400i,500,600,700,900');
 
@@ -753,7 +715,7 @@ nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a {
     height: auto;
     min-height: 160px;
     padding: 30px 20px;
-    margin-top: 30px;
+    margin-top: 0px;
     border-radius: 10px;
 
 }
@@ -1559,7 +1521,7 @@ figure.effect-ming ul {
 .popular-listing-detail h3 a {
     color: #3a2f2f;
     display: block;
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 600;
     padding-bottom: 20px;
 }
@@ -1575,11 +1537,13 @@ figure.effect-ming ul {
 }
 
 .popular-listing-add {
-    padding: 12px 15px 0px;
+    padding: 12px 15px 12px;
 }
 
 .popular-listing-add > span {
     color: #404040;
+    padding-left: 5px;
+    font-size: 12px;
 }
 
 .popular-listing-add img {
@@ -1860,7 +1824,7 @@ figure.effect-ming ul {
 /* ================================= */
 #counter-section {
     background: #f6f6f6;
-    padding: 150px 0;
+    padding: 50px 0;
 }
 
 .counters-item {

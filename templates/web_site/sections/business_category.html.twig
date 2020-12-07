@@ -1,0 +1,39 @@
+<!-- Directory Category -->
+<section id="directory-category" class="p_b30 p_t30">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12 directory-category-heading">
+                <h2>
+                    <span>İşletme</span> Kategorileri
+                </h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                {# @var advert_category \AdCategory #}
+                {% for a in advert_category %}
+                    <div class="directory-category-box  text-center">
+                        <span><i class="fa fa-{{ a.icon }}" aria-hidden="true"></i></span>
+                        <a href="#">
+                            <h3>{{ a.shortName|trans({}, 'advert') }}</h3>
+                        </a>
+                        <p>{{ a.total }} ilan</p>
+                    </div>
+
+                {% endfor %}
+
+                <div class="directory-category-box text-center" >
+
+                    <a href="#">
+                        <h3>Ekle</h3>
+                    </a>
+                    <p>buton gelecek</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Directory Category -->
