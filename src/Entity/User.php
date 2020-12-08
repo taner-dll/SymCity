@@ -134,6 +134,11 @@ class User implements UserInterface
      */
     private $feedBacks;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticleClaps", mappedBy="user")
+     */
+    private $articleClaps;
+
     public function __construct()
     {
         $this->pTVComments = new ArrayCollection();
@@ -143,6 +148,7 @@ class User implements UserInterface
         $this->businesses = new ArrayCollection();
         $this->roles = array('ROLE_USER');
         $this->feedBacks = new ArrayCollection();
+        $this->articleClaps = new ArrayCollection();
     }
 
 
@@ -567,6 +573,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($feedBack->getUser() === $this) {
                 $feedBack->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArticleClaps[]
+     */
+    public function getArticleClaps(): Collection
+    {
+        return $this->articleClaps;
+    }
+
+    public function addArticleClap(ArticleClaps $articleClap): self
+    {
+        if (!$this->articleClaps->contains($articleClap)) {
+            $this->articleClaps[] = $articleClap;
+            $articleClap->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleClap(ArticleClaps $articleClap): self
+    {
+        if ($this->articleClaps->contains($articleClap)) {
+            $this->articleClaps->removeElement($articleClap);
+            // set the owning side to null (unless already changed)
+            if ($articleClap->getUser() === $this) {
+                $articleClap->setUser(null);
             }
         }
 
