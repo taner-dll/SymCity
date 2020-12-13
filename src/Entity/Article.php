@@ -53,6 +53,24 @@ class Article
      */
     private $total_claps;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $last_update;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+
+
     public function __construct()
     {
         $this->articleClaps = new ArrayCollection();
@@ -165,4 +183,42 @@ class Article
 
         return $this;
     }
+
+    public function getLastUpdate(): ?\DateTimeInterface
+    {
+        return $this->last_update;
+    }
+
+    public function setLastUpdate(\DateTimeInterface $last_update): self
+    {
+        $this->last_update = $last_update;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
 }

@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        Yazı Yönetimi
+    {% else %}
+        Yazılarım
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('event') }}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            {% if is_granted('ROLE_ADMIN') %}
+                Yazı Yönetimi
+            {% else %}
+                Yazılarım
+            {% endif %}
+            <small></small>
+        </h1>
+
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li class="active"><a href="{{ path('article_index') }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        Yazı Yönetimi
+                    {% else %}
+                        Yazılarım
+                    {% endif %}
+                </a></li>
+
+        </ol>
+    </section>
+
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="box">
+                <!--
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+                </div>
+                -->
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="example1_wrapper"
+                                 class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                                <table id="example1" class="table table-bordered table-striped
+                                table-hover table-condensed
+                                dataTable" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+
+                                        <th>Onay Durumu</th>
+                                        <th>Yazı Başlığı</th>
+                                        <th>Eklenme Tarihi</th>
+                                        <th>Son Güncelleme</th>
+
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <th>Ekleyen</th>
+                                        {% endif %}
+
+                                        <th>İşlem</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for article in articles %}
+                                        <tr>
+                                            <td>
+                                                {% if  article.confirm == 0 %}
+                                                    <span class="label label-warning">
+                                                        <i class="fa fa-clock-o"></i>
+                                                        Onay Bekliyor</span>
+                                                {% elseif article.confirm == 1 %}
+                                                    <span class="label label-success">
+                                                        <i class="fa fa-check"></i>
+                                                        Yayında</span>
+                                                {% elseif article.confirm == 2 %}
+                                                    <span class="label label-info">
+                                                        <i class="fa fa-save"></i>
+                                                        Taslak</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ article.title[:20]|striptags }}&hellip;</td>
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <td>
+                                                    {{ article.user.username }}
+                                                </td>
+                                            {% endif %}
+                                            <td>{{ article.createdAt|date('d.m.Y') }}</td>
+                                            <td>{{ article.lastUpdate|date('d.m.Y') }}</td>
+                                            <td>
+                                                <a href="{{ path('article_show', {'id': article.id}) }}"
+                                                   class="btn btn-xs btn-primary pull-left">Detaylı Göster</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="10">Kayıtlı yazınız bulunmamaktadır.</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('event') }}
+{% endblock %}

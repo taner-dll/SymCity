@@ -17,7 +17,7 @@ framework:
         #security'deki cookie süresi kadar oturum açık kalır.
 
         #buradaki cookie lifetime session süresidir.
-        #securiry yaml'daki cookie lifetime ise çerez süresidir.
+        #security.yaml'daki cookie lifetime ise çerez süresidir.
         #ikisi birbiriyle karıştırılmamalıdır.
         cookie_lifetime: 3600 #1 saat login süresi
 

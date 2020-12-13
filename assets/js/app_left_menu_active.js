@@ -117,6 +117,25 @@ if (current_route === 'event_index' || current_route === 'event_new') {
     });
 }
 
+
+/**
+ * Article Menu
+ */
+if (current_route === 'article_index' || current_route === 'article_new') {
+    $('._article_menu').toggleClass('menu-open');
+    $('._article_menu').children('a').css(active);
+    $('._article_menu').children('.treeview-menu').css('display', 'block');
+    $('._article_menu').children('.treeview-menu').children('li').each(function (index) {
+        if (current_route === 'article_new' && index === 0) {
+            $(this).children('a').css(active);
+        }
+        if (current_route === 'article_index' && index === 1) {
+            $(this).children('a').css(active);
+        }
+    });
+}
+
+
 /**
  * Business Menu
  */

@@ -1,0 +1,243 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        Yazı Yönetimi
+    {% else %}
+        Yazılarım
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{#    {{ encore_entry_link_tags('article') }}#}
+{% endblock %}
+
+{% block breadcrumb %}
+
+    <section class="content-header">
+        <h1>
+            Yazı Detayı
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
+            <li><a href="{{ path('article_index') }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                            Yazı Yönetimi
+                    {% else %}
+                        Yazılarım
+                    {% endif %}
+                </a></li>
+            <li class="active"><a href="{{ path('article_show', {id:article.id}) }}">
+                    Yazı Detayı</a></li>
+
+        </ol>
+    </section>
+
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="box">
+
+        <!--
+        <div class="box-header with-border">
+            <h3 class="box-title">Gezilecek Yerler</h3>
+        </div>
+
+       -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-8">
+                    <table class="table table-bordered table-responsive">
+                        <tbody>
+                        <tr>
+                            <th>Yazı Başlığı</th>
+                            <td>{{ article.title }}</td>
+                        </tr>
+                        <tr>
+                            <th>Eklenme Tarihi</th>
+                            <td>{{ article.createdAt ? article.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Son Güncelleme</th>
+                            <td>{{ article.lastUpdate ? article.lastUpdate|date('d/m/Y H:i:s') : '' }}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <th>Yazı</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ article.article|raw }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+
+                </div>
+                <div class="col-sm-4">
+
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td>
+
+                                <a href="{{ path('article_index') }}" class="btn btn-primary"
+                                   style="margin-right: 10px;">
+                                    <i class="fa fa-caret-left"></i>
+                                    Yazılarım</a>
+
+
+                                <a href="{{ path('article_edit', {'id': article.id}) }}" class="btn btn-warning"
+                                   style="margin-right: 10px;">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                    Düzenle</a>
+
+
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                                    <i class="fa fa-trash-o"></i>
+                                    Sil
+                                </a>
+                                {{ include('article/_delete_form.html.twig') }}
+
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td>
+
+
+                                {% if  article.confirm == 0 %}  {#onay bekleniyor#}
+
+                                    <div class="callout callout-warning">
+                                        <h4>
+                                            <i class="icon fa fa-clock-o"></i>
+                                            Onay Bekliyor!
+                                        </h4>
+                                        <p>
+                                            Yazınuz onaya gönderilmiş durumda. İncelendikten
+                                            sonra yayına alınacaktır. Onaylandığında, tarafınıza otomatik olarak
+                                            eposta gönderilecektir.<br>
+                                            {#<a style="font-weight: bold" href="{{ path('article_save_as_draft',
+                                                {id:article.id,_token:csrf_token('article_save_as_draft' ~ article.id)}) }}">
+                                                İptal etmek için tıklayınız
+                                            </a>#}
+                                        </p>
+                                    </div>
+
+                                {% elseif article.confirm == 1 %} {#onaylandı#}
+
+                                    <div class="callout callout-success">
+                                        <h4>
+                                            <i class="icon fa fa-check-circle-o"></i> Yazınuz Yayındadır.
+                                        </h4>
+                                        <p>
+                                            <b>Dikkat!</b> Yazınuzu yeniden düzenlerseniz, otomatik olarak
+                                            yayından kaldırılır ve yeniden onaya gönderilmesi
+                                            gerekir.
+                                        </p>
+                                    </div>
+
+                                {% elseif article.confirm == 2 %} {#taslak olarak kaydedildi#}
+
+                                    <div class="callout callout-info">
+                                        <h4>
+                                            <i class="icon fa fa-info-circle"></i> Henüz Yayında Değil!
+                                        </h4>
+                                        <p>
+                                            Lütfen son kontrollerinizi yapın ve onaylanması için
+                                            "Onaya Gönder" butonuna tıklayın.
+                                        </p>
+                                    </div>
+
+                                {% endif %}
+
+
+
+                              {#  {% if  article.confirm == 0 %}  #}{#onay bekleniyor#}{#
+
+                                    <br>
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('article_confirm',
+                                            {id:article.id,_token:csrf_token('confirm' ~ article.id)}) }}"
+                                           class="btn btn-danger btn-block btn-lg" style="margin-right: 10px;">
+                                            <i class="fa fa-check-circle-o"></i> Yönetici Olarak Yayına Al
+                                        </a>
+                                    {% endif %}
+
+                                {% elseif article.confirm == 1 %} #}{#onaylandı#}{#
+
+                                    <br>
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+
+                                        <a href="{{ path('article_unconfirm',
+                                            {id:article.id,_token:csrf_token('unconfirm' ~ article.id)}) }}"
+                                           class="btn btn-danger btn-block btn-lg">
+                                            <i class="fa fa-close"></i> Yönetici Olarak Yayından Kaldır
+                                        </a>
+                                    {% endif %}
+
+                                {% elseif article.confirm == 2 %} #}{#taslak olarak kaydedildi#}{#
+
+                                    <br>
+
+                                    <a href="{{ path('article_send_confirmation_request',
+                                        {id:article.id,_token:csrf_token('article_send_confirmation_request' ~
+                                            article.id)}) }}"
+                                       class="btn btn-lg btn-success btn-block" style="margin-right: 10px;">
+                                        <i class="fa fa-check-circle-o"></i>
+                                        Onaya Gönder</a>
+
+                                {% endif %}
+#}
+
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+        </div>
+        <!-- /.box-footer-->
+    </div>
+
+
+
+    {% for message in app.flashes('success') %}
+        <input type="hidden" id="success_message" value="{{ message }}"/>
+    {% endfor %}
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#{{ encore_entry_script_tags('article') }}#}
+{% endblock %}

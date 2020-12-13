@@ -50,6 +50,7 @@ class WebSiteController extends AbstractController
                 'places' => $places,
                 'business'=> $business
             ));
+
     }
 
 

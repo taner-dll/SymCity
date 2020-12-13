@@ -35,6 +35,7 @@ Encore
     .addEntry('business_category', './assets/js/business_category.js')
     .addEntry('register', './assets/js/register.js')
     .addEntry('feedback', './assets/js/feedback.js')
+    .addEntry('article', './assets/js/article.js')
 
 
     /**

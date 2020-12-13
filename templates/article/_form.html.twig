@@ -1,0 +1,41 @@
+
+
+
+{% form_theme form 'form/fields.html.twig' %}
+<div class="box-body">
+    {{ form_start(form) }}
+    <div class="col-md-8">
+        <div class="form-group">
+            {{ form_label(form.title, 'Yazı Başlığı') }}
+            {{ form_widget(form.title) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.author_name, 'Yazarın Sayfada Görünecek Adı ve Soyadı') }}
+            {{ form_widget(form.author_name, {'value' : app.user.firstname ~ " " ~ app.user.lastname}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.article, 'Yazı') }}
+            {{ form_widget(form.article) }}
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="callout">
+            <p style="font-style: italic">
+                Kontrol ve düzenleme süresinin daha kısa sürede tamamlanması için lütfen
+                yazılarınızı imlâ kurallarına uygun bir şekilde hazırlamaya özen gösteriniz.
+            </p>
+        </div>
+
+        <a href="https://www.tdk.gov.tr/category/icerik/yazim-kurallari/" target="_blank">
+            Türk Dil Kurumu Yazım (İmlâ) Kuralları Kılavuzu &raquo;
+        </a>
+
+
+
+
+    </div>
+</div>

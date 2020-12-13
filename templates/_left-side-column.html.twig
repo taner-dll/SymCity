@@ -190,6 +190,29 @@
                 </ul>
             </li>
 
+            <li class="treeview _article_menu">
+                <a href="#">
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <i class="fa fa-pencil"></i> <span>Yazı Yönetimi</span>
+                    {% else %}
+                        <i class="fa fa-pencil"></i> <span>Yazılarım</span>
+                    {% endif %}
+
+
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ path('article_new') }}"><i class="fa fa-circle-o"></i> Yeni Ekle</a></li>
+                    <li><a href="{{ path('article_index') }}"><i class="fa fa-circle-o"></i> Liste</a></li>
+                </ul>
+            </li>
+
+
+
+
             <li class="treeview _announce_menu">
                 <a href="#">
 
