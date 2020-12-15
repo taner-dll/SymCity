@@ -1,6 +1,3 @@
-
-
-
 {% form_theme form 'form/fields.html.twig' %}
 <div class="box-body">
     {{ form_start(form) }}
@@ -11,7 +8,9 @@
         </div>
         <div class="form-group">
             {{ form_label(form.author_name, 'Yazarın Sayfada Görünecek Adı ve Soyadı') }}
-            {{ form_widget(form.author_name, {'value' : app.user.firstname ~ " " ~ app.user.lastname}) }}
+            
+            {{ form_widget(form.author_name) }}
+
         </div>
 
         <div class="form-group">
@@ -24,17 +23,22 @@
     <div class="col-md-4">
 
         <div class="callout">
+            <p style="font-style: italic; color: red;">
+                Oturum süresi sona ereceğinden; <br>yazınızı öncelikle bir yazı editöründe hazırlamanızı,
+                hazırladığınız yazıyı son aşama olarak buraya kaydetmenizi öneririz.
+            </p>
+        </div>
+
+        <div class="callout">
             <p style="font-style: italic">
-                Kontrol ve düzenleme süresinin daha kısa sürede tamamlanması için lütfen
-                yazılarınızı imlâ kurallarına uygun bir şekilde hazırlamaya özen gösteriniz.
+                Kontrol ve düzenleme süresinin daha kısa sürede tamamlanması için<br> lütfen
+                yazılarınızı -elinizden geldiğince- imlâ kurallarına uygun bir şekilde hazırlamaya özen gösteriniz.
             </p>
         </div>
 
         <a href="https://www.tdk.gov.tr/category/icerik/yazim-kurallari/" target="_blank">
             Türk Dil Kurumu Yazım (İmlâ) Kuralları Kılavuzu &raquo;
         </a>
-
-
 
 
     </div>

@@ -43,3 +43,11 @@ announce_confirmed: Duyuru başarılı bir şekilde onaylandı.
 announce_unconfirmed: Duyuru yayından kaldırıldı.
 announce_delete_featured_image: Duyuruya ait öne çıkan görsel silinecek, onaylıyor musunuz?
 announce_featured_image_deleted: Duyuruya ait öne çıkan görsel başarıyla silindi.
+
+article_added: Yazınız başarılı bir şekilde eklendi.
+article_deleted: Yazı silme işleminiz başarıyla gerçekleşti.
+article_updated: Yazınız başarılı bir şekilde güncellendi.
+article_confirm_cancelled: Yazı gönderme işlemi iptal edildi.
+article_send_confirmation_request: Yazınız onaya gönderildi.
+article_confirmed: Yazınız başarılı bir şekilde onaylandı.
+article_unconfirmed: Yazınız yayından kaldırıldı.

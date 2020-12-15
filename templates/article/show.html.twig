@@ -10,7 +10,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-{#    {{ encore_entry_link_tags('article') }}#}
+    {{ encore_entry_link_tags('article') }}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -24,7 +24,7 @@
             <li><a href="{{ path('app_dashboard') }}">Ana Sayfa</a></li>
             <li><a href="{{ path('article_index') }}">
                     {% if is_granted('ROLE_ADMIN') %}
-                            Yazı Yönetimi
+                        Yazı Yönetimi
                     {% else %}
                         Yazılarım
                     {% endif %}
@@ -58,6 +58,10 @@
                             <td>{{ article.title }}</td>
                         </tr>
                         <tr>
+                            <th>Yazar Adı</th>
+                            <td>{{ article.authorName }}</td>
+                        </tr>
+                        <tr>
                             <th>Eklenme Tarihi</th>
                             <td>{{ article.createdAt ? article.createdAt|date('d/m/Y H:i:s') : '' }}</td>
                         </tr>
@@ -79,7 +83,6 @@
                         </tr>
                         </tbody>
                     </table>
-
 
 
                 </div>
@@ -130,13 +133,13 @@
                                             Onay Bekliyor!
                                         </h4>
                                         <p>
-                                            Yazınuz onaya gönderilmiş durumda. İncelendikten
+                                            Yazınız onaya gönderilmiş durumda. İncelendikten
                                             sonra yayına alınacaktır. Onaylandığında, tarafınıza otomatik olarak
                                             eposta gönderilecektir.<br>
-                                            {#<a style="font-weight: bold" href="{{ path('article_save_as_draft',
+                                            <a style="font-weight: bold" href="{{ path('article_save_as_draft',
                                                 {id:article.id,_token:csrf_token('article_save_as_draft' ~ article.id)}) }}">
                                                 İptal etmek için tıklayınız
-                                            </a>#}
+                                            </a>
                                         </p>
                                     </div>
 
@@ -147,7 +150,7 @@
                                             <i class="icon fa fa-check-circle-o"></i> Yazınuz Yayındadır.
                                         </h4>
                                         <p>
-                                            <b>Dikkat!</b> Yazınuzu yeniden düzenlerseniz, otomatik olarak
+                                            <b>Dikkat!</b> Yazınızı yeniden düzenlerseniz, otomatik olarak
                                             yayından kaldırılır ve yeniden onaya gönderilmesi
                                             gerekir.
                                         </p>
@@ -169,7 +172,7 @@
 
 
 
-                              {#  {% if  article.confirm == 0 %}  #}{#onay bekleniyor#}{#
+                                {% if  article.confirm == 0 %}
 
                                     <br>
 
@@ -181,7 +184,7 @@
                                         </a>
                                     {% endif %}
 
-                                {% elseif article.confirm == 1 %} #}{#onaylandı#}{#
+                                {% elseif article.confirm == 1 %}
 
                                     <br>
 
@@ -194,7 +197,7 @@
                                         </a>
                                     {% endif %}
 
-                                {% elseif article.confirm == 2 %} #}{#taslak olarak kaydedildi#}{#
+                                {% elseif article.confirm == 2 %}
 
                                     <br>
 
@@ -206,7 +209,6 @@
                                         Onaya Gönder</a>
 
                                 {% endif %}
-#}
 
                             </td>
 
@@ -239,5 +241,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {#{{ encore_entry_script_tags('article') }}#}
+    {{ encore_entry_script_tags('article') }}
 {% endblock %}
