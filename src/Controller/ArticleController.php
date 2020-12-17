@@ -56,7 +56,7 @@ class ArticleController extends AbstractController
 
             $article->setCreatedAt(new \DateTime('now'));
             $article->setLastUpdate(new \DateTime('now'));
-            $article->setTotalClaps(0);
+            $article->setTotalClaps(0); 
             $article->setTotalViews(0);
             $article->setConfirm(self::SEND_CONFIRMATION_REQUEST);
             $article->setUser($this->getUser());
@@ -93,6 +93,7 @@ class ArticleController extends AbstractController
      * @param Article $article
      * @param TranslatorInterface $translator
      * @return Response
+     * @throws \Exception
      */
     public function edit(Request $request, Article $article,
                          TranslatorInterface $translator): Response
@@ -103,6 +104,10 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             //dump($form);exit;
+
+            $article->setLastUpdate(new \DateTime('now'));
+            $article->setConfirm(0);
+
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', $translator->trans('article_updated'));
             return $this->redirectToRoute('article_show', ['id'=>$article->getId()]);

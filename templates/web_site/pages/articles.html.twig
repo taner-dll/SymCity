@@ -1,0 +1,136 @@
+{% extends 'web_site/base.html.twig' %}
+
+{% block title %}{{ 'articles.header'|trans({}, 'article') }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {#{{ encore_entry_link_tags('business_guide') }}#}
+{% endblock %}
+
+
+{% block body %}
+
+    <section id="inner-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="inner_banner_detail">
+                        <h2>{{ 'articles.header'|trans({}, 'article') }}
+
+                            {% if app.request.get('name') is not null %}
+                                <span style="font-size: 16px">
+                                    {% if articles|length > 0 %}
+                                        &nbsp;(Arama sonuçlarına göre,
+                                        toplam <b>{{ articles|length }}</b> kayıt listelendi)
+                                    {% endif %}
+                                </span>
+                            {% endif %}
+
+                        </h2>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="popular-listing" class="p_b30 p_t30">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-3 col-sm-3 col-xs-12 listing-rightbar">
+
+                    <div class="right-bar bg_white">
+                        <h4>{{ 'business_guide.advanced'|trans({}, 'business') }}
+                            <span>{{ 'business_guide.searching'|trans({}, 'business') }}</span></h4>
+                        <form class="form-right" method="get"
+                              action="{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}">
+
+
+                            <div class="form-group">
+                                <label for="name">{{ 'articles.search.article_title'|trans({}, 'article') }}</label>
+
+                                {% set title = "" %}
+                                {% if app.request.get('title') is not null %}
+                                    {% set title = app.request.get('title') %}
+                                {% endif %}
+
+                                <label for="name"></label>
+                                <input class="form-control" id="title" minlength="3"
+                                       name="title" value="{{ title }}" type="text">
+                            </div>
+
+
+                            <div class="form-group">
+                                <button type="submit">{{ 'articles.search.button'|trans({}, 'article') }}</button>
+                            </div>
+
+                        </form>
+
+                        <a href="{{ path('articles') }}" class="btn btn-default">
+                            Aramayı Sıfırla
+                        </a>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            {# @var a \App\Entity\Article  #}
+                            {% for a in articles %}
+                                <div class="popular-listing-box">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="popular-listing-detail">
+                                                <h3>
+                                                    <a style="text-decoration: underline"
+                                                       href="{#{{ path('business_detail', {id:b.id,slug:b.slug}) }}#}">
+                                                        {{ a.title|title }}
+                                                    </a>
+                                                </h3>
+                                                <p>{{ (a.article|striptags)[:100] }}&hellip;</p>
+                                            </div>
+                                            <div class="popular-listing-add">
+                                                <span><b>Yazar:</b> {{ a.authorName }}</span>
+                                                <span><b>Tarih:</b> {{ a.lastUpdate|date('d/m/Y') }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            {# display navigation #}
+                            <div class="navigation">
+                                {{ knp_pagination_render(articles) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    {{ encore_entry_script_tags('business_guide') }}
+
+
+
+{% endblock %}

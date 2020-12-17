@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\AdCategory;
 use App\Entity\Advert;
 use App\Entity\Announce;
+use App\Entity\Article;
 use App\Entity\Business;
 use App\Entity\BusinessCategory;
 use App\Entity\Event;
@@ -20,9 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WebSiteController extends AbstractController
 {
-
     use Util;
-
 
     /**
      * Ana Sayfa
@@ -40,7 +39,11 @@ class WebSiteController extends AbstractController
         $advert_category = $em->getRepository(AdCategory::class)->adCategorySort();
         $places = $em->getRepository(Place::class)->findAll();
 
-
+        $articles = $em->getRepository(Article::class)->findBy(
+            ['confirm'=>1],
+            ['id'=>'DESC'],
+            4
+        );
 
         return $this->render('web_site/pages/main.html.twig',
             array(
@@ -48,10 +51,36 @@ class WebSiteController extends AbstractController
                 'business_category' => $business_category,
                 'advert_category' => $advert_category,
                 'places' => $places,
-                'business'=> $business
+                'business'=> $business,
+                'articles'=>$articles
             ));
-
     }
+
+    /**
+     * @Route({
+     *     "en": "/articles",
+     *     "tr": "/yazilar"
+     * }, name="articles",  methods={"GET"})
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function articles(Request $request, PaginatorInterface $paginator){
+
+        $em = $this->getDoctrine()->getManager();
+        $articles = $em->getRepository(Article::class)->findBy(['confirm'=>1],['id'=>'DESC']);
+
+        $articles = $paginator->paginate(
+            $articles,
+            $request->query->getInt('page', 1), 5
+        );
+
+        return $this->render('web_site/pages/articles.html.twig', [
+            'articles'=>$articles
+        ]);
+    }
+
+
 
 
     /**
@@ -99,12 +128,6 @@ class WebSiteController extends AbstractController
     }
 
 
-
-
-
-
-
-
     #ETKİNLİKLER BAŞLANGIÇ
 
     /**
@@ -120,14 +143,12 @@ class WebSiteController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-
         $events = $em->getRepository(Event::class)->eventFilter($request);
 
         $events = $paginator->paginate(
             $events,
             $request->query->getInt('page', 1), 5
         );
-
         return $this->render('web_site/pages/events.html.twig', [
             'events' => $events,
             /*'categories' => $em->getRepository(Event::class)->advertCategoryList(),*/

@@ -64,12 +64,14 @@
 
                                         <th>Onay Durumu</th>
                                         <th>Yazı Başlığı</th>
-                                        <th>Eklenme Tarihi</th>
-                                        <th>Son Güncelleme</th>
-
                                         {% if is_granted('ROLE_ADMIN') %}
                                             <th>Ekleyen</th>
                                         {% endif %}
+
+                                        <th>Eklenme Tarihi</th>
+                                        <th>Son Güncelleme</th>
+
+
 
                                         <th>İşlem</th>
 
@@ -93,14 +95,16 @@
                                                         Taslak</span>
                                                 {% endif %}
                                             </td>
+
                                             <td>{{ article.title[:20]|striptags }}&hellip;</td>
+
                                             {% if is_granted('ROLE_ADMIN') %}
                                                 <td>
                                                     {{ article.user.username }}
                                                 </td>
                                             {% endif %}
-                                            <td>{{ article.createdAt|date('d.m.Y') }}</td>
-                                            <td>{{ article.lastUpdate|date('d.m.Y') }}</td>
+                                            <td>{{ article.createdAt|date('d.m.Y h:i:s') }}</td>
+                                            <td>{{ article.lastUpdate|date('d.m.Y h:i:s') }}</td>
                                             <td>
                                                 <a href="{{ path('article_show', {'id': article.id}) }}"
                                                    class="btn btn-xs btn-primary pull-left">Detaylı Göster</a>

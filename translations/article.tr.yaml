@@ -1,0 +1,6 @@
+articles:
+  header: Tüm Yazılar
+
+  search:
+    article_title: Yazı Başlığında Ara
+    button: Ara

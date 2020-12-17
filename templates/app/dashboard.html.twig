@@ -91,7 +91,7 @@
                                 </small>
                             {% endif %}
                         </a></li>
-                    <li class="active"><a href="#tab_isletme" data-toggle="tab" aria-expanded="false">
+                    <li><a href="#tab_isletme" data-toggle="tab" aria-expanded="false">
                             İşletmeler
                             &nbsp;
                             {% if businesses|length > 0  %}
@@ -99,7 +99,20 @@
                                     {{ businesses|length }}
                                 </small>
                             {% endif %}
-                        </a></li>
+                        </a>
+                    </li>
+                    <li class="active"><a href="#tab_yazi" data-toggle="tab" aria-expanded="false">
+                            Yazılar
+                            &nbsp;
+                            {% if articles|length > 0  %}
+                                <small class="label pull-right bg-red">
+                                    {{ articles|length }}
+                                </small>
+                            {% endif %}
+                        </a>
+                    </li>
+
+
                     <li class="pull-left header"><i class="fa fa-check-circle"></i> Onay Bekleyenler</li>
                 </ul>
                 <div class="tab-content">
@@ -232,7 +245,7 @@
                         </div>
                     </div>
                     <!-- /.tab-pane -->
-                    <div class="tab-pane active" id="tab_isletme">
+                    <div class="tab-pane" id="tab_isletme">
                         <div id="example1_wrapper"
                              class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
                             <table id="example1" class="table table-bordered table-striped
@@ -263,6 +276,50 @@
                                         <td>
                                             <a class="btn btn-xs btn-primary pull-left"
                                                href="{{ path('business_show', {'id': business.id}) }}">Göster</a>
+                                        </td>
+
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="11">Onay bekleyen iş yeri bulunmamaktadır.</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane active" id="tab_yazi">
+                        <div id="example1_wrapper"
+                             class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                            <table id="example1" class="table table-bordered table-striped
+                                table-hover
+                                dataTable" role="grid" aria-describedby="example1_info">
+                                <tbody>
+                                {% for article in articles %}
+                                    <tr>
+
+
+                                        <td>
+                                            {% if  article.confirm == 0 %}
+                                                <span class="label label-warning">
+                                        <i class="fa fa-clock-o"></i>
+                                        Bekleniyor</span>
+                                            {% else %}
+                                                <span class="label label-success">
+                                        <i class="fa fa-check"></i>
+                                         Onaylandı</span>
+                                            {% endif %}
+                                        </td>
+
+                                        <td>{{ article.lastUpdate ?
+                                            article.lastUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                                        <td>{{ article.title[:15]|striptags }}&hellip;</td>
+
+
+                                        <td>
+                                            <a class="btn btn-xs btn-primary pull-left"
+                                               href="{{ path('article_show', {'id': article.id}) }}">Göster</a>
                                         </td>
 
                                     </tr>

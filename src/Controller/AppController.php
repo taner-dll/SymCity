@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\AdCategory;
 use App\Entity\Advert;
 use App\Entity\Announce;
+use App\Entity\Article;
 use App\Entity\Business;
 use App\Entity\Event;
 use App\Entity\FeedBack;
@@ -47,6 +48,9 @@ class AppController extends AbstractController
             $businesses = $em->getRepository(Business::class)
                 ->findBy(array('confirm' => 0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
 
+            $articles = $em->getRepository(Article::class)
+                ->findBy(array('confirm' => 0), array('last_update' => 'DESC', 'confirm' => 'ASC'));
+
             $users = $em->getRepository(User::class)->findAll();
 
             $feedbacks = $em->getRepository(FeedBack::class)
@@ -58,7 +62,8 @@ class AppController extends AbstractController
                 'announces' => $announces,
                 'businesses' => $businesses,
                 'users' => $users,
-                'feedbacks' => $feedbacks
+                'feedbacks' => $feedbacks,
+                'articles'=>$articles
             ]);
 
         }

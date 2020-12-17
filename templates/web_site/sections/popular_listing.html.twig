@@ -40,78 +40,39 @@
 
                     {% endfor %}
 
-
                 </div>
 
 
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <div class="right-bar">
-                    <h4><span>Yazar</span> Köşesi</h4>
+                    <h4 style="padding-bottom: 10px">Son Eklenen <span>Yazılar</span></h4>
 
-                    <div class="places-list">
-                        <h5><a href="#">Four Seasons Hotel</a></h5>
-                        <p> 57 East 57th Street, New York 10022</p>
-                        <div class="media">
-                            <div class="media-left">
-                                <a href="#">
-                                    <img class="media-object" src="images/footer-latest-1.jpg" alt="image">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h6 class="media-heading"><i class="fa fa-glass" aria-hidden="true"></i> Restaurant</h6>
-                                <img src="images/stars.png">
+                    {% for a in articles %}
+                        <div class="places-list">
+                            <div class="media">
+                                <div class="media-heading">
+                                    <h5>{{ a.authorName }}:</h5>
+                                </div>
+                                <div class="media-left">
+                                        <img class="img-circle"
+                                             style="max-width: 64px; max-height: 64px;"
+                                             src="{{ asset('uploads/user/picture/') }}{{ a.user.picture }}" alt="image">
+                                </div>
+                                <div class="media-right">
+                                    <a href="#" style="text-decoration: underline">
+                                        {{ a.title }} &raquo;
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endfor %}
 
-                    <div class="places-list">
-                        <h5><a href="#">Real Estate</a></h5>
-                        <p> 57 East 57th Street, New York 10022</p>
-                        <div class="media">
-                            <div class="media-left">
-                                <a href="#">
-                                    <img class="media-object" src="images/footer-latest-2.jpg" alt="image">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h6 class="media-heading"><i class="fa fa-glass" aria-hidden="true"></i> Real Estate</h6>
-                                <img src="images/stars.png" alt="image">
-                            </div>
-                        </div>
-                    </div>
+                    <hr>
 
-                    <div class="places-list">
-                        <h5><a href="#">Beauty &amp; Spa</a></h5>
-                        <p> 57 East 57th Street, New York 10022</p>
-                        <div class="media">
-                            <div class="media-left">
-                                <a href="#">
-                                    <img class="media-object" src="images/footer-latest-3.jpg" alt="image">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h6 class="media-heading"><i class="fa fa-glass" aria-hidden="true"></i> Beauty &amp; Spa</h6>
-                                <img src="images/stars.png" alt="image">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="places-list">
-                        <h5><a href="#">Shoping</a></h5>
-                        <p> 57 East 57th Street, New York 10022</p>
-                        <div class="media">
-                            <div class="media-left">
-                                <a href="#">
-                                    <img class="media-object" src="images/footer-latest-4.jpg" alt="image">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h6 class="media-heading"><i class="fa fa-glass" aria-hidden="true"></i> Shoping</h6>
-                                <img src="images/stars.png" alt="image">
-                            </div>
-                        </div>
-                    </div>
+                    <a href="{{ path('articles')}}" class="btn-block flat-butt flat-primary-butt" style="color: #FFFFFF;text-align: center">
+                        Tüm Yazılar
+                    </a>
 
                 </div>
 
