@@ -51,7 +51,8 @@
                         <div class="box-footer">
                             {#<a class="btn btn-primary" style="margin-right: 10px;" href="{{ path('article_index') }}">
                                 Liste</a>#}
-                            <button class="btn btn-success">{{ button_label|default('Kaydet ve Onaya Gönder') }}</button>
+                            <button type="button" id="new_article_submit_btn"
+                                    class="btn btn-success">{{ button_label|default('Kaydet ve Onaya Gönder') }}</button>
         
                         </div>
 

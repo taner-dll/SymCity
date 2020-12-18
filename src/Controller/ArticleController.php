@@ -52,6 +52,7 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
             $entityManager = $this->getDoctrine()->getManager();
 
             $article->setCreatedAt(new \DateTime('now'));

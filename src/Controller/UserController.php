@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\User;
 use App\Traits\File;
 use App\Traits\Util;
@@ -40,6 +41,15 @@ class UserController extends AbstractController
         $user->setGender($request->request->get('gender'));
         $user->setGsm($request->request->get('gsm'));
         $em->flush();
+
+
+        //kullanıcıya ait yazılar varsa, yazar adını da güncelle.
+        $articles = $em->getRepository(Article::class)->findBy(['user'=>$this->getUser()]);
+        foreach ($articles as $value){
+            $value->setAuthorName($request->request->get('firstname').' '.$request->request->get('lastname'));
+        }
+        $em->flush();
+
         //$this->addFlash('success', 'Bilgileriniz başarılı bir şekilde güncellendi');
         //return $this->redirect($this->generateUrl('app_dashboard'));
         return new JsonResponse('user info has been successfully updated', Response::HTTP_OK);

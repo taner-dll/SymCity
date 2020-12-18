@@ -1,0 +1,76 @@
+{% extends 'web_site/base.html.twig' %}
+
+{% block title %}{{ article_detail.title|title }}{% endblock %}
+
+{% block body %}
+
+    <!-- Blog -->
+    <section class="p_t30 bg_lightgry" id="blog">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="right-bar bg_white">
+                        <a href="javascript:history.back()"><i class="fa fa-caret-left"></i> Geri Dön</a>
+                    </div>
+
+                    <div class="right-bar bg_white">
+                        <div class="places-list">
+                            <div class="media">
+                                <div class="media-heading">
+                                    <h4>{{ article_detail.authorName}}</h4>
+                                </div>
+                                <div class="media-left">
+                                    <img class="img-circle"
+                                         style="max-width: 200px; max-height: 200px;"
+                                         src="{{ asset('uploads/user/picture/') }}{{ article_detail.user.picture }}" alt="image">
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr>
+
+                        <a href="{{ path('articles', {author:'1'})}}" class="btn-block flat-butt flat-primary-butt" style="color: #FFFFFF;text-align: center">
+                            Tüm Yazılarını Göster
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="col-md-9 col-sm-9 col-xs-12">
+
+                    <div class="blog heading">
+
+                        <h2>{{ article_detail.title|title }}</h2>
+
+                        
+                        <div class="blog-detail">
+
+                            <ul class="blog-admin">
+                                <li><i class="fa fa-user"></i>{{ 'business_detail.posted_by'|trans({}, 'business') }}:
+                                    <a href="#"> {{ article_detail.authorName}}</a>
+                                </li>
+                                <li><i class="fa fa-clock-o"></i>
+                                    {{ 'business_detail.last_update'|trans({}, 'business') }}:
+                                    <a href="#"> {{ article_detail.lastUpdate|date('d/m/Y') }}</a>
+                                </li>
+                            </ul>
+
+                            {{ article_detail.article|raw }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </section>
+    <!-- Blog -->
+
+{% endblock %}

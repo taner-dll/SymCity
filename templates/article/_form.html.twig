@@ -1,6 +1,6 @@
 {% form_theme form 'form/fields.html.twig' %}
 <div class="box-body">
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'id': 'article_form'}}) }}
     <div class="col-md-8">
         <div class="form-group">
             {{ form_label(form.title, 'Yazı Başlığı') }}
@@ -8,8 +8,29 @@
         </div>
         <div class="form-group">
             {{ form_label(form.author_name, 'Yazarın Sayfada Görünecek Adı ve Soyadı') }}
-            
-            {{ form_widget(form.author_name) }}
+
+
+            {% set last_name = null %}
+            {% set first_name = null %}
+            {% set full_name = null %}
+
+
+            {# kontrol amaçlı bir mantık, çok da önemli değil, değiştirilebilir #}
+            {% if app.user.firstname is not null %}
+                {% if app.user.firstname|length > 2 %}
+                    {% set full_name  = app.user.firstname %}
+                    {% if app.user.lastname|length > 1 %}
+                        {% set full_name = full_name ~ " " ~ app.user.lastname %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+            {% if full_name|length < 5 %}
+                {% set full_name = null %}
+            {% endif %}
+
+
+            {{ form_widget(form.author_name, {'value' : full_name  }) }}
 
         </div>
 

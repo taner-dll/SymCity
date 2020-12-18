@@ -59,7 +59,7 @@ class WebSiteController extends AbstractController
     /**
      * @Route({
      *     "en": "/articles",
-     *     "tr": "/yazilar"
+     *     "tr": "/kose-yazilari"
      * }, name="articles",  methods={"GET"})
      * @param Request $request
      * @param PaginatorInterface $paginator
@@ -68,7 +68,9 @@ class WebSiteController extends AbstractController
     public function articles(Request $request, PaginatorInterface $paginator){
 
         $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository(Article::class)->findBy(['confirm'=>1],['id'=>'DESC']);
+        //$articles = $em->getRepository(Article::class)->findBy(['confirm'=>1],['id'=>'DESC']);
+
+        $articles = $em->getRepository(Article::class)->articleFilter($request);
 
         $articles = $paginator->paginate(
             $articles,
@@ -78,6 +80,26 @@ class WebSiteController extends AbstractController
         return $this->render('web_site/pages/articles.html.twig', [
             'articles'=>$articles
         ]);
+    }
+
+    /**
+     * @Route({
+     *     "en": "/articles/{id}",
+     *     "tr": "/kose-yazilari/{id}"
+     * }, name="article_detail",  methods={"GET"})
+     * @param $id
+     * @return Response
+     */
+    public function article_detail($id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $article_detail = $em->getRepository(Article::class)->findOneBy(
+            array('confirm' => 1, 'id' => $id));
+
+        return $this->render('web_site/pages/article_detail.html.twig', [
+            'article_detail' => $article_detail,
+        ]);
+
     }
 
 

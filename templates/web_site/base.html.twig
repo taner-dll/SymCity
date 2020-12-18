@@ -2,20 +2,29 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
-    <meta name="description" lang="tr" content="Gezilecek Yerler, Tarihi Mekanlar, Sahil ve Plajlar, Turlar, Etkinlikler, Mekanlar ve dahası..."/>
+
     <title>
          {% block title %}{% endblock %} | Edremit Körfezi
     </title>
+
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+
+    <meta name="thumbnail_height" content="100" />
+    <meta name="thumbnail_width" content="100" />
+
+    <link rel="thumbnail" type="image/jpeg" href="{{ asset('build/img/front_end/logo.png') }}" />
+    <link rel="image_src" type="image/jpeg" href="{{ asset('build/img/front_end/logo.png') }}" />
+
+    {% block metaTags %}{% endblock %}
+
 
     <link href="http://127.0.0.1/edremitkorfezi.com/assets/css/front_end/master.css" rel="stylesheet" type="text/css">
     <link href="http://127.0.0.1/edremitkorfezi.com/assets/css/front_end/color-green.css" rel="stylesheet" type="text/css">
 
 
-    <link
-            href="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/short_icon.png" rel="shortcut icon">
+    <link href="http://127.0.0.1/edremitkorfezi.com/assets/img/front_end/short_icon.png" rel="shortcut icon">
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
