@@ -65,8 +65,14 @@
                                     </div>
                                     <div class="box-footer {#no-padding#}">
                                         <ul class="nav nav-stacked">
+                                            <li><a href="{{ path('business_index') }}">İş Yeri / Hizmetlerim
+                                                    <span class="pull-right badge bg-red">{{ app.user.businesses.count }}</span></a>
+                                            </li>
                                             <li><a href="{{ path('advert_index') }}">İlanlarım
                                                     <span class="pull-right badge bg-blue">{{ app.user.adverts.count }}</span></a>
+                                            </li>
+                                            <li><a href="{{ path('article_index') }}">Yazılarım
+                                                    <span class="pull-right badge bg-purple">{{ app.user.articles.count }}</span></a>
                                             </li>
                                             <li><a href="{{ path('announce_index') }}">Duyurularım
                                                     <span class="pull-right badge bg-aqua">{{ app.user.announce.count }}</span></a>
@@ -74,9 +80,7 @@
                                             <li><a href="{{ path('event_index') }}">Etkinliklerim
                                                     <span class="pull-right badge bg-green">{{ app.user.event.count }}</span></a>
                                             </li>
-                                            <li><a href="{{ path('business_index') }}">İş Yeri / Hizmetlerim
-                                                    <span class="pull-right badge bg-red">{{ app.user.businesses.count }}</span></a>
-                                            </li>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -96,8 +100,7 @@
                                         <span id="username_text">{{ app.user.username }}</span>
 
                                         <p class="text-muted">
-                                            Sayfalarda görünen "herkese açık" adınızdır. Gerçek ad ve soyadınız
-                                            gizlidir.
+                                            Sayfalarda görünen kullanıcı adınızdır.
                                         </p>
 
                                         <hr>

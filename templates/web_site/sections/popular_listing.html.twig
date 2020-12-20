@@ -52,7 +52,7 @@
                         <div class="places-list">
                             <div class="media">
                                 <div class="media-heading">
-                                    <h5>{{ a.authorName }}:</h5>
+                                    <h5><a href="{{ path('articles', {'author':a.user.id}) }}">{{ a.authorName }}</a></h5>
                                 </div>
                                 <div class="media-left">
                                         <img class="img-circle"
@@ -60,7 +60,7 @@
                                              src="{{ asset('uploads/user/picture/') }}{{ a.user.picture }}" alt="image">
                                 </div>
                                 <div class="media-right">
-                                    <a href="#" style="text-decoration: underline">
+                                    <a href="{{ path('article_detail', {id:a.id}) }}" style="text-decoration: underline">
                                         {{ a.title }} &raquo;
                                     </a>
                                 </div>

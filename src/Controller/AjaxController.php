@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\AdCategory;
 use App\Entity\AdSubCategory;
+use App\Entity\Article;
 use App\Entity\BusinessCategory;
 use App\Entity\FeedBack;
 use App\Entity\Place;
@@ -32,27 +33,42 @@ class AjaxController extends AbstractController
      */
     public function ajaxSendFeedBack(Request $request): JsonResponse
     {
-
         $em = $this->getDoctrine()->getManager();
-
         $subject = $request->request->get('subject');
         $message = $request->request->get('message');
-
         $feedback = new FeedBack();
         $feedback->setTopic($subject);
         $feedback->setMessage($message);
         $feedback->setStatus(false);
         $feedback->setCreatedAt(new \DateTime('now'));
         $feedback->setUser($this->getUser());
-
-
         $em->persist($feedback);
         $em->flush();
-
         return new JsonResponse('feedback has been successfully sent', Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/ajax-read-article", name="ajax_read_article", methods={"POST"}, options={"expose"=true})
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function ajaxReadArticle(Request $request): JsonResponse
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $article_id = $request->request->get('article_id');
+        $article = $em->getRepository(Article::class)->find($article_id);
+        $article->setTotalViews($article->getTotalViews()+1);
+
+        $em->flush();
+
+        return new JsonResponse('article view count has been successfully increased', Response::HTTP_OK);
 
 
     }
+    
 
     /**
      * @Route("/get-place-neighborhoods", name="ajax_get_place_neighborhoods", methods={"GET"}, options={"expose"=true})

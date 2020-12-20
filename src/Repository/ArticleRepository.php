@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,8 @@ class ArticleRepository extends ServiceEntityRepository
     public function articleFilter(Request $request)
     {
 
+        $em = $this->getEntityManager();
+
         $qb = $this->createQueryBuilder('a')
             ->select('a')
             ->where('a.confirm = :confirm')
@@ -31,6 +34,11 @@ class ArticleRepository extends ServiceEntityRepository
         if ($request->query->get('title')):
             $qb->andWhere($qb->expr()->like('a.title', ':title'))
                 ->setParameter('title', '%' . $request->query->get('title') . '%');
+        endif;
+
+        if ($request->query->get('author')):
+            $qb->andWhere('a.user = :user')
+                ->setParameter('user', $request->query->get('author'));
         endif;
 
         return $qb->getQuery()->execute();

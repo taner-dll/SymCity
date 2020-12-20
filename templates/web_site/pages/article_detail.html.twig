@@ -2,6 +2,13 @@
 
 {% block title %}{{ article_detail.title|title }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('article_detail') }}
+    <link rel="stylesheet" href="https://unpkg.com/applause-button/dist/applause-button.css">
+{% endblock %}
+
+
 {% block body %}
 
     <!-- Blog -->
@@ -31,7 +38,7 @@
                         </div>
                         <hr>
 
-                        <a href="{{ path('articles', {author:'1'})}}" class="btn-block flat-butt flat-primary-butt" style="color: #FFFFFF;text-align: center">
+                        <a href="{{ path('articles', {author:article_detail.user.id})}}" class="btn-block flat-butt flat-primary-butt" style="color: #FFFFFF;text-align: center">
                             Tüm Yazılarını Göster
                         </a>
                     </div>
@@ -44,22 +51,46 @@
 
                         <h2>{{ article_detail.title|title }}</h2>
 
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="sharethis-inline-share-buttons"></div>
+
+                            </div>
+                        </div>
+
                         
                         <div class="blog-detail">
 
                             <ul class="blog-admin">
-                                <li><i class="fa fa-user"></i>{{ 'business_detail.posted_by'|trans({}, 'business') }}:
+                                <li><i class="fa fa-user"></i>{{ 'articles.detail.posted_by'|trans({}, 'article') }}:
                                     <a href="#"> {{ article_detail.authorName}}</a>
                                 </li>
                                 <li><i class="fa fa-clock-o"></i>
-                                    {{ 'business_detail.last_update'|trans({}, 'business') }}:
+                                    {{ 'articles.detail.last_update'|trans({}, 'article') }}:
                                     <a href="#"> {{ article_detail.lastUpdate|date('d/m/Y') }}</a>
+                                </li>
+                                <li><i class="fa fa-eye"></i>
+                                    {{ 'articles.detail.view'|trans({}, 'article') }}:
+                                    <a href="#"> {{ article_detail.totalViews }}</a>
                                 </li>
                             </ul>
 
                             {{ article_detail.article|raw }}
-
+                            <input type="hidden" id="article_text_count" value="{{ article_detail.article|striptags|trim }}" />
+                            <input type="hidden" id="article_id" value="{{ article_detail.id }}" />
                         </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <applause-button style="width: 58px; height: 58px;margin-top: 20px;" />
+
+                            </div>
+                        </div>
+
 
                     </div>
 
@@ -73,4 +104,11 @@
     </section>
     <!-- Blog -->
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('article_detail') }}
+    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5fdef44c035860001143952d&product=inline-share-buttons" async="async"></script>
+    <script type="text/javascript" src="https://unpkg.com/applause-button/dist/applause-button.js" async="async"></script>
 {% endblock %}

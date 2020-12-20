@@ -4,3 +4,9 @@ articles:
   search:
     article_title: Yazı Başlığında Ara
     button: Ara
+
+
+  detail:
+    view: Okunma
+    posted_by: Ekleyen
+    last_update: Son Güncelleme
