@@ -1,80 +1,41 @@
-<li class="dropdown megamenu-fw">
+{#<li class="dropdown megamenu-fw">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gezi Rehberi</a>
     <ul class="dropdown-menu megamenu-content" role="menu">
         <li>
             <div class="row">
 
-                <div class="col-menu col-md-3">
-                    <h6 class="title">Doğa</h6>
-                    <div class="content">
-                        <ul class="menu-col">
+                {% for p in ptv_category %}
 
-                            {% for p in ptv %}
-                                {% if p.type == 'nature' %}
-                                    <li><a href="{{ path('ptv_page',{slug:p.slug,city:city,district:p.place.slug}) }}">
-                                            {{ p.name }} ({{ p.place.name }})
-                                        </a></li>
-                                {% endif %}
-                            {% endfor %}
+                    <div class="col-menu col-md-3">
 
 
-                        </ul>
-                    </div>
-                </div>
+                        <a href="#">
+                            {{ ('header_menu.'~p.shortName)|trans({},'travel_guide' ) }}
+                        </a>
 
 
-                <div class="col-menu col-md-3">
-                    <h6 class="title">Manzara</h6>
-                    <div class="content">
-                        <ul class="menu-col">
-
-                            {% for p in ptv %}
-                                {% if p.type == 'nature' %}
-                                    <li><a href="{{ path('ptv_page',{slug:p.slug,city:city,district:p.place.slug}) }}">
-                                            {{ p.name }} ({{ p.place.name }})
-                                        </a></li>
-                                {% endif %}
-                            {% endfor %}
-
-
-                        </ul>
-                    </div>
-                </div>
-
-
-
-                <div class="col-menu col-md-3">
-                    <h6 class="title">Plajlar</h6>
-                    <div class="content">
-                        <ul class="menu-col">
-
-                        </ul>
                     </div>
 
-                    <h6 class="title">Sahiller</h6>
-                    <div class="content">
-                        <ul class="menu-col">
-
-                        </ul>
-                    </div>
-                </div>
-
-
-
-
-                <div class="col-menu col-md-3">
-                    <h6 class="title">Piknik Alanları</h6>
-                    <div class="content">
-                        <ul class="menu-col">
-
-                        </ul>
-                    </div>
-                </div>
+                {% endfor %}
 
 
             </div>
 
 
         </li>
+    </ul>
+</li>#}
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gezi Rehberi</a>
+    <ul class="dropdown-menu">
+        {#{{ dump(ptv_category) }}#}
+        {% for p in ptv_category %}
+            <li>
+                <a href="#">
+                    {{ ('header_menu.'~p.short_name)|trans({},'travel_guide' ) }} ({{ p.count }})
+                </a>
+            </li>
+        {% endfor %}
     </ul>
 </li>

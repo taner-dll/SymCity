@@ -10,6 +10,7 @@ use App\Entity\Business;
 use App\Entity\BusinessCategory;
 use App\Entity\Event;
 use App\Entity\Place;
+use App\Entity\PTVCategory;
 use App\Traits\Util;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class WebSiteController extends AbstractController
 {
     use Util;
-
     /**
      * Ana Sayfa
      * @Route("/", name="index")
@@ -30,6 +30,8 @@ class WebSiteController extends AbstractController
     public function index(): Response
     {
         $em = $this->getDoctrine()->getManager();
+
+
 
         //yayındaki işletmeler
         $business = $em->getRepository(Business::class)
@@ -103,8 +105,6 @@ class WebSiteController extends AbstractController
     }
 
 
-
-
     /**
      * Ücretsiz Ekle
      * @Route({
@@ -119,17 +119,7 @@ class WebSiteController extends AbstractController
     }
 
 
-    /**
-     * Gezi Rehberi
-     * @Route("/travel-guide-embedded-menu", name="travel_guide_embedded_menu")
-     * header embedded controller
-     */
-    public function travelGuideEmbeddedMenu(): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $ptv = $em->getRepository(PlacesToVisit::class)->findBy(array(), array('place' => 'ASC'));
-        return $this->render('web_site/embedded_controller/travel_guide_embedded_menu.html.twig', ['ptv' => $ptv]);
-    }
+
 
     /**
      * Gezilecek Yer - Detay Sayfası
@@ -406,13 +396,12 @@ class WebSiteController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function advertMenu(TranslatorInterface $translator, Request $request): Response
+    public function advertEmbeddedMenu(TranslatorInterface $translator, Request $request): Response
     {
 
         //$request->setLocale('en');
         $em = $this->getDoctrine()->getManager();
         $ad_categories = $em->getRepository(AdCategory::class)->findBy(array('active' => 1), array('sort' => 'ASC'));
-
 
         $ad_cats = [];
 
@@ -431,18 +420,33 @@ class WebSiteController extends AbstractController
             }
         }
 
-        //dump($ad_cats);exit;
-
-        //dump($request->getLocale());exit;
-
-
         return $this->render('web_site/embedded_controller/advert_menu.html.twig',
             ['ad_categories' => $ad_cats]);
     }
 
+    /**
+     * Gezi Rehberi
+     * @Route("/travel-guide-embedded-menu", name="travel_guide_embedded_menu")
+     * header embedded controller
+     */
+    public function travelGuideEmbeddedMenu(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ptv_category = $em->getRepository(PTVCategory::class)->findBy([],['sort'=>'ASC']);
+
+        $cat = [];
+        foreach ($ptv_category as $key => $value){
+
+            $ptv = $em->getRepository(PlacesToVisit::class)->count(['type'=>$value->getShortName()]);
+
+            $cat[$key]['short_name'] = $value->getShortName();
+            $cat[$key]['count']=$ptv;
 
 
+        }
 
+        return $this->render('web_site/embedded_controller/travel_guide_embedded_menu.html.twig', ['ptv_category' => $cat]);
+    }
 
 
 }
