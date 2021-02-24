@@ -1,0 +1,132 @@
+{% extends 'web_site/base.html.twig' %}
+
+{% block title %}{{ 'articles.header'|trans({}, 'article') }}{% endblock %}
+
+{% block metaTags %}
+    <meta name="description" lang="tr" content="Edremit Körfezi - Tüm Köşe Yazıları"/>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:site_name" content="www.edremitkorfezi.com" />
+    <meta property="og:title" content="Edremit Körfezi - Köşe Yazarları" />
+    <meta property="og:description" content="Edremit körfezi yazarlarının güncel yazılarını, köşe yazarları sayfasından okuyabilirsiniz." />
+    <meta property="og:image" content="{{ asset('build/img/front_end/logo.png') }}" />
+    <meta property="og:url" content="https://www.edremitkorfezi.com/kose-yazilari" />
+    <meta property="og:type" content="article" />
+    <meta property="og:article:tag" content="Edremit Körfezi - Köşe Yazarları" />
+    <meta property="og:article:author" content="Edremit Körfezi" />
+    <meta property="og:locale" content="tr_TR" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@edremitkorfezi" />
+    <meta name="twitter:creator" content="@edremitkorfezi" />
+    <meta name="twitter:url" content="https://www.edremitkorfezi.com/kose-yazilari" />
+    <meta name="twitter:title" content="Edremit Körfezi - Köşe Yazarları" />
+    <meta name="twitter:description" content="Edremit körfezi yazarlarının güncel yazılarını, köşe yazarları sayfasından okuyabilirsiniz." />
+    <meta name="twitter:image:src" content="{{ asset('build/img/front_end/logo.png') }}" />
+    <meta name="twitter:domain" content="edremitkorfezi.com" />
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {#{{ encore_entry_link_tags('business_guide') }}#}
+{% endblock %}
+
+
+{% block body %}
+
+
+    <section id="inner-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="inner_banner_detail">
+
+                        <h2>Gezi Rehberi / {{ 'header_menu.'~short_name|trans({}, 'travel_guide') }}</h2>
+
+                            {% if app.request.get('name') is not null %}
+                                <span style="font-size: 16px">
+                                    {% if articles|length > 0 %}
+                                        &nbsp;(Arama sonuçlarına göre,
+                                        toplam <b>{{ articles|length }}</b> kayıt listelendi)
+                                    {% endif %}
+                                </span>
+                            {% endif %}
+
+                        </h2>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="popular-listing" class="p_b30 p_t30">
+        <div class="container">
+            <div class="row">
+
+
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            {# @var ptv \App\Entity\PlacesToVisit  #}
+                            {% for ptv in places_to_visit %}
+                                <div class="popular-listing-box">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="popular-listing-detail">
+                                                <h3>
+                                                    <a style="text-decoration: underline"
+                                                       href="{{ path('article_detail', {id:ptv.id}) }}">
+                                                        {{ ptv.name|title }}
+                                                    </a>
+                                                </h3>
+                                                <p>{{ (ptv.about|striptags)[:100] }}&hellip;</p>
+                                            </div>
+                                            <div class="popular-listing-add">
+
+
+                                                <span class="pull-right">
+                                                    <a href="{{ path('article_detail', {id:ptv.id}) }}"
+                                                       class="btn btn-default btn-xs">Göster</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            {# display navigation #}
+                            <div class="navigation">
+                                {{ knp_pagination_render(places_to_visit) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    {{ encore_entry_script_tags('business_guide') }}
+
+
+
+{% endblock %}
