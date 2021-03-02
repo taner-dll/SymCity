@@ -123,52 +123,50 @@ class WebSiteController extends AbstractController
      * @Route({
      *     "en": "/travel-guide/{category}",
      *     "tr": "/gezi-rehberi/{category}"
-     * }, name="travel_guide",  methods={"GET"})
+     * }, name="ptv",  methods={"GET"})
      * @param Request $request
      * @param $category
      * @param PaginatorInterface $paginator
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function travel_guide(Request $request, $category,
+    public function placesToVisit(Request $request, $category = null,
                                  PaginatorInterface $paginator, TranslatorInterface $translator): Response
     {
-
         $id = null;
+        $shortName = null;//nature vs.
         $em = $this->getDoctrine()->getManager();
-        //var_dump($category);
-
 
         #kategori translated olarak geldiği için id'sini bulalım
-
         //tum ptv kategorileriri getir
         $ptvCats = $em->getRepository(PTVCategory::class)->findAll();
 
         //ptv shortname'sini translate et ve categori ile eşleştirerek id'sini bul
         foreach ($ptvCats as $item => $value){
-            $slug = $this->slugify($translator->trans('header_menu.'.$value->getShortName(),[],'travel_guide'));
+            $slug = $this->slugify($translator->trans('header_menu.'.$value->getShortName(),[],'ptv'));
             if ($slug === $category){
                 $id = $value->getId();
+                $shortName = $value->getShortName();
             }
-            $shortName = $value->getShortName();
         }
 
+        $params = [
+            'type'=>$shortName,
+            'name'=>$request->query->get('title'),
+            'place'=>$em->getRepository(Place::class)->findOneBy(array('slug'=>$request->query->get('place')))
+        ];
 
-
-
-        $placesToVisit = $em->getRepository(PlacesToVisit::class)->findBy(array(
-            'pTVCategory'=>$id
-        ));
-
-
+        $placesToVisit = $em->getRepository(PlacesToVisit::class)->ptvFilter($params);
 
         $placesToVisit = $paginator->paginate(
             $placesToVisit,
             $request->query->getInt('page', 1), 5
         );
 
-        return $this->render('web_site/pages/places_to_visit.html.twig', [
+        return $this->render('web_site/pages/ptv.html.twig', [
             'places_to_visit' => $placesToVisit,
-            'short_name'=>$shortName
+            'short_name'=>$shortName,
+            'places' => $em->getRepository(Place::class)->getDistricts()
         ]);
     }
 
@@ -178,17 +176,46 @@ class WebSiteController extends AbstractController
      * @Route({
      *     "en": "{city}/places-to-visit/{district}/{slug}",
      *     "tr": "{city}/gezilecek-yerler/{district}/{slug}"
-     * }, name="ptv_page",  methods={"GET"})
+     * }, name="ptv_detail",  methods={"GET"})
      * @param $slug
      * @return Response
      */
-    public function ptv_page($slug): Response
+    public function placesToVisitDetail($slug): Response
     {
         $em = $this->getDoctrine()->getManager();
         $ptv = $em->getRepository(PlacesToVisit::class)->findOneBy(array('slug' => $slug));
-        return $this->render('web_site/pages/ptv.html.twig', [
+        return $this->render('ptv_detail.html.twig', [
             'ptv' => $ptv,
         ]);
+    }
+
+    /**
+     * Gezi Rehberi
+     * @Route("/ptv-embedded-menu", name="ptv_embedded_menu")
+     * header embedded controller
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function ptvEmbeddedMenu(TranslatorInterface $translator): Response
+    {
+
+
+        $em = $this->getDoctrine()->getManager();
+        $ptv_category = $em->getRepository(PTVCategory::class)->findBy([],['sort'=>'ASC']);
+
+        $cat = [];
+        foreach ($ptv_category as $key => $value){
+
+            $ptv = $em->getRepository(PlacesToVisit::class)->count(['type'=>$value->getShortName()]);
+
+            $cat[$key]['short_name'] = $translator->trans('header_menu.'.$value->getShortName(), [], 'ptv');
+            $cat[$key]['count']=$ptv;
+            $cat[$key]['slug']=$this->slugify($translator->trans('header_menu.'.$value->getShortName(), [], 'ptv'));
+
+
+        }
+
+        return $this->render('web_site/embedded_controller/ptv_embedded_menu.html.twig', ['ptv_category' => $cat]);
     }
 
 
@@ -483,34 +510,7 @@ class WebSiteController extends AbstractController
             ['ad_categories' => $ad_cats]);
     }
 
-    /**
-     * Gezi Rehberi
-     * @Route("/travel-guide-embedded-menu", name="travel_guide_embedded_menu")
-     * header embedded controller
-     * @param TranslatorInterface $translator
-     * @return Response
-     */
-    public function travelGuideEmbeddedMenu(TranslatorInterface $translator): Response
-    {
 
-
-        $em = $this->getDoctrine()->getManager();
-        $ptv_category = $em->getRepository(PTVCategory::class)->findBy([],['sort'=>'ASC']);
-
-        $cat = [];
-        foreach ($ptv_category as $key => $value){
-
-            $ptv = $em->getRepository(PlacesToVisit::class)->count(['type'=>$value->getShortName()]);
-
-            $cat[$key]['short_name'] = $translator->trans('header_menu.'.$value->getShortName(), [], 'travel_guide');
-            $cat[$key]['count']=$ptv;
-            $cat[$key]['slug']=$this->slugify($translator->trans('header_menu.'.$value->getShortName(), [], 'travel_guide'));
-
-
-        }
-
-        return $this->render('web_site/embedded_controller/travel_guide_embedded_menu.html.twig', ['ptv_category' => $cat]);
-    }
 
 
 }

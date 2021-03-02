@@ -25,12 +25,13 @@
     <meta name="twitter:description" content="Edremit körfezi yazarlarının güncel yazılarını, köşe yazarları sayfasından okuyabilirsiniz." />
     <meta name="twitter:image:src" content="{{ asset('build/img/front_end/logo.png') }}" />
     <meta name="twitter:domain" content="edremitkorfezi.com" />
+    <!-- TODO meta etiketleri ptv için düzenle  -->
 
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {#{{ encore_entry_link_tags('business_guide') }}#}
+    {{ encore_entry_link_tags('ptv') }}
 {% endblock %}
 
 
@@ -43,7 +44,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="inner_banner_detail">
 
-                        <h2>Gezi Rehberi / {{ 'header_menu.'~short_name|trans({}, 'travel_guide') }}</h2>
+                        <h2>Gezi Rehberi / {{ ('header_menu.'~short_name)|trans({}, 'ptv') }}</h2>
 
                             {% if app.request.get('name') is not null %}
                                 <span style="font-size: 16px">
@@ -67,8 +68,6 @@
     <section id="popular-listing" class="p_b30 p_t30">
         <div class="container">
             <div class="row">
-
-
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <div class="row">
                         <div class="col-md-12">
@@ -89,6 +88,10 @@
                                             </div>
                                             <div class="popular-listing-add">
 
+
+                                                <span><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                    {{ ptv.place.name }}
+                                                </span>
 
                                                 <span class="pull-right">
                                                     <a href="{{ path('article_detail', {id:ptv.id}) }}"
@@ -113,6 +116,60 @@
 
                 </div>
 
+                <div class="col-md-3 col-sm-3 col-xs-12 listing-rightbar">
+                    <div class="right-bar bg_white">
+                        <h4>{{ 'business_guide.advanced'|trans({}, 'business') }}
+                            <span>{{ 'ptv.searching'|trans({}, 'ptv') }}</span></h4>
+                        <form class="form-right" method="get"
+                              action="{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}">
+
+
+                            <div class="form-group">
+                                <label for="name">{{ 'ptv.search'|trans({}, 'ptv') }}</label>
+
+                                {% set title = "" %}
+                                {% if app.request.get('title') is not null %}
+                                    {% set title = app.request.get('title') %}
+                                {% endif %}
+
+                                <label for="name"></label>
+                                <input class="form-control" id="title" minlength="3"
+                                       name="title" value="{{ title }}" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="place">{{ 'ptv.place'|trans({}, 'ptv') }}</label><br>
+                                <select name="place" id="place" class="form-control">
+                                    <option value=""></option>
+                                    {% for p in places %}
+                                        <option
+                                                {% set selected = '' %}
+                                                {% if p.slug == app.request.get('place') %}
+                                                    {% set selected = 'selected' %}
+
+                                                {% endif %}
+
+                                                {{ selected }}
+
+                                                value="{{ p.slug }}">{{ p.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <button type="submit">{{ 'articles.search.button'|trans({}, 'article') }}</button>
+                            </div>
+
+                        </form>
+
+                        <a href="{{ path('ptv') }}" class="btn btn-default">
+                            Aramayı Sıfırla
+                        </a>
+                    </div>
+                </div>
+
 
             </div>
         </div>
@@ -123,10 +180,6 @@
 {% endblock %}
 
 {% block javascripts %}
-
     {{ parent() }}
-    {{ encore_entry_script_tags('business_guide') }}
-
-
-
+    {{ encore_entry_script_tags('ptv') }}
 {% endblock %}

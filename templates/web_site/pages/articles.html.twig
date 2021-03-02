@@ -66,43 +66,6 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-md-3 col-sm-3 col-xs-12 listing-rightbar">
-
-                    <div class="right-bar bg_white">
-                        <h4>{{ 'business_guide.advanced'|trans({}, 'business') }}
-                            <span>{{ 'business_guide.searching'|trans({}, 'business') }}</span></h4>
-                        <form class="form-right" method="get"
-                              action="{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}">
-
-
-                            <div class="form-group">
-                                <label for="name">{{ 'articles.search.article_title'|trans({}, 'article') }}</label>
-
-                                {% set title = "" %}
-                                {% if app.request.get('title') is not null %}
-                                    {% set title = app.request.get('title') %}
-                                {% endif %}
-
-                                <label for="name"></label>
-                                <input class="form-control" id="title" minlength="3"
-                                       name="title" value="{{ title }}" type="text">
-                            </div>
-
-
-                            <div class="form-group">
-                                <button type="submit">{{ 'articles.search.button'|trans({}, 'article') }}</button>
-                            </div>
-
-                        </form>
-
-                        <a href="{{ path('articles') }}" class="btn btn-default">
-                            Aramayı Sıfırla
-                        </a>
-                    </div>
-
-
-                </div>
-
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <div class="row">
                         <div class="col-md-12">
@@ -148,6 +111,42 @@
 
                 </div>
 
+                <div class="col-md-3 col-sm-3 col-xs-12 listing-rightbar">
+
+                    <div class="right-bar bg_white">
+                        <h4>{{ 'business_guide.advanced'|trans({}, 'business') }}
+                            <span>{{ 'business_guide.searching'|trans({}, 'business') }}</span></h4>
+                        <form class="form-right" method="get"
+                              action="{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}">
+
+
+                            <div class="form-group">
+                                <label for="name">{{ 'articles.search.article_title'|trans({}, 'article') }}</label>
+
+                                {% set title = "" %}
+                                {% if app.request.get('title') is not null %}
+                                    {% set title = app.request.get('title') %}
+                                {% endif %}
+
+                                <label for="name"></label>
+                                <input class="form-control" id="title" minlength="3"
+                                       name="title" value="{{ title }}" type="text">
+                            </div>
+
+
+                            <div class="form-group">
+                                <button type="submit">{{ 'articles.search.button'|trans({}, 'article') }}</button>
+                            </div>
+
+                        </form>
+
+                        <a href="{{ path('articles') }}" class="btn btn-default">
+                            Aramayı Sıfırla
+                        </a>
+                    </div>
+
+
+                </div>
 
             </div>
         </div>

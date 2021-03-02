@@ -34,7 +34,7 @@
         {# @var p \App\Entity\PTVCategory  #}
         {% for p in ptv_category %}
             <li>
-                <a href="{{ path('travel_guide', {category: p.slug}) }}">
+                <a href="{{ path('ptv', {category: p.slug}) }}">
                     {#{{ ('header_menu.'~p.short_name)|trans({},'travel_guide' ) }} ({{ p.count }})#}
                     {{ p.short_name|trans({},'travel_guide' ) }} ({{ p.count }})
                 </a>

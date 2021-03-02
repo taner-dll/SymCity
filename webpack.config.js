@@ -47,6 +47,7 @@ Encore
     .addEntry('business_guide', './assets/js/web_site/business_guide.js')
     .addEntry('ad_guide', './assets/js/web_site/ad_guide.js')
     .addEntry('article_detail', './assets/js/web_site/article_detail.js')
+    .addEntry('ptv', './assets/js/web_site/ptv.js')
 
 
     /*

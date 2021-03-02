@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\AdSubCategory;
 use App\Entity\PlacesToVisit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @method PlacesToVisit|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,33 +20,32 @@ class PlacesToVisitRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, PlacesToVisit::class);
     }
+    
+    public function ptvFilter($params){
 
-    // /**
-    //  * @return PlacesToVisit[] Returns an array of PlacesToVisit objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $em = $this->getEntityManager();
 
-    /*
-    public function findOneBySomeField($value): ?PlacesToVisit
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb = $this->createQueryBuilder('p')
+            ->orderBy('p.id','desc');
+
+        if (isset($params['type'])):
+            $qb->andWhere('p.type = :type')
+                ->setParameter('type',$params['type']);
+        endif;
+
+        if (isset($params['name'])):
+            $qb->andWhere($qb->expr()->like('p.name',':name'))
+                ->setParameter('name','%'.$params['name'].'%');
+        endif;
+
+        //bölge
+        if (isset($params['place'])):
+            $qb->andWhere('p.place = :place')
+                ->setParameter('place',$params['place']);
+        endif;
+
+
+        return $qb->getQuery()->execute();
     }
-    */
+
 }
