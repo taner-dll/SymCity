@@ -2,10 +2,16 @@
 
 {% block title %}Gezilecek Yerler | {{ ptv.name }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {#{{ encore_entry_link_tags('article_detail') }}#}
+{% endblock %}
+
+
 {% block body %}
 
     <!-- Blog -->
-    <section class="p_b70 p_t70 bg_lightgry" id="blog">
+    <section class="p_b20 p_t20 bg_lightgry" id="blog">
         <div class="container">
 
             <div class="row">
@@ -17,14 +23,21 @@
                         <h2>{{ ptv.name }} ({{ ptv.place.name }})</h2>
 
                         {% if ptv.featuredPicture|length > 10 %}
-                        <div class="blog-img" style="height: 500px; overflow: hidden;">
-                            <img alt="image" style="width: 800px; height: 600px;"
-                                 src="{{ asset('uploads/ptv/'~ptv.featuredPicture) }}">
-                        </div>
+                            <div class="blog-img" style="height: 470px; overflow: hidden;">
+                                <img alt="image" style="width: 870px; height: 470px;"
+                                     src="{{ asset('uploads/ptv/'~ptv.featuredPicture) }}">
+                            </div>
                         {% endif %}
 
+
                         <div class="blog-detail">
+
+
+
                             <ul class="blog-admin">
+                                <li>
+                                    <div class="sharethis-inline-share-buttons"></div>
+                                </li>
                                 <!--
                                 <li>
                                     <i class="fa fa-user"></i>Posted By:<a href="#">
@@ -48,6 +61,8 @@
 
                     </div>
 
+
+
                 </div>
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
@@ -59,8 +74,8 @@
                                         width="242"
                                         height="200"
                                         style="border:0"
-                                        src="https://www.google.com/maps/embed/v1/search?key=AIzaSyDRZiGMQckANKsm81gKmi4cF53SAqI0MtU
-                                        &q={{ ptv.name }}" allowfullscreen>
+                                        src="https://www.google.com/maps/embed/v1/search?key=AIzaSyAtD3O2TAtjHPQkIoZV1bOmqmgxEwbsTyk
+                                        &q={{ ptv.mapsEmbedStr }}" allowfullscreen>
                                 </iframe>
 
                             </div>
@@ -73,7 +88,6 @@
                     </div>
 
 
-
                 </div>
 
             </div>
@@ -82,4 +96,11 @@
     </section>
     <!-- Blog -->
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#{{ encore_entry_script_tags('article_detail') }}#}
+    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5fdef44c035860001143952d&product=inline-share-buttons"
+            async="async"></script>
 {% endblock %}

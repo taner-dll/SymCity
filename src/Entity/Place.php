@@ -88,6 +88,11 @@ class Place
      */
     private $places;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PlacesToVisit", mappedBy="sub_place")
+     */
+    private $placesToVisits;
+
     public function __construct()
     {
         $this->ptv = new ArrayCollection();
@@ -97,6 +102,7 @@ class Place
         $this->adverts = new ArrayCollection();
         $this->businesses = new ArrayCollection();
         $this->places = new ArrayCollection();
+        $this->placesToVisits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -399,6 +405,37 @@ class Place
             // set the owning side to null (unless already changed)
             if ($place->getParent() === $this) {
                 $place->setParent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PlacesToVisit[]
+     */
+    public function getPlacesToVisits(): Collection
+    {
+        return $this->placesToVisits;
+    }
+
+    public function addPlacesToVisit(PlacesToVisit $placesToVisit): self
+    {
+        if (!$this->placesToVisits->contains($placesToVisit)) {
+            $this->placesToVisits[] = $placesToVisit;
+            $placesToVisit->setSubPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlacesToVisit(PlacesToVisit $placesToVisit): self
+    {
+        if ($this->placesToVisits->contains($placesToVisit)) {
+            $this->placesToVisits->removeElement($placesToVisit);
+            // set the owning side to null (unless already changed)
+            if ($placesToVisit->getSubPlace() === $this) {
+                $placesToVisit->setSubPlace(null);
             }
         }
 

@@ -180,24 +180,6 @@ class AdvertType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
 
 
-            $form = $event->getForm();
-            $entity = $event->getData();
-
-/*
-            $form->add('sub_category', EntityType::class, array(
-
-                    'required' => true,
-                    'placeholder' => 'Seçiniz',
-                    'class' => AdSubCategory::class,
-                    'query_builder' => function (EntityRepository $er) use ($entity) {
-                        return $er->createQueryBuilder('c')
-                            ->where('c.adCategory = :cat')
-                            ->setParameter('cat',$entity->getCategory())
-                            ->orderBy('c.sort', 'asc');
-                    },
-                    'choice_value' => 'id',
-                    'choice_translation_domain' => 'advert')
-            );*/
 
 
         });

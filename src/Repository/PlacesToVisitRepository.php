@@ -44,6 +44,12 @@ class PlacesToVisitRepository extends ServiceEntityRepository
                 ->setParameter('place',$params['place']);
         endif;
 
+        //bölge
+        if (isset($params['sub_place'])):
+            $qb->andWhere('p.sub_place = :sub_place')
+                ->setParameter('sub_place',$params['sub_place']);
+        endif;
+
 
         return $qb->getQuery()->execute();
     }

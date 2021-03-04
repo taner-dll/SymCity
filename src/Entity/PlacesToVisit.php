@@ -84,6 +84,16 @@ class PlacesToVisit
      */
     private $pTVCategory;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $maps_embed_str;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="placesToVisits")
+     */
+    private $sub_place;
+
     public function __construct()
     {
         $this->pTVPhotos = new ArrayCollection();
@@ -267,6 +277,30 @@ class PlacesToVisit
     public function setPTVCategory(?PTVCategory $pTVCategory): self
     {
         $this->pTVCategory = $pTVCategory;
+
+        return $this;
+    }
+
+    public function getMapsEmbedStr(): ?string
+    {
+        return $this->maps_embed_str;
+    }
+
+    public function setMapsEmbedStr(?string $maps_embed_str): self
+    {
+        $this->maps_embed_str = $maps_embed_str;
+
+        return $this;
+    }
+
+    public function getSubPlace(): ?Place
+    {
+        return $this->sub_place;
+    }
+
+    public function setSubPlace(?Place $sub_place): self
+    {
+        $this->sub_place = $sub_place;
 
         return $this;
     }

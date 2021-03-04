@@ -144,10 +144,7 @@ function getAdvertSubCategories(id) {
 }
 
 
-/**
- * İlan alt kategorilerini getiren fonksiyon.
- * @param id
- */
+
 function getSubPlaces(id) {
     $('#sub_place_loader').css('display', 'inline');
     $.ajax({
@@ -176,7 +173,7 @@ function getSubPlaces(id) {
 
 $('#advert_place').on('change', function () {
 
-    console.log("asdads");
+
     getSubPlaces(this.value);
 
 });

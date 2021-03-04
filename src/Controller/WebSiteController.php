@@ -153,7 +153,8 @@ class WebSiteController extends AbstractController
         $params = [
             'type'=>$shortName,
             'name'=>$request->query->get('title'),
-            'place'=>$em->getRepository(Place::class)->findOneBy(array('slug'=>$request->query->get('place')))
+            'place'=>$em->getRepository(Place::class)->findOneBy(array('slug'=>$request->query->get('place'))),
+            'sub_place'=>$em->getRepository(Place::class)->findOneBy(array('slug'=>$request->query->get('sub_place')))
         ];
 
         $placesToVisit = $em->getRepository(PlacesToVisit::class)->ptvFilter($params);
@@ -174,17 +175,17 @@ class WebSiteController extends AbstractController
     /**
      * Gezilecek Yer - Detay Sayfası
      * @Route({
-     *     "en": "{city}/places-to-visit/{district}/{slug}",
-     *     "tr": "{city}/gezilecek-yerler/{district}/{slug}"
+     *     "en": "{district}/places-to-visit/{slug}",
+     *     "tr": "{district}/gezilecek-yerler/{slug}"
      * }, name="ptv_detail",  methods={"GET"})
      * @param $slug
      * @return Response
      */
-    public function placesToVisitDetail($slug): Response
+    public function placesToVisitDetail($district,$slug): Response
     {
         $em = $this->getDoctrine()->getManager();
         $ptv = $em->getRepository(PlacesToVisit::class)->findOneBy(array('slug' => $slug));
-        return $this->render('ptv_detail.html.twig', [
+        return $this->render('web_site/pages/ptv_detail.html.twig', [
             'ptv' => $ptv,
         ]);
     }
@@ -212,14 +213,10 @@ class WebSiteController extends AbstractController
             $cat[$key]['count']=$ptv;
             $cat[$key]['slug']=$this->slugify($translator->trans('header_menu.'.$value->getShortName(), [], 'ptv'));
 
-
         }
 
         return $this->render('web_site/embedded_controller/ptv_embedded_menu.html.twig', ['ptv_category' => $cat]);
     }
-
-
-    #ETKİNLİKLER BAŞLANGIÇ
 
     /**
      * @Route({
@@ -233,7 +230,6 @@ class WebSiteController extends AbstractController
     public function events(Request $request, PaginatorInterface $paginator): Response
     {
         $em = $this->getDoctrine()->getManager();
-
         $events = $em->getRepository(Event::class)->eventFilter($request);
 
         $events = $paginator->paginate(
@@ -266,10 +262,6 @@ class WebSiteController extends AbstractController
         ]);
 
     }
-    #ETKİNLİKLER SON
-
-
-    #DUYURULAR BAŞLANGIÇ
 
     /**
      * @Route({
@@ -317,8 +309,6 @@ class WebSiteController extends AbstractController
         ]);
 
     }
-
-    #DUYURULAR SON
 
 
 
@@ -413,9 +403,6 @@ class WebSiteController extends AbstractController
 
     }
 
-
-
-    #İŞLETME BAŞLANGIÇ
     /**
      * @Route({
      *     "en": "/business-guide",
@@ -463,15 +450,6 @@ class WebSiteController extends AbstractController
         ]);
 
     }
-    #İŞLETME SON
-
-
-
-
-
-
-
-    #EMBEDDED
 
     /**
      * İlanlar Dinamik Menüsü

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Place;
 use App\Entity\PlacesToVisit;
 use App\Form\PlacesToVisitType;
 use App\Repository\PlacesToVisitRepository;
@@ -53,6 +54,11 @@ class PlacesToVisitController extends AbstractController
 
             //url slug
             $placesToVisit->setSlug($this->slugify($request->request->get('places_to_visit')['name']));
+
+            if (isset($request->request->get('places_to_visit')['subPlace'])):
+                $sub_place_id = $request->request->get('places_to_visit')['subPlace'];
+                $placesToVisit->setSubPlace($entityManager->find(Place::class, $sub_place_id));
+            endif;
 
             $entityManager->persist($placesToVisit);
             $entityManager->flush();
@@ -121,7 +127,16 @@ class PlacesToVisitController extends AbstractController
             $placesToVisit->setFeaturedPicture($fileOldName);
             $placesToVisit->setSlug($this->slugify($placesToVisit->getName()));
 
-            $this->getDoctrine()->getManager()->flush();
+
+            //dump($request->request->all());exit;
+
+            if (isset($request->request->get('places_to_visit')['subPlace'])):
+                $sub_place_id = $request->request->get('places_to_visit')['subPlace'];
+                $placesToVisit->setSubPlace($em->find(Place::class, $sub_place_id));
+            endif;
+
+
+            $em->flush();
             $this->addFlash('success', $translator->trans('ptv_updated'));
 
             //jquery-cropper (cropped image hidden input)
@@ -141,6 +156,8 @@ class PlacesToVisitController extends AbstractController
                 $dir = $this->getParameter('ptv_directory');
                 $this->base64update($file, $dir, $fileName, $fileOldName);
             }
+
+
 
 
 

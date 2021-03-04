@@ -1,6 +1,13 @@
 @import "~trumbowyg/dist/ui/trumbowyg.min.css";
 @import "~cropper/dist/cropper.min.css";
 @import "~sweetalert2/dist/sweetalert2.min.css";
+@import "../../node_modules/select2/dist/css/select2.min.css";
+@import "../../node_modules/select2-bootstrap-theme/dist/select2-bootstrap.min.css";
+
+.select2-container {
+
+  margin-top: 0 !important;
+}
 
 .file-upload-wrapper {
   $defaultColor: #4daf7c;

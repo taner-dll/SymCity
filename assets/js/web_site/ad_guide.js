@@ -67,9 +67,7 @@ $('#cat').on('change', function () {
     }
 });
 
-//sub_place_id hidden value'dur.
-//sayfa yüklendiğinde get parametresi varsa bu sorgu çalışır.
-//place'e ait neighborhoods getirilir. selected işaretlenir.
+
 $(function () {
     //console.log(typeof $('#sub_place_id').val());
     if ($('#place').val()){

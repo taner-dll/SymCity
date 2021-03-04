@@ -1,30 +1,30 @@
 {% extends 'web_site/base.html.twig' %}
 
-{% block title %}{{ 'articles.header'|trans({}, 'article') }}{% endblock %}
+{% block title %}{{ 'ptv.header'|trans({}, 'ptv') }}{% endblock %}
 
 {% block metaTags %}
     <meta name="description" lang="tr" content="Edremit Körfezi - Tüm Köşe Yazıları"/>
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:site_name" content="www.edremitkorfezi.com" />
-    <meta property="og:title" content="Edremit Körfezi - Köşe Yazarları" />
-    <meta property="og:description" content="Edremit körfezi yazarlarının güncel yazılarını, köşe yazarları sayfasından okuyabilirsiniz." />
-    <meta property="og:image" content="{{ asset('build/img/front_end/logo.png') }}" />
-    <meta property="og:url" content="https://www.edremitkorfezi.com/kose-yazilari" />
-    <meta property="og:type" content="article" />
-    <meta property="og:article:tag" content="Edremit Körfezi - Köşe Yazarları" />
-    <meta property="og:article:author" content="Edremit Körfezi" />
-    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:site_name" content="www.edremitkorfezi.com"/>
+    <meta property="og:title" content="Edremit Körfezi - Köşe Yazarları"/>
+    <meta property="og:description" content="Edremit körfezi yazarlarının güncel yazılarını, köşe yazarları sayfasından okuyabilirsiniz."/>
+    <meta property="og:image" content="{{ asset('build/img/front_end/logo.png') }}"/>
+    <meta property="og:url" content="https://www.edremitkorfezi.com/kose-yazilari"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:article:tag" content="Edremit Körfezi - Köşe Yazarları"/>
+    <meta property="og:article:author" content="Edremit Körfezi"/>
+    <meta property="og:locale" content="tr_TR"/>
 
     <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@edremitkorfezi" />
-    <meta name="twitter:creator" content="@edremitkorfezi" />
-    <meta name="twitter:url" content="https://www.edremitkorfezi.com/kose-yazilari" />
-    <meta name="twitter:title" content="Edremit Körfezi - Köşe Yazarları" />
-    <meta name="twitter:description" content="Edremit körfezi yazarlarının güncel yazılarını, köşe yazarları sayfasından okuyabilirsiniz." />
-    <meta name="twitter:image:src" content="{{ asset('build/img/front_end/logo.png') }}" />
-    <meta name="twitter:domain" content="edremitkorfezi.com" />
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@edremitkorfezi"/>
+    <meta name="twitter:creator" content="@edremitkorfezi"/>
+    <meta name="twitter:url" content="https://www.edremitkorfezi.com/kose-yazilari"/>
+    <meta name="twitter:title" content="Edremit Körfezi - Köşe Yazarları"/>
+    <meta name="twitter:description" content="Edremit körfezi yazarlarının güncel yazılarını, köşe yazarları sayfasından okuyabilirsiniz."/>
+    <meta name="twitter:image:src" content="{{ asset('build/img/front_end/logo.png') }}"/>
+    <meta name="twitter:domain" content="edremitkorfezi.com"/>
     <!-- TODO meta etiketleri ptv için düzenle  -->
 
 {% endblock %}
@@ -43,17 +43,20 @@
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="inner_banner_detail">
+                        {% if short_name is null %}
+                            <h2>Gezi Rehberi</h2>
+                        {% else %}
+                            <h2>Gezi Rehberi / {{ ('header_menu.'~short_name)|trans({}, 'ptv') }}</h2>
+                        {% endif %}
 
-                        <h2>Gezi Rehberi / {{ ('header_menu.'~short_name)|trans({}, 'ptv') }}</h2>
-
-                            {% if app.request.get('name') is not null %}
-                                <span style="font-size: 16px">
-                                    {% if articles|length > 0 %}
+                        {% if app.request.get('title') is not null %}
+                            <span style="font-size: 16px">
+                                    {% if places_to_visit|length > 0 %}
                                         &nbsp;(Arama sonuçlarına göre,
-                                        toplam <b>{{ articles|length }}</b> kayıt listelendi)
+                                        toplam <b>{{ places_to_visit|length }}</b> kayıt listelendi)
                                     {% endif %}
                                 </span>
-                            {% endif %}
+                        {% endif %}
 
                         </h2>
                     </div>
@@ -91,11 +94,14 @@
 
                                                 <span><i class="fa fa-map-marker" aria-hidden="true"></i>
                                                     {{ ptv.place.name }}
+                                                    {% if ptv.subPlace %}
+                                                        , {{ ptv.subPlace.name }}
+                                                    {% endif %}
                                                 </span>
 
                                                 <span class="pull-right">
-                                                    <a href="{{ path('article_detail', {id:ptv.id}) }}"
-                                                       class="btn btn-default btn-xs">Göster</a>
+                                                    <a href="{{ path('ptv_detail', {district:ptv.place.slug, slug:ptv.slug}) }}"
+                                                       class="btn btn-default btn-xs">{{ 'ptv.show_detail'|trans({}, 'ptv') }}</a>
                                                 </span>
                                             </div>
                                         </div>
@@ -155,11 +161,23 @@
                                     {% endfor %}
                                 </select>
 
+                                <img id="opt_loader_place"
+                                     style="height: 16px;width: 16px;margin-top: -4px;display: none"
+                                     src="{{ asset('build/img/front_end/loading.gif') }}" alt=""/>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sub_place">Semt / Mahalle</label><br>
+                                <select name="sub_place" id="sub_place" class="form-control">
+                                </select>
+                                <input type="hidden" id="sub_place_id" value="{{ app.request.get('sub_place') }}">
+
                             </div>
 
 
                             <div class="form-group">
-                                <button type="submit">{{ 'articles.search.button'|trans({}, 'article') }}</button>
+                                <button type="submit">{{ 'ptv.search_button'|trans({}, 'ptv') }}</button>
                             </div>
 
                         </form>
