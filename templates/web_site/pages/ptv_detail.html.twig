@@ -2,6 +2,35 @@
 
 {% block title %}Gezilecek Yerler | {{ ptv.name }}{% endblock %}
 
+
+{% block metaTags %}
+    <meta name="description" lang="tr" content="Edremit Körfezi - {{ ptv.name }}"/>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:site_name" content="www.edremitkorfezi.com"/>
+    <meta property="og:title" content="Edremit Körfezi - {{ ptv.name }}"/>
+    <meta property="og:description" content="Edremit körfezinde gezilecek yerler: {{ ptv.name }}"/>
+    <meta property="og:image" content="{{ asset('build/img/front_end/logo.png') }}"/>
+    <meta property="og:url" content="https://www.edremitkorfezi.com/gezilecek-yerler/{{ ptv.slug }}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:article:tag" content="Edremit Körfezi - {{ ptv.name }}"/>
+    <meta property="og:article:author" content="Edremit Körfezi"/>
+    <meta property="og:locale" content="tr_TR"/>
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@edremitkorfezi"/>
+    <meta name="twitter:creator" content="@edremitkorfezi"/>
+    <meta name="twitter:url" content="https://www.edremitkorfezi.com/gezilecek-yerler/{{ ptv.slug }}"/>
+    <meta name="twitter:title" content="Edremit Körfezi - {{ ptv.name }}"/>
+    <meta name="twitter:description" content="Edremit körfezinde gezilecek yerler: {{ ptv.name }}"/>
+    <meta name="twitter:image:src" content="{{ asset('build/img/front_end/logo.png') }}"/>
+    <meta name="twitter:domain" content="edremitkorfezi.com"/>
+    <!-- TODO meta etiketleri ptv için düzenle  -->
+
+{% endblock %}
+
+
 {% block stylesheets %}
     {{ parent() }}
     {#{{ encore_entry_link_tags('article_detail') }}#}
