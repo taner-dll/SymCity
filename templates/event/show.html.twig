@@ -66,6 +66,14 @@
                             </td>
                         </tr>
                         <tr>
+                            <th>Semt/Mah.</th>
+                            <td>
+                                {% if event.subPlace %}
+                                    {{ event.subPlace.name}}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
                             <th>Kategori</th>
                             <td>{{ event.category|trans({},'event') }}</td>
                         </tr>
@@ -111,18 +119,22 @@
 
                                     <img alt="" src="{{ asset('uploads/event/')~event.image }}"
                                          width="400"
-                                         height="216"/>
-                                    <a class="btn-default btn-xs"
-                                       href="{{ path('event_featured_photo_delete',
-                                           {event:event.id,
-                                               _token:csrf_token('delete-featured-photo'~event.id)}) }}"
-                                       target="_self"
-                                       onclick="return confirm('{{ 'event_delete_featured_image'|trans }}');"
-                                       style="position: absolute;"><i class="fa fa-close"></i></a>
-
+                                         height="216"/><br>
 
                                 {% endif %}
 
+                            </td>
+                            <td>
+                                {% if event.image|length > 0 %}
+                                <a class="btn btn-danger"
+                                   href="{{ path('event_featured_photo_delete',
+                                       {event:event.id,
+                                           _token:csrf_token('delete-featured-photo'~event.id)}) }}"
+                                   target="_self"
+                                   onclick="return confirm('{{ 'event_delete_featured_image'|trans }}');">
+                                    <i class="fa fa-trash"></i> Görseli Sil
+                                </a>
+                                {% endif %}
                             </td>
                         </tr>
                         </tbody>

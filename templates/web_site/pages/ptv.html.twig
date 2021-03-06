@@ -58,7 +58,7 @@
                                 </span>
                         {% endif %}
 
-                        </h2>
+
                     </div>
                 </div>
 
@@ -79,18 +79,32 @@
                             {% for ptv in places_to_visit %}
                                 <div class="popular-listing-box">
                                     <div class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <div class="popular-listing-img">
+                                                <figure class="effect-ming">
+
+                                                    {% if ptv.featuredPicture is not null %}
+                                                        <img src="{{ asset('uploads/ptv/')~ptv.featuredPicture }}"
+                                                             alt="image">
+                                                    {% else %}
+                                                        <img src="{{ asset('build/img/no-image-800x432.png') }}"
+                                                             alt="image">
+
+                                                    {% endif %}
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
                                             <div class="popular-listing-detail">
                                                 <h3>
-                                                    <a style="text-decoration: underline"
-                                                       href="{{ path('article_detail', {id:ptv.id}) }}">
+                                                      <a style="text-decoration: underline"
+                                                       href="{{ path('ptv_detail', {district:ptv.place.slug, slug:ptv.slug}) }}">
                                                         {{ ptv.name|title }}
                                                     </a>
                                                 </h3>
-                                                <p>{{ (ptv.about|striptags)[:100] }}&hellip;</p>
+                                                <p>{{ (ptv.about|striptags)[:57] }}&hellip;</p>
                                             </div>
                                             <div class="popular-listing-add">
-
 
                                                 <span><i class="fa fa-map-marker" aria-hidden="true"></i>
                                                     {{ ptv.place.name }}
@@ -99,10 +113,9 @@
                                                     {% endif %}
                                                 </span>
 
-                                                <span class="pull-right">
-                                                    <a href="{{ path('ptv_detail', {district:ptv.place.slug, slug:ptv.slug}) }}"
-                                                       class="btn btn-default btn-xs">{{ 'ptv.show_detail'|trans({}, 'ptv') }}</a>
-                                                </span>
+                                                <a href="{{ path('ptv_detail', {district:ptv.place.slug, slug:ptv.slug}) }}"
+                                                   class="pull-right btn btn-default btn-xs">{{ 'ptv.show_detail'|trans({}, 'ptv') }}</a>
+
                                             </div>
                                         </div>
                                     </div>

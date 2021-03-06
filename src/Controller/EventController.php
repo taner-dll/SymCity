@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Place;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use App\Traits\File;
@@ -42,7 +43,7 @@ class EventController extends AbstractController
             $events = $eventRepository->findAll();
         }
         else{
-            $events = $eventRepository->findBy(array('user'=>$this->getUser()));
+            $events = $eventRepository->findBy(array('user'=>$this->getUser()),array('id'=>'desc'));
         }
 
 
@@ -64,6 +65,11 @@ class EventController extends AbstractController
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
+//        dump($request->request->all());
+//        dump($form->isValid());
+//        dump($form->isSubmitted());
+//        exit;
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -73,6 +79,12 @@ class EventController extends AbstractController
 
             $event->setUser($this->getUser());
             $event->setLastUpdate(new DateTime('now'));
+
+            if (isset($request->request->get('event')['subPlace'])):
+                $sub_place_id = $request->request->get('event')['subPlace'];
+                $event->setSubPlace($entityManager->find(Place::class, $sub_place_id));
+            endif;
+
             $entityManager->persist($event);
             $entityManager->flush();
 
@@ -153,7 +165,12 @@ class EventController extends AbstractController
             //url slug
             $event->setSlug($this->slugify($event->getName()));
 
-            $this->getDoctrine()->getManager()->flush();
+            if (isset($request->request->get('event')['subPlace'])):
+                $sub_place_id = $request->request->get('event')['subPlace'];
+                $event->setSubPlace($em->find(Place::class, $sub_place_id));
+            endif;
+
+            $em->flush();
             $this->addFlash('success', $translator->trans('event_updated'));
 
             //jquery-cropper (cropped image hidden input)

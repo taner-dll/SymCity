@@ -1,10 +1,10 @@
-import '../../css/web_site/ptv.scss';
+import '../../css/web_site/event.scss';
 import 'select2';
 import 'select2/dist/js/i18n/tr';
 
 import {getPlaceNeighborhoods, getSubCategories} from "../web_site/app_main";
 
-
+//
 //select2 theme
 const bootstrap_theme = 'bootstrap';
 

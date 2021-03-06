@@ -23,7 +23,6 @@ class PlacesToVisitRepository extends ServiceEntityRepository
     
     public function ptvFilter($params){
 
-        $em = $this->getEntityManager();
 
         $qb = $this->createQueryBuilder('p')
             ->orderBy('p.id','desc');

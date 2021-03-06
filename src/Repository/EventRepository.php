@@ -20,26 +20,31 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function eventFilter(Request $request){
+    public function eventFilter($params){
 
         $qb = $this->createQueryBuilder('e')
             ->select('e')
-            ->leftJoin('e.place', 'p')
             ->where('e.confirm = :confirm')
             ->setParameter('confirm',1);
 
-        if ($request->query->get('name')):
-            $qb->andWhere($qb->expr()->like('e.name',':bname'))
-                ->setParameter('bname','%'.$request->query->get('name').'%');
+        if (isset($params['name'])):
+            $qb->andWhere($qb->expr()->like('e.name',':name'))
+                ->setParameter('name','%'.$params['name'].'%');
         endif;
 
-
-
-        if ($request->query->get('place')):
-            $qb->andWhere('e.place = :pl_id')
-                ->setParameter('pl_id',$request->query->get('place'));
+        //bölge
+        if (isset($params['place'])):
+            $qb->andWhere('e.place = :place')
+                ->setParameter('place',$params['place']);
         endif;
 
+        //bölge
+        if (isset($params['sub_place'])):
+            $qb->andWhere('e.sub_place = :sub_place')
+                ->setParameter('sub_place',$params['sub_place']);
+        endif;
+
+        $qb->orderBy('e.start','desc');
         return $qb->getQuery()->execute();
     }
 }

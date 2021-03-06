@@ -230,7 +230,16 @@ class WebSiteController extends AbstractController
     public function events(Request $request, PaginatorInterface $paginator): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $events = $em->getRepository(Event::class)->eventFilter($request);
+
+
+        $params = [
+
+            'name'=>$request->query->get('name'),
+            'place'=>$em->getRepository(Place::class)->findOneBy(array('slug'=>$request->query->get('place'))),
+            'sub_place'=>$em->getRepository(Place::class)->findOneBy(array('slug'=>$request->query->get('sub_place')))
+        ];
+
+        $events = $em->getRepository(Event::class)->eventFilter($params);
 
         $events = $paginator->paginate(
             $events,
@@ -239,7 +248,7 @@ class WebSiteController extends AbstractController
         return $this->render('web_site/pages/events.html.twig', [
             'events' => $events,
             /*'categories' => $em->getRepository(Event::class)->advertCategoryList(),*/
-            'places' => $em->getRepository(Place::class)->findAll()
+            'places' => $em->getRepository(Place::class)->getDistricts()
         ]);
     }
 

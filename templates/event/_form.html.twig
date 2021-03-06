@@ -11,6 +11,10 @@
             {{ form_widget(form.place) }}
         </div>
         <div class="form-group">
+            {{ form_label(form.subPlace, 'Semt/Mah.') }}
+            {{ form_widget(form.subPlace) }}
+        </div>
+        <div class="form-group">
             {{ form_label(form.category, 'Kategori') }}
             {{ form_widget(form.category) }}
         </div>
@@ -35,18 +39,14 @@
         <div class="form-group">
             {{ form_label(form.image, 'Öne Çıkan Görsel') }}
             {{ form_widget(form.image) }}
-            <input type="hidden" id="cropped_image" name="cropped_image" />
+            <input type="hidden" id="cropped_image" name="cropped_image"/>
         </div>
         <div class="form-group">
-            {% if app.request.get('_route') == 'event_edit' %}
-                <img id="preview" src="{{ asset('uploads/event/')~event.image }}"
-                     class="img-responsive img-bordered" width="400" height="216"  alt=""/>
-            {% else %}
-                <img id="preview" src=""
-                     class="img-responsive img-bordered" width="400" height="216" alt="" />
-            {% endif %}
-        </div>
 
+            <img id="preview"
+                 class="img-responsive img-bordered" width="400" height="216" alt=""/>
+
+        </div>
 
 
         <!-- Modal -->
@@ -76,8 +76,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="crop_image"  onclick="$('#image_demo').cropper('crop')"
-                                type="button" class="btn btn-default" data-dismiss="modal">Seç</button>
+                        <button id="crop_image" onclick="$('#image_demo').cropper('crop')"
+                                type="button" class="btn btn-default" data-dismiss="modal">Seç
+                        </button>
                     </div>
                 </div>
             </div>

@@ -63,9 +63,11 @@
                                     <tr role="row">
                                         <th>Onay Durumu</th>
 
+                                        <th>Görsel</th>
                                         <th>Etkinlik Adı</th>
 
                                         <th>Bölge</th>
+                                        <th>Semt/Mah.</th>
                                         <th>Kategori</th>
                                         <th>Başlangıç</th>
                                         <th>Bitiş</th>
@@ -95,9 +97,15 @@
                                                 {% endif %}
                                             </td>
 
+                                            <td>
+                                                {% if event.image|length > 0  %}
+                                                    <i class="fa fa-picture-o"></i>
+                                                {% endif %}
+                                            </td>
                                             <td>{{ event.name[:20]|striptags }}&hellip;</td>
 
                                             <td>{{ event.place ? event.place.name : '' }}</td>
+                                            <td>{{ event.subPlace ? event.subPlace.name : '' }}</td>
                                             <td>{{ event.category|trans({},'event') }}</td>
                                             <td>{{ event.start ? event.start|date('d/m/Y H:i') : '' }}</td>
                                             <td>{{ event.end ? event.end|date('d/m/Y H:i') : '' }}</td>

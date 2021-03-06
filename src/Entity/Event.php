@@ -72,6 +72,11 @@ class Event
      */
     private $category;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place")
+     */
+    private $sub_place;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -205,6 +210,18 @@ class Event
     public function setCategory(?string $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getSubPlace(): ?Place
+    {
+        return $this->sub_place;
+    }
+
+    public function setSubPlace(?Place $sub_place): self
+    {
+        $this->sub_place = $sub_place;
 
         return $this;
     }
