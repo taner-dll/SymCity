@@ -112,14 +112,14 @@
                                         height="200"
                                         style="border:0"
                                         src="https://www.google.com/maps/embed/v1/search?key=AIzaSyAtD3O2TAtjHPQkIoZV1bOmqmgxEwbsTyk
-                                        &q=" allowfullscreen>
+                                        &q={{ event_detail.mapsEmbedStr }}" allowfullscreen>
                                 </iframe>
 
                             </div>
-                            <p><i class="fa fa-map-marker" aria-hidden="true"></i></p>
-                            <p><i class="fa fa-phone" aria-hidden="true"></i></p>
-                            <p><i class="fa fa-globe" aria-hidden="true"></i> <a target="_blank"
-                                                                                 href=""></a>
+                            <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ event_detail.address }}</p>
+                            <p><i class="fa fa-phone" aria-hidden="true"></i> {{ event_detail.phone }}</p>
+                            <p><i class="fa fa-globe" aria-hidden="true"></i>
+                                <a target="_blank" href="{{ event_detail.web }}">{{ event_detail.web }}</a>
                             </p>
                         </div>
                     </div>

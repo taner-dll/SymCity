@@ -3,11 +3,11 @@
     {{ form_start(form) }}
     <div class="col-md-6">
         <div class="form-group">
-            {{ form_label(form.name, 'Etkinlik Adı') }}
+            {{ form_label(form.name, 'Etkinlik Adı (*)') }}
             {{ form_widget(form.name) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.place, 'Bölge') }}
+            {{ form_label(form.place, 'Bölge (*)') }}
             {{ form_widget(form.place) }}
         </div>
         <div class="form-group">
@@ -15,17 +15,36 @@
             {{ form_widget(form.subPlace) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.category, 'Kategori') }}
+            {{ form_label(form.category, 'Kategori (*)') }}
             {{ form_widget(form.category) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.description, 'Açıklama') }}
+            {{ form_label(form.description, 'Açıklama (*)') }}
             {{ form_widget(form.description) }}
         </div>
 
     </div>
 
     <div class="col-md-6">
+
+        <div class="form-group">
+            {{ form_label(form.address, 'Adres') }}
+            {{ form_widget(form.address) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.mapsEmbedStr, 'Google Maps API: "Edremit+Körfezi,Balıkesir" ya da "39.58331, 26.92323"') }}
+            {{ form_widget(form.mapsEmbedStr) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.web, 'Web Site URL') }}
+            {{ form_widget(form.web) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.phone, 'Telefon') }}
+            {{ form_widget(form.phone) }}
+        </div>
+
+        <hr>
 
         <div class="form-group">
             {{ form_label(form.start, 'Başlangıç Tarihi') }}

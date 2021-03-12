@@ -2,6 +2,34 @@
 
 {% block title %}Duyuru Detayı - {{ announce_detail.name|title }}{% endblock %}
 
+{% block metaTags %}
+    <meta name="description" lang="tr" content="Edremit Körfezi - Duyurular"/>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:site_name" content="www.edremitkorfezi.com"/>
+    <meta property="og:title" content="Edremit Körfezi - Duyurular: {{ announce_detail.name }}"/>
+    <meta property="og:description" content="Edremit körfezindeki en son duyurulardan haberdan olun."/>
+    <meta property="og:image" content="{{ asset('build/img/front_end/logo.png') }}"/>
+    <meta property="og:url" content="https://www.edremitkorfezi.com/duyurular/{{ announce_detail.slug }}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:article:tag" content="Edremit Körfezi - Duyurular: {{ announce_detail.name }}"/>
+    <meta property="og:article:author" content="Edremit Körfezi"/>
+    <meta property="og:locale" content="tr_TR"/>
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@edremitkorfezi"/>
+    <meta name="twitter:creator" content="@edremitkorfezi"/>
+    <meta name="twitter:url" content="https://www.edremitkorfezi.com/duyurular/{{ announce_detail.slug }}"/>
+    <meta name="twitter:title" content="Edremit Körfezi - Duyurular: {{ announce_detail.name }}"/>
+    <meta name="twitter:description" content="Edremit körfezindeki en son duyurulardan haberdan olun."/>
+    <meta name="twitter:image:src" content="{{ asset('build/img/front_end/logo.png') }}"/>
+    <meta name="twitter:domain" content="edremitkorfezi.com"/>
+    <!-- TODO meta etiketleri ptv için düzenle  -->
+
+{% endblock %}
+
+
 {% block body %}
 
     <!-- Blog -->
@@ -14,20 +42,19 @@
 
                     <div class="blog heading">
 
-                        {# @var announce_detail \\App\Entity\Advert #}
+                        {# @var announce_detail App\Entity\Announce #}
 
                         <h2>{{ announce_detail.name|title }}</h2>
 
-                        {% if announce_detail.image|length > 10 %}
-                            <div class="blog-img" style="height: 470px; overflow: hidden;">
-                                <img alt="image" style="width: 870px; height: 470px;"
-                                     src="{{ asset('uploads/announce/'~announce_detail.image) }}">
-                            </div>
-                        {% endif %}
-                        
+
                         <div class="blog-detail">
 
                             <ul class="blog-admin">
+
+                                <li>
+                                    <div class="sharethis-inline-share-buttons"></div>
+                                </li>
+
                                 <li><i class="fa fa-user"></i>{{ 'announce_detail.posted_by'|trans({}, 'announce') }}:
                                     <a href="#"> {{ announce_detail.user.username }}</a>
                                 </li>
@@ -51,24 +78,51 @@
                     </div>
 
                     <div class="right-bar bg_white">
+                        <h4>Duyuru <span>Detayları</span></h4>
+                        <table class="table">
+                            <tbody>
 
-                        <h4>Duyuru Sahibi<span></span></h4>
-                        <div id="cd-google-map">
+                            <tr>
+                                <th scope="col">Kategori</th>
+                                <td>
+                                    {% if announce_detail.category %}
+                                        {{ announce_detail.category|trans({}, 'announce') }}
+                                    {% endif %}
+                                </td>
+                            </tr>
 
-                            <p><i class="fa fa-user" aria-hidden="true"></i>{{ announce_detail.user.email }}</p>
+                            <tr>
+                                <th scope="col">Bölge</th>
+                                <td>
+                                    {{ announce_detail.place.name }}
+                                </td>
+                            </tr>
 
+                            <tr>
+                                <th scope="col">Semt/Mah.</th>
+                                <td>
+                                    {% if announce_detail.subPlace %}
+                                        {{ announce_detail.subPlace.name }}
+                                    {% endif %}
+                                </td>
+                            </tr>
 
-
+                            </tbody>
+                        </table>
                     </div>
-
-
 
                 </div>
 
             </div>
-
         </div>
     </section>
     <!-- Blog -->
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#{{ encore_entry_script_tags('article_detail') }}#}
+    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5fdef44c035860001143952d&product=inline-share-buttons"
+            async="async"></script>
 {% endblock %}

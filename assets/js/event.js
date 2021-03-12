@@ -87,7 +87,14 @@ function getSubPlaces(id) {
     });
 }
 
+/**
+ * Inputmask
+ */
+import InputMask from 'inputmask';
 
+//telefon için maske oluştur
+let tel_mask = new InputMask("(999) 999-9999");
+tel_mask.mask($('#event_phone'));
 
 
 

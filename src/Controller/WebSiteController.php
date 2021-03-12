@@ -23,6 +23,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class WebSiteController extends AbstractController
 {
     use Util;
+
     /**
      * Ana Sayfa
      * @Route("/", name="index")
@@ -30,7 +31,6 @@ class WebSiteController extends AbstractController
     public function index(): Response
     {
         $em = $this->getDoctrine()->getManager();
-
 
 
         //yayındaki işletmeler
@@ -42,8 +42,8 @@ class WebSiteController extends AbstractController
         $places = $em->getRepository(Place::class)->findAll();
 
         $articles = $em->getRepository(Article::class)->findBy(
-            ['confirm'=>1],
-            ['id'=>'DESC'],
+            ['confirm' => 1],
+            ['id' => 'DESC'],
             4
         );
 
@@ -53,8 +53,8 @@ class WebSiteController extends AbstractController
                 'business_category' => $business_category,
                 'advert_category' => $advert_category,
                 'places' => $places,
-                'business'=> $business,
-                'articles'=>$articles
+                'business' => $business,
+                'articles' => $articles
             ));
     }
 
@@ -67,7 +67,8 @@ class WebSiteController extends AbstractController
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function articles(Request $request, PaginatorInterface $paginator){
+    public function articles(Request $request, PaginatorInterface $paginator)
+    {
 
         $em = $this->getDoctrine()->getManager();
         //$articles = $em->getRepository(Article::class)->findBy(['confirm'=>1],['id'=>'DESC']);
@@ -80,7 +81,7 @@ class WebSiteController extends AbstractController
         );
 
         return $this->render('web_site/pages/articles.html.twig', [
-            'articles'=>$articles
+            'articles' => $articles
         ]);
     }
 
@@ -131,7 +132,7 @@ class WebSiteController extends AbstractController
      * @return Response
      */
     public function placesToVisit(Request $request, $category = null,
-                                 PaginatorInterface $paginator, TranslatorInterface $translator): Response
+                                  PaginatorInterface $paginator, TranslatorInterface $translator): Response
     {
         $id = null;
         $shortName = null;//nature vs.
@@ -142,19 +143,19 @@ class WebSiteController extends AbstractController
         $ptvCats = $em->getRepository(PTVCategory::class)->findAll();
 
         //ptv shortname'sini translate et ve categori ile eşleştirerek id'sini bul
-        foreach ($ptvCats as $item => $value){
-            $slug = $this->slugify($translator->trans('header_menu.'.$value->getShortName(),[],'ptv'));
-            if ($slug === $category){
+        foreach ($ptvCats as $item => $value) {
+            $slug = $this->slugify($translator->trans('header_menu.' . $value->getShortName(), [], 'ptv'));
+            if ($slug === $category) {
                 $id = $value->getId();
                 $shortName = $value->getShortName();
             }
         }
 
         $params = [
-            'type'=>$shortName,
-            'name'=>$request->query->get('title'),
-            'place'=>$em->getRepository(Place::class)->findOneBy(array('slug'=>$request->query->get('place'))),
-            'sub_place'=>$em->getRepository(Place::class)->findOneBy(array('slug'=>$request->query->get('sub_place')))
+            'type' => $shortName,
+            'name' => $request->query->get('title'),
+            'place' => $em->getRepository(Place::class)->findOneBy(array('slug' => $request->query->get('place'))),
+            'sub_place' => $em->getRepository(Place::class)->findOneBy(array('slug' => $request->query->get('sub_place')))
         ];
 
         $placesToVisit = $em->getRepository(PlacesToVisit::class)->ptvFilter($params);
@@ -166,7 +167,7 @@ class WebSiteController extends AbstractController
 
         return $this->render('web_site/pages/ptv.html.twig', [
             'places_to_visit' => $placesToVisit,
-            'short_name'=>$shortName,
+            'short_name' => $shortName,
             'places' => $em->getRepository(Place::class)->getDistricts()
         ]);
     }
@@ -181,7 +182,7 @@ class WebSiteController extends AbstractController
      * @param $slug
      * @return Response
      */
-    public function placesToVisitDetail($district,$slug): Response
+    public function placesToVisitDetail($district, $slug): Response
     {
         $em = $this->getDoctrine()->getManager();
         $ptv = $em->getRepository(PlacesToVisit::class)->findOneBy(array('slug' => $slug));
@@ -202,16 +203,16 @@ class WebSiteController extends AbstractController
 
 
         $em = $this->getDoctrine()->getManager();
-        $ptv_category = $em->getRepository(PTVCategory::class)->findBy([],['sort'=>'ASC']);
+        $ptv_category = $em->getRepository(PTVCategory::class)->findBy([], ['sort' => 'ASC']);
 
         $cat = [];
-        foreach ($ptv_category as $key => $value){
+        foreach ($ptv_category as $key => $value) {
 
-            $ptv = $em->getRepository(PlacesToVisit::class)->count(['type'=>$value->getShortName()]);
+            $ptv = $em->getRepository(PlacesToVisit::class)->count(['type' => $value->getShortName()]);
 
-            $cat[$key]['short_name'] = $translator->trans('header_menu.'.$value->getShortName(), [], 'ptv');
-            $cat[$key]['count']=$ptv;
-            $cat[$key]['slug']=$this->slugify($translator->trans('header_menu.'.$value->getShortName(), [], 'ptv'));
+            $cat[$key]['short_name'] = $translator->trans('header_menu.' . $value->getShortName(), [], 'ptv');
+            $cat[$key]['count'] = $ptv;
+            $cat[$key]['slug'] = $this->slugify($translator->trans('header_menu.' . $value->getShortName(), [], 'ptv'));
 
         }
 
@@ -234,9 +235,9 @@ class WebSiteController extends AbstractController
 
         $params = [
 
-            'name'=>$request->query->get('name'),
-            'place'=>$em->getRepository(Place::class)->findOneBy(array('slug'=>$request->query->get('place'))),
-            'sub_place'=>$em->getRepository(Place::class)->findOneBy(array('slug'=>$request->query->get('sub_place')))
+            'name' => $request->query->get('name'),
+            'place' => $em->getRepository(Place::class)->findOneBy(array('slug' => $request->query->get('place'))),
+            'sub_place' => $em->getRepository(Place::class)->findOneBy(array('slug' => $request->query->get('sub_place')))
         ];
 
         $events = $em->getRepository(Event::class)->eventFilter($params);
@@ -285,17 +286,32 @@ class WebSiteController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $announces = $em->getRepository(Announce::class)->announceFilter($request);
+        $params = [
+            'title' => $request->query->get('title'),
+            'cat' => $request->query->get('cat'),
+            'place' => $em->getRepository(Place::class)->findOneBy(array('slug' => $request->query->get('place'))),
+            'sub_place' => $em->getRepository(Place::class)->findOneBy(array('slug' => $request->query->get('sub_place')))
+        ];
+        $announces = $em->getRepository(Announce::class)->announceFilter($params);
 
         $announces = $paginator->paginate(
             $announces,
             $request->query->getInt('page', 1), 5
         );
 
+        $announceCats = array(
+            'urgent',
+            'lost',
+            'discount',
+            'death',
+            'other'
+        );
+
         return $this->render('web_site/pages/announces.html.twig', [
             'announces' => $announces,
             /*'categories' => $em->getRepository(Event::class)->advertCategoryList(),*/
-            'places' => $em->getRepository(Place::class)->findAll()
+            'places' => $em->getRepository(Place::class)->getDistricts(),
+            'announce_cats' => $announceCats
         ]);
     }
 
@@ -318,7 +334,6 @@ class WebSiteController extends AbstractController
         ]);
 
     }
-
 
 
     /**
@@ -496,8 +511,6 @@ class WebSiteController extends AbstractController
         return $this->render('web_site/embedded_controller/advert_menu.html.twig',
             ['ad_categories' => $ad_cats]);
     }
-
-
 
 
 }

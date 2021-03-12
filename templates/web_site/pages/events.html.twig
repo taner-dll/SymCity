@@ -78,6 +78,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-8 col-sm-8 col-xs-12">
+
                                             <div class="popular-listing-detail">
                                                 <h3><a href="{{ path('event_detail', {id:e.id,slug:e.slug}) }}">
                                                         {{ e.name|title }}</a></h3>
@@ -132,6 +133,18 @@
 
                 <div class="col-md-3 col-sm-3 col-xs-12 listing-rightbar">
 
+                    {% if app.request.get('name') is not null or
+                        app.request.get('cat') is not null or
+                        app.request.get('place') is not null
+                    %}
+
+                        <div class="right-bar bg_white">
+                            Arama sonuçlarına göre,
+                            toplam <b>{{ events|length }}</b> kayıt listelendi.
+                        </div>
+
+                    {% endif %}
+
                     <div class="right-bar bg_white">
                         <h4>{{ 'events.advanced'|trans({}, 'event') }}
                             <span>{{ 'events.searching'|trans({}, 'event') }}</span></h4>
@@ -149,15 +162,7 @@
                                 <label for="name"></label><input class="form-control" id="name" minlength="3"
                                                                  name="name" value="{{ bname }}" type="text">
 
-                                {% if app.request.get('name') is not null %}
-                                    <p style="font-size: 11px; padding-bottom: 2px; padding-top: 2px; color: red">
-                                        {% if events|length > 0 %}
-                                            Toplam <b>{{ events|length }}</b> kayıt listelendi.
-                                        {% else %}
-                                            <input type="hidden" id="search_result" value="kayıt bulunamadı"/>
-                                        {% endif %}
-                                    </p>
-                                {% endif %}
+
                             </div>
 
 
@@ -199,7 +204,7 @@
                         </form>
 
 
-                        <a href="{{ path('events') }}" class="btn btn-default">
+                        <a href="{{ path('events') }}" class="btn btn-default btn-block">
                             Aramayı Sıfırla
                         </a>
                     </div>

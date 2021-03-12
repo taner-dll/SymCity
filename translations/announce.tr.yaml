@@ -1,9 +1,7 @@
-local_gov: Belediye / Muhtarlık Duyurusu
-gov: Kamu Kurumu Duyurusu
 urgent: Acil Duyurusu
-missing: Kayıp Duyurusu
+lost: Kayıp Duyurusu
 death: Vefat Duyurusu
-discount: Kampanya / İndirim Duyurusu
+discount: Satış / İndirim Duyurusu
 other: Diğer
 
 announces:
@@ -13,7 +11,7 @@ announces:
   advanced: Gelişmiş
   searching: Arama
   search: Ara
-  announce_name: Başlığa Göre Ara
+  announce_name: Duyuru Başlığında Ara
   place: Bölge
   reset_search: Aramayı Sıfırla
 

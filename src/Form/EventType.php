@@ -10,6 +10,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -49,13 +51,18 @@ class EventType extends AbstractType
                 'required' => false,
                 'placeholder' => 'Seçiniz',
             ))
-            ->add('description')
+            ->add('description', TextareaType::class, array('required'=>true))
             ->add('start', DateTimeType::class, array(
                 'data' => new \DateTime('now')
             ))
             ->add('end', DateTimeType::class, array(
                 'data' => new \DateTime('now')
             ))
+            ->add('address')
+            ->add('mapsEmbedStr')
+            ->add('web', UrlType::class, array('required'=>false))
+            ->add('phone')
+
             ->add('image', FileType::class, array('data_class' => null, 'required' => false))
             ->add('category', ChoiceType::class, array(
                 'choices' => array(

@@ -40,7 +40,7 @@ class EventController extends AbstractController
     {
 
         if($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-            $events = $eventRepository->findAll();
+            $events = $eventRepository->findBy(array(),array('id'=>'desc'));
         }
         else{
             $events = $eventRepository->findBy(array('user'=>$this->getUser()),array('id'=>'desc'));

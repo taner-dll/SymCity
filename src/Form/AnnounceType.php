@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Announce;
 use App\Entity\Place;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,22 +20,40 @@ class AnnounceType extends AbstractType
             ->add('name')
             ->add('place', EntityType::class, array(
                 'class' => Place::class,
-                'choice_label' => function(Place $place) {
+                'choice_label' => function (Place $place) {
                     return $place->getName();
                 },
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->where('p.type = :dst')
+                        ->setParameter('dst', 'district')
+                        ->orderBy('p.name', 'asc');
+                },
                 'required' => true,
-                'placeholder' => 'Seçiniz'
+                'placeholder' => 'Seçiniz',
+            ))
+            ->add('subPlace', EntityType::class, array(
+                'class' => Place::class,
+                'choice_label' => function (Place $place) {
+                    return $place->getName();
+                },
+                'query_builder' => function (EntityRepository $er)  {
+                    return $er->createQueryBuilder('p')
+                        ->where('p.type = :nb')
+                        ->setParameter('nb', 'neighborhood')
+                        ->orderBy('p.name', 'asc');
+                },
+                'required' => false,
+                'placeholder' => 'Seçiniz',
             ))
             ->add('description')
-            ->add('image', FileType::class, array('data_class' => null, 'required' => false))
+            /*->add('image', FileType::class, array('data_class' => null, 'required' => false))*/
             ->add('category', ChoiceType::class, array(
                 'choices'=>array(
                     'urgent'=>'urgent',
-                    'missing'=>'missing',
-                    'death'=>'death',
+                    'lost'=>'lost',
                     'discount'=>'discount',
-                    'local_gov'=>'local_gov',
-                    'gov'=>'gov',
+                    'death'=>'death',
                     'other'=>'other'
                 ),
                 'required' => true,

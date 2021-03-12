@@ -77,6 +77,26 @@ class Event
      */
     private $sub_place;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $maps_embed_str;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $web;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $phone;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -222,6 +242,54 @@ class Event
     public function setSubPlace(?Place $sub_place): self
     {
         $this->sub_place = $sub_place;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getMapsEmbedStr(): ?string
+    {
+        return $this->maps_embed_str;
+    }
+
+    public function setMapsEmbedStr(?string $maps_embed_str): self
+    {
+        $this->maps_embed_str = $maps_embed_str;
+
+        return $this;
+    }
+
+    public function getWeb(): ?string
+    {
+        return $this->web;
+    }
+
+    public function setWeb(?string $web): self
+    {
+        $this->web = $web;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

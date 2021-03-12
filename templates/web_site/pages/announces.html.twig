@@ -2,6 +2,38 @@
 
 {% block title %}{{ 'announces.name'|trans({}, 'announce') }}{% endblock %}
 
+{% block metaTags %}
+    <meta name="description" lang="tr" content="Edremit Körfezi - Duyurular"/>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:site_name" content="www.edremitkorfezi.com"/>
+    <meta property="og:title" content="Edremit Körfezi - Duyurular"/>
+    <meta property="og:description" content="Edremit körfezindeki en son duyurulardan haberdan olun."/>
+    <meta property="og:image" content="{{ asset('build/img/front_end/logo.png') }}"/>
+    <meta property="og:url" content="https://www.edremitkorfezi.com/duyurular"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:article:tag" content="Edremit Körfezi - Duyurular"/>
+    <meta property="og:article:author" content="Edremit Körfezi"/>
+    <meta property="og:locale" content="tr_TR"/>
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@edremitkorfezi"/>
+    <meta name="twitter:creator" content="@edremitkorfezi"/>
+    <meta name="twitter:url" content="https://www.edremitkorfezi.com/duyurular"/>
+    <meta name="twitter:title" content="Edremit Körfezi - Duyurular"/>
+    <meta name="twitter:description" content="Edremit körfezindeki en son duyurulardan haberdan olun."/>
+    <meta name="twitter:image:src" content="{{ asset('build/img/front_end/logo.png') }}"/>
+    <meta name="twitter:domain" content="edremitkorfezi.com"/>
+    <!-- TODO meta etiketleri ptv için düzenle  -->
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('website_announce') }}
+{% endblock %}
+
 {% block body %}
 
     <section id="inner-banner">
@@ -27,39 +59,34 @@
                         <div class="col-md-12">
 
 
+                            {# @var a \App\Entity\Announce #}
                             {% for a in announces %}
 
                                 <div class="popular-listing-box">
                                     <div class="row">
-                                        <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <div class="popular-listing-img">
-                                                <figure class="effect-ming">
 
-                                                    {% if a.image is not null %}
-                                                        <img src="{{ asset('uploads/announce/')~a.image }}"
-                                                             alt="image">
-                                                    {% else %}
-                                                        <img src="{{ asset('build/img/no-image-800x432.png') }}"
-                                                             alt="image">
-
-                                                    {% endif %}
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
                                             <div class="popular-listing-detail">
-                                                <h3><a href="{{ path('business_detail', {id:a.id,slug:a.slug}) }}">
+                                                <h3><a href="{{ path('announce_detail', {id:a.id,slug:a.slug}) }}">
                                                         {{ a.name|title }}</a></h3>
                                                 <p>{{ (a.description|striptags)[:57] }}&hellip;</p>
                                             </div>
-                                            <div class="popular-listing-add">
+                                            <div class="popular-listing-add" style="font-size: 11px">
                                                 <span><i class="fa fa-map-marker" aria-hidden="true"></i>
                                                     {{ a.place.name }}
+                                                    {% if a.subPlace %}
+                                                        , {{ a.subPlace.name }}
+                                                    {% endif %}
                                                 </span>
 
                                                 <span style="margin-left: 20px">
                                                     <i class="fa fa-tag" aria-hidden="true"></i>
                                                     {{ a.category|trans({}, 'announce') }}
+                                                </span>
+
+                                                <span style="margin-left: 10px">
+                                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                    {{ a.lastUpdate|date('d.m.Y') }}
                                                 </span>
 
 
@@ -92,13 +119,13 @@
 
                 <div class="col-md-3 col-sm-3 col-xs-12 listing-rightbar">
 
-                    {% if app.request.get('name') is not null or
+                    {% if app.request.get('title') is not null or
                         app.request.get('cat') is not null or
                         app.request.get('place') is not null
                     %}
 
                     <div class="right-bar bg_white">
-                        Arama sonuçlarına göre,<br>
+                        Arama sonuçlarına göre,
                         toplam <b>{{ announces|length }}</b> kayıt listelendi.
                     </div>
 
@@ -115,31 +142,69 @@
                                 <label for="name">{{ 'announces.announce_name'|trans({}, 'announce') }}</label>
 
                                 {% set bname = "" %}
-                                {% if app.request.get('name') is not null %}
-                                    {% set bname = app.request.get('name') %}
+                                {% if app.request.get('title') is not null %}
+                                    {% set bname = app.request.get('title') %}
                                 {% endif %}
-                                <label for="name"></label><input class="form-control" id="name" minlength="3"
-                                                                 name="name" value="{{ bname }}" type="text">
+                                <label for="name"></label><input class="form-control" id="title" minlength="3"
+                                                                 name="title" value="{{ bname }}" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cat">{{ 'announces.category'|trans({}, 'announce') }}</label><br>
+                                <select name="cat" id="cat" class="form-control">
+                                    <option value=""></option>
+                                    {% for c in announce_cats %}
+
+                                        <option
+                                                {% set selected = '' %}
+                                                {% if c == app.request.get('cat') %}
+                                                    {% set selected = 'selected' %}
+
+                                                {% endif %}
+
+                                                {{ selected }}
+
+                                                value="{{ c }}">{{ c|trans({}, 'announce') }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <img id="opt_loader_place"
+                                     style="height: 16px;width: 16px;margin-top: -4px;display: none"
+                                     src="{{ asset('build/img/front_end/loading.gif') }}" alt=""/>
+
                             </div>
 
 
-
                             <div class="form-group">
-                                <label for="place">{{ 'announces.place'|trans({}, 'announce') }}</label><br>
-                                <select name="place" id="place">
-                                    <option value="">Hepsi</option>
+                                <label for="place">{{ 'ptv.place'|trans({}, 'ptv') }}</label><br>
+                                <select name="place" id="place" class="form-control">
+                                    <option value=""></option>
                                     {% for p in places %}
                                         <option
                                                 {% set selected = '' %}
-                                                {% if p.id == app.request.get('place') %}
+                                                {% if p.slug == app.request.get('place') %}
                                                     {% set selected = 'selected' %}
+
                                                 {% endif %}
 
-                                                {{selected}}
+                                                {{ selected }}
 
-                                                value="{{ p.id }}">{{ p.name }}</option>
+                                                value="{{ p.slug }}">{{ p.name }}</option>
                                     {% endfor %}
                                 </select>
+
+                                <img id="opt_loader_place"
+                                     style="height: 16px;width: 16px;margin-top: -4px;display: none"
+                                     src="{{ asset('build/img/front_end/loading.gif') }}" alt=""/>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sub_place">Semt / Mahalle</label><br>
+                                <select name="sub_place" id="sub_place" class="form-control">
+                                </select>
+                                <input type="hidden" id="sub_place_id" value="{{ app.request.get('sub_place') }}">
+
                             </div>
 
                             <div class="form-group">
@@ -148,7 +213,7 @@
                         </form>
 
 
-                        <a href="{{ path('events') }}" style="text-decoration: underline">
+                        <a href="{{ path('announces') }}" class="btn btn-block btn-default">
                             Aramayı Sıfırla
                         </a>
                     </div>
@@ -168,19 +233,24 @@
 
 {% block javascripts %}
 
+    {{ parent() }}
+    {{ encore_entry_script_tags('website_announce') }}
+
     <script type="application/javascript">
         // Remove empty fields from GET forms
         // Author: Bill Erickson
         // URL: http://www.billerickson.net/code/hide-empty-fields-get-form/
 
         // Change 'form' to class or ID of your specific form
-        $("form").submit(function() {
-            $(this).find(":input").filter(function(){ return !this.value; }).attr("disabled", "disabled");
+        $("form").submit(function () {
+            $(this).find(":input").filter(function () {
+                return !this.value;
+            }).attr("disabled", "disabled");
             return true; // ensure form still submits
         });
 
         // Un-disable form fields when page loads, in case they click back after submission
-        $( "form" ).find( ":input" ).prop( "disabled", false );
+        $("form").find(":input").prop("disabled", false);
     </script>
 
 {% endblock %}

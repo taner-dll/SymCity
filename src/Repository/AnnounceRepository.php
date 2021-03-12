@@ -20,26 +20,38 @@ class AnnounceRepository extends ServiceEntityRepository
         parent::__construct($registry, Announce::class);
     }
 
-    public function announceFilter(Request $request){
+    public function announceFilter($params)
+    {
 
         $qb = $this->createQueryBuilder('a')
             ->select('a')
-            ->leftJoin('a.place', 'p')
             ->where('a.confirm = :confirm')
-            ->setParameter('confirm',1);
+            ->setParameter('confirm', 1);
 
-        if ($request->query->get('name')):
-            $qb->andWhere($qb->expr()->like('a.name',':bname'))
-                ->setParameter('bname','%'.$request->query->get('name').'%');
+        if (isset($params['title'])):
+            $qb->andWhere($qb->expr()->like('a.name', ':name'))
+                ->setParameter('name', '%' . $params['title'] . '%');
         endif;
 
-
-
-        if ($request->query->get('place')):
-            $qb->andWhere('a.place = :pl_id')
-                ->setParameter('pl_id',$request->query->get('place'));
+        //bölge
+        if (isset($params['place'])):
+            $qb->andWhere('a.place = :place')
+                ->setParameter('place', $params['place']);
         endif;
 
+        //bölge
+        if (isset($params['sub_place'])):
+            $qb->andWhere('a.sub_place = :sub_place')
+                ->setParameter('sub_place', $params['sub_place']);
+        endif;
+
+        //kategori
+        if (isset($params['cat'])):
+            $qb->andWhere('a.category = :cat')
+                ->setParameter('cat', $params['cat']);
+        endif;
+
+        $qb->orderBy('a.id', 'desc');
         return $qb->getQuery()->execute();
     }
 }

@@ -40,9 +40,9 @@ class AnnounceController extends AbstractController
     {
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $announces = $announceRepository->findAll();
+            $announces = $announceRepository->findBy(array(),array('id'=>'desc'));
         } else {
-            $announces = $announceRepository->findBy(array('user' => $this->getUser()));
+            $announces = $announceRepository->findBy(array('user' => $this->getUser()),array('id'=>'desc'));
         }
 
         return $this->render('announce/index.html.twig', [
