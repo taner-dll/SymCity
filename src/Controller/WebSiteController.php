@@ -440,7 +440,14 @@ class WebSiteController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $businesses = $em->getRepository(Business::class)->businessGuideFilter($request);
+        $params = [
+            'name' => $request->query->get('name'),
+            'cat' => $em->getRepository(BusinessCategory::class)->findOneBy(array('short_name' => $request->query->get('cat'))),
+            'place' => $em->getRepository(Place::class)->findOneBy(array('slug' => $request->query->get('place'))),
+            'sub_place' => $em->getRepository(Place::class)->findOneBy(array('slug' => $request->query->get('sub_place')))
+        ];
+
+        $businesses = $em->getRepository(Business::class)->businessGuideFilter($params);
 
         $businesses = $paginator->paginate(
             $businesses,

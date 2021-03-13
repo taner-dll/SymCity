@@ -15,13 +15,14 @@
             {{ form_widget(form.place) }}
         </div>
         <div class="form-group">
+            {{ form_label(form.subPlace, 'Semt/Mah.') }}
+            {{ form_widget(form.subPlace) }}
+        </div>
+        <div class="form-group">
             {{ form_label(form.about, 'İşletme Hakkında Bilgiler') }}
             {{ form_widget(form.about) }}
         </div>
-        <div class="form-group">
-            {{ form_label(form.adress, 'Adres') }}
-            {{ form_widget(form.adress) }}
-        </div>
+
         
     </div>
 
@@ -36,29 +37,35 @@
         </div>
 
         <div class="form-group">
-            {{ form_label(form.web, 'Web Adresi') }}
+            {{ form_label(form.adress, 'Adres') }}
+            {{ form_widget(form.adress) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.web, 'Web Sitesi URL') }}
             {{ form_widget(form.web) }}
         </div>
 
 
-        <div class="form-group">
-            {{ form_label(form.map, 'Harita') }}
-            {{ form_widget(form.map) }}
-        </div>
 
         <div class="form-group">
-            {{ form_label(form.facebook, 'Facebook') }}
+            {{ form_label(form.facebook, 'Facebook URL') }}
             {{ form_widget(form.facebook) }}
         </div>
 
         <div class="form-group">
-            {{ form_label(form.twitter, 'Twitter') }}
+            {{ form_label(form.twitter, 'Twitter URL') }}
             {{ form_widget(form.twitter) }}
         </div>
 
         <div class="form-group">
-            {{ form_label(form.instagram, 'Instagram') }}
+            {{ form_label(form.instagram, 'Instagram URL') }}
             {{ form_widget(form.instagram) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.map, 'Google Harita: "Edremit+Körfezi,Balıkesir" ya da "39.58331, 26.92323"') }}
+            {{ form_widget(form.map) }}
         </div>
 
         <div class="form-group">
@@ -67,13 +74,10 @@
         </div>
 
         <div class="form-group">
-            {% if app.request.get('_route') == 'business_edit' %}
-                <img id="preview" src="{{ asset('uploads/business/')~business.featuredPicture }}"
-                     class="img-responsive img-bordered" width="400" height="216"  alt=""/>
-            {% else %}
-                <img id="preview" src=""
-                     class="img-responsive img-bordered" width="400" height="216" alt="" />
-            {% endif %}
+
+            <img id="preview"
+                 class="img-responsive img-bordered" width="400" height="216" alt=""/>
+
         </div>
 
         <input type="hidden" id="cropped_image" name="cropped_image" />

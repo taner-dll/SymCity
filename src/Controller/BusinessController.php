@@ -37,10 +37,10 @@ class BusinessController extends AbstractController
     {
 
         if($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-            $business = $businessRepository->findAll();
+            $business = $businessRepository->findBy(array(),array('id'=>'desc'));
         }
         else{
-            $business = $businessRepository->findBy(array('user'=>$this->getUser()));
+            $business = $businessRepository->findBy(array('user'=>$this->getUser()),array('id'=>'desc'));
         }
 
         return $this->render('business/index.html.twig', [

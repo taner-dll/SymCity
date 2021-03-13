@@ -1,5 +1,65 @@
 import '../css/business.scss'
 
+
+
+//select2
+import 'select2';
+import 'select2/dist/js/i18n/tr';
+
+//select2 theme
+const bootstrap_theme = 'bootstrap';
+
+//select2 uygula
+$('#business_category').select2({
+    theme: bootstrap_theme,
+    placeholder: "Seçiniz...",
+    language: "tr",
+    allowClear: true
+});
+
+$('#business_place').select2({
+    theme: bootstrap_theme,
+    placeholder: "Seçiniz...",
+    language: "tr",
+    allowClear: true
+});
+
+$('#business_subPlace').select2({
+    theme: bootstrap_theme,
+    placeholder: "Seçiniz...",
+    language: "tr",
+    allowClear: true
+});
+
+$('#business_place').on('change', function () {
+    getSubPlaces(this.value);
+});
+
+function getSubPlaces(id) {
+    $('#sub_place_loader').css('display', 'inline');
+    $.ajax({
+        url: Routing.generate('ajax_get_place_neighborhoods'),
+        type: "GET",
+        dataType: "json",
+        data: {place_id: id},
+        statusCode: {
+            200: function (responseObject, /*textStatus, errorThrown*/) {
+                $('#business_subPlace').empty();
+                $.each(responseObject, function (key, value) {
+                    //select2 add dynamically
+                    let newOption = new Option(value.name, value.id, false, false);
+                    $('#business_subPlace').append(newOption);
+
+                });
+                $('#sub_place_loader').css('display', 'none');
+                //seçilmedi olarak işaretle
+                $('#business_subPlace').val(null).trigger('change');
+            }
+        }
+    });
+}
+
+
 /**
  * Inputmask
  */
@@ -37,6 +97,8 @@ if ($('#success_message').val()) {
 //cropper
 import 'cropper/dist/cropper.min';
 import 'jquery-cropper/dist/jquery-cropper.min';
+import $ from "jquery";
+import Routing from "./Routing";
 
 const $image = $("#selected_image");
 const $input = $('#business_featured_picture');

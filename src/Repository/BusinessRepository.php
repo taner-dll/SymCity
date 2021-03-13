@@ -41,39 +41,39 @@ class BusinessRepository extends ServiceEntityRepository
     }
 
 
-    public function businessGuideFilter(Request $request){
+    public function businessGuideFilter($params){
 
         $qb = $this->createQueryBuilder('b')
             ->select('b')
-            ->leftJoin('b.category', 'c')
-            ->leftJoin('b.place', 'p')
-            ->leftJoin('p.parent','pr')
             ->where('b.confirm = :confirm')
-            ->setParameter('confirm',1);
+            ->setParameter('confirm', 1);
 
-        if ($request->query->get('name')):
-            $qb->andWhere($qb->expr()->like('b.name',':bname'))
-                ->setParameter('bname','%'.$request->query->get('name').'%');
+        if (isset($params['name'])):
+            $qb->andWhere($qb->expr()->like('b.name', ':name'))
+                ->setParameter('name', '%' . $params['name'] . '%');
         endif;
 
-        if ($request->query->get('cat')):
-            $qb->andWhere('c.short_name = :sname')
-                ->setParameter('sname',$request->query->get('cat'));
+        //bölge
+        if (isset($params['place'])):
+            $qb->andWhere('b.place = :place')
+                ->setParameter('place', $params['place']);
         endif;
 
-        if ($request->query->get('place')):
-            $qb->andWhere('pr.id = :pr_id')
-                ->setParameter('pr_id',$request->query->get('place'));
+        //bölge
+        if (isset($params['sub_place'])):
+            $qb->andWhere('b.sub_place = :sub_place')
+                ->setParameter('sub_place', $params['sub_place']);
         endif;
 
-        if ($request->query->get('sub_place')):
-            $qb->andWhere('b.place = :pl_id')
-                ->setParameter('pl_id',$request->query->get('sub_place'));
+        //kategori
+        if (isset($params['cat'])):
+            $qb->andWhere('b.category = :cat')
+                ->setParameter('cat', $params['cat']);
         endif;
 
-
-
+        $qb->orderBy('b.id', 'desc');
         return $qb->getQuery()->execute();
+
     }
 
 

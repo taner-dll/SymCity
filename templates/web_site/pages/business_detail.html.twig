@@ -2,6 +2,33 @@
 
 {% block title %}{{ business_detail.name|title }}{% endblock %}
 
+{% block metaTags %}
+    <meta name="description" lang="tr" content="Edremit Körfezi - İşletme ve İş Rehberi: {{ business_detail.name }}"/>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:site_name" content="www.edremitkorfezi.com"/>
+    <meta property="og:title" content="Edremit Körfezi - İşletme ve İş Rehberi: {{ business_detail.name }}"/>
+    <meta property="og:description" content="Edremit Körfezi - İşletme ve İş Rehberi: {{ business_detail.name }}"/>
+    <meta property="og:image" content="{{ asset('build/img/front_end/logo.png') }}"/>
+    <meta property="og:url" content="https://www.edremitkorfezi.com/isletme-detay/{{ business_detail.id }}/{{ business_detail.slug }}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:article:tag" content="Edremit Körfezi - İşletme ve İş Rehberi: {{ business_detail.name }}"/>
+    <meta property="og:article:author" content="Edremit Körfezi"/>
+    <meta property="og:locale" content="tr_TR"/>
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@edremitkorfezi"/>
+    <meta name="twitter:creator" content="@edremitkorfezi"/>
+    <meta name="twitter:url" content="https://www.edremitkorfezi.com/isletme-detay/{{ business_detail.id }}/{{ business_detail.slug }}"/>
+    <meta name="twitter:title" content="Edremit Körfezi - İşletme ve İş Rehberi: {{ business_detail.name }}"/>
+    <meta name="twitter:description" content="Edremit Körfezi - İşletme ve İş Rehberi: {{ business_detail.name }}"/>
+    <meta name="twitter:image:src" content="{{ asset('build/img/front_end/logo.png') }}"/>
+    <meta name="twitter:domain" content="edremitkorfezi.com"/>
+    <!-- TODO meta etiketleri ptv için düzenle  -->
+
+{% endblock %}
+
 {% block body %}
 
     <!-- Blog -->
@@ -26,6 +53,11 @@
                         <div class="blog-detail">
 
                             <ul class="blog-admin">
+
+                                <li>
+                                    <div class="sharethis-inline-share-buttons"></div>
+                                </li>
+
                                 <li><i class="fa fa-user"></i>{{ 'business_detail.posted_by'|trans({}, 'business') }}:
                                     <a href="#"> {{ business_detail.user.username }}</a>
                                 </li>
@@ -49,23 +81,51 @@
                     </div>
 
                     <div class="right-bar bg_white">
-
                         <h4>Daha Fazla <span>Bilgi Edinin</span></h4>
                         <div id="cd-google-map">
+                            <div id="google-container">
+                                <iframe
+                                        width="242"
+                                        height="200"
+                                        style="border:0"
+                                        src="https://www.google.com/maps/embed/v1/search?key=AIzaSyAtD3O2TAtjHPQkIoZV1bOmqmgxEwbsTyk
+                                        &q={{ business_detail.map }}" allowfullscreen>
+                                </iframe>
 
-
-
-                            <p><i class="fa fa-phone" aria-hidden="true"></i>{{ business_detail.phone }}</p>
-                            <p><i class="fa fa-globe" aria-hidden="true"></i>
-                                <a target="_blank" href="{{ business_detail.web }}">{{ business_detail.web }}</a>
-                            </p>
-                            <p><i class="fa fa-facebook" aria-hidden="true"></i>{{ business_detail.facebook }}</p>
-                            <p><i class="fa fa-twitter" aria-hidden="true"></i>{{ business_detail.twitter }}</p>
-                            <p><i class="fa fa-instagram" aria-hidden="true"></i>{{ business_detail.instagram }}</p>
-
+                            </div>
                             <p><i class="fa fa-map-marker" aria-hidden="true"></i>{{ business_detail.adress }}</p>
+                            <p><i class="fa fa-phone" aria-hidden="true"></i> {{ business_detail.phone }}</p>
+
+
+
+                            {% if business_detail.web %}
+                                <p><i class="fa fa-globe" aria-hidden="true"></i>
+                                    <a target="_blank" href="{{ business_detail.web }}">Web Sitesi &raquo;</a>
+                                </p>
+                            {% endif %}
+
+                            {% if business_detail.facebook %}
+                                <p><i class="fa fa-facebook" aria-hidden="true"></i>
+                                    <a target="_blank" href="{{ business_detail.facebook }}">Facebook &raquo;</a>
+                                </p>
+                            {% endif %}
+
+                            {% if business_detail.instagram %}
+                                <p><i class="fa fa-instagram" aria-hidden="true"></i>
+                                    <a target="_blank" href="{{ business_detail.instagram }}">Instagram &raquo;</a>
+                                </p>
+                            {% endif %}
+
+                            {% if business_detail.twitter %}
+                                <p><i class="fa fa-twitter" aria-hidden="true"></i>
+                                    <a target="_blank" href="{{ business_detail.twitter }}">Twitter &raquo;</a>
+                                </p>
+                            {% endif %}
+
+
                         </div>
                     </div>
+
 
 
 
@@ -77,4 +137,11 @@
     </section>
     <!-- Blog -->
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#{{ encore_entry_script_tags('article_detail') }}#}
+    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5fdef44c035860001143952d&product=inline-share-buttons"
+            async="async"></script>
 {% endblock %}
