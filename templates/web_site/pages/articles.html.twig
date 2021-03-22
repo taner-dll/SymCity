@@ -85,7 +85,7 @@
                                                 <p>{{ (a.article|striptags)[:100] }}&hellip;</p>
                                             </div>
                                             <div class="popular-listing-add">
-                                                <span><b>Yazar:</b> {{ a.authorName }}</span>
+                                                <span><b>Yazar:</b> {{ a.user.author.name }}</span>
                                                 <span><b>Tarih:</b> {{ a.lastUpdate|date('d/m/Y') }}</span>
 
                                                 <span class="pull-right">

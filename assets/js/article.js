@@ -22,14 +22,14 @@ const Toast = Swal.mixin({
 $('#new_article_submit_btn').on('click',function () {
 
 
-    let author_name = $('#article_author_name').val();
+
     let title = $('#article_title').val();
     let article = $('#article_article').val();
 
 
 
     //console.log(author_name.length);
-    if (author_name.length< 5){
+/*    if (author_name.length< 5){
         Swal.fire({
             position: 'center',
             showConfirmButton: true,
@@ -39,7 +39,7 @@ $('#new_article_submit_btn').on('click',function () {
             text: 'Lütfen "Bilgilerim" ekranına giderek, geçerli bir ad ve soyad belirleyiniz.'
         });
         return false;
-    }
+    }*/
 
     if (title.length< 3){
         Swal.fire({
@@ -66,11 +66,7 @@ $('#new_article_submit_btn').on('click',function () {
     }
 
 
-
-
     $('#article_form').submit();
-
-
 
 
 });

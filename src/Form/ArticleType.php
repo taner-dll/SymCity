@@ -17,12 +17,7 @@ class ArticleType extends AbstractType
             ->add('title', TextType::class, [
                 'required'=>true
             ])
-            ->add('author_name', TextType::class, [
-                'required'=>true,
-                'attr'=>[
-                    'readonly'=>true
-                ]
-            ])
+
             ->add('article',TextareaType::class, [
                 'required'=>true
             ])

@@ -52,7 +52,7 @@
                         <div class="places-list">
                             <div class="media">
                                 <div class="media-heading">
-                                    <h5><a href="{{ path('articles', {'author':a.user.id}) }}">{{ a.authorName }}</a></h5>
+                                    <h5><a href="{{ path('articles', {'author':a.user.id}) }}">{{ a.user.author.name }}</a></h5>
                                 </div>
                                 <div class="media-left">
                                         <img class="img-circle"

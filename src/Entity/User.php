@@ -144,6 +144,11 @@ class User implements UserInterface
      */
     private $articles;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Author", cascade={"persist", "remove"})
+     */
+    private $author;
+
     public function __construct()
     {
         $this->pTVComments = new ArrayCollection();
@@ -643,6 +648,18 @@ class User implements UserInterface
                 $article->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?Author
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?Author $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

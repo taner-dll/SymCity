@@ -6,6 +6,7 @@ require("bootstrap-datepicker/dist/js/bootstrap-datepicker.min");
 require("bootstrap-datepicker/dist/locales/bootstrap-datepicker.tr.min");
 
 import {scorePassword} from './utils/password_strength_checker';
+import {validURL} from './utils/validation';
 
 
 let tel_mask = new InputMask("(999) 999-9999");
@@ -110,6 +111,80 @@ $('#update_password_btn').on('click', function () {
 
 });
 
+
+$('#update_author_btn').on('click', function () {
+
+    let author_fullname = $('#author_fullname').val();
+
+    let author_instagram = $('#author_instagram').val();
+    let author_twitter = $('#author_twitter').val();
+    let author_facebook = $('#author_facebook').val();
+    let author_web = $('#author_web').val();
+
+    if (author_fullname.length < 5) {
+        Toast_Center.fire({
+            title: "Yazar ad ve soyadı eksiksiz girilmelidir!",
+            type: "warning",
+        });
+        return false;
+    }
+
+    if (author_web.length > 0){
+        if (!validURL(author_web)){
+            Toast_Center.fire({
+                title: "Geçerli bir web adresi girilmelidir!",
+                type: "warning",
+            });
+            return false;
+        }
+    }
+
+
+    $.ajax({
+        url: Routing.generate('user_update_author'),
+        type: "POST",
+        //dataType: "json",
+        data: {
+            author_fullname: author_fullname,
+            author_instagram: author_instagram,
+            author_twitter: author_twitter,
+            author_facebook: author_facebook,
+            author_web: author_web
+        },
+        statusCode: {
+            /**
+             * Response Manipulation
+             * @param responseObject
+             * @param textStatus
+             * @param jqXHR
+             */
+            404: function (responseObject, textStatus, jqXHR) {
+                // No content found (404)
+                // This code will be executed if the server returns a 404 response
+            },
+            503: function (responseObject, textStatus, errorThrown) {
+                // Service Unavailable (503)
+                // This code will be executed if the server returns a 503 response
+            },
+            200: function (responseObject, textStatus, errorThrown) {
+                //console.log(responseObject + textStatus + errorThrown)
+                Toast_Center.fire({
+                    title: "Yazar profiliniz başarılı bir şekilde güncellendi.",
+                    type: "success",
+                });
+
+            }
+        }
+    }).done(function (data) {
+        //console.log(data);
+    }).fail(function (jqXHR, textStatus) {
+        console.log('Something went wrong: ' + textStatus);
+    }).always(function (jqXHR, textStatus) {
+        console.log('Ajax request was finished')
+    });
+
+
+});
 
 //cropper
 import 'cropper/dist/cropper.min';

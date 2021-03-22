@@ -8,3 +8,4 @@ function validURL(str) {
     return !!pattern.test(str);
 }
 
+export {validURL};

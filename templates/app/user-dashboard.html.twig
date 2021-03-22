@@ -25,6 +25,9 @@
                     <li class=""><a href="#change_profile_picture" data-toggle="tab"
                                     aria-expanded="false">Profil Resmimi Değiştir</a>
                     </li>
+                    <li class=""><a href="#author_profile" data-toggle="tab"
+                                    aria-expanded="false">Yazar Profili</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
 
@@ -416,6 +419,81 @@
 
                         </form>
 
+                    </div>
+
+                    <div class="tab-pane" id="author_profile">
+
+                        <form class="form-horizontal" method="post" action="#"  id="update_author_form">
+
+                            <div class="form-group">
+                                <div class="col-sm-6">
+
+                                    <label for="author_fullname">Yazılarınızda Görünecek Adınız:</label>
+                                    <input type="text" required value="{{ app.user.author.name }}"
+                                           class="form-control" id="author_fullname"  minlength="6"
+                                           name="author_fullname" placeholder="Ad Soyad">
+
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-group">
+                                <div class="col-sm-6">
+
+                                    <label for="author_instagram">Instagram:</label>
+                                    <input type="text" value="{{ app.user.author.instagram }}"
+                                           class="form-control" id="author_instagram"
+                                           name="author_instagram" placeholder="Kullanıcı Adı (opsiyonel)">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6">
+
+                                    <label for="author_twitter">Twitter:</label>
+                                    <input type="text" value="{{ app.user.author.twitter }}"
+                                           class="form-control" id="author_twitter"
+                                           name="author_twitter" placeholder="Kullanıcı Adı (opsiyonel)">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6">
+
+                                    <label for="author_facebook">Facebook:</label>
+                                    <input type="text" value="{{ app.user.author.facebook }}"
+                                           class="form-control" id="author_facebook"  minlength="6"
+                                           name="author_facebook" placeholder="Kullanıcı Adı (opsiyonel)">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6">
+
+                                    <label for="author_web">Web Site:</label>
+                                    <input type="text" value="{{ app.user.author.website }}"
+                                           class="form-control" id="author_web"  minlength="6"
+                                           name="author_web" placeholder="www.siteniz.com (opsiyonel)">
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+
+                                    <button type="button" id="update_author_btn"
+                                            class="btn btn-success">Yazar Profilimi Güncelle
+                                    </button>
+
+                                </div>
+                            </div>
+
+                        </form>
                     </div>
 
 

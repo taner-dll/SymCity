@@ -26,7 +26,7 @@
                         <div class="places-list">
                             <div class="media">
                                 <div class="media-heading">
-                                    <h4>{{ article_detail.authorName}}</h4>
+                                    <h4>{{ article_detail.user.author.name }}</h4>
                                 </div>
                                 <div class="media-left">
                                     <img class="img-circle"
@@ -34,11 +34,44 @@
                                          src="{{ asset('uploads/user/picture/') }}{{ article_detail.user.picture }}" alt="image">
                                 </div>
 
+
+                                <hr>
+
+                                <div class="media-bottom">
+                                    {% if article_detail.user.author.instagram %}
+                                        <i class="fa fa-instagram" style="font-size: 16px"></i>
+                                    <a href="http://www.instagram.com/{{ article_detail.user.author.instagram }}/"
+                                       style="text-decoration: underline; font-size: 16px"
+                                       target="_blank">{{ article_detail.user.author.instagram }}</a><br>
+                                    {% endif %}
+
+                                    {% if article_detail.user.author.twitter %}
+                                        <i class="fa fa-twitter" style="font-size: 16px"></i>
+                                        <a href="http://www.twitter.com/{{ article_detail.user.author.twitter }}/"
+                                           style="text-decoration: underline; font-size: 16px"
+                                           target="_blank">{{ article_detail.user.author.twitter }}</a><br>
+                                    {% endif %}
+
+                                    {% if article_detail.user.author.facebook %}
+                                        <i class="fa fa-facebook" style="font-size: 16px"></i>
+                                        <a href="http://www.facebook.com/{{ article_detail.user.author.facebook }}/"
+                                           style="text-decoration: underline; font-size: 16px"
+                                           target="_blank">{{ article_detail.user.author.facebook }}</a><br>
+                                    {% endif %}
+
+                                    {% if article_detail.user.author.website %}
+                                        <i class="fa fa-globe" style="font-size: 16px"></i>
+                                        <a href="http://{{ article_detail.user.author.website }}/"
+                                           style="text-decoration: underline; font-size: 16px"
+                                           target="_blank">{{ article_detail.user.author.website }}</a><br>
+                                    {% endif %}
+                                </div>
+
                             </div>
                         </div>
-                        <hr>
 
-                        <a href="{{ path('articles', {author:article_detail.user.id})}}" class="btn-block flat-butt flat-primary-butt" style="color: #FFFFFF;text-align: center">
+                        <a href="{{ path('articles', {author:article_detail.user.id})}}" class="btn-block flat-butt flat-primary-butt"
+                           style="color: #FFFFFF;text-align: center; margin-top: 10px;">
                             Tüm Yazılarını Göster
                         </a>
                     </div>
@@ -65,7 +98,7 @@
 
                             <ul class="blog-admin">
                                 <li><i class="fa fa-user"></i>{{ 'articles.detail.posted_by'|trans({}, 'article') }}:
-                                    <a href="#"> {{ article_detail.authorName}}</a>
+                                    <a href="#">{{ article_detail.user.author.name }}</a>
                                 </li>
                                 <li><i class="fa fa-clock-o"></i>
                                     {{ 'articles.detail.last_update'|trans({}, 'article') }}:

@@ -6,33 +6,7 @@
             {{ form_label(form.title, 'Yazı Başlığı') }}
             {{ form_widget(form.title) }}
         </div>
-        <div class="form-group">
-            {{ form_label(form.author_name, 'Yazarın Sayfada Görünecek Adı ve Soyadı') }}
 
-
-            {% set last_name = null %}
-            {% set first_name = null %}
-            {% set full_name = null %}
-
-
-            {# kontrol amaçlı bir mantık, çok da önemli değil, değiştirilebilir #}
-            {% if app.user.firstname is not null %}
-                {% if app.user.firstname|length > 2 %}
-                    {% set full_name  = app.user.firstname %}
-                    {% if app.user.lastname|length > 1 %}
-                        {% set full_name = full_name ~ " " ~ app.user.lastname %}
-                    {% endif %}
-                {% endif %}
-            {% endif %}
-
-            {% if full_name|length < 5 %}
-                {% set full_name = null %}
-            {% endif %}
-
-
-            {{ form_widget(form.author_name, {'value' : full_name  }) }}
-
-        </div>
 
         <div class="form-group">
             {{ form_label(form.article, 'Yazı') }}
@@ -45,7 +19,7 @@
 
         <div class="callout">
             <p style="font-style: italic; color: red;">
-                Oturum süresi sona ereceğinden; <br>yazınızı öncelikle bir yazı editöründe hazırlamanızı,
+                Oturum süresi sona ereceğinden,<br>yazınızın kaybolmaması için;<br>yazınızı önceden bir yazı editöründe hazırlamanızı,
                 hazırladığınız yazıyı son aşama olarak buraya kaydetmenizi öneririz.
             </p>
         </div>
@@ -53,7 +27,7 @@
         <div class="callout">
             <p style="font-style: italic">
                 Kontrol ve düzenleme süresinin daha kısa sürede tamamlanması için<br> lütfen
-                yazılarınızı -elinizden geldiğince- imlâ kurallarına uygun bir şekilde hazırlamaya özen gösteriniz.
+                yazılarınızı <b>elinizden geldiğince</b>, imlâ kurallarına uygun bir şekilde hazırlamaya özen gösteriniz.
             </p>
         </div>
 

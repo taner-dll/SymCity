@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Author;
 use App\Entity\User;
 use App\Traits\File;
 use App\Traits\Util;
@@ -139,4 +140,52 @@ class UserController extends AbstractController
         }
         return $this->redirectToRoute('app_dashboard');
     }
+
+
+    /**
+     * @Route("/update-author", name="user_update_author", methods={"POST"}, options={"expose"=true})
+     * @param Request $request
+     * @return Response
+     */
+    public function updateAuthor(Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        //dump($request->request->all());
+        $user = $em->find(User::class, $this->getUser()->getId());
+
+
+        //dump($request->getQueryString());exit;
+        //dump($user->getAuthor());exit;
+
+
+        if ($user->getAuthor()){
+
+            $author = $user->getAuthor();
+            $author->setName($request->request->get('author_fullname'));
+            $author->setFacebook($request->request->get('author_facebook'));
+            $author->setTwitter($request->request->get('author_twitter'));
+            $author->setWebsite($request->request->get('author_web'));
+            $author->setInstagram($request->request->get('author_instagram'));
+            $em->flush();
+
+        }
+        else{
+            $author = new Author();
+            $author->setName($request->request->get('author_fullname'));
+            $author->setFacebook($request->request->get('author_facebook'));
+            $author->setTwitter($request->request->get('author_twitter'));
+            $author->setWebsite($request->request->get('author_web'));
+            $author->setInstagram($request->request->get('author_instagram'));
+
+            $em->persist($author);
+            $em->flush();
+
+            $user->setAuthor($author);
+            $em->flush();
+
+        }
+
+        return new JsonResponse('author profile has been successfully updated', Response::HTTP_OK);
+    }
+
 }

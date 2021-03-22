@@ -18,10 +18,7 @@ class Article
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $author_name;
+
 
     /**
      * @ORM\Column(type="text")
@@ -81,17 +78,7 @@ class Article
         return $this->id;
     }
 
-    public function getAuthorName(): ?string
-    {
-        return $this->author_name;
-    }
 
-    public function setAuthorName(string $author_name): self
-    {
-        $this->author_name = $author_name;
-
-        return $this;
-    }
 
     public function getArticle(): ?string
     {
