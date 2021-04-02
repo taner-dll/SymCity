@@ -1,4 +1,4 @@
-        {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
         
         {% block title %}
             {% if is_granted('ROLE_ADMIN') %}
@@ -14,7 +14,7 @@
         {% endblock %}
         
         {% block breadcrumb %}
-        
+
             <section class="content-header">
                 <h1>
                     Yeni yazı eklemektesiniz
@@ -32,7 +32,7 @@
                     <li class="active"><a href="{{ path('article_new') }}">Yeni Ekle</a></li>
                 </ol>
             </section>
-        
+
         {% endblock %}
         
         {% block body %}
@@ -45,25 +45,35 @@
                         </div>-->
                         <!-- /.box-header -->
                         <!-- form start -->
-        
-                        {{ include('article/_form.html.twig') }}
-        
-                        <div class="box-footer">
-                            {#<a class="btn btn-primary" style="margin-right: 10px;" href="{{ path('article_index') }}">
-                                Liste</a>#}
-                            <button type="button" id="new_article_submit_btn"
-                                    class="btn btn-success">{{ button_label|default('Kaydet ve Onaya Gönder') }}</button>
-        
-                        </div>
 
-                        {{ form_end(form) }}
-        
+                        {% if app.user.author is not null %}
 
-        
+                            {{ include('article/_form.html.twig') }}
+
+                            <div class="box-footer">
+                                {# <a class="btn btn-primary" style="margin-right: 10px;" href="{{ path('article_index') }}">
+                                Liste</a> #}
+                                <button type="button" id="new_article_submit_btn"
+                                        class="btn btn-success">{{ button_label|default('Kaydet ve Onaya Gönder') }}</button>
+
+                            </div>
+
+                            {{ form_end(form) }}
+
+                        {% else %}
+
+                            <div class="callout callout-info">
+                                <h4><i class="fa fa-warning"></i> Henüz yazar profili oluşturulmamış</h4>
+                                <p>Lütfen, <a href="{{ path('app_dashboard') }}">Bilgilerim</a> ekranından yazar bilgilerinizi giriniz.</p>
+                            </div>
+
+                        {% endif %}
+
+
                     </div>
                 </div>
             </div>
-        
+
         {% endblock %}
         
         {% block javascripts %}

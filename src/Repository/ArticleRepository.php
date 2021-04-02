@@ -28,6 +28,7 @@ class ArticleRepository extends ServiceEntityRepository
 
         $qb = $this->createQueryBuilder('a')
             ->select('a')
+            ->innerJoin('a.user', 'u')
             ->where('a.confirm = :confirm')
             ->setParameter('confirm', 1);
 
@@ -41,8 +42,51 @@ class ArticleRepository extends ServiceEntityRepository
                 ->setParameter('user', $request->query->get('author'));
         endif;
 
+        $qb->andWhere('u.author is not null');
+
         return $qb->getQuery()->execute();
     }
+
+
+    public function articlesHaveUser()
+    {
+
+        $em = $this->getEntityManager();
+
+        $qb = $this->createQueryBuilder('a')
+            ->select('a')
+            ->innerJoin('a.user', 'u')
+
+            ->where('a.confirm = :confirm')
+            ->andWhere('u.author is not null')
+            ->setParameter('confirm', 1)
+            ->orderBy('a.id','desc');
+
+
+
+        return $qb->getQuery()->execute();
+    }
+
+/*    public function articleHasUser($id)
+    {
+
+        $em = $this->getEntityManager();
+
+        $qb = $this->createQueryBuilder('a')
+            ->select('a')
+            ->innerJoin('a.user', 'u')
+
+            ->where('a.confirm = :confirm')
+            ->andWhere('u.author is not null')
+            ->andWhere('a.id = :id')
+            ->setParameter('id',$id)
+            ->setParameter('confirm', 1)
+            ->orderBy('a.id','desc');
+
+
+
+        return $qb->getQuery()->execute();
+    }*/
 
 
 }

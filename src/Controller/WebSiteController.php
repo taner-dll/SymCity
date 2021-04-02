@@ -14,6 +14,7 @@ use App\Entity\PTVCategory;
 use App\Traits\Util;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,11 +42,8 @@ class WebSiteController extends AbstractController
         $advert_category = $em->getRepository(AdCategory::class)->adCategorySort();
         $places = $em->getRepository(Place::class)->findAll();
 
-        $articles = $em->getRepository(Article::class)->findBy(
-            ['confirm' => 1],
-            ['id' => 'DESC'],
-            4
-        );
+        $articles = $em->getRepository(Article::class)->articlesHaveUser();
+        //dump(count($articles));exit;
 
         return $this->render('web_site/pages/main.html.twig',
             array(
@@ -96,8 +94,11 @@ class WebSiteController extends AbstractController
     public function article_detail($id): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $article_detail = $em->getRepository(Article::class)->findOneBy(
-            array('confirm' => 1, 'id' => $id));
+        $article_detail = $em->getRepository(Article::class)->findOneBy(array('confirm'=>1, 'id'=>$id));
+
+        if (!$article_detail):
+            return new JsonResponse("Yazıya ait yazar profili kaldırılmış!");
+        endif;
 
         return $this->render('web_site/pages/article_detail.html.twig', [
             'article_detail' => $article_detail,
