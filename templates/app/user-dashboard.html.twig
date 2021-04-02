@@ -429,7 +429,8 @@
                                 <div class="col-sm-6">
 
                                     <label for="author_fullname">Yazılarınızda Görünecek Adınız:</label>
-                                    <input type="text" required value="{{ app.user.author.name }}"
+                                    <input type="text" required
+                                           value="{% if app.user.author %}{{ app.user.author.name }}{% endif %}"
                                            class="form-control" id="author_fullname"  minlength="6"
                                            name="author_fullname" placeholder="Ad Soyad">
 
@@ -442,7 +443,8 @@
                                 <div class="col-sm-6">
 
                                     <label for="author_instagram">Instagram:</label>
-                                    <input type="text" value="{{ app.user.author.instagram }}"
+                                    <input type="text"
+                                           value="{% if app.user.author %}{{ app.user.author.instagram }}{% endif %}"
                                            class="form-control" id="author_instagram"
                                            name="author_instagram" placeholder="Kullanıcı Adı (opsiyonel)">
 
@@ -453,7 +455,8 @@
                                 <div class="col-sm-6">
 
                                     <label for="author_twitter">Twitter:</label>
-                                    <input type="text" value="{{ app.user.author.twitter }}"
+                                    <input type="text"
+                                           value="{% if app.user.author %}{{ app.user.author.twitter }}{% endif %}"
                                            class="form-control" id="author_twitter"
                                            name="author_twitter" placeholder="Kullanıcı Adı (opsiyonel)">
 
@@ -464,7 +467,8 @@
                                 <div class="col-sm-6">
 
                                     <label for="author_facebook">Facebook:</label>
-                                    <input type="text" value="{{ app.user.author.facebook }}"
+                                    <input type="text"
+                                           value="{% if app.user.author %}{{ app.user.author.facebook }}{% endif %}"
                                            class="form-control" id="author_facebook"  minlength="6"
                                            name="author_facebook" placeholder="Kullanıcı Adı (opsiyonel)">
 
@@ -475,7 +479,8 @@
                                 <div class="col-sm-6">
 
                                     <label for="author_web">Web Site:</label>
-                                    <input type="text" value="{{ app.user.author.website }}"
+                                    <input type="text"
+                                           value="{% if app.user.author %}{{ app.user.author.website }}{% endif %}"
                                            class="form-control" id="author_web"  minlength="6"
                                            name="author_web" placeholder="www.siteniz.com (opsiyonel)">
 
