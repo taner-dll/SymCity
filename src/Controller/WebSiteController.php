@@ -81,6 +81,7 @@ class WebSiteController extends AbstractController
         return $this->render('web_site/pages/articles.html.twig', [
             'articles' => $articles
         ]);
+
     }
 
     /**
