@@ -13,27 +13,41 @@
 
                 <div class="row">
 
-
                     {% for b in business %}
 
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="popular-listing-box">
                                 <div class="popular-listing-img">
-                                    <figure class="effect-ming">
-                                        {% if b.featuredPicture %}
 
-                                            <img src="{{ asset('uploads/business/') }}/{{ b.featuredPicture }}" alt="image">
+                                    <figure class="effect-ming">
+
+                                        {% if b.featuredPicture %}
+                                            <img src="{{ asset('uploads/business/') }}/{{ b.featuredPicture }}"
+                                                 alt="image" style="width: 280px; height: 151px;">
                                         {% else %}
-                                            <img src="{{ asset('build/img/no-image.png') }}" alt="image">
+                                            <img src="{{ asset('build/img/no-image-800x432.png') }}" alt="image"
+                                                 style="width: 280px; height: 151px;">
                                         {% endif %}
+
                                     </figure>
+
                                 </div>
                                 <div class="popular-listing-detail">
-                                    <h3><a href="#">{{ b.name }}</a></h3>
+
+                                    <h3>
+                                        <a href="{{ path('business_detail',
+                                            {'id':b.id, 'slug':b.slug}) }}">{{ b.name }}</a>
+                                    </h3>
+
                                 </div>
                                 <div class="popular-listing-add">
-                                    {#<span><i class="fa fa-map-marker" aria-hidden="true"></i>{{ b.place.parent.name }}-{{ b.place.name }}</span>
-                                    <span><i class="fa fa-tag" aria-hidden="true"></i>{{ b.category.shortName|trans({}, 'business') }}</span>#}
+                                    <span>
+                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                        {{ b.place.name }}
+                                    </span>
+                                    <span>
+                                        ({{ b.category.shortName|trans({}, 'business') }})
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -41,47 +55,136 @@
                     {% endfor %}
 
                 </div>
-
-
             </div>
-
 
 
             <div class="col-md-3 col-sm-3 col-xs-12">
 
-                {% if articles|length > 0 %}
                 <div class="right-bar">
-                    <h4 style="padding-bottom: 10px">Son Eklenen <span>Yazılar</span></h4>
 
-                    {% for a in articles %}
+                    <h4 style="padding-bottom: 10px">Hızlı <span>Ara</span></h4>
 
-                        <div class="places-list">
-                            <div class="media">
-                                <div class="media-heading">
-                                    <h5><a href="{{ path('articles', {'author':a.user.id}) }}">{{ a.user.author.name }}</a></h5>
-                                </div>
-                                <div class="media-left">
-                                        <img class="img-circle"
-                                             style="max-width: 64px; max-height: 64px;"
-                                             src="{{ asset('uploads/user/picture/') }}{{ a.user.picture }}" alt="image">
-                                </div>
-                                <div class="media-right">
-                                    <a href="{{ path('article_detail', {id:a.id}) }}" style="text-decoration: underline">
-                                        {{ a.title }} &raquo;
-                                    </a>
-                                </div>
-                            </div>
+                    <form method="post" action="{{ path('search_router') }}">
+
+
+                        <div class="form-group">
+                            <select id="select_category" name="category" style="width: 100%" required>
+                                <option></option>
+                                <option value="business">İşletme aramak istiyorum</option>
+                                <option value="advert">İlan aramak istiyorum</option>
+                                <option value="event">Etkinlik aramak istiyorum</option>
+                                <option value="announce">Duyuru aramak istiyorum</option>
+                            </select>
                         </div>
 
-                    {% endfor %}
+                        <div class="form-group">
+                            <select id="select_business_category" name="business_category" style="width: 100%;">
+                                <option></option>
+                                <option value="all">Tüm İşletme Kategorilerinde Ara</option>
+                                {% for bc in business_category %}
+                                    <option value="{{ bc.id }}">{{ bc.shortName|trans({},'business') }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
-                    <hr>
+                        <div class="form-group">
 
-                    <a href="{{ path('articles')}}" class="btn-block flat-butt flat-primary-butt" style="color: #FFFFFF;text-align: center">
-                        Tüm Yazılar
-                    </a>
+                            <select id="select_advert_category" name="advert_category" style="width: 100%;">
+                                <option></option>
+                                <option value="all">Tüm İlan Kategorilerinde Ara</option>
+                                {% for ac in advert_category %}
+                                    <option value="{{ ac.id }}">{{ ac.shortName|trans({},'advert') }}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+                            <select id="select_advert_subcategory" name="advert_subcategory" style="width: 100%">
+                                <!-- web_site.js ajax -->
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <select id="select_location" name="location" style="width: 100%">
+                                <option></option>
+                                <option value="all">Tüm Bölgelerde Ara</option>
+                                {% for p in places %}
+                                    <option value="{{ p.id }}">{{ p.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="text" name="word" class="form-control" placeholder="Kelime ile ara (opsiyonel)"/>
+                        </div>
+
+
+                        <hr>
+
+                        <button type="submit"
+
+                                class="flat-butt flat-primary-butt btn-block">Hızlı Ara
+                        </button>
+
+
+                    </form>
 
                 </div>
+
+
+                {% if articles|length > 0 %}
+                    <div class="right-bar">
+                        <h4 style="padding-bottom: 10px">Son Eklenen <span>Yazılar</span></h4>
+
+                        {% for a in articles %}
+
+                            <div class="places-list">
+                                <div class="media">
+
+                                    <div class="media-heading">
+
+                                        <h5>
+                                            <a href="{{ path('articles', {'author':a.user.id}) }}">
+                                                {{ a.user.author.name }}</a>
+                                        </h5>
+
+                                    </div>
+
+
+                                    {% if a.user.picture %}
+
+                                        <div class="media-left">
+                                            <img class="img-circle"
+                                                 style="max-width: 64px; max-height: 64px;"
+                                                 src="{{ asset('uploads/user/picture/') }}{{ a.user.picture }}" alt="image">
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    <div class="media-right">
+
+                                        <a href="{{ path('article_detail', {id:a.id}) }}"
+                                           style="text-decoration: underline">
+                                            {{ a.title }} &raquo;
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+                        <hr>
+
+                        <a href="{{ path('articles') }}" class="btn-block flat-butt flat-primary-butt"
+                           style="color: #FFFFFF;text-align: center">
+                            Tüm Yazılar
+                        </a>
+
+                    </div>
                 {% endif %}
 
             </div>

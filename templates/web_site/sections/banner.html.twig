@@ -1,6 +1,8 @@
 <!-- Banner -->
 <section id="banner">
     <div class="container">
+
+
         <div class="row">
 
             <div class="banner-search">
@@ -11,99 +13,12 @@
                     <h1>HOŞ GELDİNİZ</h1>
                 {% endif %}
 
-                <p style="font-size: 12pt;padding-bottom: 10px;">
+                <p style="font-size: 14pt;padding-bottom: 10px;font-style: italic">
                     Edremit körfezindeki tüm işletmeleri, ilanları, etkinlik ve duyuruları tek noktada buluşturuyoruz...
                     {#Kayıt olmak için <a href="{{ path('app_register') }}" style="text-decoration: underline">tıklayınız</a>#}
                 </p>
 
 
-
-                <div class="advance-search">
-                    <form method="post" action="{{ path('search_router') }}">
-
-                        <div class="row">
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <select id="select_category" name="category" style="width: 100%" required>
-                                        <option></option>
-                                        <option value="business">İşletme aramak istiyorum</option>
-                                        <option value="advert">İlan aramak istiyorum</option>
-                                        <option value="event">Etkinlik aramak istiyorum</option>
-                                        <option value="announce">Duyuru aramak istiyorum</option>
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <select id="select_location" name="location" style="width: 100%">
-                                        <option></option>
-                                        <option value="all">Tüm Bölgelerde Ara</option>
-                                        {% for p in places %}
-                                            <option value="{{ p.id }}">{{ p.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <input type="text" name="word" class="form-control" placeholder="Kelime ile ara (opsiyonel)"/>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-
-                                    <select id="select_business_category" name="business_category" style="width: 100%;display: none">
-                                        <option></option>
-                                        <option value="all">Tüm İşletme Kategorilerinde Ara</option>
-                                        {% for bc in business_category %}
-                                            <option value="{{ bc.id }}">{{ bc.shortName|trans({},'business') }}</option>
-                                        {% endfor %}
-                                    </select>
-
-
-                                    <select id="select_advert_category" name="advert_category" style="width: 100%;display: none">
-                                        <option></option>
-                                        <option value="all">Tüm İlan Kategorilerinde Ara</option>
-                                        {% for ac in advert_category %}
-                                            <option value="{{ ac.id }}">{{ ac.shortName|trans({},'advert') }}</option>
-                                        {% endfor %}
-                                    </select>
-
-                                </div>
-
-
-                            </div>
-
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <select id="select_advert_subcategory" name="advert_subcategory" style="width: 100%">
-                                        <!-- web_site.js ajax -->
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <button type="submit"
-                                        style="width: 50%; margin-top: -5px"
-                                        class="btn btn-primary btn-block pull-right">Hızlı Ara
-                                </button>
-                            </div>
-
-                        </div>
-                    </form>
-
-                </div>
 
             </div>
         </div>
@@ -114,10 +29,12 @@
         <ul>
             <li><a href="https://www.facebook.com/edremitkorfezportali/" target="_blank">
                     <i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-            <li><a href="https://www.instagram.com/edremitkorfezportali/" target="_blank">
+            <li><a href="https://www.instagram.com/edremitkorfezicom/" target="_blank">
                     <i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/edremitkorfezi" target="_blank">
+                    <i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
             {#
-            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
+
             <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
             <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
             <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> </li>#}
