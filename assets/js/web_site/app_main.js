@@ -27,7 +27,7 @@ $("form").submit(function () {
 });
 
 // Un-disable form fields when page loads, in case they click back after submission
-$("form").find(":input").prop("disabled", false);
+/*$("form").find(":input").prop("disabled", false);*/
 
 
 

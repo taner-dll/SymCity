@@ -34,13 +34,14 @@ class WebSiteController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
 
-        //yayındaki işletmeler
+        //son eklenen işletmeler
+        //todo öne çıkan işletmeler (vitrin)
         $business = $em->getRepository(Business::class)
-            ->findBy(array('confirm' => 1));
+            ->findBy(array('confirm' => 1),array('id'=>'desc'),6);
 
         $business_category = $em->getRepository(BusinessCategory::class)->businessCategorySort();
         $advert_category = $em->getRepository(AdCategory::class)->adCategorySort();
-        $places = $em->getRepository(Place::class)->findAll();
+        $places = $em->getRepository(Place::class)->getDistricts();
 
         $articles = $em->getRepository(Article::class)->articlesHaveUser();
         //dump(count($articles));exit;

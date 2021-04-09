@@ -37,6 +37,10 @@ class SearchController extends AbstractController
     public function searchRouter(Request $request): ?Response
     {
 
+        //SADECE ANA SAYFA HIZLI ARAMADAN GELEN ISTEKLER
+
+//        dump($request->request->all());exit;
+
         $em = $this->getDoctrine()->getManager();
 
         //genel GET parametreler
@@ -104,10 +108,10 @@ class SearchController extends AbstractController
             }
 
             return $this->redirect($this->generateUrl('adverts', array(
-                'name' => $word,
+                'title' => $word,
                 'cat' => $cat,
                 'place' => $location,
-                'sub'=> $sub
+                'sub_cat'=> $sub
             )));
         }
         # category == business end

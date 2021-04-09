@@ -1,12 +1,12 @@
 <!-- Popular Listing -->
-<section id="popular-listing" class="p_b70 p_t30">
+<section id="popular-listing" class="p_b20 p_t20">
     <div class="container">
 
         <div class="row">
             <div class="col-md-9 col-sm-9 col-xs-12">
 
                 <div class="row">
-                    <div class="col-md-12 heading">
+                    <div class="col-md-12 heading" style="margin-bottom: 20px">
                         <h2>Son Eklenen <span>İşletmeler</span></h2>
                     </div>
                 </div>
@@ -60,9 +60,15 @@
 
             <div class="col-md-3 col-sm-3 col-xs-12">
 
+                <div class="row">
+                    <div class="col-md-12 heading" style="margin-bottom: 20px">
+                        <h2>Hızlı <span>Ara</span></h2>
+                    </div>
+                </div>
+
                 <div class="right-bar">
 
-                    <h4 style="padding-bottom: 10px">Hızlı <span>Ara</span></h4>
+                    {#<h4 style="padding-bottom: 10px">Hızlı <span>Ara</span></h4>#}
 
                     <form method="post" action="{{ path('search_router') }}">
 
@@ -110,7 +116,7 @@
                                 <option></option>
                                 <option value="all">Tüm Bölgelerde Ara</option>
                                 {% for p in places %}
-                                    <option value="{{ p.id }}">{{ p.name }}</option>
+                                    <option value="{{ p.slug }}">{{ p.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
