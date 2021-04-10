@@ -17,6 +17,9 @@ parameters:
     locale: 'tr'
     city: 'balikesir'
 
+    maintenance: true  #turn it to true to enable maintenance, false if disable
+    underMaintenanceUntil: tommorow 8 AM # message you can display on your view, will be null if not set
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -43,6 +46,12 @@ services:
     App\EventListener\LoginListener:
         tags:
             - { name: 'kernel.event_listener', event: 'security.interactive_login' }
+
+    App\EventListener\MaintenanceListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+
 
 
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider: ~
