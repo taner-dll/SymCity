@@ -17,8 +17,8 @@ parameters:
     locale: 'tr'
     city: 'balikesir'
 
-    maintenance: true  #turn it to true to enable maintenance, false if disable
-    underMaintenanceUntil: tommorow 8 AM # message you can display on your view, will be null if not set
+    maintenance: false  #turn it to true to enable maintenance, false if disable
+    underMaintenanceUntil: 18/04/2021 09.00 # message you can display on your view, will be null if not set
 
 services:
     # default configuration for services in *this* file

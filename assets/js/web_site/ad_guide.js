@@ -80,6 +80,11 @@ $(function () {
 
 $('#ilan_table tr').on('click', function () {
     //console.log(this.dataset.id);
-    window.location.href = Routing.generate('advert_detail');
+    window.location.href = Routing.generate('advert_detail', {
+        id: this.dataset.id,
+        cat: this.dataset.cat,
+        sub: this.dataset.sub,
+        slug: this.dataset.slug,
+    });
 
 });
