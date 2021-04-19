@@ -149,6 +149,11 @@ class User implements UserInterface
      */
     private $author;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Inbox", mappedBy="user")
+     */
+    private $inboxes;
+
     public function __construct()
     {
         $this->pTVComments = new ArrayCollection();
@@ -160,6 +165,7 @@ class User implements UserInterface
         $this->feedBacks = new ArrayCollection();
         $this->articleClaps = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->inboxes = new ArrayCollection();
     }
 
 
@@ -660,6 +666,37 @@ class User implements UserInterface
     public function setAuthor(?Author $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inbox[]
+     */
+    public function getInboxes(): Collection
+    {
+        return $this->inboxes;
+    }
+
+    public function addInbox(Inbox $inbox): self
+    {
+        if (!$this->inboxes->contains($inbox)) {
+            $this->inboxes[] = $inbox;
+            $inbox->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInbox(Inbox $inbox): self
+    {
+        if ($this->inboxes->contains($inbox)) {
+            $this->inboxes->removeElement($inbox);
+            // set the owning side to null (unless already changed)
+            if ($inbox->getUser() === $this) {
+                $inbox->setUser(null);
+            }
+        }
 
         return $this;
     }

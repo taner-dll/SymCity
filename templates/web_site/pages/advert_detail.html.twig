@@ -17,20 +17,21 @@
 
                         {# @var advert_detail \\App\Entity\Advert #}
 
-                        <h4>{{ advert_detail.title|title }}</h4>
-                        <ul class="blog-admin">
-
+                        <h4 class="p_b20">{{ advert_detail.title|title }}</h4>
+                        {# <ul class="blog-admin">
                             <li><i class="fa fa-clock-o"></i>
                                 {{ 'advert_detail.last_update'|trans({}, 'advert') }}:
                                 <a href="#"> {{ advert_detail.lastUpdate|date('d/m/Y') }}</a>
                             </li>
-                        </ul>
+                            <li class="pull-right">
+                            </li>
+                        </ul> #}
 
 
                         {% if advert_detail.featuredImage|length > 10 %}
                             <div class="blog-img" style="height: 470px; overflow: hidden;">
                                 <img alt="image" style="width: 870px; height: 470px;"
-                                     src="{{ asset('uploads/advert/'~advert_detail.featuredImage) }}">
+                                     src="{{ asset('uploads/place_an_ad/'~advert_detail.featuredImage) }}">
                             </div>
                         {% endif %}
 
@@ -44,9 +45,9 @@
 
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
-                    {#<div class="right-bar bg_white">
+                    {# <div class="right-bar bg_white">
                         <a href="javascript:history.back()"><i class="fa fa-caret-left"></i> Geri Dön</a>
-                    </div>#}
+                    </div> #}
 
                     <div class="right-bar bg_white">
 
@@ -61,7 +62,7 @@
                             </span>
 
                             <p style="font-size: 14px;color: #626e80">
-                                {#{{ advert_detail.place.parent.name }} / {{ advert_detail.place.name }}#}
+                                {# {{ advert_detail.place.parent.name }} / {{ advert_detail.place.name }} #}
                             </p>
 
                         </h4>
@@ -81,7 +82,7 @@
                             {% if advert_detail.secretPhone == 1 %}
                                 <p style="padding: 10px 0 10px 0">{{ advert_detail.telephone }}</p>
                             {% else %}
-                                <p>Telefon bilgisi paylaşılmamış.</p>
+                                <p style="padding: 10px 0 10px 0">Telefon bilgisi paylaşılmamış.</p>
                             {% endif %}
                         </div>
 
@@ -92,18 +93,77 @@
                         </button>
 
                         {# ilanda göster seçeneği aktifse #}
-                        {#{% if advert_detail.secretEmail == 1 %}
+                        {# {% if advert_detail.secretEmail == 1 %}
                             <p style="padding: 10px 0 10px 0">{{ advert_detail.email }}</p>
                         {% else %}
                             <p>E-posta bilgisi paylaşılmamış.</p>
-                        {% endif %}#}
+                        {% endif %} #}
 
 
+                    </div>
+
+                    <div class="right-bar bg_white">
+                        <h4><span>{{ 'adverts.searching'|trans({}, 'advert') }}</h4>
+
+                        <table class="table">
+                            <tbody>
+
+                            <tr>
+                                <th scope="col">Tarih</th>
+                                <td>
+                                    {{ advert_detail.lastUpdate|date('d/m/Y') }}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col">Kategori</th>
+                                <td>
+                                    {{ advert_detail.category.shortName|trans({}, 'advert') }}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col">Kategori</th>
+                                <td>
+                                    {{ advert_detail.subCategory.shortName|trans({}, 'advert') }}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col">Bölge</th>
+                                <td>
+                                    {{ advert_detail.place.name }}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col">Semt/Mah.</th>
+                                <td>
+                                    {% if advert_detail.subPlace %}
+                                        {{ advert_detail.subPlace.name }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col">Durumu</th>
+                                <td>
+                                    {% if advert_detail.status %}
+                                        {{ advert_detail.status|trans({}, 'advert') }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>
 
             </div>
+
+        </div>
+
     </section>
     <!-- Blog -->
 
