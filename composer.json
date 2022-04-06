@@ -7,7 +7,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "doctrine/doctrine-bundle": "1.12.2",
-        "dompdf/dompdf": "^0.8.3",
+        "dompdf/dompdf": "^1.2.1",
         "friendsofsymfony/jsrouting-bundle": "^2.4",
         "knplabs/knp-paginator-bundle": "*",
         "phpoffice/phpspreadsheet": "^1.6",
